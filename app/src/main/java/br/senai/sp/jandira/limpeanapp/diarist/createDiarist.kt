@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.diarist
 
-fun createDiarist (diarist : Diarist) : Boolean{
+fun createDiarist () : Boolean{
     return false
 
 }
