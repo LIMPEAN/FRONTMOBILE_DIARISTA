@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Limpean App</string>
-    <string name="register">Register</string>
-    <string name="register_contact">Contact</string>
+    <string name="register">Cadastre-se</string>
+    <string name="register_contact">Contato</string>
+    <string name="input_email">Seu melhor email</string>
+    <string name="input_password">Insira sua senha</string>
+    <string name="input_confirm_password">Confirmar senha</string>
+    <string name="input_phone">Telefone</string>
+    <string name="next_button">Próximo</string>
 </resources>
