@@ -10,9 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import br.senai.sp.jandira.limpeanapp.diarist.Diarist
-import br.senai.sp.jandira.limpeanapp.ui.theme.LimpeanAppTheme
+import br.senai.sp.jandira.limpeanapp.utils.poopins
+import com.example.compose.LimpeanAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting(Diarist)
-                    Log.i("DIARIST", Diarist.toString())
+                    CadastroDiaristaScreen()
                 }
             }
         }
@@ -33,16 +34,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting( diarist: Diarist) {
+fun CadastroDiaristaScreen() {
     Text(
-        text = "Hello $diarist!",
+        text = "Hello diarista!",
+        fontWeight = FontWeight.Normal,
+        fontFamily = poopins
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun CadastroDiaristaScreenPreview() {
     LimpeanAppTheme {
-
+        CadastroDiaristaScreen()
     }
 }
