@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import br.senai.sp.jandira.limpeanapp.register.RegisterPersonalScreen
 import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CadastroDiaristaScreen()
+                    RegisterPersonalScreen()
                 }
             }
         }
