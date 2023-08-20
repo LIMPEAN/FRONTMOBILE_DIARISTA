@@ -32,7 +32,8 @@ fun InputData(
     myType: KeyboardType,
     state: String,
     whenTyping: (String) -> Unit,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    isError: Boolean? = false
 ) {
 
         OutlinedTextField(
@@ -57,8 +58,10 @@ fun InputData(
             shape = RoundedCornerShape(60.dp),
             keyboardOptions = KeyboardOptions(keyboardType = myType),
             textStyle = TextStyle.Default,
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            isError = isError?: false
         )
+
     }
 
 
@@ -71,7 +74,7 @@ fun InputDataPreview() {
     LimpeanAppTheme {
         Column {
             InputData(label = "Seu melhor Email", myType = KeyboardType.Email,state, whenTyping = { state = it} )
-            InputData(label = "Seu melhor Email", myType = KeyboardType.Email,state, whenTyping = { state = it} )
+            InputData(label = "Seu melhor Email", myType = KeyboardType.Email,state, whenTyping = { state = it})
         }
 
     }
