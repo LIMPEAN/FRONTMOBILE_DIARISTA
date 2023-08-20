@@ -5,26 +5,30 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.register.RegisterPersonalScreen
-import br.senai.sp.jandira.limpeanapp.register.RegisterUserScreen
-import br.senai.sp.jandira.limpeanapp.register.RegistrationViewModel
+import br.senai.sp.jandira.limpeanapp.registration.person.RegisterPersonScreen
+import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserScreen
+import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserViewModel
+
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val registrationViewModel = viewModel<RegistrationViewModel>()
+    val registrationUserViewModel = viewModel<RegistrationUserViewModel>()
+
     NavHost(
         navController = navController,
         startDestination = Screen.RegisterUserScreen.route
     ){
        composable(Screen.RegisterUserScreen.route){
-           RegisterUserScreen(
+           RegistrationUserScreen(
                navController = navController,
-               viewModel = registrationViewModel
+               viewModel = registrationUserViewModel
            )
        }
        composable(Screen.RegisterPersonalScreen.route){
-           RegisterPersonalScreen(navController = navController, registrationViewModel)
+           RegisterPersonScreen(
+               userState = registrationUserViewModel.state
+           )
        }
 
     }

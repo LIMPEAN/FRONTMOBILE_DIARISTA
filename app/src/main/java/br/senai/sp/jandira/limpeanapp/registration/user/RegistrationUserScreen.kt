@@ -1,34 +1,22 @@
-package br.senai.sp.jandira.limpeanapp.register
+package br.senai.sp.jandira.limpeanapp.registration.user
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -37,12 +25,13 @@ import br.senai.sp.jandira.limpeanapp.components.Button
 import br.senai.sp.jandira.limpeanapp.components.InputData
 import br.senai.sp.jandira.limpeanapp.components.LabelError
 import br.senai.sp.jandira.limpeanapp.components.SectionTitle
-import br.senai.sp.jandira.limpeanapp.domain.CheckPasswordIsSame
 import com.example.compose.LimpeanAppTheme
-import kotlinx.coroutines.flow.collect
 
 @Composable
-fun RegisterUserScreen(navController: NavController, viewModel: RegistrationViewModel) {
+fun RegistrationUserScreen(
+    navController: NavController,
+    viewModel: RegistrationUserViewModel
+) {
 
     val state = viewModel.state
     val context = LocalContext.current
@@ -51,7 +40,7 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
     LaunchedEffect(key1 = context){
         viewModel.validationEvents.collect{ event ->
             when(event){
-                is RegistrationViewModel.ValidationEvent.Success -> {
+                is RegistrationUserViewModel.ValidationEvent.Success -> {
                     navController.navigate("register_personal")
                 }
             }
@@ -74,7 +63,7 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
                myType = KeyboardType.Email,
                state = state.email,
                whenTyping = {
-                    viewModel.onEvent(RegistrationFormEvent.EmailChanged(it))
+                    viewModel.onEvent(RegistrationUserEvent.EmailChanged(it))
                },
                isError = state.emailError != null
            )
@@ -86,7 +75,7 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
                myType = KeyboardType.Password,
                state = state.password,
                whenTyping = {
-                   viewModel.onEvent(RegistrationFormEvent.PasswordChanged(it))
+                   viewModel.onEvent(RegistrationUserEvent.PasswordChanged(it))
                },
                visualTransformation = PasswordVisualTransformation(),
                isError = state.passwordError != null
@@ -100,7 +89,7 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
                state = state.repeatedPassword,
                visualTransformation = PasswordVisualTransformation(),
                whenTyping = {
-                  viewModel.onEvent(RegistrationFormEvent.RepeatedPasswordChanged(it))
+                  viewModel.onEvent(RegistrationUserEvent.RepeatedPasswordChanged(it))
                },
                isError = state.repeatedPasswordError != null
            )
@@ -112,7 +101,7 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
                myType = KeyboardType.Phone,
                state = state.phone,
                whenTyping = {
-                   viewModel.onEvent(RegistrationFormEvent.PhoneChanged(it))
+                   viewModel.onEvent(RegistrationUserEvent.PhoneChanged(it))
                },
                isError = state.phoneError != null
            )
@@ -139,10 +128,13 @@ fun RegisterUserScreen(navController: NavController, viewModel: RegistrationView
 
 @Preview(showSystemUi = true)
 @Composable
-fun RegisterUserScreenPreview() {
+fun RegistrationUserScreenPreview() {
     val navControler = rememberNavController()
-    val viewModel = viewModel<RegistrationViewModel>()
+    val viewModel = viewModel<RegistrationUserViewModel>()
     LimpeanAppTheme {
-        RegisterUserScreen(navController = navControler, viewModel)
+        RegistrationUserScreen(
+            navController = navControler,
+            viewModel
+        )
     }
 }

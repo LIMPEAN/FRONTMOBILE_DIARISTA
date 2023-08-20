@@ -7,4 +7,9 @@
     <string name="input_confirm_password">Confirmar senha</string>
     <string name="input_phone">Telefone</string>
     <string name="next_button">Próximo</string>
+    <string name="register_personal">Dados Pessoais</string>
+    <string name="input_name">Nome completo</string>
+    <string name="input_cpf">Seu CPF</string>
+    <string name="input_data_nascimento">Sua data de nascimento</string>
+    <string name="input_genero">Gênero</string>
 </resources>

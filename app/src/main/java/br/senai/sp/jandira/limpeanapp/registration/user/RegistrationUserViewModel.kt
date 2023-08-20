@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.register
+package br.senai.sp.jandira.limpeanapp.registration.user
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +13,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel(
+class RegistrationUserViewModel(
     private val validateEmail: ValidateEmail = ValidateEmail(),
     private val validatePassword: ValidatePassword = ValidatePassword(),
     private val validateRepeatedPassword: ValidateRepeatedPassword = ValidateRepeatedPassword(),
@@ -23,24 +23,25 @@ class RegistrationViewModel(
     private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
 
-    var state by mutableStateOf(RegistrationFormState())
+    var state by mutableStateOf(RegistrationUserState())
 
-    fun onEvent(event: RegistrationFormEvent){
+
+    fun onEvent(event: RegistrationUserEvent){
         when(event) {
-            is RegistrationFormEvent.EmailChanged -> {
+            is RegistrationUserEvent.EmailChanged -> {
                 state = state.copy(email = event.email)
 
             }
-            is RegistrationFormEvent.PasswordChanged -> {
+            is RegistrationUserEvent.PasswordChanged -> {
                 state = state.copy(password = event.password)
             }
-            is RegistrationFormEvent.RepeatedPasswordChanged -> {
+            is RegistrationUserEvent.RepeatedPasswordChanged -> {
                 state = state.copy(repeatedPassword = event.repeatedPassword)
             }
-            is RegistrationFormEvent.PhoneChanged -> {
+            is RegistrationUserEvent.PhoneChanged -> {
                 state = state.copy(phone = event.phone)
             }
-            is RegistrationFormEvent.Next -> {
+            is RegistrationUserEvent.Next -> {
                 goToNextData()
             }
 

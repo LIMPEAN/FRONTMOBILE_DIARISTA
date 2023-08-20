@@ -1,6 +1,6 @@
-package br.senai.sp.jandira.limpeanapp.register
+package br.senai.sp.jandira.limpeanapp.registration.user
 
-data class RegistrationFormState(
+data class RegistrationUserState(
     val email: String = "",
     val emailError: String? = null,
     val password: String = "",
@@ -8,5 +8,5 @@ data class RegistrationFormState(
     val repeatedPassword: String = "",
     val repeatedPasswordError: String? = null,
     val phone: String = "",
-    val phoneError: String? = null
+    val phoneError: String? = null,
 )

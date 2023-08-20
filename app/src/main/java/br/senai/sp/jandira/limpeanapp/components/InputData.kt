@@ -29,7 +29,7 @@ import com.example.compose.closeBlack
 @Composable
 fun InputData(
     label: String,
-    myType: KeyboardType,
+    myType: KeyboardType? = null,
     state: String,
     whenTyping: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -56,7 +56,7 @@ fun InputData(
                 )
             },
             shape = RoundedCornerShape(60.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = myType),
+            keyboardOptions = KeyboardOptions(keyboardType = myType?: KeyboardType.Text),
             textStyle = TextStyle.Default,
             visualTransformation = visualTransformation,
             isError = isError?: false
