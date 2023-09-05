@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Limpean App</string>
+    <string name="app_logo">Logo da Limpean</string>
+    <string name="login_description">Deixe sua casa mais limpa</string>
     <string name="register">Cadastre-se</string>
     <string name="register_contact">Contato</string>
     <string name="input_email">Seu melhor email</string>

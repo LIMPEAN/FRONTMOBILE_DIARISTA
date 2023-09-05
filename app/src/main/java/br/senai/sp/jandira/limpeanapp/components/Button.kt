@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.utils.poopins
-import com.example.compose.blueButton
-import com.example.compose.closeBlack
+//import com.example.compose.blueButton
+//import com.example.compose.closeBlack
 import com.example.compose.md_theme_dark_background
 import com.example.compose.md_theme_dark_onBackground
 import com.example.compose.md_theme_dark_onPrimaryContainer
@@ -29,11 +29,12 @@ import com.example.compose.md_theme_dark_onSecondaryContainer
 import com.example.compose.md_theme_dark_onTertiary
 import com.example.compose.md_theme_dark_onTertiaryContainer
 import com.example.compose.md_theme_dark_secondary
+import com.example.compose.md_theme_light_primary
 
 @Composable
 fun Button(
     name: String,
-    containerColor: Color = blueButton,
+    containerColor: Color = md_theme_light_primary,
     action: () -> Unit,
     height : Dp = 60.dp,
     width : Dp = 270.dp) {

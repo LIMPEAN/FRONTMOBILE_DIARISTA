@@ -23,7 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
-import com.example.compose.closeBlack
+import com.example.compose.md_theme_dark_secondary
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +53,7 @@ fun InputData(
                     fontFamily = poopins,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp,
-                    color = closeBlack
+                    color = md_theme_dark_secondary
                 )
             },
             shape = RoundedCornerShape(60.dp),

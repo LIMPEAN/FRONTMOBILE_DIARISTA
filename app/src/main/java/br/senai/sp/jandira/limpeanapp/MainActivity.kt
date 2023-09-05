@@ -11,7 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.limpeanapp.registration.person.RegisterPersonScreen
+import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserScreen
+import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserViewModel
 import br.senai.sp.jandira.limpeanapp.utils.Navigation
+
+import br.senai.sp.jandira.limpeanapp.utils.Screen
 import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
 
@@ -20,7 +29,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LimpeanAppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -32,19 +40,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun CadastroDiaristaScreen() {
-    Text(
-        text = "Hello diarista!",
-        fontWeight = FontWeight.Normal,
-        fontFamily = poopins
-    )
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CadastroDiaristaScreenPreview() {
-    LimpeanAppTheme {
-        CadastroDiaristaScreen()
-    }
-}

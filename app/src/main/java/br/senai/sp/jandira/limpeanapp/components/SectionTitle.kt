@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
-import com.example.compose.closeBlack
+
+import com.example.compose.md_theme_dark_secondary
 
 @Composable
 fun SectionTitle(title : String, description : String) {
     Column (horizontalAlignment = Alignment.CenterHorizontally){
-        Text(color = closeBlack, text = title, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
+        Text(color = md_theme_dark_secondary, text = title, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier
             .fillMaxWidth()
             .height(8.dp))
