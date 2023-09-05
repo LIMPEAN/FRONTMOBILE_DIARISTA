@@ -5,7 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import br.senai.sp.jandira.limpeanapp.ui.theme.Typography
 
 
 private val LightColors = lightColorScheme(
@@ -74,7 +73,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun LimpeanAppTheme(
+fun AppTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable() () -> Unit
 ) {
@@ -86,7 +85,6 @@ fun LimpeanAppTheme(
 
   MaterialTheme(
     colorScheme = colors,
-    typography = Typography,
     content = content
   )
 }
