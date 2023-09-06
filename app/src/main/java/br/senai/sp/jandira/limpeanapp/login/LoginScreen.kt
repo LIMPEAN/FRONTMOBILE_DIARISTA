@@ -35,6 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.diarists.domain.Diarist
+import br.senai.sp.jandira.limpeanapp.domain.Address
+import br.senai.sp.jandira.limpeanapp.domain.Gender
+import br.senai.sp.jandira.limpeanapp.domain.Person
+import br.senai.sp.jandira.limpeanapp.domain.Phone
+import br.senai.sp.jandira.limpeanapp.domain.User
 import br.senai.sp.jandira.limpeanapp.registration.person.RegistrationPersonViewModel
 import br.senai.sp.jandira.limpeanapp.utils.Screen
 import com.example.compose.LimpeanAppTheme
@@ -47,6 +53,7 @@ import com.example.compose.md_theme_light_onBackground
 import com.example.compose.md_theme_light_primary
 import com.example.compose.md_theme_light_secondary
 import kotlinx.coroutines.selects.select
+import java.util.Date
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -113,7 +120,9 @@ fun LoginScreen(
 fun LoginScreenPreview() {
 
     LimpeanAppTheme {
-        LoginScreen ({},{})
+       LoginScreen(onLogin = { /*TODO*/ }) {
+           
+       }
     }
 }
 

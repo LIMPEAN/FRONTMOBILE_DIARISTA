@@ -1,11 +1,16 @@
 package br.senai.sp.jandira.limpeanapp.login
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import br.senai.sp.jandira.limpeanapp.registration.person.RegistrationPersonEvent
+import br.senai.sp.jandira.limpeanapp.diarists.domain.Diarist
+import br.senai.sp.jandira.limpeanapp.domain.Address
+import br.senai.sp.jandira.limpeanapp.domain.Gender
+import br.senai.sp.jandira.limpeanapp.domain.Person
+import br.senai.sp.jandira.limpeanapp.domain.Phone
+import br.senai.sp.jandira.limpeanapp.domain.User
+import java.util.Date
 
 class LoginViewModel(
     private val repo : InMemoryUserTypeRepository = InMemoryUserTypeRepository()
@@ -23,6 +28,7 @@ class LoginViewModel(
      private fun getUserTypes() : List<UserType> {
         return this.repo.getAll()
     }
+
 
 }
 data class LoginState(

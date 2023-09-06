@@ -39,6 +39,7 @@ fun RegisterPersonScreen(
     val context = LocalContext.current
     val withoutError = ""
 
+
     Log.i("STATE-USER", userState.toString())
 
 
