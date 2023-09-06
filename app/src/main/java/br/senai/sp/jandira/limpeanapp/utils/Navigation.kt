@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.login.LoginScreen
+import br.senai.sp.jandira.limpeanapp.login.LoginState
 import br.senai.sp.jandira.limpeanapp.registration.person.RegisterPersonScreen
 import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserScreen
 import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserViewModel
@@ -18,7 +20,7 @@ fun Navigation() {
         startDestination = Screen.LoginScreen.route
     ){
         composable(Screen.LoginScreen.route){
-            LoginScreen()
+            LoginScreen(onCreateAccount = {}, onLogin = {})
         }
     
     }

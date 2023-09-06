@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.registration.person.RegisterPersonScreen
+import br.senai.sp.jandira.limpeanapp.registration.person.RegistrationPersonViewModel
 import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserScreen
 import br.senai.sp.jandira.limpeanapp.registration.user.RegistrationUserViewModel
 import br.senai.sp.jandira.limpeanapp.utils.Navigation
@@ -33,7 +34,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation()
+                    val mainViewModel = viewModel<MainViewModel>()
+                    mainViewModel.initNavigationScreens()
                 }
             }
         }
