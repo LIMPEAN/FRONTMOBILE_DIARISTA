@@ -1,13 +1,11 @@
 package br.senai.sp.jandira.limpeanapp
 
-import android.util.Log
 import br.senai.sp.jandira.limpeanapp.diarists.domain.Diarist
 import br.senai.sp.jandira.limpeanapp.domain.Address
 import br.senai.sp.jandira.limpeanapp.domain.Gender
 import br.senai.sp.jandira.limpeanapp.domain.Person
 import br.senai.sp.jandira.limpeanapp.domain.Phone
 import br.senai.sp.jandira.limpeanapp.domain.User
-import br.senai.sp.jandira.limpeanapp.login.UserType
 import org.junit.Test
 
 import org.junit.Assert.*

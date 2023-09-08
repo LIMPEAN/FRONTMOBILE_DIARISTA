@@ -4,34 +4,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import br.senai.sp.jandira.limpeanapp.diarists.domain.Diarist
-import br.senai.sp.jandira.limpeanapp.domain.Address
-import br.senai.sp.jandira.limpeanapp.domain.Gender
-import br.senai.sp.jandira.limpeanapp.domain.Person
-import br.senai.sp.jandira.limpeanapp.domain.Phone
-import br.senai.sp.jandira.limpeanapp.domain.User
-import java.util.Date
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-class LoginViewModel(
-    private val repo : InMemoryUserTypeRepository = InMemoryUserTypeRepository()
-) : ViewModel() {
+class LoginViewModel() : ViewModel() {
 
-    var state by mutableStateOf(LoginState(typeUser = getUserTypes()[1],userTypes = getUserTypes()))
+    private val _state = MutableStateFlow(LoginState(
+        userTypes = userTypesRepo,
+        typeUser = userTypesRepo[0]
+    ))
+    val state = _state.asStateFlow()
 
     fun onEvent(event : LoginEvent){
-        when(event){
-            is LoginEvent.selectedChange -> {
-                state = state.copy(typeUser = event.type)
-            }
-        }
-    }
-     private fun getUserTypes() : List<UserType> {
-        return this.repo.getAll()
-    }
 
-
+    }
 }
 data class LoginState(
-    val typeUser: UserType?= null,
-    val userTypes: List<UserType>
+    val typeUser: UserType? = null,
+    val userTypes: List<UserType> = emptyList()
 )
+private val userTypesRepo = InMemoryUserTypeRepository.getAll()

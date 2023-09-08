@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.login
 
 import android.annotation.SuppressLint
-import android.media.tv.TvContract.Channels.Logo
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,12 +10,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,40 +34,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.diarists.domain.Diarist
-import br.senai.sp.jandira.limpeanapp.domain.Address
-import br.senai.sp.jandira.limpeanapp.domain.Gender
-import br.senai.sp.jandira.limpeanapp.domain.Person
-import br.senai.sp.jandira.limpeanapp.domain.Phone
-import br.senai.sp.jandira.limpeanapp.domain.User
-import br.senai.sp.jandira.limpeanapp.registration.person.RegistrationPersonViewModel
-import br.senai.sp.jandira.limpeanapp.utils.Screen
 import com.example.compose.LimpeanAppTheme
-import com.example.compose.md_theme_dark_background
-import com.example.compose.md_theme_dark_primary
-import com.example.compose.md_theme_dark_secondary
-import com.example.compose.md_theme_light_background
 import com.example.compose.md_theme_light_error
-import com.example.compose.md_theme_light_onBackground
 import com.example.compose.md_theme_light_primary
-import com.example.compose.md_theme_light_secondary
-import kotlinx.coroutines.selects.select
-import java.util.Date
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginScreen(
-    onLogin : ()-> Unit,
-    onCreateAccount: ()-> Unit
+    onCreateAccount: (userType: String) -> Unit,
+    onLogin: (userType: String) -> Unit,
 ) {
 
-    val viewModel = viewModel<LoginViewModel>()
-    val state = viewModel.state
-    val context = LocalContext.current
-    val userTypes = viewModel.state.userTypes
 
 
-    var selectedUserType by remember { mutableStateOf(state.typeUser) }
+    val userTypes = InMemoryUserTypeRepository.getAll()
+    var selected by remember {
+        mutableStateOf(userTypes[0])
+    }
 
     Column(
         modifier = Modifier
@@ -77,7 +60,6 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .padding(12.dp)
-                .background(md_theme_light_error)
                 .fillMaxSize()
         ) {
             Logo()
@@ -94,9 +76,9 @@ fun LoginScreen(
             ) {
                 for (type in userTypes) {
                     RadioButton(
-                        selected = state.typeUser == type,
+                        selected = selected == type,
                         onClick = {
-                            viewModel.onEvent(LoginEvent.selectedChange(type))
+                            selected = type
                         }
                     )
                     Text(
@@ -106,12 +88,24 @@ fun LoginScreen(
                     )
                 }
             }
-            Button(onClick = onCreateAccount) {
-                Text(text = "Cadastrar")
+            Row {
+                Button(
+                    onClick = {
+                        onCreateAccount(selected.apiName)
+                    }
+                ) {
+                    Text(text = "Cadastro")
+                }
+                Button(
+                    onClick = {
+                        onLogin(selected.apiName)
+                    }
+                ) {
+                    Text(text = "Login")
+                }
             }
-            Button(onClick = onLogin) {
-                Text(text = "Login")
-            }
+
+
         }
     }
 }
@@ -120,9 +114,11 @@ fun LoginScreen(
 fun LoginScreenPreview() {
 
     LimpeanAppTheme {
-       LoginScreen(onLogin = { /*TODO*/ }) {
-           
-       }
+       LoginScreen(
+           onCreateAccount = {
+               Log.i("onCreated", it)
+           },
+           onLogin = { Log.i("onLogin", it)})
     }
 }
 
