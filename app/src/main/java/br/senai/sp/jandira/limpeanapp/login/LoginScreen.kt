@@ -46,8 +46,6 @@ fun LoginScreen(
     onLogin: (userType: String) -> Unit,
 ) {
 
-
-
     val userTypes = InMemoryUserTypeRepository.getAll()
     var selected by remember {
         mutableStateOf(userTypes[0])
