@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.components.textComLinhas
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_error
 import com.example.compose.md_theme_light_primary
@@ -68,6 +71,7 @@ fun LoginScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 32.sp
             )
+            textLine()
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -126,6 +130,12 @@ fun Logo() {
         id = R.drawable.logo),
         contentDescription = stringResource(id = R.string.app_logo)
     )
+}
+@Composable
+fun textLine(){
+    Card (shape = RoundedCornerShape(0.dp)){
+        textComLinhas(texto = " Cadastre-se como " )
+    }
 }
 
 
