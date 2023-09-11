@@ -7,10 +7,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -28,12 +34,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.login.components.SectionButton
+import br.senai.sp.jandira.limpeanapp.login.components.SelectTypeUser
+import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_error
 import com.example.compose.md_theme_light_primary
@@ -50,17 +62,20 @@ fun LoginScreen(
     var selected by remember {
         mutableStateOf(userTypes[0])
     }
-
+    val heightModifiers = 40.dp
     Column(
         modifier = Modifier
             .background(md_theme_light_primary),
     ) {
         Column(
             modifier = Modifier
-                .padding(12.dp)
                 .fillMaxSize()
+                .padding(horizontal = 18.dp, vertical = 32.dp)
         ) {
             Logo()
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(heightModifiers))
             Text(
                 text = stringResource(id = R.string.login_description),
                 style = MaterialTheme.typography.titleLarge,
@@ -68,24 +83,36 @@ fun LoginScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 32.sp
             )
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                for (type in userTypes) {
-                    RadioButton(
-                        selected = selected == type,
-                        onClick = {
-                            selected = type
-                        }
-                    )
-                    Text(
-                        text = type.portugueseName, // Provide the label for the user type
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
-                }
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp))
+            Image(
+                painter = painterResource(id = R.drawable.cleaning_service_cuate_1),
+                contentDescription = "Cleaning Service Home",
+                Modifier
+                    .fillMaxWidth()
+                    .height(261.dp)
+            )
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(heightModifiers))
+
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                SectionButton(name = "Login")
+                Spacer(modifier = Modifier.height(12.dp))
+                SectionButton(name = "Cadastro")
             }
+
+            SelectTypeUser(
+                userTypes = userTypes,
+                selected = selected,
+                selectedChange = {
+                    selected = it
+                }
+            )
             Row {
                 Button(
                     onClick = {

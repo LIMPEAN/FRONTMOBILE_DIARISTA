@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,50 +56,49 @@ fun RegistrationScreen(
             )
         )
 
-        // Rest of the form fields using InputText
         InputText(
-            value = state.name,
-            onValueChange = { newName ->
-                onEvent(RegistrationEvent.NameChanged(newName))
-            },
             label = "Name",
-            helperText = "_Input / Text"
+            state = state.name,
+            keyboardType = KeyboardType.Text,
+            onTyping = { newName ->
+                onEvent(RegistrationEvent.NameChanged(newName))
+            }
         )
 
         InputText(
-            value = state.cpf,
-            onValueChange = { newCPF ->
-                onEvent(RegistrationEvent.CPFChanged(newCPF))
-            },
             label = "CPF",
-            helperText = "_Input / Text"
+            keyboardType = KeyboardType.Number,
+            state = state.cpf,
+            onTyping = { newCPF ->
+                onEvent(RegistrationEvent.CPFChanged(newCPF))
+            }
         )
 
         InputText(
-            value = state.rg,
-            onValueChange = { newRG ->
-                onEvent(RegistrationEvent.RGChanged(newRG))
-            },
             label = "RG",
-            helperText = "_Input / Text"
+            keyboardType = KeyboardType.Number,
+            state = state.rg,
+            onTyping = { newRG ->
+                onEvent(RegistrationEvent.RGChanged(newRG))
+            }
         )
 
         InputText(
-            value = state.telephone,
-            onValueChange = { newTelephone ->
-                onEvent(RegistrationEvent.TelephoneChanged(newTelephone))
-            },
             label = "Telephone",
-            helperText = "_Input / Text"
+            keyboardType = KeyboardType.Phone,
+            state = state.telephone,
+            onTyping = { newTelephone ->
+                onEvent(RegistrationEvent.TelephoneChanged(newTelephone))
+            }
         )
 
         InputText(
-            value = state.dateOfBirth,
-            onValueChange = { newDateOfBirth ->
-                onEvent(RegistrationEvent.DateOfBirthChanged(newDateOfBirth))
-            },
             label = "Date of Birth",
-            helperText = "_Input / Text"
+            keyboardType = KeyboardType.Number,
+            state = state.dateOfBirth,
+            onTyping = { newDateOfBirth ->
+                onEvent(RegistrationEvent.DateOfBirthChanged(newDateOfBirth))
+            }
         )
 
         Text("Gender")
