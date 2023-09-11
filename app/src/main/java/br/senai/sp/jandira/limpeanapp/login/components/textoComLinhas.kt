@@ -1,7 +1,8 @@
-package br.senai.sp.jandira.limpeanapp.components
+package br.senai.sp.jandira.limpeanapp.login.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,5 +38,20 @@ fun textComLinhas(texto: String){
                 .width(100.dp)
                 .height(3.dp)
         ){}
+    }
+}
+
+@Preview
+@Composable
+fun TextoComLinhasPreview() {
+    LimpeanAppTheme {
+        Column {
+            textComLinhas(texto = "Teste")
+            textComLinhas(texto = "Teste")
+            textComLinhas(texto = "Teste")
+            textComLinhas(texto = "Teste")
+
+        }
+
     }
 }

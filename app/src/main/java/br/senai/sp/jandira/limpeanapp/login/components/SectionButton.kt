@@ -20,13 +20,14 @@ import com.example.compose.md_theme_light_primary
 @Composable
 fun SectionButton(
     name : String,
+    changeSection : ()-> Unit
 ) {
     Button(
         modifier = Modifier
             .width(330.dp)
             .height(61.dp)
             .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 8.dp)),
-        onClick = {},
+        onClick = changeSection,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
             contentColor = Color.White

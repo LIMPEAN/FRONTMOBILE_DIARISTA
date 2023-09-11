@@ -31,10 +31,10 @@ class MainViewModel(
             composable(Screen.LoginScreen.route) { route ->
                 LoginScreen(
                     onCreateAccount = { userType ->
-                        val destinationRoute = "form_screen/$userType"
+                        val destinationRoute = "form_screen/${userType}"
                         navController.navigate(route = destinationRoute)
                     },
-                    onLogin = { Log.i("onLogin", it) }
+                    onLogin = { Log.i("onLogin", it.toString()) }
                 )
             }
             composable(Screen.RegistrationScreen.route) { route ->
