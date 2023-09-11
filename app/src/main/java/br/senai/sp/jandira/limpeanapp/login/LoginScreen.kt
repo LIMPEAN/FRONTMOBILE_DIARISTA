@@ -12,11 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +44,7 @@ import br.senai.sp.jandira.limpeanapp.utils.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_error
 import com.example.compose.md_theme_light_primary
+import br.senai.sp.jandira.limpeanapp.components.textComLinhas
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
@@ -83,29 +79,6 @@ fun LoginScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 32.sp
             )
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(12.dp))
-            Image(
-                painter = painterResource(id = R.drawable.cleaning_service_cuate_1),
-                contentDescription = "Cleaning Service Home",
-                Modifier
-                    .fillMaxWidth()
-                    .height(261.dp)
-            )
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(heightModifiers))
-
-            Column (
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                SectionButton(name = "Login")
-                Spacer(modifier = Modifier.height(12.dp))
-                SectionButton(name = "Cadastro")
-            }
-
             SelectTypeUser(
                 userTypes = userTypes,
                 selected = selected,
@@ -153,6 +126,12 @@ fun Logo() {
         id = R.drawable.logo),
         contentDescription = stringResource(id = R.string.app_logo)
     )
+}
+@Composable
+fun textLine(){
+    Card (shape = RoundedCornerShape(0.dp)){
+        textComLinhas(texto = " Cadastre-se como " )
+    }
 }
 
 
