@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.utils
+package br.senai.sp.jandira.limpeanapp.ui.theme
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily

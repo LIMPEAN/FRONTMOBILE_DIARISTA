@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.data
 
 import androidx.compose.runtime.Immutable
-import br.senai.sp.jandira.limpeanapp.login.UserType
+import br.senai.sp.jandira.limpeanapp.domain.UserType
 
 
 sealed class User {

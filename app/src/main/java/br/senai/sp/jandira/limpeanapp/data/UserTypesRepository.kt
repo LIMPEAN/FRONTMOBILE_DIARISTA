@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.data
 
-import br.senai.sp.jandira.limpeanapp.login.UserType
+import br.senai.sp.jandira.limpeanapp.domain.UserType
 
 class UserTypesRepository {
 

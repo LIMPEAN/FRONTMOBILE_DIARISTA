@@ -1,10 +1,12 @@
 package br.senai.sp.jandira.limpeanapp
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.limpeanapp.Destinations.SIGN_IN_ROUTE
 import br.senai.sp.jandira.limpeanapp.Destinations.WELCOME_ROUTE
 import br.senai.sp.jandira.limpeanapp.ui.welcome.WelcomeRoute
 
@@ -31,8 +33,10 @@ fun LimpeanNavHost(
                 onNavigateToSignUp = {
                     navController.navigate("signup/$it")
                 }
-
             )
+        }
+        composable(SIGN_IN_ROUTE) {
+
         }
     }
 }

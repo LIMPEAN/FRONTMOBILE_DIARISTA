@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.diarists.domain
+package br.senai.sp.jandira.limpeanapp.domain
 
 import br.senai.sp.jandira.limpeanapp.domain.Address
 import br.senai.sp.jandira.limpeanapp.domain.User

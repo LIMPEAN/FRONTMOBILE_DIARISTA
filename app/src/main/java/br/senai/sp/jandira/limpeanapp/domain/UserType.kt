@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.login
+package br.senai.sp.jandira.limpeanapp.domain
 
 data class UserType (
     var id : Long,

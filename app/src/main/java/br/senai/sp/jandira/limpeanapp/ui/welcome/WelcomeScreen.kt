@@ -3,14 +3,13 @@ package br.senai.sp.jandira.limpeanapp.ui.welcome
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,9 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.data.UserRepository
 import br.senai.sp.jandira.limpeanapp.data.UserTypesRepository
-import br.senai.sp.jandira.limpeanapp.login.UserType
+import br.senai.sp.jandira.limpeanapp.domain.UserType
+import br.senai.sp.jandira.limpeanapp.ui.welcome.components.SectionButton
+import br.senai.sp.jandira.limpeanapp.ui.welcome.components.SelectUserType
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
@@ -39,13 +39,13 @@ fun WelcomeScreen(
     onCreateAccount: (userType: UserType) -> Unit,
     onLogin: (userType: UserType) -> Unit,
 ) {
-
-
-
     val userTypes = UserTypesRepository.getAll()
-    var selected by remember {
+    var selectedUserType by remember {
         mutableStateOf(userTypes[0])
     }
+
+    val heightModifiers = 28.dp
+
 
     Column(
         modifier = Modifier
@@ -53,10 +53,15 @@ fun WelcomeScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(12.dp)
                 .fillMaxSize()
+                .padding(horizontal = 18.dp, vertical = 32.dp),
         ) {
             Logo()
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(heightModifiers)
+            )
             Text(
                 text = stringResource(id = R.string.login_description),
                 style = MaterialTheme.typography.titleLarge,
@@ -64,48 +69,49 @@ fun WelcomeScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 32.sp
             )
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.cleaning_service_cuate_1),
+                contentDescription = "Cleaning Service Home",
+                Modifier
+                    .fillMaxWidth()
+                    .height(240.dp)
+            )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(heightModifiers)
+            )
+
+            SelectUserType(
+                userTypes = userTypes,
+                selectedUserType = selectedUserType,
+                onSelectedChange = { selectedUserType = it }
+            )
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                for (type in userTypes) {
-                    RadioButton(
-                        selected = selected == type,
-                        onClick = {
-                            selected = type
-                        }
-                    )
-                    Text(
-                        text = type.portugueseName, // Provide the label for the user type
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
+                SectionButton(name = "Login") {
+                    onLogin(selectedUserType)
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+                SectionButton(name = "Cadastro") {
+                    onCreateAccount(selectedUserType)
                 }
             }
-            Row {
-                Button(
-                    onClick = {
-                        onCreateAccount(selected)
-                    }
-                ) {
-                    Text(text = "Cadastro")
-                }
-                Button(
-                    onClick = {
-                        onLogin(selected)
-                    }
-                ) {
-                    Text(text = "Login")
-                }
-            }
-
-
         }
     }
 }
+
 @Preview(showSystemUi = true)
 @Composable
-fun LoginScreenPreview() {
+fun WelcomeScreenPreview() {
 
     LimpeanAppTheme {
         WelcomeScreen(

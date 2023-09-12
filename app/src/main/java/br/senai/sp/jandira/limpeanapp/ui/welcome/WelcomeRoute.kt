@@ -2,7 +2,7 @@ package br.senai.sp.jandira.limpeanapp.ui.welcome
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import br.senai.sp.jandira.limpeanapp.login.UserType
+import br.senai.sp.jandira.limpeanapp.domain.UserType
 
 @Composable
 fun WelcomeRoute(

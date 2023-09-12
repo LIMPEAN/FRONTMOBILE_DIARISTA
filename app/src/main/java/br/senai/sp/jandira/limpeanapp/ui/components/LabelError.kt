@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.components
+package br.senai.sp.jandira.limpeanapp.ui.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
