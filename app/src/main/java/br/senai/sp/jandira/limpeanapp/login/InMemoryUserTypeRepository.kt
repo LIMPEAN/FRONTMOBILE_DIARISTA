@@ -10,5 +10,9 @@ class InMemoryUserTypeRepository {
                 UserType(1, "client", "Cliente")
             )
         }
+
+        fun getOne() : UserType {
+            return getAll()[0]
+        }
     }
 }

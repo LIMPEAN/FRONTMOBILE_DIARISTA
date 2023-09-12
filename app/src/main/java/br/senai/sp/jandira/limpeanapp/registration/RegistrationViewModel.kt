@@ -1,36 +1,34 @@
 package br.senai.sp.jandira.limpeanapp.registration
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import br.senai.sp.jandira.limpeanapp.login.InMemoryUserTypeRepository
+import br.senai.sp.jandira.limpeanapp.login.UserType
 
 class RegistrationViewModel : ViewModel() {
-    private val _registrationState = mutableStateOf(RegistrationState())
+    private val _registrationState = mutableStateOf(RegistrationState(
+        typeUser = "diarist",
+        email = "email@gmail.com",
+        address = Address(0,0,"", cep = "","", district = "test", houseNumber = "", complement = null),
+        biography = "Teste",
+        birthDate = "",
+        idGender = 1,
+        cpf = ""
+        biografy
+    ))
     val registrationState: MutableState<RegistrationState> = _registrationState
 
+    private val _userType = mutableStateOf<UserType?>(null)
+    val userType: State<UserType?> = _userType
 
-    fun onEvent(event: RegistrationEvent) {
-        when (event) {
-            is RegistrationEvent.NameChanged -> {
-                _registrationState.value = _registrationState.value.copy(name = event.newName)
-            }
-            is RegistrationEvent.CPFChanged -> {
-                _registrationState.value = _registrationState.value.copy(cpf = event.newCPF)
-            }
-            is RegistrationEvent.RGChanged -> {
-                _registrationState.value = _registrationState.value.copy(rg = event.newRG)
-            }
-            is RegistrationEvent.TelephoneChanged -> {
-                _registrationState.value = _registrationState.value.copy(telephone = event.newTelephone)
-            }
-            is RegistrationEvent.DateOfBirthChanged -> {
-                _registrationState.value = _registrationState.value.copy(dateOfBirth = event.newDateOfBirth)
-            }
-            is RegistrationEvent.GenderSelected -> {
-                _registrationState.value = _registrationState.value.copy(gender = event.newGender)
-            }
-            // Handle other registration events as needed
-            else -> {}
-        }
+    // Function to set the UserType
+    fun setUserType(userType: UserType) {
+        _userType.value = userType
     }
+
+    // Function to handle registration events and update the state
+
 }
