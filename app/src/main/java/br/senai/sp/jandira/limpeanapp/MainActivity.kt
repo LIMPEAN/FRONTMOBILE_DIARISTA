@@ -14,13 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LimpeanAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val mainViewModel = viewModel<MainViewModel>()
-                    mainViewModel.initNavigationScreens()
-                }
+                LimpeanNavHost()
             }
         }
     }

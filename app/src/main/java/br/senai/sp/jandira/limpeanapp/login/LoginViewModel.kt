@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import br.senai.sp.jandira.limpeanapp.data.UserTypesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -23,4 +24,4 @@ data class LoginState(
     val typeUser: UserType? = null,
     val userTypes: List<UserType> = emptyList()
 )
-private val userTypesRepo = InMemoryUserTypeRepository.getAll()
+private val userTypesRepo = UserTypesRepository.getAll()
