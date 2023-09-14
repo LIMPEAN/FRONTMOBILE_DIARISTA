@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.registration
+package br.senai.sp.jandira.limpeanapp.ui.signin
 
 data class RegistrationState(
     val typeUser: String = "diarist",

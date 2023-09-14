@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -49,7 +50,8 @@ fun SignInScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
+                modifier = Modifier.padding(12.dp),
                 title = { Text(text = title) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors()// Customize the top app bar color
             )
@@ -77,10 +79,15 @@ fun SignInScreen(
 @Preview
 @Composable
 fun SignInPersonScreenPreview() {
-    var person = Person("Felipe", Date(), Gender.values()[0],"")
+    var person = Person(
+        "Felipe",
+        Date(),
+        Gender.values()[0],
+        "",
+        "")
     LimpeanAppTheme {
         SignInScreen(
-            title = "Cadastro de Dados Pessoais",
+            title = "Dados Pessoais",
             content = { PersonForm(person = person, {}) },
             nameActionButton = "Próximo",
             onClickButton = {}

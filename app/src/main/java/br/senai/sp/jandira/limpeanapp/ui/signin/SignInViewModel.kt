@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.senai.sp.jandira.limpeanapp.domain.Gender
 import br.senai.sp.jandira.limpeanapp.domain.Person
-import br.senai.sp.jandira.limpeanapp.registration.RegistrationState
 import br.senai.sp.jandira.limpeanapp.ui.signin.components.PersonForm
-import br.senai.sp.jandira.limpeanapp.ui.welcome.WelcomeViewModel
 import java.util.Date
 
 class SignInViewModel(
@@ -18,13 +16,7 @@ class SignInViewModel(
     var form = "PersonForm"
     @Composable
     fun handle(nameForm : String) {
-       val person = Person(
-                name = state.nameUser,
-                birthDate = Date(),
-                cpf = state.cpf,
-                gender = Gender.values().elementAt(state.idGender)
-       )
-       PersonForm(person = person, onPersonChanged = {})
+
 
     }
 
@@ -47,3 +39,6 @@ class SignInViewModelFactory : ViewModelProvider.Factory {
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+
+

@@ -14,4 +14,5 @@
     <string name="input_cpf">Seu CPF</string>
     <string name="input_data_nascimento">Sua data de nascimento</string>
     <string name="input_genero">Gênero</string>
+    <string name="name_field">Digite seu nome</string>
 </resources>

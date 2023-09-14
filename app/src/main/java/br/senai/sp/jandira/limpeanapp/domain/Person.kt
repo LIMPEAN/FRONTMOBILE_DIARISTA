@@ -4,7 +4,8 @@ import java.util.Date
 
 data class Person (
     val name: String,
-    val birthDate: Date,
+    val dateOfBirth: Date,
     val gender: Gender,
-    val cpf: String
+    val cpf: String,
+    val rg: String
 )
