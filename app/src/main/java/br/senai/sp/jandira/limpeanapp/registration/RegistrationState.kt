@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.registration
 
 data class RegistrationState(
-<<<<<<< HEAD
     val typeUser: String = "diarist",
     val email: String = "user@gmail.com",
     val password: String = "1234567@",
@@ -14,20 +13,6 @@ data class RegistrationState(
     val cpf: String = "456-456-45-87",
     val biography: String? = null,
     val address: Address? = null
-=======
-    val typeUser: String,
-    val email: String,
-    val password: String,
-    val nameUser: String,
-    val photoUser: String,
-    val phone: String,
-    val ddd: String,
-    val birthDate: String,
-    val idGender: Int,
-    val cpf: String,
-    val biography: String?,
-    val address: Address
->>>>>>> 5556fbaec5c2f9b4ada431c6d980d34db3de1283
 )
 
 data class Address(
