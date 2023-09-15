@@ -49,9 +49,9 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonForm(
-    person: Person,
-    onPersonChanged: (Person) -> Unit
+
 ) {
+    var person = Person()
     var name by remember { mutableStateOf(person.name) }
     var cpf by remember { mutableStateOf(person.cpf) }
     var rg by remember { mutableStateOf(person.rg) }

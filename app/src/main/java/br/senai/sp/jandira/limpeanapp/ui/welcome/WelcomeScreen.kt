@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.data.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.domain.UserType
@@ -36,8 +37,7 @@ import com.example.compose.md_theme_light_primary
 
 @Composable
 fun WelcomeScreen(
-    onCreateAccount: (userType: UserType) -> Unit,
-    onLogin: (userType: UserType) -> Unit,
+    navController: NavController
 ) {
     val userTypes = UserTypesRepository.getAll()
     var selectedUserType by remember {
@@ -115,10 +115,8 @@ fun WelcomeScreenPreview() {
 
     LimpeanAppTheme {
         WelcomeScreen(
-            onCreateAccount = {
-                Log.i("onCreated", it.toString())
-            },
-            onLogin = { Log.i("onLogin", it.toString())})
+            onCreateAccount = {},
+            onLogin = { )
     }
 }
 

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.limpeanapp.domain.Gender
 import br.senai.sp.jandira.limpeanapp.domain.Person
 import br.senai.sp.jandira.limpeanapp.ui.signin.components.PersonForm
@@ -45,7 +46,7 @@ import java.util.Date
 fun SignInScreen(
     title: String,
     content: @Composable () -> Unit,
-    onClickButton: () -> Unit,
+    navController: NavController,
     nameActionButton : String
 ) {
     Scaffold(
