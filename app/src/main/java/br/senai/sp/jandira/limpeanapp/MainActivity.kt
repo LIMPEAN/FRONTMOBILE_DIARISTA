@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     composable(route = "cadastro_de_usuario"){
                         TelaDeCadastro(
                             titulo = "Cadastro de Usuário",
-                            conteudo = { },
+                            conteudo = { FormularioDePessoa() },
                             navController = navController,
                             nomeDaAcaoDoBotao = "Próxima"
                         ) {
