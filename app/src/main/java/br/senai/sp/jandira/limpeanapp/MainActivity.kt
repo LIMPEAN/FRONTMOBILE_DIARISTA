@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                             navController.navigate("cadastro_de_usuario")
                         }
                     }
-
                 }
 
 
