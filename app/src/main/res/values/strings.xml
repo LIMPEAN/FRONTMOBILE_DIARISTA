@@ -15,4 +15,9 @@
     <string name="input_data_nascimento">Sua data de nascimento</string>
     <string name="input_genero">Gênero</string>
     <string name="name_field">Digite seu nome</string>
+    <string name="username_outline">Digite seu nome\n</string>
+    <string name="phone_outline">Telefone</string>
+    <string name="email_outline">Digite seu email\n</string>
+    <string name="outline_password">Digite sua senha</string>
+    <string name="sing_in_button">Criar Conta</string>
 </resources>
