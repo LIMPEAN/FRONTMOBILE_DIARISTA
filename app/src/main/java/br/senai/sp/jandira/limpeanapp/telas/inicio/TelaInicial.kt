@@ -109,7 +109,6 @@ fun TelaInicial(
                 SectionButton(name = "Cadastro") {
                     val convertorDeJson = Gson()
                     val tipoDeUsuarioEmJson = convertorDeJson.toJson(usuarioSelecionado)
-
                     navController.navigate("cadastro_de_perfil/${tipoDeUsuarioEmJson}" )
                 }
             }

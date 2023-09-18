@@ -1,7 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
-data class RegistrationState(
-    val typeUser: String = "diarist",
+import br.senai.sp.jandira.limpeanapp.dados.UserTypesRepository
+import br.senai.sp.jandira.limpeanapp.regras.UserType
+
+data class CadastroDeUsuario(
+    val tipoDeUsuario: UserType = UserTypesRepository.getAll()[0],
     val email: String = "user@gmail.com",
     val password: String = "1234567@",
     val nameUser: String = "Jessica Jones",
