@@ -5,9 +5,11 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -62,23 +65,25 @@ fun FormularioDePerfil() {
             .build()
     )
     //Body
-    var nomeState by remember {mutableStateOf("")}
-    var cpfState by remember { mutableStateOf("") }
-    var rgState by remember {mutableStateOf("")}
-    var telefoneState by remember {mutableStateOf("") }
-    var dataNascimentoState by remember {mutableStateOf(false)}
-    var generoState by remember {mutableStateOf("")}
-    val context = LocalContext.current
+
+    var biografiaState by remember {mutableStateOf("")}
+    var emailState by remember { mutableStateOf("") }
+    var senhaState by remember {mutableStateOf("")}
+    var senhaRepetidaState by remember {mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        CaixaDeTexto(etiqueta = "Digite seu nome", estado = nomeState, aoDigitar = { nomeState = it})
-        CaixaDeTexto(etiqueta = "Seu CPF", estado = cpfState, aoDigitar = { cpfState = it})
-        CaixaDeTexto(etiqueta = "Seu RG", estado = rgState, aoDigitar = { rgState = it} )
-        CaixaDeTexto(etiqueta = "Telefone", estado = telefoneState , aoDigitar = { telefoneState = it })
+        FotoDePerfil()
+        CaixaDeTexto(etiqueta = "Fale sobre você", estado = biografiaState, aoDigitar = { biografiaState = it})
+        CaixaDeTexto(etiqueta = "Seu melhor email", estado = emailState, aoDigitar = { emailState = it})
+        CaixaDeTexto(etiqueta = "Senha", estado = senhaState, aoDigitar = { senhaState = it})
+        CaixaDeTexto(etiqueta = "Repita sua senha", estado = senhaRepetidaState , aoDigitar = { senhaRepetidaState = it })
 
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -88,21 +93,12 @@ fun FormularioDePerfil() {
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun FormularioDePerfilPreview() {
     LimpeanAppTheme {
-        FormularioDePerfil()
+        Column(modifier = Modifier.fillMaxSize()) {
+            FormularioDePerfil()
+        }
     }
-}
-fun saveUser(
-    userName: String,
-    phone: String,
-    email: String,
-    password: String,
-    isOver18: Boolean,
-    profilePhotoUri: String,
-    context: Context
-) {
-
 }

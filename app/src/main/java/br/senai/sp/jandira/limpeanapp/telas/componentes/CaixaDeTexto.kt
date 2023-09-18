@@ -16,10 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import coil.transform.Transformation
 import com.example.compose.LimpeanAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,22 +32,45 @@ fun CaixaDeTexto(
     etiqueta : String,
     estado : String,
     aoDigitar : (String) -> Unit,
-
+    transformacaoVisual : VisualTransformation = VisualTransformation.None,
+    tipoSenha : Boolean = false,
+    visivel : Boolean = false
 ) {
 
-    OutlinedTextField(
-        value = estado,
-        onValueChange = {
-            aoDigitar(it)
-        },
-        shape = RoundedCornerShape(8.dp),
-        label = {
-            Text(
-                text = etiqueta,
-            )
-        },
-        keyboardOptions = KeyboardOptions.Default
-    )
+       if(tipoSenha){
+           OutlinedTextField(
+               value = estado,
+               onValueChange = {
+                   aoDigitar(it)
+               },
+               singleLine = true,
+               shape = RoundedCornerShape(8.dp),
+               label = {
+                   Text(
+                       text = etiqueta,
+                   )
+               },
+               visualTransformation = if (visivel) VisualTransformation.None else PasswordVisualTransformation(),
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+           )
+       } else {
+           OutlinedTextField(
+               value = estado,
+               onValueChange = {
+                   aoDigitar(it)
+               },
+               shape = RoundedCornerShape(8.dp),
+               label = {
+                   Text(
+                       text = etiqueta,
+                   )
+               },
+               visualTransformation = transformacaoVisual,
+               keyboardOptions = KeyboardOptions.Default
+           )
+       }
+
+
 }
 
 @Preview(showBackground = true)
@@ -52,8 +79,12 @@ fun CaixaDeTextoPreview() {
     var nome by remember {
         mutableStateOf("")
     }
-    LimpeanAppTheme {
-        CaixaDeTexto(estado = nome , aoDigitar =  { nome = it}, etiqueta = "nome")
+    var senhaState by remember {
+        mutableStateOf("")
     }
+    var seVisivel by remember {
+        mutableStateOf(false)
+    }
+
 
 }
