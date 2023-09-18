@@ -1,11 +1,11 @@
 package br.senai.sp.jandira.limpeanapp
 
-import br.senai.sp.jandira.limpeanapp.domain.Diarist
-import br.senai.sp.jandira.limpeanapp.domain.Address
-import br.senai.sp.jandira.limpeanapp.domain.Gender
-import br.senai.sp.jandira.limpeanapp.domain.Person
-import br.senai.sp.jandira.limpeanapp.domain.Phone
-import br.senai.sp.jandira.limpeanapp.domain.User
+import br.senai.sp.jandira.limpeanapp.regras.Diarist
+import br.senai.sp.jandira.limpeanapp.regras.Address
+import br.senai.sp.jandira.limpeanapp.regras.Gender
+import br.senai.sp.jandira.limpeanapp.regras.Person
+import br.senai.sp.jandira.limpeanapp.regras.Phone
+import br.senai.sp.jandira.limpeanapp.regras.User
 import org.junit.Test
 
 import org.junit.Assert.*
