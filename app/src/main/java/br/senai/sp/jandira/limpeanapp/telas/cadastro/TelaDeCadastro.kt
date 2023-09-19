@@ -33,6 +33,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.regras.Gender
 import br.senai.sp.jandira.limpeanapp.regras.Person
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.BotaoDeCadastro
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePessoa
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
@@ -45,11 +47,9 @@ import java.util.Date
 @Composable
 fun TelaDeCadastro(
     titulo: String,
-    conteudo: @Composable () -> Unit,
-    navController: NavController,
-    nomeDaAcaoDoBotao : String,
-    aoClicarNoBotao : ()-> Unit
+    conteudo: @Composable () -> Unit
 ) {
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -72,19 +72,11 @@ fun TelaDeCadastro(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                conteudo( ) // PersonForm(), UserForm(), AdreesForm(), HomeForm()
+                conteudo() // PersonForm(), UserForm(), AdreesForm(), HomeForm()
 
                 Spacer(modifier = Modifier.height(150.dp))
 
-                Button(
-                    onClick = aoClicarNoBotao,
-                    modifier = Modifier
-                        .width(376.dp)
-                        .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(md_theme_light_primary)
-                ) {
-                    Text(nomeDaAcaoDoBotao)
-                }
+
             }
         }
     )
@@ -103,10 +95,10 @@ fun SignInPersonScreenPreview() {
     LimpeanAppTheme {
         TelaDeCadastro(
             titulo = "Dados Pessoais",
-            conteudo = { FormularioDePessoa() },
-            nomeDaAcaoDoBotao = "Continuar",
-            aoClicarNoBotao = {},
-            navController = navController
-        )
+        ){
+            FormularioDePerfil(){
+
+            }
+        }
     }
 }
