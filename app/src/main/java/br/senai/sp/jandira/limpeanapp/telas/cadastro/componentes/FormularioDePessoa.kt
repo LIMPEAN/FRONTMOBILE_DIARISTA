@@ -28,8 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.regras.Person
+import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
@@ -37,14 +36,14 @@ import com.example.compose.md_theme_dark_onPrimary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioDePessoa(
-
+    salvarDados : (Pessoa) -> Unit
 ) {
-    var person = Person()
-    var name by remember { mutableStateOf(person.name) }
+    var person = Pessoa()
+    var name by remember { mutableStateOf(person.nome) }
     var cpf by remember { mutableStateOf(person.cpf) }
     var rg by remember { mutableStateOf(person.rg) }
-    var dateOfBirth by remember { mutableStateOf(person.dateOfBirth) }
-    var gender by remember { mutableStateOf(person.gender) }
+    var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
+    var gender by remember { mutableStateOf(person.genero) }
 
 
     Column (
@@ -121,6 +120,13 @@ fun FormularioDePessoa(
                     shape = RoundedCornerShape(size = 40.dp)
                 )
         )
+        BotaoDeCadastro(nomeDaAcao = "Continuar") {
+            val pessoa = Pessoa(
+                /* Adicione os dados aqui */
+                nome = "Felipe"
+            )
+            salvarDados(pessoa)
+        }
 
     }
 
@@ -138,7 +144,7 @@ private fun isValidName(name: String): Boolean {
 @Composable
 fun FormularioPreview() {
     LimpeanAppTheme {
-        FormularioDePessoa()
+        FormularioDePessoa({})
     }
 
 }

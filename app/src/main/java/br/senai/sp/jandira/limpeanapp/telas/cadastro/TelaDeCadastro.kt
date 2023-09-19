@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.regras.Gender
-import br.senai.sp.jandira.limpeanapp.regras.Person
+import br.senai.sp.jandira.limpeanapp.regras.Genero
+import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.BotaoDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePessoa
@@ -85,10 +85,10 @@ fun TelaDeCadastro(
 @Preview
 @Composable
 fun SignInPersonScreenPreview() {
-    var person = Person(
+    var person = Pessoa(
         "Felipe",
         Date(),
-        Gender.values()[0],
+        Genero.values()[0],
         "",
         "")
     val navController = rememberNavController()

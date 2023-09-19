@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp
 
-import br.senai.sp.jandira.limpeanapp.regras.Diarist
-import br.senai.sp.jandira.limpeanapp.regras.Address
+import br.senai.sp.jandira.limpeanapp.dados.Diarist
+import br.senai.sp.jandira.limpeanapp.dados.Address
 import br.senai.sp.jandira.limpeanapp.regras.Gender
 import br.senai.sp.jandira.limpeanapp.regras.Person
 import br.senai.sp.jandira.limpeanapp.regras.Phone

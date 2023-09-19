@@ -56,7 +56,9 @@ fun FormularioDePerfil(
     var emailState by remember { mutableStateOf("") }
     var senhaState by remember {mutableStateOf("")}
     var senhaRepetidaState by remember {mutableStateOf("") }
-
+    var media by remember {
+        mutableStateOf(1000.0)
+    }
 
     Column(
         modifier = Modifier
@@ -80,7 +82,8 @@ fun FormularioDePerfil(
                 fotoDePerfil = photoUri,
                 biografia = biografiaState,
                 email = emailState,
-                senha = senhaState
+                senha = senhaState,
+                media = media
             )
             salvarPerfil(perfil)
         }
@@ -106,5 +109,6 @@ data class Perfil (
     val fotoDePerfil : Uri? = null,
     val biografia : String? = null,
     val email : String? = null,
-    val senha : String? = null
+    val senha : String? = null,
+    val media : Double = 1000.0
 )

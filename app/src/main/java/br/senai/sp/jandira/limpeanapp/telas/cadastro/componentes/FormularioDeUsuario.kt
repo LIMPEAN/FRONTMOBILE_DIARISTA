@@ -21,7 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.regras.Person
+import br.senai.sp.jandira.limpeanapp.regras.Pessoa
+
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
@@ -32,12 +33,12 @@ import com.example.compose.md_theme_light_scrim
 fun FormularioDeUsuario(
 
 ) {
-    var person = Person()
-    var name by remember { mutableStateOf(person.name) }
+    var person = Pessoa()
+    var name by remember { mutableStateOf(person.nome) }
     var cpf by remember { mutableStateOf(person.cpf) }
     var rg by remember { mutableStateOf(person.rg) }
-    var dateOfBirth by remember { mutableStateOf(person.dateOfBirth) }
-    var gender by remember { mutableStateOf(person.gender) }
+    var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
+    var gender by remember { mutableStateOf(person.genero) }
 
 
     Column (
