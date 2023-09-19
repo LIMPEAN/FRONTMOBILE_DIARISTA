@@ -77,10 +77,10 @@ fun FormularioDePerfil(
 
         BotaoDeCadastro(nomeDaAcao = "Próxima") {
             val perfil  = Perfil(
-                photoUri,
-                biografiaState,
-                emailState,
-                senhaState
+                fotoDePerfil = photoUri,
+                biografia = biografiaState,
+                email = emailState,
+                senha = senhaState
             )
             salvarPerfil(perfil)
         }
@@ -102,6 +102,7 @@ fun FormularioDePerfilPreview() {
     }
 }
 data class Perfil (
+    var tipoUsuario : UserType? = null,
     val fotoDePerfil : Uri? = null,
     val biografia : String? = null,
     val email : String? = null,

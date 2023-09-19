@@ -50,31 +50,25 @@ class MainActivity : ComponentActivity() {
                             titulo = "Cadastro de  ${tipoUsuario.portugueseName} "
                         ){
                             FormularioDePerfil(){perfil ->
+                                perfil.tipoUsuario = tipoUsuario
                                 val perfilEmJson = gson.toJson(perfil)
-                                val perfil = tipoUsuarioEmJson + perfilEmJson
-                                Log.i("PERFIL-TIPO", perfil)
-                                navController.navigate("cadastro_de_pessoa/${perfil}")
+                                Log.i("PERFIL-COMPLETO", perfilEmJson)
+                                navController.navigate("cadastro_de_pessoa/${perfilEmJson}")
                             }
                         }
-
-
-
-
                     }
-                    composable(route = "cadastro_de_pessoa/{tipoUsuario}"){
-                        val tipoUsuarioEmJson = it.arguments!!.getString("tipoUsuario")
+                    composable(route = "cadastro_de_pessoa/{perfil}"){
+                        val perfilEmJson = it.arguments!!.getString("perfil")
 
-                        val tipoUsuario = gson.fromJson(tipoUsuarioEmJson, UserType::class.java)
+                        val perfil = gson.fromJson(perfilEmJson, Perfil::class.java)
+                        val tipoUsuario = perfil.tipoUsuario
 
+                        Log.i("PERFIL-CADASTRO-PESSOA", perfil.toString())
                         TelaDeCadastro(
                             titulo = "Dados Pessoais",
-                            conteudo = { FormularioDePessoa() },
-                        )
-                            if(tipoUsuario.portugueseName == "Cliente") {
-                                navController.navigate("cadastro_de_casa/$it")
-                            } else {
-                                navController.navigate("cadastro_de_endereco/$it")
-                            }
+                        ){
+                            FormularioDePessoa()
+                        }
 
 
 
