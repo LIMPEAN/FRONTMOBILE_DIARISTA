@@ -50,7 +50,7 @@ fun FormularioDePessoa(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         OutlinedTextField(
-            value = "NOME", onValueChange = {},
+            value = , onValueChange = {  },
             modifier = Modifier
                 .width(368.dp)
                 .height(55.dp)
@@ -58,7 +58,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -70,7 +71,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -82,7 +84,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -94,7 +97,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -106,7 +110,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -118,8 +123,12 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
+
+        Spacer(modifier = Modifier.height(150.dp))
+
         BotaoDeCadastro(nomeDaAcao = "Continuar") {
             val pessoa = Pessoa(
                 /* Adicione os dados aqui */
