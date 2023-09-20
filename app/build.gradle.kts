@@ -81,4 +81,6 @@ dependencies {
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.3.0")
+
+    //teste
 }

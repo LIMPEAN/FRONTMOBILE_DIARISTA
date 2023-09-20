@@ -13,7 +13,7 @@ data class Usuario(
     var senha: String? = null,
     val telefone: Phone? = null,
     var biografia: String? = null,
-    val endereco: Endereco? = null
+    val endereco: EnderecoLocal? = null
 )
 
 
