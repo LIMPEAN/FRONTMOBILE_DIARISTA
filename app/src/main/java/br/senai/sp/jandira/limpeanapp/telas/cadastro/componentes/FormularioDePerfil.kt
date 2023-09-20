@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.User
 import br.senai.sp.jandira.limpeanapp.dados.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
 import coil.compose.rememberAsyncImagePainter
@@ -68,6 +69,7 @@ fun FormularioDePerfil(
     ) {
 
         FotoDePerfil()
+        Spacer(modifier = Modifier.height(43.dp))
         CaixaDeTexto(
             etiqueta = "Fale sobre você",
             estado = biografiaState,
@@ -78,12 +80,12 @@ fun FormularioDePerfil(
             estado = emailState,
             aoDigitar = { emailState = it}
         )
-        CaixaDeTexto(
+        CaixaDeSenha(
             etiqueta = "Senha",
             estado = senhaState,
             aoDigitar = { senhaState = it}
         )
-        CaixaDeTexto(
+        CaixaDeSenha(
             etiqueta = "Repita sua senha",
             estado = senhaRepetidaState ,
             aoDigitar = { senhaRepetidaState = it }

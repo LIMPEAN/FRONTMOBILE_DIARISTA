@@ -37,6 +37,5 @@ fun TelaDeLogin(
 @Composable
 fun SignUpScreenPreview() {
     LimpeanAppTheme {
-        SignUpScreen({})
     }
 }
