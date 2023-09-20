@@ -98,6 +98,9 @@ class MainActivity : ComponentActivity() {
 
 
                     }
+                    composable(route = "login"){
+                        
+                    }
 
                 }
 
