@@ -100,11 +100,28 @@ class MainActivity : ComponentActivity() {
                     composable(route = "cadastro_de_endereco/{dadosDeUsuario}"){ it ->
                         val dadosDeUsuarioEmJson = it.arguments!!.getString("dadosDeUsuario")
                         val dadosDeUsuario = gson.fromJson(dadosDeUsuarioEmJson, Usuario::class.java)
+                        val tipoDeUsuario = dadosDeUsuario.tipoUsuario
                         TelaDeCadastro(
                             titulo = "Cadastro de Endereço",
                         ){
                             FormularioDeEndereco(){enderecoLocal ->
                                 val novoUsuario = dadosDeUsuario.copy(endereco = enderecoLocal)
+                                val novoUsuarioParaAPI = CadastroDeUsuario(
+                                    tipoDeUsuario = tipoDeUsuario!!.nomeDaApi,
+                                    email = novoUsuario.email,
+                                    password = novoUsuario.senha,
+                                    nameUser = novoUsuario.dadosDePessoa!!.nome,
+                                    photoUser = novoUsuario.fotoPerfil.toString(),
+                                    phone = novoUsuario.telefone!!.number,
+                                    ddd = novoUsuario.telefone.ddd,
+                                    birthDate = novoUsuario.dadosDePessoa.dataDeNascimento.toString(),
+                                    idGender = novoUsuario.dadosDePessoa.genero!!.id,
+                                    cpf = novoUsuario.dadosDePessoa.cpf,
+                                    biography = novoUsuario.biografia,
+                                    address = novoUsuario.endereco
+                                )
+                                val usuarioParaApiEmJson = gson.toJson(novoUsuarioParaAPI)
+                                Log.i("USUARIO-PARA-API", usuarioParaApiEmJson)
 
                             }
                         }
