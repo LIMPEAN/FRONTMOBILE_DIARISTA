@@ -14,6 +14,14 @@ data class TipoDeUsuario (
                 TipoDeUsuario(1, "cliente", "Cliente")
             }
         }
+        fun pegaDiarista() : TipoDeUsuario{
+            return  TipoDeUsuario(0, "diarist", "Diarista")
+
+        }
+        fun pegaCliente() : TipoDeUsuario{
+            return   TipoDeUsuario(1, "cliente", "Cliente")
+
+        }
     }
 
 }

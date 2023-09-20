@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.dados.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.CadastroDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeCasa
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
@@ -96,12 +97,14 @@ class MainActivity : ComponentActivity() {
                             navController.navigate("cadastro_de_endereco/$it")
 
                     }
-                    composable(route = "cadastro_de_endereco/{dadosDeUsuario}"){
-
+                    composable(route = "cadastro_de_endereco/{dadosDeUsuario}"){ it ->
+                        val dadosDeUsuarioEmJson = it.arguments!!.getString("dadosDeUsuario")
+                        val dadosDeUsuario = gson.fromJson(dadosDeUsuarioEmJson, Usuario::class.java)
                         TelaDeCadastro(
-                            titulo = "Cadastro do Endereço ${it.arguments!!.getString("dadosDeUsuario")}",
+                            titulo = "Cadastro de Endereço",
                         ){
-                            FormularioDeEndereco(){
+                            FormularioDeEndereco(){enderecoLocal ->
+                                val novoUsuario = dadosDeUsuario.copy(endereco = enderecoLocal)
 
                             }
                         }

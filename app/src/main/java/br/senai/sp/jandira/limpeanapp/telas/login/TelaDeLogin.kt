@@ -40,7 +40,8 @@ fun TelaDeLogin(
 @Composable
 fun TelaDeLoginPreview() {
     LimpeanAppTheme {
-        val tipoDeUsuario = TipoDeUsuario.pegaUmExemplo(1)
+        val tipoDeUsuario = TipoDeUsuario.pegaCliente()
+
         TelaDeLogin(
             tipoDeUsuario = tipoDeUsuario
         ){
