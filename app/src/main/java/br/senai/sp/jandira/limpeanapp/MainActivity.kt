@@ -7,8 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.limpeanapp.dados.Diarista
 import br.senai.sp.jandira.limpeanapp.dados.Usuario
-import br.senai.sp.jandira.limpeanapp.dados.Diarist
 import br.senai.sp.jandira.limpeanapp.regras.UserType
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeCasa
@@ -70,12 +70,6 @@ class MainActivity : ComponentActivity() {
 
                                 val usuarioEmJson = gson.toJson(usuario)
 
-                                if(tipoUsuario == "Diarista"){
-                                    Diarist(
-                                        userData = usuario,
-
-                                    )
-                                }
                                 Log.i("USUARIO", usuarioEmJson)
 
                                 navController.navigate("cadastro_de_endereco/$usuarioEmJson")
