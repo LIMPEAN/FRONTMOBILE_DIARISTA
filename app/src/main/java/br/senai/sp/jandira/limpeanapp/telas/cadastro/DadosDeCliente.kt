@@ -1,10 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 import br.senai.sp.jandira.limpeanapp.dados.UserTypesRepository
-import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 
 data class CadastroDeUsuario(
-    val tipoDeUsuario: UserType = UserTypesRepository.getAll()[0],
+    val tipoDeUsuario: TipoDeUsuario = UserTypesRepository.getAll()[0],
     val email: String = "user@gmail.com",
     val password: String = "1234567@",
     val nameUser: String = "Jessica Jones",

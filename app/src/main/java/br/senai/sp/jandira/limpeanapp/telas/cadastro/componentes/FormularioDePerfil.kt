@@ -21,9 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.dados.User
-import br.senai.sp.jandira.limpeanapp.dados.Usuario
-import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
@@ -123,7 +121,7 @@ fun FormularioDePerfilPreview() {
     }
 }
 data class Perfil (
-    var tipoUsuario : UserType? = null,
+    var tipoUsuario : TipoDeUsuario? = null,
     val fotoDePerfil : Uri? = null,
     val biografia : String? = null,
     val email : String? = null,

@@ -8,17 +8,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
-import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.example.compose.LimpeanAppTheme
 
 @Composable
 fun SelectUserType(
-    userTypes: List<UserType>,
-    selectedUserType: UserType,
-    onSelectedChange: (UserType) -> Unit
+    userTypes: List<TipoDeUsuario>,
+    selectedUserType: TipoDeUsuario,
+    onSelectedChange: (TipoDeUsuario) -> Unit
 ) {
-    val names = userTypes.map { it.portugueseName }
-    val selectedName = selectedUserType.portugueseName
+    val names = userTypes.map { it.nomeEmPortugues }
+    val selectedName = selectedUserType.nomeEmPortugues
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,7 +28,7 @@ fun SelectUserType(
             options = names,
             selectedOption = selectedName,
             onOptionSelected = { selectedName ->
-                val selectedType = userTypes.find { it.portugueseName == selectedName }
+                val selectedType = userTypes.find { it.nomeEmPortugues == selectedName }
                 selectedType?.let { onSelectedChange(it) }
             }
         )

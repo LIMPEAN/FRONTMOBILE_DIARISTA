@@ -85,12 +85,7 @@ fun TelaDeCadastro(
 @Preview
 @Composable
 fun SignInPersonScreenPreview() {
-    var person = Pessoa(
-        "Felipe",
-        Date(),
-        Genero.values()[0],
-        "",
-        "")
+    var person = Pessoa()
     val navController = rememberNavController()
     LimpeanAppTheme {
         TelaDeCadastro(

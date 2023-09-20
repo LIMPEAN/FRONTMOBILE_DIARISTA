@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.telas.inicio
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -25,24 +24,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.Navigator
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.dados.UserTypesRepository
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.inicio.components.SectionButton
 import br.senai.sp.jandira.limpeanapp.telas.inicio.components.SelectUserType
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.annotations.JsonAdapter
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 @Composable
 fun TelaInicial(
-    navController: NavController
+    navegarParaLogin : (TipoDeUsuario) -> Unit,
+    navegarParaCadastro : (TipoDeUsuario) -> Unit
 ) {
     val tiposDeUsuario = UserTypesRepository.getAll()
     var usuarioSelecionado by remember {
@@ -103,13 +97,12 @@ fun TelaInicial(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SectionButton(name = "Login") {
-                    navController.navigate("login/$usuarioSelecionado")
+                    navegarParaLogin(usuarioSelecionado)
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 SectionButton(name = "Cadastro") {
-                    val convertorDeJson = Gson()
-                    val tipoDeUsuarioEmJson = convertorDeJson.toJson(usuarioSelecionado)
-                    navController.navigate("cadastro_de_pessoa/${tipoDeUsuarioEmJson}" )
+                    navegarParaCadastro(usuarioSelecionado)
+
                 }
             }
         }
@@ -119,11 +112,9 @@ fun TelaInicial(
 @Preview(showSystemUi = true)
 @Composable
 fun TelaInicialPreview() {
-
-    val navController = rememberNavController()
     LimpeanAppTheme {
         TelaInicial(
-            navController = navController
+            {},{}
         )
     }
 }
