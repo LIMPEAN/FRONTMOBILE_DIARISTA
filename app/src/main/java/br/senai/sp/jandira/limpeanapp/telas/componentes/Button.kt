@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+//import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 //import com.example.compose.blueButton
 //import com.example.compose.closeBlack
 import com.example.compose.md_theme_dark_background
@@ -40,7 +40,6 @@ fun Button(
             Text(
                 text = name,
                 color = Color.Black,
-                fontFamily = poopins,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )
