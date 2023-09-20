@@ -68,10 +68,26 @@ fun FormularioDePerfil(
     ) {
 
         FotoDePerfil()
-        CaixaDeTexto(etiqueta = "Fale sobre você", estado = biografiaState, aoDigitar = { biografiaState = it})
-        CaixaDeTexto(etiqueta = "Seu melhor email", estado = emailState, aoDigitar = { emailState = it})
-        CaixaDeTexto(etiqueta = "Senha", estado = senhaState, aoDigitar = { senhaState = it})
-        CaixaDeTexto(etiqueta = "Repita sua senha", estado = senhaRepetidaState , aoDigitar = { senhaRepetidaState = it })
+        CaixaDeTexto(
+            etiqueta = "Fale sobre você",
+            estado = biografiaState,
+            aoDigitar = { biografiaState = it}
+        )
+        CaixaDeTexto(
+            etiqueta = "Seu melhor email",
+            estado = emailState,
+            aoDigitar = { emailState = it}
+        )
+        CaixaDeTexto(
+            etiqueta = "Senha",
+            estado = senhaState,
+            aoDigitar = { senhaState = it}
+        )
+        CaixaDeTexto(
+            etiqueta = "Repita sua senha",
+            estado = senhaRepetidaState ,
+            aoDigitar = { senhaRepetidaState = it }
+        )
 
 
         Spacer(modifier = Modifier.height(16.dp))
