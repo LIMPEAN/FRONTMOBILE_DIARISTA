@@ -36,7 +36,6 @@ fun FormularioDeUsuario(
     var person = Pessoa()
     var name by remember { mutableStateOf(person.nome) }
     var cpf by remember { mutableStateOf(person.cpf) }
-    var rg by remember { mutableStateOf(person.rg) }
     var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
     var gender by remember { mutableStateOf(person.genero) }
 
