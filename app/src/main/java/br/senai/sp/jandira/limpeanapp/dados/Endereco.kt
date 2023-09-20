@@ -12,10 +12,10 @@ data class EnderecoViaCep(
     val estado: String? = "São Paulo"
 )
 data class EnderecoLocal(
-    val enderecoViaCep : EnderecoViaCep,
-    val tipoResidencia : TipoResidencia,
-    val complemento : String,
-    val numero : Int
+    val enderecoViaCep : EnderecoViaCep? = null,
+    val tipoResidencia : TipoResidencia? = null ,
+    val complemento : String? = null,
+    val numero : Int? = 0
 )
 data class TipoResidencia(
     val id: Int? = 0,

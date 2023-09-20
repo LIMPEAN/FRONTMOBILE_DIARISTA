@@ -90,8 +90,11 @@ class MainActivity : ComponentActivity() {
 
                         TelaDeCadastro(
                             titulo = "Cadastro do Endereço ${it.arguments!!.getString("dadosDeUsuario")}",
-                            conteudo = { FormularioDeEndereco() },
-                        )
+                        ){
+                            FormularioDeEndereco(){
+
+                            }
+                        }
 
 
                     }
