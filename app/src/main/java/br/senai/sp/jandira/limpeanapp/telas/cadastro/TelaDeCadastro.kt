@@ -89,7 +89,6 @@ fun SignInPersonScreenPreview() {
         "Felipe",
         Date(),
         Genero.values()[0],
-        "",
         "")
     val navController = rememberNavController()
     LimpeanAppTheme {

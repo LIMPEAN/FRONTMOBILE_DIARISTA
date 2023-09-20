@@ -38,19 +38,18 @@ import com.example.compose.md_theme_dark_onPrimary
 fun FormularioDePessoa(
     salvarDados : (Pessoa) -> Unit
 ) {
-    var person = Pessoa()
-    var name by remember { mutableStateOf(person.nome) }
-    var cpf by remember { mutableStateOf(person.cpf) }
-    var rg by remember { mutableStateOf(person.rg) }
-    var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
-    var gender by remember { mutableStateOf(person.genero) }
+    var dadosDePessoa by remember {
+        mutableStateOf(Pessoa())
+    }
 
 
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         OutlinedTextField(
-            value = "NOME", onValueChange = {},
+            value = dadosDePessoa.nome, onValueChange = {
+                dadosDePessoa.copy(nome = it)
+            },
             modifier = Modifier
                 .width(368.dp)
                 .height(55.dp)

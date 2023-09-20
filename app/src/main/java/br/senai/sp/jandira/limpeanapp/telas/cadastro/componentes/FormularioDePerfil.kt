@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.User
 import br.senai.sp.jandira.limpeanapp.dados.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
 import coil.compose.rememberAsyncImagePainter
@@ -68,13 +69,30 @@ fun FormularioDePerfil(
     ) {
 
         FotoDePerfil()
-        CaixaDeTexto(etiqueta = "Fale sobre você", estado = biografiaState, aoDigitar = { biografiaState = it})
-        CaixaDeTexto(etiqueta = "Seu melhor email", estado = emailState, aoDigitar = { emailState = it})
-        CaixaDeTexto(etiqueta = "Senha", estado = senhaState, aoDigitar = { senhaState = it})
-        CaixaDeTexto(etiqueta = "Repita sua senha", estado = senhaRepetidaState , aoDigitar = { senhaRepetidaState = it })
+        Spacer(modifier = Modifier.height(43.dp))
+        CaixaDeTexto(
+            etiqueta = "Fale sobre você",
+            estado = biografiaState,
+            aoDigitar = { biografiaState = it}
+        )
+        CaixaDeTexto(
+            etiqueta = "Seu melhor email",
+            estado = emailState,
+            aoDigitar = { emailState = it}
+        )
+        CaixaDeSenha(
+            etiqueta = "Senha",
+            estado = senhaState,
+            aoDigitar = { senhaState = it}
+        )
+        CaixaDeSenha(
+            etiqueta = "Repita sua senha",
+            estado = senhaRepetidaState ,
+            aoDigitar = { senhaRepetidaState = it }
+        )
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
 
         BotaoDeCadastro(nomeDaAcao = "Próxima") {

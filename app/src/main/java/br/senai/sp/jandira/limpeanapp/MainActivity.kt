@@ -16,6 +16,7 @@ import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEnd
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePessoa
 import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
+import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
 import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
 
@@ -90,10 +91,18 @@ class MainActivity : ComponentActivity() {
 
                         TelaDeCadastro(
                             titulo = "Cadastro do Endereço ${it.arguments!!.getString("dadosDeUsuario")}",
-                            conteudo = { FormularioDeEndereco() },
-                        )
+                        ){
+                            FormularioDeEndereco(){
+
+                            }
+                        }
 
 
+                    }
+                    composable(route = "login"){
+                        TelaDeLogin(){
+
+                        }
                     }
 
                 }
