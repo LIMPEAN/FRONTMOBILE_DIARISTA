@@ -92,6 +92,7 @@ fun MyContent(){
             onDismissRequest = { mExpanded = false },
             modifier = Modifier
                 .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
+            //git teste
         ) {
             mCities.forEach { label ->
                 DropdownMenuItem(onClick = {
