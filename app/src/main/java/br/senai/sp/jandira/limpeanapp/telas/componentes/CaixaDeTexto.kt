@@ -1,12 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.telas.componentes
 
-import androidx.compose.foundation.layout.fillMaxWidth
+
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,9 +19,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.IconButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +40,8 @@ fun CaixaDeTexto(
                    aoDigitar(it)
                },
                singleLine = true,
+               modifier = Modifier
+                   .width(368.dp),
                shape = RoundedCornerShape(8.dp),
                label = {
                    Text(
@@ -59,6 +57,9 @@ fun CaixaDeTexto(
                onValueChange = {
                    aoDigitar(it)
                },
+               singleLine = true,
+               modifier = Modifier
+                   .width(368.dp),
                shape = RoundedCornerShape(8.dp),
                label = {
                    Text(
@@ -73,19 +74,9 @@ fun CaixaDeTexto(
 
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun CaixaDeTextoPreview() {
-    var nome by remember {
-        mutableStateOf("")
-    }
-    var senhaState by remember {
-        mutableStateOf("")
-    }
-    var seVisivel by remember {
-        mutableStateOf(false)
-    }
-
 
 }
 
