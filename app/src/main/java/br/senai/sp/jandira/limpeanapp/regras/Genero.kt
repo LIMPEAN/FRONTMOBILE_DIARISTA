@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.regras
 
 data class Genero (
-    val id: Long,
+    val id: Int,
     val nome: String,
     val simbolo: String
 ) {

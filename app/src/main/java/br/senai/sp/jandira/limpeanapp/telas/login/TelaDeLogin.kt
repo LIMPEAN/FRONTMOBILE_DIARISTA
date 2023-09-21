@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import br.senai.sp.jandira.limpeanapp.dados.Logar
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.example.compose.LimpeanAppTheme
 
 @Composable
 fun TelaDeLogin(
+    tipoDeUsuario : TipoDeUsuario,
     aoClicarEmLogar: (Logar) -> Unit
 ) {
 
@@ -21,6 +23,7 @@ fun TelaDeLogin(
         mutableStateOf(Logar())
     }
     Column {
+        Text(text = "Logar como ${tipoDeUsuario.nomeEmPortugues}")
         Text(text = "Entrar no App")
         Button(
             onClick = {
@@ -35,7 +38,14 @@ fun TelaDeLogin(
 
 @Preview(showSystemUi = true)
 @Composable
-fun SignUpScreenPreview() {
+fun TelaDeLoginPreview() {
     LimpeanAppTheme {
+        val tipoDeUsuario = TipoDeUsuario.pegaCliente()
+
+        TelaDeLogin(
+            tipoDeUsuario = tipoDeUsuario
+        ){
+
+        }
     }
 }
