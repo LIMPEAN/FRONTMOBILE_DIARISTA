@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.dados.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.CadastroDeDiarista
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.CadastroDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeCasa
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
@@ -19,6 +23,8 @@ import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
 import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
 import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -79,6 +85,7 @@ class MainActivity : ComponentActivity() {
                                 usuario.senha = perfil.senha
                                 usuario.fotoPerfil = perfil.fotoDePerfil
 
+
                                 val usuarioEmJson = gson.toJson(usuario)
 
                                 Log.i("USUARIO", usuarioEmJson)
@@ -99,30 +106,29 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = "cadastro_de_endereco/{dadosDeUsuario}"){ it ->
                         val dadosDeUsuarioEmJson = it.arguments!!.getString("dadosDeUsuario")
-                        val dadosDeUsuario = gson.fromJson(dadosDeUsuarioEmJson, Usuario::class.java)
+                        var dadosDeUsuario = gson.fromJson(dadosDeUsuarioEmJson, Usuario::class.java)
                         val tipoDeUsuario = dadosDeUsuario.tipoUsuario
                         TelaDeCadastro(
                             titulo = "Cadastro de Endereço",
                         ){
                             FormularioDeEndereco(){enderecoLocal ->
-                                val novoUsuario = dadosDeUsuario.copy(endereco = enderecoLocal)
+                                dadosDeUsuario = dadosDeUsuario.copy(endereco = enderecoLocal)
                                 val novoUsuarioParaAPI = CadastroDeUsuario(
                                     tipoDeUsuario = tipoDeUsuario!!.nomeDaApi,
-                                    email = novoUsuario.email,
-                                    password = novoUsuario.senha,
-                                    nameUser = novoUsuario.dadosDePessoa!!.nome,
-                                    photoUser = novoUsuario.fotoPerfil.toString(),
-                                    phone = novoUsuario.telefone!!.number,
-                                    ddd = novoUsuario.telefone.ddd,
-                                    birthDate = novoUsuario.dadosDePessoa.dataDeNascimento.toString(),
-                                    idGender = novoUsuario.dadosDePessoa.genero!!.id,
-                                    cpf = novoUsuario.dadosDePessoa.cpf,
-                                    biography = novoUsuario.biografia,
-                                    address = novoUsuario.endereco
+                                    email = dadosDeUsuario.email,
+                                    password = dadosDeUsuario.senha,
+                                    nameUser = dadosDeUsuario.dadosDePessoa!!.nome,
+                                    photoUser = dadosDeUsuario.fotoPerfil.toString(),
+                                    phone = dadosDeUsuario.telefone!!.number,
+                                    ddd = dadosDeUsuario.telefone!!.ddd,
+                                    birthDate = dadosDeUsuario.dadosDePessoa.dataDeNascimento.toString(),
+                                    idGender = dadosDeUsuario.dadosDePessoa.genero!!.id,
+                                    cpf = dadosDeUsuario.dadosDePessoa.cpf,
+                                    biography = dadosDeUsuario.biografia,
+                                    address = dadosDeUsuario.endereco
                                 )
-                                val usuarioParaApiEmJson = gson.toJson(novoUsuarioParaAPI)
-                                Log.i("USUARIO-PARA-API", usuarioParaApiEmJson)
-
+                                val integracaoDeCadastro = IntegracaoDeCadastro()
+                                integracaoDeCadastro.salvarUsuario(novoUsuarioParaAPI)
                             }
                         }
 
@@ -144,6 +150,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
 

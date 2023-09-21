@@ -6,7 +6,9 @@ import br.senai.sp.jandira.limpeanapp.dados.Usuario
 
 class IntegracaoDeCadastro : ViewModel(){
 
-    fun salvarPerfil(usuario : Usuario){
+    fun salvarUsuario(
+        usuario: CadastroDeUsuario
+    ){
         Log.i("PERFIL-SALVO",usuario.toString() )
     }
 }
