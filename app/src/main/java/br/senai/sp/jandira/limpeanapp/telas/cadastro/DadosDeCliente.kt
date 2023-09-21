@@ -17,16 +17,10 @@ data class CadastroDeUsuario(
     val idGender: Int? = 1,
     val cpf: String? = "456-456-45-87",
     val biography: String? = null,
-    val address: EnderecoLocal? = null
+    val address: EnderecoLocal? = null,
+    val average : Number? = null
 )
-
-data class Address(
-    val typeHouse: Int,
-    val state: Int,
-    val city: String,
-    val cep: String,
-    val publicPlace: String,
-    val complement: String?,
-    val district: String,
-    val houseNumber: String
+data class CadastroDeDiarista(
+    val usuario: CadastroDeUsuario,
+    val average: Number
 )
