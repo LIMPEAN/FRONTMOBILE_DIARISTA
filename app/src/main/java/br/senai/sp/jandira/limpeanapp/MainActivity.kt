@@ -2,14 +2,23 @@ package br.senai.sp.jandira.limpeanapp
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.TextUnit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.dados.Usuario
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.CadastroDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeCasa
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
@@ -31,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 val gson = Gson()
                 val navController = rememberNavController()
                 NavHost(navController = navController,
-                    startDestination = "boas_vindas",
+                    startDestination = "cadastro",
                 ){
                     composable(route = "boas_vindas"){
                         TelaInicial(
@@ -104,8 +113,8 @@ class MainActivity : ComponentActivity() {
                         TelaDeCadastro(
                             titulo = "Cadastro de Endereço",
                         ){
-                            FormularioDeEndereco(){enderecoLocal ->
-                                val novoUsuario = dadosDeUsuario.copy(endereco = enderecoLocal)
+                            FormularioDeEndereco(){endereco ->
+                                val novoUsuario = dadosDeUsuario.copy(endereco = endereco)
                                 val novoUsuarioParaAPI = CadastroDeUsuario(
                                     tipoDeUsuario = tipoDeUsuario!!.nomeDaApi,
                                     email = novoUsuario.email,
@@ -118,7 +127,7 @@ class MainActivity : ComponentActivity() {
                                     idGender = novoUsuario.dadosDePessoa.genero!!.id,
                                     cpf = novoUsuario.dadosDePessoa.cpf,
                                     biography = novoUsuario.biografia,
-                                    address = novoUsuario.endereco
+
                                 )
                                 val usuarioParaApiEmJson = gson.toJson(novoUsuarioParaAPI)
                                 Log.i("USUARIO-PARA-API", usuarioParaApiEmJson)
@@ -136,6 +145,9 @@ class MainActivity : ComponentActivity() {
                         ){
 
                         }
+                    }
+                    composable(route = "cadastro"){
+
                     }
 
                 }

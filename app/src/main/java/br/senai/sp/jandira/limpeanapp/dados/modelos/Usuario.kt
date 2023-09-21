@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.dados
+package br.senai.sp.jandira.limpeanapp.dados.modelos
 
 import android.net.Uri
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
@@ -13,7 +13,7 @@ data class Usuario(
     var senha: String? = null,
     val telefone: Phone? = null,
     var biografia: String? = null,
-    val endereco: EnderecoLocal? = null
+    val endereco: Endereco? = null
 )
 
 

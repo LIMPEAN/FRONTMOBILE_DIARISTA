@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.regras.Genero
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
-import br.senai.sp.jandira.limpeanapp.regras.UserType
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import com.example.compose.LimpeanAppTheme

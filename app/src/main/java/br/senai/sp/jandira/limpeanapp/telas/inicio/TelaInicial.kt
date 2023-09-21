@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.dados.UserTypesRepository
+import br.senai.sp.jandira.limpeanapp.dados.repositorios.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.inicio.components.SectionButton
 import br.senai.sp.jandira.limpeanapp.telas.inicio.components.SelectUserType

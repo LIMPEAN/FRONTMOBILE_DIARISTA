@@ -1,9 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
-import android.net.Uri
-import br.senai.sp.jandira.limpeanapp.dados.EnderecoLocal
-import br.senai.sp.jandira.limpeanapp.dados.UserTypesRepository
-import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+
 
 data class CadastroDeUsuario(
     val tipoDeUsuario: String? = "diarist",
@@ -17,7 +14,6 @@ data class CadastroDeUsuario(
     val idGender: Int? = 1,
     val cpf: String? = "456-456-45-87",
     val biography: String? = null,
-    val address: EnderecoLocal? = null
 )
 
 data class Address(
