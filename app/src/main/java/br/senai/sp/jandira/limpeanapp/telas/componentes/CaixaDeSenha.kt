@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.telas.componentes
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -37,12 +38,15 @@ fun CaixaDeSenha (
         onValueChange = {
             aoDigitar(it)
         },
+
         label = {
             Text(
                 text = etiqueta,
             )
         },
         singleLine = true,
+        modifier = Modifier
+            .width(368.dp),
         shape = RoundedCornerShape(8.dp),
         visualTransformation = if (passVisibilityState)
             PasswordVisualTransformation()

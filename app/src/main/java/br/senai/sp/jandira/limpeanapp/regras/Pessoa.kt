@@ -6,5 +6,6 @@ data class Pessoa (
     val nome: String = "",
     val dataDeNascimento: Date? = Date(),
     val genero: Genero? = null,
-    val cpf: String? = "",
+    val cpf: String = "",
+    val telefone: String = "",
 )
