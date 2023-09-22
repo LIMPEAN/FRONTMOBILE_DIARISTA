@@ -17,14 +17,14 @@ class RepositorioDeDiarista(
 ) {
 
     fun adicionarDiarista(diarista: CriarDiarista){
-        val corpo = Gson().toJson(diarista).toRequestBody("appliccation/json; charset-UTF-8".toMediaType())
+        val corpo = Gson().toJson(diarista).toRequestBody("application/json; charset=utf-8".toMediaType())
         apiService.cadastrarUsuario(corpo).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if(response.isSuccessful){
                     Log.i("REQUISICAO-OK", response.toString())
                     val message = response.body()?.string()
-                    val res = Gson().fromJson(message, BaseResponse::class.java)
-                    Log.i ("REQUISICAO-OK-RES", res.toString())
+//                    val res = Gson().fromJson(message, BaseResponse::class.java)
+                    Log.i ("REQUISICAO-OK-RES", message.toString())
                 } else {
                     Log.i("REQUISICAO-RUIM", response.toString())
                 }

@@ -8,12 +8,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.TextUnit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
@@ -146,8 +148,25 @@ class MainActivity : ComponentActivity() {
 
                         }
                     }
-                    composable(route = "cadastro"){
+                    navigation(route = "cadastro", startDestination = "pessoa"){
 
+                        val viewModel by viewModels<IntegracaoDeCadastro> {  IntegracaoDeCadastro.fazerIntegracaoFake}
+                        composable("pessoa"){
+                            TelaDeCadastro(titulo = "Pessoa") {
+                                Text(text = viewModel.cadastroState.status)
+                               FormularioDePessoa(salvarDados = {viewModel.cadastrarDiarista()})
+                            }
+                        }
+                        composable("perfil"){
+                            TelaDeCadastro(titulo = "Perfil") {
+
+                            }
+                        }
+                        composable("endereco"){
+                            TelaDeCadastro(titulo = "Endereco") {
+
+                            }
+                        }
                     }
 
                 }
@@ -157,5 +176,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 

@@ -19,7 +19,7 @@ fun CadastroRapido(){
     Column {
         Text(text = "Cadastro Rápido")
         Button(onClick = {
-            viewModel.cadastrarDiarista(null)
+            viewModel.cadastrarDiarista()
         }) {
             Text(text = "Cadastrar")
             if(state.status != null){
