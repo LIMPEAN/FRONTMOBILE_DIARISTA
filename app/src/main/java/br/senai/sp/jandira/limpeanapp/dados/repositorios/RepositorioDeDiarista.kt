@@ -3,7 +3,7 @@ package br.senai.sp.jandira.limpeanapp.dados.repositorios
 import android.util.Log
 import br.senai.sp.jandira.limpeanapp.dados.api.ApiService
 import br.senai.sp.jandira.limpeanapp.dados.api.BaseResponse
-import br.senai.sp.jandira.limpeanapp.dados.modelos.CriarDiarista
+import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -16,7 +16,7 @@ class RepositorioDeDiarista(
     private val apiService : ApiService
 ) {
 
-    fun adicionarDiarista(diarista: CriarDiarista){
+    fun adicionarDiarista(diarista: DiaristaApi){
         val corpo = Gson().toJson(diarista).toRequestBody("application/json; charset=utf-8".toMediaType())
         apiService.cadastrarUsuario(corpo).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

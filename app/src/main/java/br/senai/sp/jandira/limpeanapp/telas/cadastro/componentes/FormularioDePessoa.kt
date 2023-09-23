@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.regras.Genero
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
@@ -66,8 +66,8 @@ fun FormularioDePessoa(
         Spacer(modifier = Modifier.height(25.dp))
         CaixaDeTexto(
             etiqueta = "Telefone",
-            estado = dadosDePessoa.telefone,
-            aoDigitar = { dadosDePessoa = dadosDePessoa.copy(telefone = it) }
+            estado = dadosDePessoa.telefone.toString(),
+            aoDigitar = {  }
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -114,7 +114,7 @@ data class Formulario (
     val genero: Genero? = null,
     val cpf: String = "",
     val telefone: String = "",
-    )
+)
 
 @Preview(showSystemUi = true)
 @Composable
@@ -126,6 +126,5 @@ fun FormularioPreview() {
     }
 
 }
-
 
 
