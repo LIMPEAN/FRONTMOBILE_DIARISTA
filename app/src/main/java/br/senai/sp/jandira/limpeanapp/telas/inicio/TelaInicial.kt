@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.inicio
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,7 @@ fun TelaInicial(
         mutableStateOf(tiposDeUsuario[0])
     }
 
-    val heightModifiers = 28.dp
+    val heightModifiers = 24.dp
 
 
     Column(
@@ -59,7 +60,7 @@ fun TelaInicial(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(heightModifiers)
+                    .height(40.dp)
             )
             Text(
                 text = stringResource(id = R.string.login_description),
@@ -71,7 +72,7 @@ fun TelaInicial(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(12.dp)
+                    .height(heightModifiers)
             )
             Image(
                 painter = painterResource(id = R.drawable.cleaning_service_cuate_1),
@@ -92,15 +93,16 @@ fun TelaInicial(
                 onSelectedChange = { usuarioSelecionado = it }
             )
 
+            Spacer(modifier = Modifier.height(28.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                SectionButton(name = "Login") {
+                SectionButton(name = "Entrar") {
                     navegarParaLogin(usuarioSelecionado)
                 }
-                Spacer(modifier = Modifier.height(12.dp))
-                SectionButton(name = "Cadastro") {
+                Spacer(modifier = Modifier.height(8.dp))
+                SectionButton(name = "Cadastrar") {
                     navegarParaCadastro(usuarioSelecionado)
 
                 }
@@ -114,7 +116,12 @@ fun TelaInicial(
 fun TelaInicialPreview() {
     LimpeanAppTheme {
         TelaInicial(
-            {},{}
+            navegarParaLogin = {
+                Log.i("LOGIN", it.toString())
+            },
+            navegarParaCadastro = {
+                Log.i( "CADASTRO", it.toString())
+            }
         )
     }
 }

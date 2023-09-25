@@ -1,13 +1,17 @@
 package br.senai.sp.jandira.limpeanapp.telas.inicio.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.example.compose.LimpeanAppTheme
 
@@ -24,6 +28,7 @@ fun SelectUserType(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         textComLinhas(texto = "Iniciar como")
+        Spacer(Modifier.height(8.dp))
         ButtonGroup(
             options = names,
             selectedOption = selectedName,
@@ -38,10 +43,15 @@ fun SelectUserType(
 @Preview
 @Composable
 fun SelectUserTypePreview() {
-    val names = listOf<String>("Diarista", "Cliente")
+
     var  selected by remember {
-        mutableStateOf("Diarista")
+        mutableStateOf(TipoDeUsuario.pegaDiarista())
     }
+    var options = TipoDeUsuario.listar()
     LimpeanAppTheme {
+        SelectUserType(userTypes = options, selectedUserType = selected, onSelectedChange = {
+            selected = it
+        } )
+
     }
 }

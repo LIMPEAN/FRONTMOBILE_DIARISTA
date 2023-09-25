@@ -22,6 +22,14 @@ data class TipoDeUsuario (
             return   TipoDeUsuario(1, "cliente", "Cliente")
 
         }
+        fun listar() : List<TipoDeUsuario> {
+            return listOf(
+                TipoDeUsuario(0, "diarist", "Diarista"),
+                TipoDeUsuario(1, "cliente", "Cliente")
+            )
+        }
+
+
     }
 
 }
