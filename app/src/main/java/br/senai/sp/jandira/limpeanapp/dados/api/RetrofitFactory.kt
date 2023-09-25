@@ -9,8 +9,13 @@ import retrofit2.create
 
 object RetrofitFactory {
 
-    private val BASE_URL = "http://localhost:8080/v1/limpean"
 
+
+    private val TYPE_CONECTION = "http"
+    private val HOST = "10.107.145.233"
+    private val PORT = 8080
+    private val API_BASE = "v1/limpean/"
+    private val BASE_URL = "$TYPE_CONECTION://$HOST:$PORT/$API_BASE"
     fun gson() : Gson = GsonBuilder().create()
 
     private val retrofitFactory = Retrofit

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import br.senai.sp.jandira.limpeanapp.dados.api.FakeApiService
+import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Endereco
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.RepositorioDeDiarista
@@ -27,32 +29,14 @@ class IntegracaoDeCadastro(
 
    var cadastroState by mutableStateOf(CadastroState())
         private set
-    fun cadastrarDiarista(){
+    fun cadastrarDiarista(diarista : DiaristaApi){
+        val resultado = repositorioDeDiarista.adicionarDiarista(diarista)
 
-        val enderecoFake = Endereco(
-            bairro = "",
-            cep = "",
-            cidade = "",
-            complemento = "",
-            numeroDaCasa = 100,
-            numeroDoEstado = 1,
-            rua = "")
-        val diaristaFake = DiaristaApi(
-            nomeTipoUsuario = "diarist",
-            email = "felipe@gmail.co",
-            senha = "1234567",
-            nomeDaPessoa = "Felipe Florencio",
-            fotoUri = "http:foto",
-            telefone = "98456-4564",
-            ddd = 11,
-            dataDeNascimento = LocalDate.of(2000,10,3),
-            idDoGenero = 1,
-            cpf ="56.5456",
-            enderecoLocal = enderecoFake
-        )
-        repositorioDeDiarista.adicionarDiarista(diaristaFake)
-        cadastroState = cadastroState.copy(status = "Deu Certo.")
-
+        cadastroState = if(resultado){
+            cadastroState.copy(status = "Top")
+        } else {
+            cadastroState.copy(status =  "deu errado")
+        }
     }
 
 
@@ -64,7 +48,6 @@ class IntegracaoDeCadastro(
         cadastroState = cadastroState.copy(
            usuarioDaApi = DiaristaApi(
                nomeTipoUsuario = nome,
-               dataDeNascimento = dataDeNascimento,
                idDoGenero = genero?.id,
                cpf = cpf,
                telefone = telefone?.numero,
@@ -75,12 +58,12 @@ class IntegracaoDeCadastro(
     }
 
     companion object {
-//        val fazerIntegracaoComApi : ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-//                val repositorioDeDiarista = RepositorioDeDiarista(RetrofitFactory.getApiService())
-//                IntegracaoDeCadastro(repositorioDeDiarista)
-//            }
-//        }
+        val fazerIntegracaoComApi : ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val repositorioDeDiarista = RepositorioDeDiarista(RetrofitFactory.getApiService())
+                IntegracaoDeCadastro(repositorioDeDiarista)
+            }
+        }
         fun fazerIntegracaoFake() : ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val repositorioDeDiarista = RepositorioDeDiarista(apiService = FakeApiService())

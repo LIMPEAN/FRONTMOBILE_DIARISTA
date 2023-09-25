@@ -16,14 +16,16 @@ class RepositorioDeDiarista(
     private val apiService : ApiService
 ) {
 
-    fun adicionarDiarista(diarista: DiaristaApi){
-        val corpo = Gson().toJson(diarista).toRequestBody("application/json; charset=utf-8".toMediaType())
+     fun adicionarDiarista(diarista: DiaristaApi) : Boolean{
+        val corpo = Gson().toJson(diarista).toRequestBody("application/json".toMediaType())
+        var statusDaRequisicao = false
         apiService.cadastrarUsuario(corpo).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if(response.isSuccessful){
                     Log.i("REQUISICAO-OK", response.toString())
                     val message = response.body()?.string()
 //                    val res = Gson().fromJson(message, BaseResponse::class.java)
+                    statusDaRequisicao = true
                     Log.i ("REQUISICAO-OK-RES", message.toString())
                 } else {
                     Log.i("REQUISICAO-RUIM", response.toString())
@@ -35,6 +37,7 @@ class RepositorioDeDiarista(
             }
 
         })
+        return statusDaRequisicao
     }
 
 }

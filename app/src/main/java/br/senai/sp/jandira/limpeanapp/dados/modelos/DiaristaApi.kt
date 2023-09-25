@@ -18,14 +18,14 @@ data class DiaristaApi(
     val telefone: String? = "",
     val ddd: Int? = null,
     @SerializedName("birthDate")
-    val dataDeNascimento: LocalDate? = LocalDate.now(),
+    val dataDeNascimento: String? = null,
     @SerializedName("idGender")
     val idDoGenero: Number? = 1,
     val cpf: String? = "",
     @SerializedName("biography")
     val biografia: String? = null,
     @SerializedName("averagePrice")
-    val precoMedio: Number? = null,
+    val precoMedio: Double? = null,
     @SerializedName("address")
     val enderecoLocal: Endereco? = null
 )

@@ -8,12 +8,13 @@ import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("/cadastro")
-    fun cadastrarUsuario(requestBody : RequestBody) : Call<ResponseBody>
+    @POST("cadastro")
+    fun cadastrarUsuario(@Body requestBody : RequestBody) : Call<ResponseBody>
 }
 
 class FakeApiService : ApiService { // Assuming YourApiService is an interface
