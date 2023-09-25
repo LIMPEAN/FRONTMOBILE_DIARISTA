@@ -23,10 +23,9 @@ import java.util.Date
 
 class IntegracaoDeCadastro(
     private val repositorioDeDiarista: RepositorioDeDiarista,
-    private val tipoDeUsuario : TipoDeUsuario
 ) : ViewModel(){
 
-   var cadastroState by mutableStateOf(CadastroState(tipoDeUsuario = tipoDeUsuario))
+   var cadastroState by mutableStateOf(CadastroState())
         private set
     fun cadastrarDiarista(){
 
@@ -56,6 +55,10 @@ class IntegracaoDeCadastro(
 
     }
 
+
+    fun alterarTipoDeUsuario(tipoDeUsuario : TipoDeUsuario){
+        cadastroState = cadastroState.copy(tipoDeUsuario = tipoDeUsuario)
+    }
     fun alterarDadosDePessoa(novaPessoa : Pessoa){
         val (nome,dataDeNascimento,genero,cpf,telefone) = novaPessoa
         cadastroState = cadastroState.copy(
@@ -78,10 +81,10 @@ class IntegracaoDeCadastro(
 //                IntegracaoDeCadastro(repositorioDeDiarista)
 //            }
 //        }
-        fun fazerIntegracaoFake(tipoUsuario : TipoDeUsuario) : ViewModelProvider.Factory = viewModelFactory {
+        fun fazerIntegracaoFake() : ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val repositorioDeDiarista = RepositorioDeDiarista(apiService = FakeApiService())
-                IntegracaoDeCadastro(repositorioDeDiarista, tipoUsuario)
+                IntegracaoDeCadastro(repositorioDeDiarista)
             }
         }
 
@@ -91,6 +94,6 @@ class IntegracaoDeCadastro(
 }
 data class CadastroState(
     val status : String = "",
-    val tipoDeUsuario : TipoDeUsuario,
+    val tipoDeUsuario : TipoDeUsuario? = null,
     val usuarioDaApi : DiaristaApi? = null
 )

@@ -13,10 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.TextUnit
+import androidx.navigation.NavArgumentBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
@@ -38,23 +41,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LimpeanAppTheme {
-                val gson = Gson()
                 val navController = rememberNavController()
                 NavHost(navController = navController,
-                    startDestination = "cadastro",
+                    startDestination = "boas-vindas"
                 ){
-                    composable(route = "boas_vindas"){
+                    composable(route = "boas-vindas"){
+                        val gson = Gson()
                         TelaInicial(
                             navegarParaLogin = {
-                                navController.navigate("login/$it")
+                                navController.navigate("login/${gson.toJson(it)}"){
+                                }
                             },
                             navegarParaCadastro = {
-                                val tipoDeUsuarioEmJson = gson.toJson(it)
-                                navController.navigate("cadastro/${tipoDeUsuarioEmJson}" )
+                                navController.navigate(
+                                    "cadastro/${gson.toJson(it)}"
+                                )
                             }
                         )
                     }
                     composable(route = "login/{tipoDeUsuario}"){
+                        val gson = Gson()
                         val tipoDeUsuarioEmJson = it.arguments!!.getString("tipoDeUsuario")
                         val tipoDeUsuario = gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
                         TelaDeLogin(
@@ -63,21 +69,29 @@ class MainActivity : ComponentActivity() {
 
                         }
                     }
-                    navigation(route = "cadastro/{tipoDeUsuario}", startDestination = "pessoa"){
-                        val tipoDeUsuario = navController
-                            .currentBackStackEntry?.arguments
-                            ?.getString("tipoDeUsuario")?.let {
-                                gson.fromJson(it, TipoDeUsuario::class.java)
-                            }
-                        val viewModel by viewModels<IntegracaoDeCadastro> {
-                            IntegracaoDeCadastro.fazerIntegracaoFake(tipoDeUsuario!!)
-                        }
-                        val uiState = viewModel.cadastroState
-                        composable("pessoa"){
+                    navigation(route = "cadastro/{tipoUsuario}", startDestination = "pessoa",
+                        arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){
 
-                            TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario.nomeEmPortugues}") {
+                        val viewModel by viewModels<IntegracaoDeCadastro> {
+                            IntegracaoDeCadastro.fazerIntegracaoFake()
+                        }
+
+                        composable("pessoa"){
+                            val gson = Gson()
+                            val tipoDeUsuario = it.arguments!!.getString("tipoUsuario").let {tipoDeUsuarioEmJson ->
+                                gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
+                            }
+                            val teste = TipoDeUsuario(4,"Teste","Alterado")
+                            viewModel.alterarTipoDeUsuario(teste)
+
+
+                            val uiState = viewModel.cadastroState
+                            TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
                                FormularioDePessoa(
-                                   salvarDados = {viewModel.alterarDadosDePessoa(it)})
+                                   salvarDados = {novaPessoa ->
+                                       viewModel.alterarDadosDePessoa(novaPessoa)
+                                   }
+                               )
                             }
                         }
                         composable("perfil"){
