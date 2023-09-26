@@ -16,7 +16,7 @@ data class DiaristaApi(
     val fotoUri: String? = "",
     @SerializedName("phone")
     val telefone: String? = "",
-    val ddd: Int? = null,
+    val ddd: String? = null,
     @SerializedName("birthDate")
     val dataDeNascimento: String? = null,
     @SerializedName("idGender")
