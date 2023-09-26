@@ -6,6 +6,8 @@ import br.senai.sp.jandira.limpeanapp.dados.api.BaseResponse
 import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -17,7 +19,9 @@ class RepositorioDeDiarista(
 ) {
 
      fun adicionarDiarista(diarista: DiaristaApi) : Boolean{
-        val corpo = Gson().toJson(diarista).toRequestBody("application/json".toMediaType())
+        val corpo = Gson().toJson(diarista).toRequestBody()
+         val requestBody = Request.Builder()
+             //Construir requisição
         var statusDaRequisicao = false
         apiService.cadastrarUsuario(corpo).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
