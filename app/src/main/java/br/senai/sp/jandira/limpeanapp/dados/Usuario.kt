@@ -3,10 +3,10 @@ package br.senai.sp.jandira.limpeanapp.dados
 import android.net.Uri
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.Phone
-import br.senai.sp.jandira.limpeanapp.regras.UserType
+import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 
 data class Usuario(
-    val tipoUsuario : UserType? = null,
+    val tipoUsuario : TipoDeUsuario? = null,
     val dadosDePessoa : Pessoa? = null,
     var fotoPerfil : Uri? = null,
     var email: String? = null,
