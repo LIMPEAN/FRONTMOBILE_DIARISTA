@@ -1,45 +1,49 @@
 package br.senai.sp.jandira.limpeanapp.dados.repositorios
 
-import android.util.Log
-import br.senai.sp.jandira.limpeanapp.dados.api.ApiService
-import br.senai.sp.jandira.limpeanapp.dados.api.BaseResponse
-import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
-import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
-import okhttp3.ResponseBody.Companion.toResponseBody
+
+import br.senai.sp.jandira.limpeanapp.dados.api.ApiResponse
+import br.senai.sp.jandira.limpeanapp.dados.api.servicos.UserService
+import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+object Status {
+    const val LOADING = "loading"
+    const val SUCCESS = "success"
+    const val ERROR = "error"
+}
 class RepositorioDeUsuario(
-    private val apiService : ApiService
+    private val userService: UserService
 ) {
 
-    fun adicionarUsuario(usuario: DiaristaApi){
-       val body = Gson().toJson(usuario)
-//        .toRequestBody("application/json; charset=UTF-8".toMediaType())
+    interface RepositorioDeUsuarioCallback {
+        fun onSuccess(message: String)
+        fun onError(errorMessage: String)
+    }
 
-        Log.i("BODY-REPOSITORIO", body.toString())
-//        apiService.cadastrarUsuario(body).enqueue(object : Callback<ResponseBody> {
-//            override fun onResponse(
-//                call: Call<ResponseBody>,
-//                response: Response<ResponseBody>
-//            ) {
-//                if(response.isSuccessful){
-//                    val message = response.body()?.string()
-//                    val teste =  Gson().fromJson(message, BaseResponse::class.java)
-//
-//                    Log.i("teste", teste.toString())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//               Log.i("Failure", t.toString())
-//            }
-//
-//        })
+    fun adicionarUsuario(usuario: UserApi, callback: RepositorioDeUsuarioCallback) {
+        // Define o status como "loading" antes de fazer a chamada da API
+        callback.onSuccess(Status.LOADING)
+
+        val call = userService.createUser(usuario)
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    // Define o status como "success" em caso de sucesso
+                    callback.onSuccess(Status.SUCCESS)
+                } else {
+                    // Define o status como "error" em caso de erro na resposta
+                    callback.onSuccess(Status.ERROR)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // Define o status como "error" em caso de falha na requisição
+                callback.onSuccess(Status.ERROR)
+            }
+        })
     }
 
 }

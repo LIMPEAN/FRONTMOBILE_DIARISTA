@@ -90,4 +90,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     // ViewModel utilities for Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+
+    // Form Builder
+    implementation ("com.github.jkuatdsc:form-builder:1.0.7")
 }

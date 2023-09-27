@@ -87,7 +87,6 @@ class MainActivity : ComponentActivity() {
 
                             TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
                                 FormularioDePessoa(){novaPessoa ->
-                                    viewModel.alterarDadosDePessoa(novaPessoa)
                                     navController.navigate("perfil")
                                 }
                             }
@@ -97,7 +96,6 @@ class MainActivity : ComponentActivity() {
                                 FormularioDePerfil(
                                     tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
                                     salvarPerfil = {
-                                        viewModel.alterarDadosDePerfil(it)
                                         navController.navigate("Endereco")
                                     }
                                 )
@@ -106,7 +104,6 @@ class MainActivity : ComponentActivity() {
                         composable("endereco"){
                             TelaDeCadastro(titulo = "Endereco") {
                                 FormularioDeEndereco(){
-                                    viewModel.alterarEndereco(it)
                                     Log.i("USUARIO COMPLETO", viewModel.cadastroState.toString())
                                 }
                             }

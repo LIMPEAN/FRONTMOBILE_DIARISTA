@@ -55,6 +55,8 @@ fun FormularioDePerfil(
     //Body
 
     var biografiaState by remember {mutableStateOf("")}
+    var biografiaError by remember { mutableStateOf("") }
+    var biografiaHasError by remember { mutableStateOf(false) }
     var emailState by remember { mutableStateOf("") }
     var senhaState by remember {mutableStateOf("")}
     var senhaRepetidaState by remember {mutableStateOf("") }

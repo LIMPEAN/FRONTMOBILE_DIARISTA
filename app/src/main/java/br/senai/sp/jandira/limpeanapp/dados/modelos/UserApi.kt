@@ -1,31 +1,29 @@
 package br.senai.sp.jandira.limpeanapp.dados.modelos
 
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
-import java.util.Date
 
-data class DiaristaApi(
+data class UserApi(
     @SerializedName("typeUser")
-    val nomeTipoUsuario: String? = "",
+    val userType: String? = "",
     val email: String? = "",
     @SerializedName("password")
-    val senha: String? = "",
+    val password: String? = "",
     @SerializedName("nameUser")
-    val nomeDaPessoa: String? = "",
+    val userName: String? = "",
     @SerializedName("photoUser")
-    val fotoUri: String? = "",
+    val photoUrl: String? = "",
     @SerializedName("phone")
-    val telefone: String? = "",
+    val phone: String? = "",
     val ddd: String? = null,
     @SerializedName("birthDate")
-    val dataDeNascimento: String? = null,
+    val birthDate: String? = null,
     @SerializedName("idGender")
-    val idDoGenero: Number? = 1,
+    val genderId: Number? = 1,
     val cpf: String? = "",
     @SerializedName("biography")
-    val biografia: String? = null,
+    val biography: String? = null,
     @SerializedName("averagePrice")
-    val precoMedio: Double? = null,
+    val averagePrice: Double? = null,
     @SerializedName("address")
-    val enderecoLocal: Endereco? = null
+    val address: AddressApi? = null
 )

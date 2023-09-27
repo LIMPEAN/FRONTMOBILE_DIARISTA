@@ -1,11 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.dados.api
 
-import br.senai.sp.jandira.limpeanapp.dados.api.servicos.DiaristService
+import br.senai.sp.jandira.limpeanapp.dados.api.servicos.UserService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object RetrofitFactory {
 
@@ -25,13 +24,14 @@ object RetrofitFactory {
         .addConverterFactory(GsonConverterFactory.create(gson()))
         .build()
 
-    fun getDiaristService() : DiaristService {
-        return retrofitFactory.create(DiaristService::class.java)
-    }
+
     fun getApiService() : ApiService {
         return retrofitFactory.create(ApiService::class.java)
     }
     fun getInstance() : Retrofit {
         return retrofitFactory
+    }
+    fun getUserService() : UserService {
+        return retrofitFactory.create(UserService::class.java)
     }
 }
