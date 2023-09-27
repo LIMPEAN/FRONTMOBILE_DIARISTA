@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){
 
                         val viewModel by viewModels<IntegracaoDeCadastro> {
-                            IntegracaoDeCadastro.fazerIntegracaoFake()
+                            IntegracaoDeCadastro.fazerIntegracaoComApi
                         }
 
                         composable("pessoa"){

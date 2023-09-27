@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -24,6 +25,7 @@ fun CadastroDeCliente(
     status : String?,
     cadastrarDiaristaFake : (DiaristaApi) -> Unit
 ) {
+
     val diaristaFakeEmJson = "{   \n" +
             "    \"typeUser\": \"diarist\",\n" +
             "    \"email\": \"paulo@gmail.com\",\n" +
@@ -58,6 +60,8 @@ fun CadastroDeCliente(
             val gson = Gson()
             val diaristaFake = gson.fromJson(diaristaFakeEmJson, DiaristaApi::class.java)
             cadastrarDiaristaFake(diaristaFake)
+//            Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
+
         }
     }
 }
@@ -73,10 +77,30 @@ fun CadastroTeste() {
         TelaDeCadastro(titulo = "Cadastro Rápido") {
             Text(text = viewModel.cadastroState.status)
             CadastroDeCliente(status = viewModel.cadastroState.status, cadastrarDiaristaFake = {
-                viewModel.cadastrarDiarista(it)
+               viewModel.createUser(it)
             })
         }
 
     }
 
 }
+//private fun createUser() {
+//
+//    lifecycleScope.launch {
+//
+//        val body = JsonObject().apply {
+//            addProperty("name", "Vinicius")
+//            addProperty("job", "Desenvolvedor Web")
+//        }
+//
+//        val result = apiService.createUser(body)
+//
+//        if (result.isSuccessful) {
+//            Log.e("CREATEDATA", "${result.body()}")
+//        } else {
+//            Log.e("CREATEDATA", "${result.message()}")
+//        }
+//    }
+//
+//
+//}

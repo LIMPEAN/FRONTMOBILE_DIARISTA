@@ -19,25 +19,27 @@ class RepositorioDeUsuario(
 
     fun adicionarUsuario(usuario: DiaristaApi){
        val body = Gson().toJson(usuario)
-           .toRequestBody("application/json; charset=UTF-8".toMediaType())
-        apiService.cadastrarUsuario(body).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
-            ) {
-                if(response.isSuccessful){
-                    val message = response.body()?.string()
-                    val teste =  Gson().fromJson(message, BaseResponse::class.java)
+//        .toRequestBody("application/json; charset=UTF-8".toMediaType())
 
-                    Log.i("teste", teste.toString())
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-               Log.i("Failure", t.toString())
-            }
-
-        })
+        Log.i("BODY-REPOSITORIO", body.toString())
+//        apiService.cadastrarUsuario(body).enqueue(object : Callback<ResponseBody> {
+//            override fun onResponse(
+//                call: Call<ResponseBody>,
+//                response: Response<ResponseBody>
+//            ) {
+//                if(response.isSuccessful){
+//                    val message = response.body()?.string()
+//                    val teste =  Gson().fromJson(message, BaseResponse::class.java)
+//
+//                    Log.i("teste", teste.toString())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//               Log.i("Failure", t.toString())
+//            }
+//
+//        })
     }
 
 }
