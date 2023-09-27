@@ -39,9 +39,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.dados.Logar
+//import br.senai.sp.jandira.limpeanapp.dados.Logar
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Logar
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.componentes.inputText
 import br.senai.sp.jandira.limpeanapp.telas.login.components.inputTextEmail
@@ -161,12 +162,6 @@ fun TelaDeLogin(
 @RequiresApi(Build.VERSION_CODES.Q)
 @Preview(showSystemUi = true)
 @Composable
-//
-//fun SignUpScreenPreview() {
-//
-//    LimpeanAppTheme {
-//        TelaDeLogin(aoClicarEmLogar = {"teste"})
-//    } }
 fun TelaDeLoginPreview() {
     LimpeanAppTheme {
         val tipoDeUsuario = TipoDeUsuario.pegaCliente()

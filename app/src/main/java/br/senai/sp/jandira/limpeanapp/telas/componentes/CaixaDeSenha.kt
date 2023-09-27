@@ -39,12 +39,15 @@ fun CaixaDeSenha (
         onValueChange = {
             aoDigitar(it)
         },
+
         label = {
             Text(
                 text = etiqueta,
             )
         },
         singleLine = true,
+        modifier = Modifier
+            .width(368.dp),
         shape = RoundedCornerShape(8.dp),
         visualTransformation = if (passVisibilityState)
             PasswordVisualTransformation()

@@ -34,6 +34,13 @@ fun FormularioDeUsuario(
 
 ) {
 
+    var person = Pessoa()
+    var name by remember { mutableStateOf(person.nome) }
+    var cpf by remember { mutableStateOf(person.cpf) }
+    var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
+    var gender by remember { mutableStateOf(person.genero) }
+
+
 
     Column (
         modifier = Modifier.fillMaxSize(),

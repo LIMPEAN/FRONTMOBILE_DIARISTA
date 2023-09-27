@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.dados
+package br.senai.sp.jandira.limpeanapp.dados.repositorios
 
 import androidx.compose.runtime.Immutable
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario

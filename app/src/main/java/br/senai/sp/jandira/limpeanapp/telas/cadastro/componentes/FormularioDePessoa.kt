@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,9 +19,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +32,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,58 +49,25 @@ fun FormularioDePessoa(
         mutableStateOf(Pessoa())
     }
 
-
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        OutlinedTextField(
-            value = dadosDePessoa.nome, onValueChange = {
-                dadosDePessoa.copy(nome = it)
-            },
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
+        CaixaDeTexto(
+            etiqueta = "Nome",
+            estado = dadosDePessoa.nome,
+            aoDigitar = {dadosDePessoa = dadosDePessoa.copy(nome = it)}
         )
         Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "CPF", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
+        CaixaDeTexto(
+            etiqueta = "Cpf",
+            estado = dadosDePessoa.cpf,
+            aoDigitar = { dadosDePessoa = dadosDePessoa.copy(cpf = it) }
         )
         Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "RG", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "TELEFONE", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
+        CaixaDeTexto(
+            etiqueta = "Telefone",
+            estado = dadosDePessoa.telefone.toString(),
+            aoDigitar = {  }
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -105,7 +79,8 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedTextField(
@@ -117,14 +92,14 @@ fun FormularioDePessoa(
                     width = 1.dp,
                     color = md_theme_dark_onPrimary,
                     shape = RoundedCornerShape(size = 40.dp)
-                )
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
         )
+
+        Spacer(modifier = Modifier.height(150.dp))
+
         BotaoDeCadastro(nomeDaAcao = "Continuar") {
-            val pessoa = Pessoa(
-                /* Adicione os dados aqui */
-                nome = "Felipe"
-            )
-            salvarDados(pessoa)
+            salvarDados(dadosDePessoa)
         }
 
     }
@@ -133,20 +108,23 @@ fun FormularioDePessoa(
 
 }
 // Function to validate a name (you can customize your validation logic)
-private fun isValidName(name: String): Boolean {
-    return ValidateName()
-        .execute(name)
-        .successful
-}
+data class Formulario (
+    val nome: String = "",
+    val dataDeNascimento: Date? = Date(),
+    val genero: Genero? = null,
+    val cpf: String = "",
+    val telefone: String = "",
+)
 
 @Preview(showSystemUi = true)
 @Composable
 fun FormularioPreview() {
     LimpeanAppTheme {
-        FormularioDePessoa({})
+        FormularioDePessoa(salvarDados = {
+            Log.i("SALVO-COM-SUCESSO", it.toString())
+        })
     }
 
 }
-
 
 

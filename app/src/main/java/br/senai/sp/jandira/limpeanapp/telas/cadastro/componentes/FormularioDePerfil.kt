@@ -73,16 +73,19 @@ fun FormularioDePerfil(
             estado = biografiaState,
             aoDigitar = { biografiaState = it}
         )
+        Spacer(modifier = Modifier.height(20.dp))
         CaixaDeTexto(
             etiqueta = "Seu melhor email",
             estado = emailState,
             aoDigitar = { emailState = it}
         )
+        Spacer(modifier = Modifier.height(20.dp))
         CaixaDeSenha(
             etiqueta = "Senha",
             estado = senhaState,
             aoDigitar = { senhaState = it}
         )
+        Spacer(modifier = Modifier.height(20.dp))
         CaixaDeSenha(
             etiqueta = "Repita sua senha",
             estado = senhaRepetidaState ,
@@ -90,10 +93,10 @@ fun FormularioDePerfil(
         )
 
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
 
-        BotaoDeCadastro(nomeDaAcao = "Próxima") {
+        BotaoDeCadastro(nomeDaAcao = "Continuar") {
             val perfil  = Perfil(
                 fotoDePerfil = photoUri,
                 biografia = biografiaState,

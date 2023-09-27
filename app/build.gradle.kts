@@ -68,6 +68,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 
+
     //Utilizando implementação do Retrofit e conversores
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -84,4 +85,9 @@ dependencies {
 
     //Mais icones
     implementation ("androidx.compose.material:material-icons-extended:compose_ui_version")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
 }
