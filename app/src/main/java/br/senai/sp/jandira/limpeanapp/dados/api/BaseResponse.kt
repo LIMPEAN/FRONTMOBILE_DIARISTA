@@ -8,4 +8,5 @@ data class BaseResponse(
 
     @SerializedName("message")
     var message: String?,
+
 )

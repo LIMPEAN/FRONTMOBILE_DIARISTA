@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import br.senai.sp.jandira.limpeanapp.dados.api.BaseResponse
+import br.senai.sp.jandira.limpeanapp.dados.api.DiaristsModel
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.api.apiService
 import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
@@ -19,13 +21,15 @@ import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 
 class IntegracaoDeCadastro(
     private val repositorioDeUsuario: RepositorioDeUsuario,
 ) : ViewModel(){
 
-
+    var listaDeUsuarios by mutableStateOf(listOf<DiaristsModel>())
+        private set
     var cadastroState by mutableStateOf(CadastroState())
         private set
     fun cadastrarDiarista(diarista : DiaristaApi){
@@ -85,16 +89,36 @@ class IntegracaoDeCadastro(
 //            val teste = Gson().toJson(usuario,DiaristaApi::class.java)
 //            Log.i("GSON", teste)
             val result = apiService().createUser(body)
-//
+
+
             if (result.isSuccessful) {
                 Log.e("CREATEDATA", "${result.body()}")
+                Log.i("STATUS-RESULT-OBJECT", result.message())
+                Log.i("STATUS-RESULT-OBJECT", "${result.code()}")
+
             } else {
                 Log.e("CREATEDATA", "${result.message()}")
+                Log.i("STATUS-RESULT-OBJECT", result.message())
+                Log.i("STATUS-RESULT-OBJECT", "${result.code()}")
             }
 
 
 
+
         }
+    }
+
+    fun mostreAsDiarista(){
+        viewModelScope.launch {
+           val response =  apiService().listAllDiarists()
+            if(response.isSuccessful){
+                Log.i("Vaidormi", response.toString())
+                Log.i("VaidormiBody", response.body().toString())
+                cadastroState = cadastroState.copy(diaristas = response.body()?.diarists)
+            }
+        }
+
+
     }
     companion object {
         val fazerIntegracaoComApi : ViewModelProvider.Factory = viewModelFactory {
@@ -117,5 +141,6 @@ class IntegracaoDeCadastro(
 data class CadastroState(
     val status : String = "",
     val tipoDeUsuario : TipoDeUsuario? = null,
-    val usuarioDaApi : DiaristaApi? = null
+    val usuarioDaApi : DiaristaApi? = null,
+    val diaristas : List<DiaristsModel>? = null,
 )

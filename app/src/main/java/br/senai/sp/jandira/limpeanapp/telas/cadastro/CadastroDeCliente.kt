@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.ViewModelInitializer
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,10 +76,19 @@ fun CadastroTeste() {
     Column {
 
         TelaDeCadastro(titulo = "Cadastro Rápido") {
-            Text(text = viewModel.cadastroState.status)
+            viewModel.cadastroState.diaristas?.let {
+                for (diarist in it){
+                    Text(text = diarist.nomeDiarista)
+                    Text(text = diarist.cpfDiarista)
+                }
+            }
+           
             CadastroDeCliente(status = viewModel.cadastroState.status, cadastrarDiaristaFake = {
-               viewModel.createUser(it)
+//               viewModel.createUser(it)x
+                viewModel.mostreAsDiarista()
             })
+            val diaristas = viewModel.cadastroState.diaristas
+
         }
 
     }
