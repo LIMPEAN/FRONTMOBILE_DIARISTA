@@ -78,6 +78,7 @@ fun CaixaDeTexto(
 @Composable
 fun CaixaDeTextoPreview() {
 
+
     var nome by remember {
         mutableStateOf("teste")
     }

@@ -40,8 +40,6 @@ fun FormularioDeUsuario(
     var dateOfBirth by remember { mutableStateOf(person.dataDeNascimento) }
     var gender by remember { mutableStateOf(person.genero) }
 
-
-
     Column (
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

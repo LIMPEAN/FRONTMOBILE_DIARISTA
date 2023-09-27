@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -42,6 +43,9 @@ import br.senai.sp.jandira.limpeanapp.R
 //import br.senai.sp.jandira.limpeanapp.dados.Logar
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+
+import androidx.compose.ui.tooling.preview.Preview
+
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Logar
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.componentes.inputText
