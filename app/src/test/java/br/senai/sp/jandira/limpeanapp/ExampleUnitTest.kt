@@ -4,8 +4,8 @@ import br.senai.sp.jandira.limpeanapp.dados.Diarist
 import br.senai.sp.jandira.limpeanapp.dados.Address
 import br.senai.sp.jandira.limpeanapp.regras.Gender
 import br.senai.sp.jandira.limpeanapp.regras.Person
-import br.senai.sp.jandira.limpeanapp.regras.Phone
-import br.senai.sp.jandira.limpeanapp.dados.User
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
+import br.senai.sp.jandira.limpeanapp.dados.repositorios.User
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -34,7 +34,7 @@ class TestCreationDiarist {
             cpf = "45615815"
         )
         val user = User(
-            phone = Phone(
+            phone = Telefone(
                 45645, 11
             ),
             email = "felipe@gmail.com",

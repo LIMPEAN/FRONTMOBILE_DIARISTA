@@ -1,6 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.telas.componentes
 
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +32,7 @@ fun CaixaDeTexto(
     transformacaoVisual : VisualTransformation = VisualTransformation.None,
     tipoSenha : Boolean = false,
     visivel : Boolean = false
+
 ) {
 
 
@@ -49,7 +53,8 @@ fun CaixaDeTexto(
                    )
                },
                visualTransformation = if (visivel) VisualTransformation.None else PasswordVisualTransformation(),
-               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+
            )
        } else {
            OutlinedTextField(
@@ -70,9 +75,12 @@ fun CaixaDeTexto(
                keyboardOptions = KeyboardOptions.Default
            )
        }
-
-
 }
+
+
+
+
+
 
 @Preview(showSystemUi = true)
 @Composable

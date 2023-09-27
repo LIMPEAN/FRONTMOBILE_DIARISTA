@@ -7,5 +7,7 @@ data class BaseResponse(
     var status: Number,
 
     @SerializedName("message")
-    var message: String
+    var message: String?,
+
+
 )

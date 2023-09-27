@@ -1,8 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.telas.inicio.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,9 +61,12 @@ fun ButtonGroup(
                 ),
                 modifier = Modifier
                     .width(160.dp)
-                    .padding(16.dp)
+                    .height(35.dp)
                    ,
+               border = if(!isSelected){BorderStroke(1.dp, Color.White)}else {
+                   BorderStroke(1.dp,md_theme_light_primary) },
                 shape = RoundedCornerShape(8.dp)
+
 
             ) {
                 Text(

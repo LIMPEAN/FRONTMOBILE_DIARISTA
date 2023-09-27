@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import br.senai.sp.jandira.limpeanapp.dados.Logar
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Logar
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.example.compose.LimpeanAppTheme
 
