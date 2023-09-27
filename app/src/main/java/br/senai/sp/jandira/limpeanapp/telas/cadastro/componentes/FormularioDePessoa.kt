@@ -33,11 +33,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateName
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
+import java.time.LocalDate
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +101,14 @@ fun FormularioDePessoa(
         Spacer(modifier = Modifier.height(150.dp))
 
         BotaoDeCadastro(nomeDaAcao = "Continuar") {
-            salvarDados(dadosDePessoa)
+            val testeDePessoa = Pessoa(
+                nome =  "Felipe",
+                dataDeNascimento = LocalDate.now(),
+                genero = Genero.MASCULINO,
+                cpf = "Meu cpf",
+                telefone = Telefone(11, "92839485")
+            )
+            salvarDados(testeDePessoa)
         }
 
     }

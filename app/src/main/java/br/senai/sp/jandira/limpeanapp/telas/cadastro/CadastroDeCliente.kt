@@ -76,18 +76,9 @@ fun CadastroTeste() {
     Column {
 
         TelaDeCadastro(titulo = "Cadastro Rápido") {
-            viewModel.cadastroState.diaristas?.let {
-                for (diarist in it){
-                    Text(text = diarist.nomeDiarista)
-                    Text(text = diarist.cpfDiarista)
-                }
-            }
-           
             CadastroDeCliente(status = viewModel.cadastroState.status, cadastrarDiaristaFake = {
-//               viewModel.createUser(it)x
-                viewModel.mostreAsDiarista()
+
             })
-            val diaristas = viewModel.cadastroState.diaristas
 
         }
 

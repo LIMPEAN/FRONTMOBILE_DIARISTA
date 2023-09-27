@@ -18,6 +18,7 @@ import br.senai.sp.jandira.limpeanapp.dados.modelos.Endereco
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.RepositorioDeUsuario
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.Perfil
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
@@ -54,7 +55,13 @@ class IntegracaoDeCadastro(
                ddd = telefone?.ddd.toString(),
            )
        )
+    }
+    fun alterarDadosDePerfil(perfil : Perfil){
+        cadastroState = cadastroState.copy(perfil = perfil)
+    }
 
+    fun alterarEndereco(endereco: Endereco){
+        cadastroState = cadastroState.copy(endereco = endereco)
     }
 
     fun createUser(usuario : DiaristaApi){
@@ -108,18 +115,6 @@ class IntegracaoDeCadastro(
         }
     }
 
-    fun mostreAsDiarista(){
-        viewModelScope.launch {
-           val response =  apiService().listAllDiarists()
-            if(response.isSuccessful){
-                Log.i("Vaidormi", response.toString())
-                Log.i("VaidormiBody", response.body().toString())
-                cadastroState = cadastroState.copy(diaristas = response.body()?.diarists)
-            }
-        }
-
-
-    }
     companion object {
         val fazerIntegracaoComApi : ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -142,5 +137,6 @@ data class CadastroState(
     val status : String = "",
     val tipoDeUsuario : TipoDeUsuario? = null,
     val usuarioDaApi : DiaristaApi? = null,
-    val diaristas : List<DiaristsModel>? = null,
+    val perfil : Perfil? = null,
+    val endereco: Endereco? = null
 )

@@ -81,27 +81,34 @@ class MainActivity : ComponentActivity() {
                             val tipoDeUsuario = it.arguments!!.getString("tipoUsuario").let {tipoDeUsuarioEmJson ->
                                 gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
                             }
-                            val teste = TipoDeUsuario(4,"Teste","Alterado")
-                            viewModel.alterarTipoDeUsuario(teste)
-
+                            viewModel.alterarTipoDeUsuario(tipoDeUsuario)
 
                             val uiState = viewModel.cadastroState
+
                             TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
-                                FormularioDePessoa(
-                                    salvarDados = {novaPessoa ->
-                                        viewModel.alterarDadosDePessoa(novaPessoa)
-                                    }
-                                )
+                                FormularioDePessoa(){novaPessoa ->
+                                    viewModel.alterarDadosDePessoa(novaPessoa)
+                                    navController.navigate("perfil")
+                                }
                             }
                         }
                         composable("perfil"){
                             TelaDeCadastro(titulo = "Perfil") {
-
+                                FormularioDePerfil(
+                                    tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
+                                    salvarPerfil = {
+                                        viewModel.alterarDadosDePerfil(it)
+                                        navController.navigate("Endereco")
+                                    }
+                                )
                             }
                         }
                         composable("endereco"){
                             TelaDeCadastro(titulo = "Endereco") {
-
+                                FormularioDeEndereco(){
+                                    viewModel.alterarEndereco(it)
+                                    Log.i("USUARIO COMPLETO", viewModel.cadastroState.toString())
+                                }
                             }
                         }
                     }

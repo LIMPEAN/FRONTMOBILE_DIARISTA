@@ -21,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.dados.repositorios.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
@@ -32,7 +34,8 @@ import com.example.compose.LimpeanAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioDePerfil(
-    salvarPerfil : (Perfil) -> Unit
+    salvarPerfil : (Perfil) -> Unit,
+    tipoDeUsuario: TipoDeUsuario
 ) {
 
     var photoUri by remember {
@@ -55,9 +58,10 @@ fun FormularioDePerfil(
     var emailState by remember { mutableStateOf("") }
     var senhaState by remember {mutableStateOf("")}
     var senhaRepetidaState by remember {mutableStateOf("") }
-    var media by remember {
-        mutableStateOf(1000.0)
+    var mediaState by remember {
+        mutableStateOf("")
     }
+
 
     Column(
         modifier = Modifier
@@ -65,44 +69,54 @@ fun FormularioDePerfil(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         FotoDePerfil()
         Spacer(modifier = Modifier.height(43.dp))
-        CaixaDeTexto(
-            etiqueta = "Fale sobre você",
-            estado = biografiaState,
-            aoDigitar = { biografiaState = it}
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        CaixaDeTexto(
-            etiqueta = "Seu melhor email",
-            estado = emailState,
-            aoDigitar = { emailState = it}
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        CaixaDeSenha(
-            etiqueta = "Senha",
-            estado = senhaState,
-            aoDigitar = { senhaState = it}
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        CaixaDeSenha(
-            etiqueta = "Repita sua senha",
-            estado = senhaRepetidaState ,
-            aoDigitar = { senhaRepetidaState = it }
-        )
+        Column {
+            if(tipoDeUsuario.nomeEmPortugues == "Diarista"){
+                CaixaDeTexto(
+                    etiqueta = "Media",
+                    estado = mediaState,
+                    aoDigitar = {
+                        mediaState = it
+                    }
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            CaixaDeTexto(
+                etiqueta = "Fale sobre você",
+                estado = biografiaState,
+                aoDigitar = { biografiaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeTexto(
+                etiqueta = "Seu melhor email",
+                estado = emailState,
+                aoDigitar = { emailState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeSenha(
+                etiqueta = "Senha",
+                estado = senhaState,
+                aoDigitar = { senhaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeSenha(
+                etiqueta = "Repita sua senha",
+                estado = senhaRepetidaState ,
+                aoDigitar = { senhaRepetidaState = it }
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
 
 
-        Spacer(modifier = Modifier.height(30.dp))
-
-
+        }
         BotaoDeCadastro(nomeDaAcao = "Continuar") {
             val perfil  = Perfil(
                 fotoDePerfil = photoUri,
                 biografia = biografiaState,
                 email = emailState,
                 senha = senhaState,
-                media = media
+                media = mediaState.toDouble()
             )
             salvarPerfil(perfil)
         }
@@ -111,23 +125,44 @@ fun FormularioDePerfil(
 
 }
 
-
-@Preview(showSystemUi = true)
-@Composable
-fun FormularioDePerfilPreview() {
-    LimpeanAppTheme {
-        Column(modifier = Modifier.fillMaxSize()) {
-            FormularioDePerfil(){
-                Log.i("PERFIL-SALVO", it.toString())
-            }
-        }
-    }
-}
 data class Perfil (
-    var tipoUsuario : TipoDeUsuario? = null,
     val fotoDePerfil : Uri? = null,
     val biografia : String? = null,
     val email : String? = null,
     val senha : String? = null,
-    val media : Double = 1000.0
+    val media : Double? = null
 )
+
+@Preview
+@Composable
+fun FormularioDePerfil() {
+    val tipoDeUsuario = TipoDeUsuario.pegaCliente()
+    LimpeanAppTheme {
+        TelaDeCadastro(titulo = "Crie seu Perfil") {
+            FormularioDePerfil(
+                tipoDeUsuario = tipoDeUsuario,
+                salvarPerfil = {
+                    Log.i("PERFIL-CLIENTE",it.toString())
+                }
+            )
+        }
+    }
+
+}
+
+@Preview
+@Composable
+fun FormularioDePerfilDeDiarista() {
+    val tipoDeUsuario = TipoDeUsuario.pegaDiarista()
+    LimpeanAppTheme {
+        TelaDeCadastro(titulo = "Perfil") {
+            FormularioDePerfil(
+                tipoDeUsuario = tipoDeUsuario,
+                salvarPerfil = {
+                    Log.i("PERFIL-DIARISTA",it.toString())
+                }
+            )
+        }
+    }
+
+}
