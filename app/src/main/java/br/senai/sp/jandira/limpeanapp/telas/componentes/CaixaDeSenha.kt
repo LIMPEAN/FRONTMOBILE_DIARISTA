@@ -41,6 +41,7 @@ fun CaixaDeSenha (
     }
 
     OutlinedTextField(
+        modifier = Modifier.width(340.dp),
         value = estado,
         onValueChange = {
             aoDigitar(it)
