@@ -17,8 +17,7 @@ interface ApiService {
     @POST("cadastro")
     fun cadastrarUsuario(@Body requestBody : RequestBody) : Call<ResponseBody>
 
-    @GET("alunos/{matricula}")
-    fun getAlunoMatricula(@Path("matricula") matricula: String): Call<Aluno>
+
 
 }
 

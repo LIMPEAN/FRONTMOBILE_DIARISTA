@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -29,6 +30,7 @@ fun CaixaDeTexto(
     etiqueta : String,
     estado : String,
     aoDigitar : (String) -> Unit,
+//    aoSair : () -> Unit?,
     transformacaoVisual : VisualTransformation = VisualTransformation.None,
     tipoSenha : Boolean = false,
     visivel : Boolean = false
@@ -43,6 +45,10 @@ fun CaixaDeTexto(
                onValueChange = {
                    aoDigitar(it)
                },
+
+//               onBlur = {
+//                   aoSair()
+//               },
                singleLine = true,
                modifier = Modifier
                    .width(368.dp),
@@ -54,6 +60,11 @@ fun CaixaDeTexto(
                },
                visualTransformation = if (visivel) VisualTransformation.None else PasswordVisualTransformation(),
                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+//               keyboardActions = KeyboardActions(
+//                   onDone = {
+//                       aoSair()
+//                   }
+//               )
 
            )
        } else {

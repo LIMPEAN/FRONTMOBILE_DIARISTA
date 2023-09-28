@@ -33,4 +33,6 @@ object RetrofitFactory {
     fun getInstance() : Retrofit {
         return retrofitFactory
     }
+
+    //lembrar de mexer aqui
 }

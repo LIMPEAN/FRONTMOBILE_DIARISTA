@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,6 +25,7 @@ import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
 import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
 import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -105,3 +107,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+

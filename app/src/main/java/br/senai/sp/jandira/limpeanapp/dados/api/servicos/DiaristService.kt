@@ -8,5 +8,5 @@ interface DiaristService {
 
 
     @POST("/cadastro")
-    fun criarDiarista(diarista : DiaristaApi) : BaseResponse
+    suspend fun criarDiarista(diarista : DiaristaApi) : BaseResponse
 }
