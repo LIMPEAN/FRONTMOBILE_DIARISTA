@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){
 
                         val viewModel by viewModels<IntegracaoDeCadastro> {
-                            IntegracaoDeCadastro.fazerIntegracaoFake()
+                            IntegracaoDeCadastro.fazerIntegracaoComApi
                         }
 
                         composable("pessoa"){
@@ -75,27 +75,29 @@ class MainActivity : ComponentActivity() {
                             val tipoDeUsuario = it.arguments!!.getString("tipoUsuario").let {tipoDeUsuarioEmJson ->
                                 gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
                             }
-                            val teste = TipoDeUsuario(4,"Teste","Alterado")
-                            viewModel.alterarTipoDeUsuario(teste)
-
+                            viewModel.alterarTipoDeUsuario(tipoDeUsuario)
 
                             val uiState = viewModel.cadastroState
+
                             TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
-                                FormularioDePessoa(
-                                    salvarDados = {novaPessoa ->
-                                        viewModel.alterarDadosDePessoa(novaPessoa)
-                                    }
-                                )
+                                FormularioDePessoa(){novaPessoa ->
+                                    navController.navigate("perfil")
+                                }
                             }
                         }
                         composable("perfil"){
                             TelaDeCadastro(titulo = "Perfil") {
-
+                                FormularioDePerfil(
+                                    tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
+                                    salvarPerfil = {
+                                        navController.navigate("Endereco")
+                                    }
+                                )
                             }
                         }
                         composable("endereco"){
                             TelaDeCadastro(titulo = "Endereco") {
-
+                                FormularioDeEndereco()
                             }
                         }
                     }

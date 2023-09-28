@@ -15,5 +15,5 @@ data class Endereco(
     @SerializedName("district")
     val bairro : String? = "",
     @SerializedName("houseNumber")
-    val numeroDaCasa : Number? = null
+    val numeroDaCasa : String? = null
 )

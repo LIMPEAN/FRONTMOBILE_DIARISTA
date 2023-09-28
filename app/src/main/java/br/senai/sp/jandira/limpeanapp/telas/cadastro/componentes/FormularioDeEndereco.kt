@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.ViewModel
-
-
+import com.dsc.form_builder.TextFieldState
+import com.dsc.form_builder.Validators
 
 
 @Composable
@@ -32,11 +32,12 @@ fun FormularioDeEndereco(
 
             Text(text = "Seu endereco ....")
       
-            CaixaDeTexto(
-                  etiqueta = "Cep",
-                  estado = uiState.cep?: "",
-                  aoDigitar = { cep = it })
+            val cepState = TextFieldState(
+                  name = "cep",
+                  initial = ""
+            )
 
+            CaixaDeTexto(state = cepState)
             BotaoDeCadastro(nomeDaAcao = "Verificar CEP") {
                   var teste = cepViewModel.fetchCep(cep)
                   Log.i("TESTE", "${teste}")

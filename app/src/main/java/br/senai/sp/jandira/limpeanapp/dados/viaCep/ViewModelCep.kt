@@ -26,8 +26,7 @@ class ViewModelCep: ViewModel() {
                     complemento = cepDaApi?.complemento,
                     bairro = cepDaApi?.bairro,
                     localidade = cepDaApi?.localidade,
-                    uf = cepDaApi?.uf,
-                    ddd = cepDaApi?.ddd
+                    uf = cepDaApi?.uf
                 )
                 Log.i("VIEWMODEL", "${response.body()}")
                 // Faça algo com os dados do CEP (por exemplo, atualize um LiveData)

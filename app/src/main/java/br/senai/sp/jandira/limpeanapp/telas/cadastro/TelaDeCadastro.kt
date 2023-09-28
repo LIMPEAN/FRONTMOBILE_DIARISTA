@@ -66,18 +66,3 @@ fun TelaDeCadastro(
     )
 }
 
-@Preview
-@Composable
-fun SignInPersonScreenPreview() {
-    var person = Pessoa()
-    val navController = rememberNavController()
-    LimpeanAppTheme {
-        TelaDeCadastro(
-            titulo = "Dados Pessoais",
-        ){
-            FormularioDePerfil(){
-
-            }
-        }
-    }
-}

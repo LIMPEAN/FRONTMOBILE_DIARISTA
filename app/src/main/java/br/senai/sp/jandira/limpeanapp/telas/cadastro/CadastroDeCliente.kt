@@ -1,29 +1,29 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.viewmodel.ViewModelInitializer
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import br.senai.sp.jandira.limpeanapp.dados.modelos.DiaristaApi
-import br.senai.sp.jandira.limpeanapp.dados.modelos.Endereco
+import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
+import br.senai.sp.jandira.limpeanapp.dados.repositorios.Status
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.BotaoDeCadastro
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
+import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
-import java.time.LocalDate
+
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun CadastroDeCliente(
     status : String?,
-    cadastrarDiaristaFake : (DiaristaApi) -> Unit
+    cadastrarDiaristaFake : (UserApi) -> Unit
 ) {
+
     val diaristaFakeEmJson = "{   \n" +
             "    \"typeUser\": \"diarist\",\n" +
             "    \"email\": \"paulo@gmail.com\",\n" +
@@ -56,8 +56,10 @@ fun CadastroDeCliente(
     TelaDeCadastro(titulo = "Cadastro Rapido") {
         BotaoDeCadastro(nomeDaAcao = "Cadastrar") {
             val gson = Gson()
-            val diaristaFake = gson.fromJson(diaristaFakeEmJson, DiaristaApi::class.java)
+            val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
             cadastrarDiaristaFake(diaristaFake)
+//            Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
+
         }
     }
 }
@@ -68,15 +70,37 @@ fun CadastroTeste() {
     val viewModel = viewModel<IntegracaoDeCadastro>(
         factory = IntegracaoDeCadastro.fazerIntegracaoComApi
     )
-    Column {
+    val uiState = viewModel.cadastroState
+    val context = LocalContext.current
 
-        TelaDeCadastro(titulo = "Cadastro Rápido") {
-            Text(text = viewModel.cadastroState.status)
-            CadastroDeCliente(status = viewModel.cadastroState.status, cadastrarDiaristaFake = {
-                viewModel.cadastrarDiarista(it)
-            })
+    LaunchedEffect(key1 = uiState.status) {
+        val mensagem = when (uiState.status) {
+            Status.LOADING -> "Carregando..."
+            Status.SUCCESS -> "Cadastro bem-sucedido"
+            Status.ERROR -> "Erro no cadastro"
+            else -> ""
         }
 
+        if (mensagem.isNotEmpty()) {
+            Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show()
+        }
     }
 
+    Column {
+        TelaDeCadastro(titulo = "Cadastro Rápido") {
+            CadastroDeCliente(status = viewModel.cadastroState.status) { userData ->
+                viewModel.cadastrarUsuario(userData)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CadastroTeste1() {
+    LimpeanAppTheme {
+        TelaDeCadastro(titulo = "Crie seu Perfil") {
+            FormularioDePerfil()
+        }
+    }
 }

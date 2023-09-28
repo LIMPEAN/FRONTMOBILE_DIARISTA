@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.dados.viaCep
 
 import br.senai.sp.jandira.limpeanapp.dados.api.ApiService
-import br.senai.sp.jandira.limpeanapp.dados.api.servicos.DiaristService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit

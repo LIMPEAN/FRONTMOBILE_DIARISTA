@@ -18,9 +18,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.limpeanapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +49,14 @@ fun CaixaDeSenha (
         label = {
             Text(
                 text = etiqueta,
+
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.inter)),
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF53575A),
+                )
             )
         },
         singleLine = true,
