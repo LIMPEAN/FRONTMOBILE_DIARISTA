@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.telas.componentes
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api

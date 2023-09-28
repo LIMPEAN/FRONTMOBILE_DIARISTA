@@ -42,80 +42,80 @@ import com.example.compose.md_theme_dark_onPrimary
 import java.time.LocalDate
 import java.util.Date
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FormularioDePessoa(
-    salvarDados : (Pessoa) -> Unit
-) {
-    var dadosDePessoa by remember {
-        mutableStateOf(Pessoa())
-    }
-
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        CaixaDeTexto(
-            etiqueta = "Nome",
-            estado = dadosDePessoa.nome,
-            aoDigitar = {dadosDePessoa = dadosDePessoa.copy(nome = it)}
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        CaixaDeTexto(
-            etiqueta = "Cpf",
-            estado = dadosDePessoa.cpf,
-            aoDigitar = { dadosDePessoa = dadosDePessoa.copy(cpf = it) }
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        CaixaDeTexto(
-            etiqueta = "Telefone",
-            estado = dadosDePessoa.telefone.toString(),
-            aoDigitar = {  }
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "Data Nascimento", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                ),
-            shape = RoundedCornerShape(size = 40.dp)
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "Genero", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                ),
-            shape = RoundedCornerShape(size = 40.dp)
-        )
-
-        Spacer(modifier = Modifier.height(150.dp))
-
-        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-            val testeDePessoa = Pessoa(
-                nome =  "Felipe",
-                dataDeNascimento = LocalDate.now(),
-                genero = Genero.MASCULINO,
-                cpf = "Meu cpf",
-                telefone = Telefone(11, "92839485")
-            )
-            salvarDados(testeDePessoa)
-        }
-
-    }
-
-
-
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun FormularioDePessoa(
+//    salvarDados : (Pessoa) -> Unit
+//) {
+//    var dadosDePessoa by remember {
+//        mutableStateOf(Pessoa())
+//    }
+//
+//    Column (
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ){
+//        CaixaDeTexto(
+//            etiqueta = "Nome",
+//            estado = dadosDePessoa.nome,
+//            aoDigitar = {dadosDePessoa = dadosDePessoa.copy(nome = it)}
+//        )
+//        Spacer(modifier = Modifier.height(25.dp))
+//        CaixaDeTexto(
+//            etiqueta = "Cpf",
+//            estado = dadosDePessoa.cpf,
+//            aoDigitar = { dadosDePessoa = dadosDePessoa.copy(cpf = it) }
+//        )
+//        Spacer(modifier = Modifier.height(25.dp))
+//        CaixaDeTexto(
+//            etiqueta = "Telefone",
+//            estado = dadosDePessoa.telefone.toString(),
+//            aoDigitar = {  }
+//        )
+//        Spacer(modifier = Modifier.height(25.dp))
+//        OutlinedTextField(
+//            value = "Data Nascimento", onValueChange = {},
+//            modifier = Modifier
+//                .width(368.dp)
+//                .height(55.dp)
+//                .border(
+//                    width = 1.dp,
+//                    color = md_theme_dark_onPrimary,
+//                    shape = RoundedCornerShape(size = 40.dp)
+//                ),
+//            shape = RoundedCornerShape(size = 40.dp)
+//        )
+//        Spacer(modifier = Modifier.height(25.dp))
+//        OutlinedTextField(
+//            value = "Genero", onValueChange = {},
+//            modifier = Modifier
+//                .width(368.dp)
+//                .height(55.dp)
+//                .border(
+//                    width = 1.dp,
+//                    color = md_theme_dark_onPrimary,
+//                    shape = RoundedCornerShape(size = 40.dp)
+//                ),
+//            shape = RoundedCornerShape(size = 40.dp)
+//        )
+//
+//        Spacer(modifier = Modifier.height(150.dp))
+//
+//        BotaoDeCadastro(nomeDaAcao = "Continuar") {
+//            val testeDePessoa = Pessoa(
+//                nome =  "Felipe",
+//                dataDeNascimento = LocalDate.now(),
+//                genero = Genero.MASCULINO,
+//                cpf = "Meu cpf",
+//                telefone = Telefone(11, "92839485")
+//            )
+//            salvarDados(testeDePessoa)
+//        }
+//
+//    }
+//
+//
+//
+//}
 // Function to validate a name (you can customize your validation logic)
 data class Formulario (
     val nome: String = "",
@@ -129,9 +129,9 @@ data class Formulario (
 @Composable
 fun FormularioPreview() {
     LimpeanAppTheme {
-        FormularioDePessoa(salvarDados = {
-            Log.i("SALVO-COM-SUCESSO", it.toString())
-        })
+//        FormularioDePessoa(salvarDados = {
+//            Log.i("SALVO-COM-SUCESSO", it.toString())
+//        })
     }
 
 }

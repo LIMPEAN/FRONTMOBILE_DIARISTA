@@ -20,14 +20,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import br.senai.sp.jandira.limpeanapp.dados.modelos.Usuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeCasa
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePessoa
 import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
 import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
 import com.example.compose.LimpeanAppTheme
@@ -86,19 +82,19 @@ class MainActivity : ComponentActivity() {
                             val uiState = viewModel.cadastroState
 
                             TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
-                                FormularioDePessoa(){novaPessoa ->
-                                    navController.navigate("perfil")
-                                }
+//                                FormularioDePessoa(){novaPessoa ->
+//                                    navController.navigate("perfil")
+//                                }
                             }
                         }
                         composable("perfil"){
                             TelaDeCadastro(titulo = "Perfil") {
-                                FormularioDePerfil(
-                                    tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
-                                    salvarPerfil = {
-                                        navController.navigate("Endereco")
-                                    }
-                                )
+//                                FormularioDePerfil(
+//                                    tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
+//                                    salvarPerfil = {
+//                                        navController.navigate("Endereco")
+//                                    }
+//                                )
                             }
                         }
                         composable("endereco"){
