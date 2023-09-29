@@ -39,7 +39,7 @@ fun Button(
         ) {
             Text(
                 text = name,
-                color = Color.Black,
+                color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )

@@ -1,19 +1,9 @@
 package br.senai.sp.jandira.limpeanapp
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.TextUnit
-import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,11 +11,10 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.SignInViewModel
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
 import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
-import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
 import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
 
@@ -64,8 +53,8 @@ class MainActivity : ComponentActivity() {
                     navigation(route = "cadastro/{tipoUsuario}", startDestination = "pessoa",
                         arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){
 
-                        val viewModel by viewModels<IntegracaoDeCadastro> {
-                            IntegracaoDeCadastro.fazerIntegracaoComApi
+                        val viewModel by viewModels<SignInViewModel> {
+                            SignInViewModel.fazerIntegracaoComApi
                         }
 
                         composable("pessoa"){
@@ -95,9 +84,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("endereco"){
                             TelaDeCadastro(titulo = "Endereco") {
-                                FormularioDeEndereco(){
-                                    Log.i("USUARIO COMPLETO", viewModel.cadastroState.toString())
-                                }
+                                FormularioDeEndereco()
                             }
                         }
                     }
@@ -109,3 +96,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
