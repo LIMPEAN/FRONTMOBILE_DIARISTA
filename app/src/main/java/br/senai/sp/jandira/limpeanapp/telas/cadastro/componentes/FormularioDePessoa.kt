@@ -96,7 +96,7 @@ fun FormularioDePessoa(
         SelectionMenu(
             placeHolder = "Informe seu gênero",
             options = listOf("Masculino", "Feminino", "Outros", "Prefiro não informar"),
-            onSelectedOption = )
+            onSelectedOption = {})
 
         Spacer(modifier = Modifier.height(150.dp))
 
