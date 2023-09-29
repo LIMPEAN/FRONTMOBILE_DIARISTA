@@ -1,111 +1,102 @@
 package br.senai.sp.jandira.limpeanapp
 
+import ViewModelCep
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.TextUnit
-import androidx.navigation.NavArgumentBuilder
-import androidx.navigation.NavType
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.IntegracaoDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
-import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
-import br.senai.sp.jandira.limpeanapp.telas.login.TelaDeLogin
+import br.senai.sp.jandira.limpeanapp.telas.AuthViewModel
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.PersonForm
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
+import br.senai.sp.jandira.limpeanapp.telas.login.LoginScreen
 import com.example.compose.LimpeanAppTheme
-import com.google.gson.Gson
 
 class MainActivity : ComponentActivity() {
-
-
-
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             LimpeanAppTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController,
-                    startDestination = "boas-vindas"
-                ){
-                    composable(route = "boas-vindas"){
-                        val gson = Gson()
-                        TelaInicial(
-                            navegarParaLogin = {
-                                navController.navigate("login/${gson.toJson(it)}"){
+                NavHost(navController = navController, startDestination = "auth") {
+                    navigation(
+                        startDestination = "register",
+                        route = "auth"
+                    ) {
+                        composable("login") {
+                            val viewModel = it.sharedViewModel<AuthViewModel>(navController)
+
+                            LoginScreen(
+                                viewModel = viewModel,
+                                onClickToLogin = {
+                                    navController.navigate("home") {
+                                        popUpTo("auth") {
+                                            inclusive = true
+                                        }
+                                    }
                                 }
-                            },
-                            navegarParaCadastro = {
-                                navController.navigate(
-                                    "cadastro/${gson.toJson(it)}"
-                                )
-                            }
-                        )
-                    }
-                    composable(route = "login/{tipoDeUsuario}"){
-                        val gson = Gson()
-                        val tipoDeUsuarioEmJson = it.arguments!!.getString("tipoDeUsuario")
-                        val tipoDeUsuario = gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
+                            )
 
-                    }
-                    navigation(route = "cadastro/{tipoUsuario}", startDestination = "pessoa",
-                        arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){
-
-                        val viewModel by viewModels<IntegracaoDeCadastro> {
-                            IntegracaoDeCadastro.fazerIntegracaoComApi
                         }
+                        navigation(route = "register", startDestination = "address"){
+                            composable("personal") {
+                                val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
-                        composable("pessoa"){
-                            val gson = Gson()
-                            val tipoDeUsuario = it.arguments!!.getString("tipoUsuario").let {tipoDeUsuarioEmJson ->
-                                gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
                             }
-                            viewModel.alterarTipoDeUsuario(tipoDeUsuario)
+                            composable("address"){
+                                val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
+                                val cepViewModel = viewModel<ViewModelCep>()
+                                RegisterScreen(
+                                    title = "Adicione um Endereço",
+                                    form = { AddressForm(cepViewModel) },
+                                    nameButton = "Próximo"
+                                ){
+                                    if(cepViewModel.validateAddress()){
+                                        navController.navigate("profile")
+                                    }
+                                }
+                            }
+                            composable("profile"){
+                                val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
+                                RegisterScreen(
+                                    title = "Dados Pessoais",
+                                    form = {
+                                           PersonForm()
+                                    },
+                                    nameButton = "Próxima"
+                                ) {
 
-                            val uiState = viewModel.cadastroState
-
-                            TelaDeCadastro(titulo = "Cadastro de ${uiState.tipoDeUsuario!!.nomeEmPortugues}") {
-//                                FormularioDePessoa(){novaPessoa ->
-//                                    navController.navigate("perfil")
-//                                }
-                            }
-                        }
-                        composable("perfil"){
-                            TelaDeCadastro(titulo = "Perfil") {
-//                                FormularioDePerfil(
-//                                    tipoDeUsuario = viewModel.cadastroState.tipoDeUsuario!!,
-//                                    salvarPerfil = {
-//                                        navController.navigate("Endereco")
-//                                    }
-//                                )
-                            }
-                        }
-                        composable("endereco"){
-                            TelaDeCadastro(titulo = "Endereco") {
-                                FormularioDeEndereco(){
-                                    Log.i("USUARIO COMPLETO", viewModel.cadastroState.toString())
                                 }
                             }
                         }
-                    }
 
+                        composable("forgot_password") {
+                            val viewModel = it.sharedViewModel<AuthViewModel>(navController)
+
+                        }
+                    }
                 }
-
-
             }
         }
     }
+}
+@Composable
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
+    val navGraphRoute = destination.parent?.route ?: return viewModel()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+    return viewModel(parentEntry)
 }
