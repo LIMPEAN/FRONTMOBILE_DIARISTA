@@ -26,6 +26,7 @@ import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
 import java.time.LocalDate
@@ -55,70 +56,70 @@ fun FormularioDePessoa(
         mutableStateOf("")
     }
 
-//    Column (
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        CaixaDeTexto(
-//            etiqueta = "Nome",
-//            estado = nomeState,
-//            aoDigitar = { nomeState = it},
-//
-//        )
-//        Spacer(modifier = Modifier.height(25.dp))
-//        CaixaDeTexto(
-//            etiqueta = "Cpf",
-//            estado = cpfState,
-//            aoDigitar = { cpfState = it }
-//        )
-//        Spacer(modifier = Modifier.height(25.dp))
-//        CaixaDeTexto(
-//            etiqueta = "Telefone",
-//            estado = telefoneState,
-//            aoDigitar = { telefoneState = it },
-//
-//        )
-//        Spacer(modifier = Modifier.height(25.dp))
-//        OutlinedTextField(
-//            value = "Data Nascimento", onValueChange = {},
-//            modifier = Modifier
-//                .width(368.dp)
-//                .height(55.dp)
-//                .border(
-//                    width = 1.dp,
-//                    color = md_theme_dark_onPrimary,
-//                    shape = RoundedCornerShape(size = 40.dp)
-//                ),
-//            shape = RoundedCornerShape(size = 40.dp)
-//        )
-//        Spacer(modifier = Modifier.height(25.dp))
-//        OutlinedTextField(
-//            value = "Genero", onValueChange = {},
-//            modifier = Modifier
-//                .width(368.dp)
-//                .height(55.dp)
-//                .border(
-//                    width = 1.dp,
-//                    color = md_theme_dark_onPrimary,
-//                    shape = RoundedCornerShape(size = 40.dp)
-//                ),
-//            shape = RoundedCornerShape(size = 40.dp)
-//        )
-//
-//        Spacer(modifier = Modifier.height(150.dp))
-//
-//        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-//
-//            val testeDePessoa = Pessoa(
-//                nome =  "Felipe",
-//                dataDeNascimento = LocalDate.now(),
-//                genero = Genero.MASCULINO,
-//                cpf = "Meu cpf",
-//                telefone = Telefone(11, "92839485")
-//            )
-//            salvarDados(testeDePessoa)
-//
-//        }
-//    }
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        CaixaDeTextoSemDropDown(
+            etiqueta = "Nome",
+            estado = nomeState,
+            aoDigitar = { nomeState = it},
+
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        CaixaDeTextoSemDropDown(
+            etiqueta = "Cpf",
+            estado = cpfState,
+            aoDigitar = { cpfState = it }
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        CaixaDeTextoSemDropDown(
+            etiqueta = "Telefone",
+            estado = telefoneState,
+            aoDigitar = { telefoneState = it },
+
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        OutlinedTextField(
+            value = "Data Nascimento", onValueChange = {},
+            modifier = Modifier
+                .width(368.dp)
+                .height(55.dp)
+                .border(
+                    width = 1.dp,
+                    color = md_theme_dark_onPrimary,
+                    shape = RoundedCornerShape(size = 40.dp)
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        OutlinedTextField(
+            value = "Genero", onValueChange = {},
+            modifier = Modifier
+                .width(368.dp)
+                .height(55.dp)
+                .border(
+                    width = 1.dp,
+                    color = md_theme_dark_onPrimary,
+                    shape = RoundedCornerShape(size = 40.dp)
+                ),
+            shape = RoundedCornerShape(size = 40.dp)
+        )
+
+        Spacer(modifier = Modifier.height(150.dp))
+
+        BotaoDeCadastro(nomeDaAcao = "Continuar") {
+
+            val testeDePessoa = Pessoa(
+                nome =  "Felipe",
+                dataDeNascimento = LocalDate.now(),
+                genero = Genero.MASCULINO,
+                cpf = "Meu cpf",
+                telefone = Telefone(11, "92839485")
+            )
+            salvarDados(testeDePessoa)
+
+        }
+    }
 }
 
 

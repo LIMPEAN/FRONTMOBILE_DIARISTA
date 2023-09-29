@@ -26,6 +26,7 @@ import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -66,63 +67,63 @@ fun FormularioDePerfil(
     }
 
 
-//    Column(
-//        modifier = Modifier
-//            .padding(16.dp),
-//        verticalArrangement = Arrangement.SpaceBetween,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        FotoDePerfil()
-//        Spacer(modifier = Modifier.height(43.dp))
-//        Column {
-//            if(tipoDeUsuario.nomeEmPortugues == "Diarista"){
-//                CaixaDeTexto(
-//                    state = TextFieldState(
-//                        name = "media",
-//                        initial = ""
-//                    )
-//                )
-//                Spacer(modifier = Modifier.height(20.dp))
-//            }
-//            CaixaDeTexto(
-//                etiqueta = "Fale sobre você",
-//                estado = biografiaState,
-//                aoDigitar = { biografiaState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeTexto(
-//                etiqueta = "Seu melhor email",
-//                estado = emailState,
-//                aoDigitar = { emailState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeSenha(
-//                etiqueta = "Senha",
-//                estado = senhaState,
-//                aoDigitar = { senhaState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeSenha(
-//                etiqueta = "Repita sua senha",
-//                estado = senhaRepetidaState ,
-//                aoDigitar = { senhaRepetidaState = it }
-//            )
-//
-//            Spacer(modifier = Modifier.height(30.dp))
-//
-//
-//        }
-//        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-//            val perfil  = Perfil(
-//                fotoDePerfil = photoUri,
-//                biografia = biografiaState,
-//                email = emailState,
-//                senha = senhaState,
-//                media = mediaState.toDouble()
-//            )
-//            salvarPerfil(perfil)
-//        }
-//    }
+    Column(
+        modifier = Modifier
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FotoDePerfil()
+        Spacer(modifier = Modifier.height(43.dp))
+        Column {
+            if(tipoDeUsuario.nomeEmPortugues == "Diarista"){
+                CaixaDeTexto(
+                    state = TextFieldState(
+                        name = "media",
+                        initial = ""
+                    )
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            CaixaDeTextoSemDropDown(
+                etiqueta = "Fale sobre você",
+                estado = biografiaState,
+                aoDigitar = { biografiaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeTextoSemDropDown(
+                etiqueta = "Seu melhor email",
+                estado = emailState,
+                aoDigitar = { emailState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeSenha(
+                etiqueta = "Senha",
+                estado = senhaState,
+                aoDigitar = { senhaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeSenha(
+                etiqueta = "Repita sua senha",
+                estado = senhaRepetidaState ,
+                aoDigitar = { senhaRepetidaState = it }
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+        }
+        BotaoDeCadastro(nomeDaAcao = "Continuar") {
+            val perfil  = Perfil(
+                fotoDePerfil = photoUri,
+                biografia = biografiaState,
+                email = emailState,
+                senha = senhaState,
+                media = mediaState.toDouble()
+            )
+            salvarPerfil(perfil)
+        }
+    }
 
 
 }
