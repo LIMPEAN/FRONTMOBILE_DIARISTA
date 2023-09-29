@@ -82,11 +82,7 @@ class MainActivity : ComponentActivity() {
 //                                )
                             }
                         }
-                        composable("endereco"){
-                            TelaDeCadastro(titulo = "Endereco") {
-                                AddressForm()
-                            }
-                        }
+
                     }
 
                 }

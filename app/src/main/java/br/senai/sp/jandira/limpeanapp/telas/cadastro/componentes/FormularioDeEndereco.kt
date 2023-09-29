@@ -42,7 +42,8 @@ import com.example.compose.md_theme_light_primaryContainer
 
 @Composable
 fun AddressForm(
-      cepViewModel: ViewModelCep = viewModel()
+      cepViewModel: ViewModelCep = viewModel(),
+      validarCep: (String) -> Unit
 ) {
 
 
@@ -121,6 +122,9 @@ fun AddressForm(
                               },
                               value = cepState,
                               onValueChange = {
+                                    if(it.length == 8){
+                                          validarCep(it)
+                                    }
                                     cepState = it
                               }
                         )
@@ -180,7 +184,9 @@ fun AddressForm(
 @Composable
 fun AddressFormPreview() {
       LimpeanAppTheme {
-            AddressForm()
+            AddressForm(validarCep = {
+                  Log.i("RecebendoCep", it)
+            })
       }
 
 }
