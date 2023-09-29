@@ -20,4 +20,7 @@
     <string name="email_outline">Digite seu email\n</string>
     <string name="outline_password">Digite sua senha</string>
     <string name="sing_in_button">Criar Conta</string>
+    <string name="dados_pessoais">Dados Pessoais</string>
+    <string name="campo_obrigatorio">Este campo é obrigatório!</string>
+    <string name="informe_genero">Informe seu gênero</string>
 </resources>

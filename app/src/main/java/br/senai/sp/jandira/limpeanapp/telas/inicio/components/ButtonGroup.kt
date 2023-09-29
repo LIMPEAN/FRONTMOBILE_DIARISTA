@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+//import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
@@ -74,7 +74,7 @@ fun ButtonGroup(
                     style = TextStyle(
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
-                        fontFamily = poopins,
+//                        fontFamily = poopins,
                         fontWeight = FontWeight(400),
                         color = if(isSelected){md_theme_light_primary} else{Color.White },
                         letterSpacing = 0.2.sp,

@@ -1,7 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.telas.componentes
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -29,9 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CaixaDeSenha (
+fun PasswordField (
     etiqueta : String,
     estado : String,
     aoDigitar : (String) -> Unit,
@@ -82,3 +81,9 @@ fun CaixaDeSenha (
         }
     )
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun CaixaDeSenhaPreview() {
+//    CaixaDeSenha()
+//}

@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
-import android.util.Log
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,39 +8,74 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import br.senai.sp.jandira.limpeanapp.dados.api.ApiResponse
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
 import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.RepositorioDeUsuario
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.Perfil
+import com.dsc.form_builder.ChoiceState
 import com.dsc.form_builder.FormState
 import com.dsc.form_builder.TextFieldState
 import com.dsc.form_builder.Validators
-
-class IntegracaoDeCadastro(
+class SignInViewModel(
     private val repositorioDeUsuario: RepositorioDeUsuario,
 ) : ViewModel(){
 
-    sealed class CadastroResultado {
-        object Sucesso : CadastroResultado()
-        data class Erro(val mensagem: String) : CadastroResultado()
-    }
 
+    var generosState by mutableStateOf(Genero.values())
+        private set
+    var cadastroState by mutableStateOf(CadastroState())
+        private set
 
-    val formState = FormState(
+    val personFormState = FormState(
         fields = listOf(
             TextFieldState(
-                name = "nome",
+                name = "Nome",
+                initial = "",
                 validators = listOf(
-                    Validators.MaxValue(limit = 10, message = "Só até 10"),
-                    Validators.Required()
+                    Validators.Required("Este campo não pode estar vazio!"),
+                    Validators.Max(100, "O nome pode ter até 100 caracteres.")
+                )
+            ),
+            TextFieldState(
+                name = "Cpf",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.MinValue(20, "Minímo : O cpf deve ter 20 caracteres!"),
+                    Validators.MaxValue(20, "Máximo : O cpf deve ter 20 caracteres!"),
+                    Validators.Custom("Este Cpf não é um cpf válido!") {
+                        validarCpf(it.toString())
+                    }
+                )
+            ),
+            TextFieldState(
+                name = "Telefone",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.Phone("Deve ser um telefone válido!")
+                )
+            ),
+            TextFieldState(
+                name = "Data de Nascimento",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.Custom("Deve ser uma data de nascimento válida!"){
+                        validarData(it.toString())
+                    }
+                )
+            ),
+            ChoiceState(
+                name = "Generos",
+                validators = listOf(
+                    Validators.Required("Deve estar selecionado uma opção!"),
                 )
             )
         )
     )
-    var cadastroState by mutableStateOf(CadastroState())
-        private set
 
     fun cadastrarUsuario(userData: UserApi) {
         repositorioDeUsuario.adicionarUsuario(userData, object : RepositorioDeUsuario.RepositorioDeUsuarioCallback {
@@ -54,7 +89,12 @@ class IntegracaoDeCadastro(
         })
     }
 
-
+    fun validarCpf(cpf : String) : Boolean{
+        return true
+    }
+    fun validarData(data : String) : Boolean {
+        return true
+    }
 
 
     fun alterarTipoDeUsuario(tipoDeUsuario : TipoDeUsuario){
@@ -128,7 +168,7 @@ class IntegracaoDeCadastro(
         val fazerIntegracaoComApi : ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val repositorioDeUsuario = RepositorioDeUsuario(RetrofitFactory.getUserService())
-                IntegracaoDeCadastro(repositorioDeUsuario)
+                SignInViewModel(repositorioDeUsuario)
             }
         }
 //        fun fazerIntegracaoFake() : ViewModelProvider.Factory = viewModelFactory {

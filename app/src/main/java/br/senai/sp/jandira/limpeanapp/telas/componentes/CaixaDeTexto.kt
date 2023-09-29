@@ -109,6 +109,18 @@ fun CaixaDeTextoPreview() {
 
     }
 
+
+    var nome by remember {
+        mutableStateOf("teste")
+    }
+    var senhaState by remember {
+        mutableStateOf("")
+    }
+    var seVisivel by remember {
+        mutableStateOf(false)
+    }
+
+
 }
 
 

@@ -24,10 +24,11 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
+import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
+import br.senai.sp.jandira.limpeanapp.telas.componentes.PasswordField
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.dsc.form_builder.TextFieldState
@@ -97,13 +98,13 @@ fun FormularioDePerfil(
                 aoDigitar = { emailState = it}
             )
             Spacer(modifier = Modifier.height(20.dp))
-            CaixaDeSenha(
+            PasswordField(
                 etiqueta = "Senha",
                 estado = senhaState,
                 aoDigitar = { senhaState = it}
             )
             Spacer(modifier = Modifier.height(20.dp))
-            CaixaDeSenha(
+            PasswordField(
                 etiqueta = "Repita sua senha",
                 estado = senhaRepetidaState ,
                 aoDigitar = { senhaRepetidaState = it }
@@ -113,16 +114,14 @@ fun FormularioDePerfil(
 
 
         }
-        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-            val perfil  = Perfil(
-                fotoDePerfil = photoUri,
-                biografia = biografiaState,
-                email = emailState,
-                senha = senhaState,
-                media = mediaState.toDouble()
-            )
-            salvarPerfil(perfil)
-        }
+        Button("Continuar", action = {val perfil  = Perfil(
+            fotoDePerfil = photoUri,
+            biografia = biografiaState,
+            email = emailState,
+            senha = senhaState,
+            media = mediaState.toDouble()
+        )
+            salvarPerfil(perfil)})
     }
 
 

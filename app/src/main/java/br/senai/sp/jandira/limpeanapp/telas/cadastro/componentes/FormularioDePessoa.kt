@@ -25,13 +25,14 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
 import br.senai.sp.jandira.limpeanapp.regras.Pessoa
+import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
+import br.senai.sp.jandira.limpeanapp.telas.componentes.SelectionMenu
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_dark_onPrimary
 import java.time.LocalDate
 import java.util.Date
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,36 +93,30 @@ fun FormularioDePessoa(
             shape = RoundedCornerShape(size = 40.dp)
         )
         Spacer(modifier = Modifier.height(25.dp))
-        OutlinedTextField(
-            value = "Genero", onValueChange = {},
-            modifier = Modifier
-                .width(368.dp)
-                .height(55.dp)
-                .border(
-                    width = 1.dp,
-                    color = md_theme_dark_onPrimary,
-                    shape = RoundedCornerShape(size = 40.dp)
-                ),
-            shape = RoundedCornerShape(size = 40.dp)
-        )
+        SelectionMenu(
+            placeHolder = "Informe seu gênero",
+            options = listOf("Masculino", "Feminino", "Outros", "Prefiro não informar"),
+            onSelectedOption = )
 
         Spacer(modifier = Modifier.height(150.dp))
 
-        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-
-            val testeDePessoa = Pessoa(
-                nome =  "Felipe",
-                dataDeNascimento = LocalDate.now(),
-                genero = Genero.MASCULINO,
-                cpf = "Meu cpf",
-                telefone = Telefone(11, "92839485")
-            )
-            salvarDados(testeDePessoa)
-
-        }
+        Button("Continuar", action = {val testeDePessoa = Pessoa(
+            nome =  "Felipe",
+            dataDeNascimento = LocalDate.now(),
+            genero = Genero.MASCULINO,
+            cpf = "Meu cpf",
+            telefone = Telefone(11, "92839485")
+        )
+            salvarDados(testeDePessoa)})
     }
 }
-
+data class Formulario (
+    val nome: String = "",
+    val dataDeNascimento: Date? = Date(),
+    val genero: Genero? = null,
+    val cpf: String = "",
+    val telefone: String = "",
+)
 
 
 @Preview(showSystemUi = true)

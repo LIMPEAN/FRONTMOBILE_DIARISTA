@@ -27,7 +27,7 @@ import com.example.compose.LimpeanAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputText(
+fun inputText(
     label: String,
     keyboardType: KeyboardType,
     state: String,
@@ -51,7 +51,7 @@ fun InputText(
             }
         ,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-         shape = RoundedCornerShape(size = 40.dp)
+         shape = RoundedCornerShape(size = 15.dp)
     )
 }
 
@@ -64,13 +64,13 @@ fun InputTextPreview(){
     }
     LimpeanAppTheme {
         Column {
-            InputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
+            inputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
                 state = it
             } )
-            InputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
+            inputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
                 state = it
             } )
-            InputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
+            inputText(label = "NOME", keyboardType = KeyboardType.Text, state = state, onTyping ={
                 state = it
             } )
         }

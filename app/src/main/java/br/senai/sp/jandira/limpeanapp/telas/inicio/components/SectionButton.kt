@@ -14,7 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+//import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.md_theme_light_primary
 
 @Composable
@@ -37,7 +37,7 @@ fun SectionButton(
             style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
-                fontFamily = poopins,
+//                fontFamily = poopins,
                 fontWeight = FontWeight(400),
                 color = md_theme_light_primary,
                 letterSpacing = 0.2.sp,
