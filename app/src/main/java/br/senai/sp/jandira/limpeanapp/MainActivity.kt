@@ -59,11 +59,7 @@ class MainActivity : ComponentActivity() {
                         val gson = Gson()
                         val tipoDeUsuarioEmJson = it.arguments!!.getString("tipoDeUsuario")
                         val tipoDeUsuario = gson.fromJson(tipoDeUsuarioEmJson, TipoDeUsuario::class.java)
-                        TelaDeLogin(
-                            tipoDeUsuario
-                        ){
 
-                        }
                     }
                     navigation(route = "cadastro/{tipoUsuario}", startDestination = "pessoa",
                         arguments = listOf(navArgument("tipoUsuario"){ type = NavType.StringType})){

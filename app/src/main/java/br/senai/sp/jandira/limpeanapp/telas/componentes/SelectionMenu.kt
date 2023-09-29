@@ -71,8 +71,6 @@ fun SelectionMenu(
                 )
             },
             colors = ExposedDropdownMenuDefaults .textFieldColors(
-                textColor = Color.Black,
-                containerColor = Color.White
             ),
             modifier = Modifier.menuAnchor(),
             shape = RoundedCornerShape(size = 40.dp)

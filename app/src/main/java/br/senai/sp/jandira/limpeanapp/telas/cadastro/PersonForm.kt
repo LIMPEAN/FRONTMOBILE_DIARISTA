@@ -1,64 +1,78 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
-import android.widget.Toast
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.BotaoDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
-import br.senai.sp.jandira.limpeanapp.telas.componentes.SelectionMenu
-import com.dsc.form_builder.ChoiceState
-import com.dsc.form_builder.TextFieldState
-import com.example.compose.LimpeanAppTheme
 
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
+import org.w3c.dom.Text
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonForm(
-    viewModel : IntegracaoDeCadastro = viewModel(factory = IntegracaoDeCadastro.fazerIntegracaoComApi)
+    navController : NavController = rememberNavController()
 ) {
 
-    val formState = remember { viewModel.personFormState }
 
-    val fieldStates = listOf<TextFieldState>(
-        formState.getState("Nome"),
-        formState.getState("Cpf"),
-        formState.getState("Telefone"),
-        formState.getState("Data de Nascimento"),
-    )
-    val genderState: ChoiceState = formState.getState("Genders")
-    val genders = viewModel.generosState.map {  it.etiqueta }
+    var nameState by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = stringResource(R.string.dados_pessoais))
-        fieldStates.map {
-            CaixaDeTexto(it)
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Dados Pessoais",
+                textAlign = TextAlign.Center,
+                fontSize = 32.sp,
+            )
         }
-        SelectionMenu(placeHolder = stringResource(R.string.informe_genero), options = genders, onSelectedOption = {genderState.change(it)})
+    ) {paddingValues ->
 
-        BotaoDeCadastro(nomeDaAcao = "Validar") {
-            if(formState.validate()){
-                Toast.makeText(context, "Campo válido", Toast.LENGTH_SHORT).show()
-            }
-        }
+            OutlinedTextField(
+                label = {
+                    Text(text = "Nome")
+                },
+                modifier = Modifier.padding(paddingValues),
+                value = nameState,
+                onValueChange = {
+                    nameState = it
+                }
+            )
+
+
     }
-
-
-
-
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PersonFormPreview() {
+
     LimpeanAppTheme {
         PersonForm()
     }

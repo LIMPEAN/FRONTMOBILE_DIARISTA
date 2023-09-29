@@ -26,7 +26,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.telas.login.components.TextComLinhasLogin
 import androidx.compose.runtime.getValue
@@ -41,7 +40,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
 //import br.senai.sp.jandira.limpeanapp.dados.Logar
-import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeSenha
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 
 import androidx.compose.ui.tooling.preview.Preview
@@ -89,11 +87,11 @@ fun TelaDeLogin(
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        CaixaDeSenha(
-            etiqueta = "Digite sua senha...",
-            estado = login.senha,
-            aoDigitar = {}
-        )
+//        CaixaDeSenha(
+//            etiqueta = "Digite sua senha...",
+//            estado = login.senha,
+//            aoDigitar = {}
+//        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
