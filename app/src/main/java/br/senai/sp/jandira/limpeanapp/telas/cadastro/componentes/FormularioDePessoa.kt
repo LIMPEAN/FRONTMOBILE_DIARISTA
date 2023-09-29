@@ -16,10 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
@@ -38,8 +34,11 @@ import java.util.Date
 @Composable
 
 fun FormularioDePessoa(
-    salvarDados : (Pessoa) -> Unit
+    salvarDados : (Formulario) -> Unit
 ) {
+
+    var isExpanded by remember { mutableStateOf(false) }
+    var selected by remember { mutableStateOf("") }
 
     var dadosDePessoa by remember {
         mutableStateOf(Pessoa())
@@ -54,6 +53,10 @@ fun FormularioDePessoa(
     }
 
     var telefoneState by remember {
+        mutableStateOf("")
+    }
+
+    var ddd by remember {
         mutableStateOf("")
     }
 
@@ -96,26 +99,35 @@ fun FormularioDePessoa(
         SelectionMenu(
             placeHolder = "Informe seu gênero",
             options = listOf("Masculino", "Feminino", "Outros", "Prefiro não informar"),
-            onSelectedOption = )
+            onSelectedOption = {
+                selected = it
+                isExpanded = false
+            })
+
 
         Spacer(modifier = Modifier.height(150.dp))
 
-        Button("Continuar", action = {val testeDePessoa = Pessoa(
-            nome =  "Felipe",
-            dataDeNascimento = LocalDate.now(),
-            genero = Genero.MASCULINO,
-            cpf = "Meu cpf",
-            telefone = Telefone(11, "92839485")
+        Button("Continuar", action = {val testeDePessoa = Formulario(
+            nome =  nomeState,
+            dataDeNascimento = Date(),
+            genero = selected,
+            cpf = cpfState,
+            telefone = Telefone(ddd = ddd, telefoneState)
         )
             salvarDados(testeDePessoa)})
     }
 }
+
+
+
+
 data class Formulario (
     val nome: String = "",
     val dataDeNascimento: Date? = Date(),
-    val genero: Genero? = null,
+    val genero: String = "",
     val cpf: String = "",
-    val telefone: String = "",
+    val telefone: Telefone? = null,
+    val ddd: Telefone? = null
 )
 
 
