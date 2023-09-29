@@ -13,7 +13,7 @@ import androidx.navigation.navArgument
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.SignInViewModel
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDeEndereco
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
 import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
 import com.example.compose.LimpeanAppTheme
 import com.google.gson.Gson
@@ -82,11 +82,7 @@ class MainActivity : ComponentActivity() {
 //                                )
                             }
                         }
-                        composable("endereco"){
-                            TelaDeCadastro(titulo = "Endereco") {
-                                FormularioDeEndereco()
-                            }
-                        }
+
                     }
 
                 }

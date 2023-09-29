@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.telas.componentes
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,11 +27,10 @@ fun Button(
     name: String,
     containerColor: Color = md_theme_light_primary,
     action: () -> Unit,
-    height : Dp = 60.dp,
-    width : Dp = 270.dp) {
+    modifier: Modifier = Modifier) {
     androidx.compose.material3
         .Button(
-            modifier = Modifier.size(height = height, width = width),
+            modifier = modifier,
             onClick = { action() },
             shape = RoundedCornerShape(60.dp),
             colors = ButtonDefaults.buttonColors(

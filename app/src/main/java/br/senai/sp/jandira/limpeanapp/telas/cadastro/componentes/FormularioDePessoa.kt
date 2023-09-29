@@ -99,6 +99,7 @@ fun FormularioDePessoa(
         SelectionMenu(
             placeHolder = "Informe seu gênero",
             options = listOf("Masculino", "Feminino", "Outros", "Prefiro não informar"),
+
             onSelectedOption = {
                 selected = it
                 isExpanded = false
