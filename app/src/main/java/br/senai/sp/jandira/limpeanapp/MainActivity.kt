@@ -49,41 +49,43 @@ class MainActivity : ComponentActivity() {
                             )
 
                         }
-                        navigation(route = "register", startDestination = "address"){
+                        navigation(route = "register", startDestination = "address") {
                             composable("personal") {
                                 val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
                             }
-                            composable("address"){
-                                val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
+                            composable("address") {
+                                val authViewModel =
+                                    it.sharedViewModel<AuthViewModel>(navController = navController)
                                 val cepViewModel = viewModel<ViewModelCep>()
                                 RegisterScreen(
                                     title = "Adicione um Endereço",
                                     form = { AddressForm(cepViewModel) },
                                     nameButton = "Próximo"
-                                ){
-                                    if(cepViewModel.validateAddress()){
+                                ) {
+                                    if (cepViewModel.validateAddress()) {
                                         navController.navigate("profile")
                                     }
                                 }
                             }
-                            composable("profile"){
-                                val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
+                            composable("profile") {
+                                val authViewModel =
+                                    it.sharedViewModel<AuthViewModel>(navController = navController)
                                 RegisterScreen(
                                     title = "Dados Pessoais",
                                     form = {
-                                           PersonForm()
+                                        PersonForm()
                                     },
                                     nameButton = "Próxima"
-                                ) {
+                                ){
 
                                 }
                             }
-                        }
 
-                        composable("forgot_password") {
-                            val viewModel = it.sharedViewModel<AuthViewModel>(navController)
+                            composable("forgot_password") {
+                                val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
+                            }
                         }
                     }
                 }
@@ -99,3 +101,4 @@ inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navControll
     }
     return viewModel(parentEntry)
 }
+

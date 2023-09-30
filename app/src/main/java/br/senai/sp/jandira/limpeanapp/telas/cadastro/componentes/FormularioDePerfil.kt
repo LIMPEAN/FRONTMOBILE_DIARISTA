@@ -21,7 +21,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+<<<<<<< HEAD
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
+=======
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
+>>>>>>> b32abc5b2ab22d8161797d2c56321a4c569a36e1
 import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
@@ -33,100 +37,97 @@ import com.dsc.form_builder.TextFieldState
 import com.example.compose.LimpeanAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun FormularioDePerfil(
-//    salvarPerfil : (Perfil) -> Unit,
-//    tipoDeUsuario: TipoDeUsuario
-//) {
-//
-//    var photoUri by remember {
-//        mutableStateOf<Uri?>(null)
-//    }
-//
-//    var launcher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.GetContent()
-//    ) {
-//        photoUri = it
-//    }
-//    var painter = rememberAsyncImagePainter(
-//        ImageRequest.Builder(LocalContext.current)
-//            .data(photoUri)
-//            .build()
-//    )
-//    //Body
-//
-//    var biografiaState by remember {mutableStateOf("")}
-//    var biografiaError by remember { mutableStateOf("") }
-//    var biografiaHasError by remember { mutableStateOf(false) }
-//    var emailState by remember { mutableStateOf("") }
-//    var senhaState by remember {mutableStateOf("")}
-//    var senhaRepetidaState by remember {mutableStateOf("") }
-//    var mediaState by remember {
-//        mutableStateOf("")
-//    }
-//
-//
-//    Column(
-//        modifier = Modifier
-//            .padding(16.dp),
-//        verticalArrangement = Arrangement.SpaceBetween,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        FotoDePerfil()
-//        Spacer(modifier = Modifier.height(43.dp))
-//        Column {
-//            if(tipoDeUsuario.nomeEmPortugues == "Diarista"){
-//                CaixaDeTexto(
-//                    etiqueta = "Media",
-//                    estado = mediaState,
-//                    aoDigitar = {
-//                        mediaState = it
-//                    }
-//                )
-//                Spacer(modifier = Modifier.height(20.dp))
-//            }
-//            CaixaDeTexto(
-//                etiqueta = "Fale sobre você",
-//                estado = biografiaState,
-//                aoDigitar = { biografiaState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeTexto(
-//                etiqueta = "Seu melhor email",
-//                estado = emailState,
-//                aoDigitar = { emailState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeSenha(
-//                etiqueta = "Senha",
-//                estado = senhaState,
-//                aoDigitar = { senhaState = it}
-//            )
-//            Spacer(modifier = Modifier.height(20.dp))
-//            CaixaDeSenha(
-//                etiqueta = "Repita sua senha",
-//                estado = senhaRepetidaState ,
-//                aoDigitar = { senhaRepetidaState = it }
-//            )
-//
-//            Spacer(modifier = Modifier.height(30.dp))
-//
-//
-//        }
-//        BotaoDeCadastro(nomeDaAcao = "Continuar") {
-//            val perfil  = Perfil(
-//                fotoDePerfil = photoUri,
-//                biografia = biografiaState,
-//                email = emailState,
-//                senha = senhaState,
-//                media = mediaState.toDouble()
-//            )
-//            salvarPerfil(perfil)
-//        }
-//    }
-//
-//
-//}
+@Composable
+fun FormularioDePerfil(
+    salvarPerfil : (Perfil) -> Unit,
+    tipoDeUsuario: TipoDeUsuario
+) {
+
+    var photoUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    var launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        photoUri = it
+    }
+    var painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(photoUri)
+            .build()
+    )
+    //Body
+
+    var biografiaState by remember {mutableStateOf("")}
+    var biografiaError by remember { mutableStateOf("") }
+    var biografiaHasError by remember { mutableStateOf(false) }
+    var emailState by remember { mutableStateOf("") }
+    var senhaState by remember {mutableStateOf("")}
+    var senhaRepetidaState by remember {mutableStateOf("") }
+    var mediaState by remember {
+        mutableStateOf("")
+    }
+
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FotoDePerfil()
+        Spacer(modifier = Modifier.height(43.dp))
+        Column {
+            if(tipoDeUsuario.nomeEmPortugues == "Diarista"){
+                CaixaDeTexto(
+                    state = TextFieldState(
+                        name = "media",
+                        initial = ""
+                    )
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            CaixaDeTextoSemDropDown(
+                etiqueta = "Fale sobre você",
+                estado = biografiaState,
+                aoDigitar = { biografiaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            CaixaDeTextoSemDropDown(
+                etiqueta = "Seu melhor email",
+                estado = emailState,
+                aoDigitar = { emailState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            PasswordField(
+                etiqueta = "Senha",
+                estado = senhaState,
+                aoDigitar = { senhaState = it}
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            PasswordField(
+                etiqueta = "Repita sua senha",
+                estado = senhaRepetidaState ,
+                aoDigitar = { senhaRepetidaState = it }
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+        }
+        Button("Continuar", action = {val perfil  = Perfil(
+            fotoDePerfil = photoUri,
+            biografia = biografiaState,
+            email = emailState,
+            senha = senhaState,
+            media = mediaState.toDouble()
+        )
+            salvarPerfil(perfil)})
+    }
+
+
+}
 
 data class Perfil (
     val fotoDePerfil : Uri? = null,
@@ -141,7 +142,18 @@ data class Perfil (
 fun FormularioDePerfil() {
     val tipoDeUsuario = TipoDeUsuario.pegaCliente()
     LimpeanAppTheme {
+<<<<<<< HEAD
 
+=======
+        TelaDeCadastro(titulo = "Crie seu Perfil") {
+            FormularioDePerfil(
+                tipoDeUsuario = tipoDeUsuario,
+                salvarPerfil = {
+                    Log.i("PERFIL-CLIENTE",it.toString())
+                }
+            )
+        }
+>>>>>>> b32abc5b2ab22d8161797d2c56321a4c569a36e1
     }
 
 }
@@ -151,7 +163,18 @@ fun FormularioDePerfil() {
 fun FormularioDePerfilDeDiarista() {
     val tipoDeUsuario = TipoDeUsuario.pegaDiarista()
     LimpeanAppTheme {
+<<<<<<< HEAD
 
+=======
+        TelaDeCadastro(titulo = "Perfil") {
+            FormularioDePerfil(
+                tipoDeUsuario = tipoDeUsuario,
+                salvarPerfil = {
+                    Log.i("PERFIL-DIARISTA",it.toString())
+                }
+            )
+        }
+>>>>>>> b32abc5b2ab22d8161797d2c56321a4c569a36e1
     }
 
 }

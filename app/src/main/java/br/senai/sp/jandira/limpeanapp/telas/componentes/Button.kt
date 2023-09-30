@@ -26,12 +26,20 @@ import com.example.compose.md_theme_light_primary
 fun Button(
     name: String,
     containerColor: Color = md_theme_light_primary,
+<<<<<<< HEAD
     onClick: () -> Unit,
+=======
+    action: () -> Unit,
+>>>>>>> b32abc5b2ab22d8161797d2c56321a4c569a36e1
     modifier: Modifier = Modifier) {
     androidx.compose.material3
         .Button(
             modifier = modifier,
+<<<<<<< HEAD
             onClick = { onClick() },
+=======
+            onClick = { action() },
+>>>>>>> b32abc5b2ab22d8161797d2c56321a4c569a36e1
             shape = RoundedCornerShape(60.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,
