@@ -23,4 +23,12 @@
     <string name="dados_pessoais">Dados Pessoais</string>
     <string name="campo_obrigatorio">Este campo é obrigatório!</string>
     <string name="informe_genero">Informe seu gênero</string>
+    <string name="label_logradouro">Logradouro</string>
+    <string name="label_bairro">Bairro</string>
+    <string name="label_estado">Estado</string>
+    <string name="label_cidade">Cidade</string>
+    <string name="label_numero">Número</string>
+    <string name="label_media">Média</string>
+    <string name="label_tipo_casa">Selecione o tipo de Casa</string>
+    <string name="validate_not_null">Este campo não pode ser vazio!</string>
 </resources>

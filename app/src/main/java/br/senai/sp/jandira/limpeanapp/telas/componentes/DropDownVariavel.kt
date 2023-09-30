@@ -12,11 +12,12 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -33,10 +34,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             // Calling the composable function
             // to display element and its contents
-            MyContent()
+            PhoneNumberTypeMenu()
         }
     }
 }
+
 
 // Creating a composable function
 // to create an Outlined Text Field
@@ -44,76 +46,58 @@ class MainActivity : ComponentActivity() {
 // in the above function
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyContent(){
+fun PhoneNumberTypeMenu() {
+    val types = listOf("Fijo", "Móvil", "Trabajo", "Otro")
+    val default = 0
 
-    // Declaring a boolean value to store
-    // the expanded state of the Text Field
-    var mExpanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedType by remember { mutableStateOf(types[default]) } // (1)
 
-    // Create a list of cities
-    val mCities = listOf("Delhi", "Mumbai", "Chennai", "Kolkata", "Hyderabad", "Bengaluru", "Pune")
-
-    // Create a string value to store the selected city
-    var mSelectedText by remember { mutableStateOf("") }
-
-    var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
-
-    // Up Icon when expanded and down icon when collapsed
-    val icon = if (mExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(20.dp)) {
-
-        // Create an Outlined Text Field
-        // with icon and not expanded
-        OutlinedTextField(
-            value = mSelectedText,
-            onValueChange = { mSelectedText = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    // This value is used to assign to
-                    // the DropDown the same width
-                    mTextFieldSize = coordinates.size.toSize()
-                },
-            label = {Text("Label")},
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = {
+            expanded = !expanded // (2)
+        },
+        modifier = Modifier.width(150.dp)
+    ) {
+        TextField(
+            readOnly = true, // (3)
+            value = selectedType, // (4)
+            onValueChange = { },
+            label = { Text("Tipo") },
             trailingIcon = {
-                Icon(icon,"contentDescription",
-                    Modifier.clickable { mExpanded = !mExpanded })
-            }
+                ExposedDropdownMenuDefaults.TrailingIcon( // (5)
+                    expanded = expanded
+                )
+            },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
         )
-
-        // Create a drop-down menu with list of cities,
-        // when clicked, set the Text Field text as the city selected
-        DropdownMenu(
-            expanded = mExpanded,
-            onDismissRequest = { mExpanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
-            //git teste
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = true
+            }
         ) {
-            mCities.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    mSelectedText = label
-                    mExpanded = false
-                }) {
-
-                }
+                DropdownMenuItem(
+                    onClick = {
+                        selectedType = types[0]
+                        expanded = true
+                    },
+                    text = {
+                        Text(text = types[0])
+                    }
+                )
             }
         }
     }
-}
 
-fun DropdownMenuItem(onClick: () -> Unit, interactionSource: () -> Unit) {
 
-}
 
 // For displaying preview in
 // the Android Studio IDE emulator
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MyContent()
+    PhoneNumberTypeMenu()
 }
+

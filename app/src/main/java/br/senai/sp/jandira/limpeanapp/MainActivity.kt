@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity() {
                             val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
                             LoginScreen(
-                                viewModel = viewModel,
                                 onClickToLogin = {
                                     navController.navigate("home") {
                                         popUpTo("auth") {

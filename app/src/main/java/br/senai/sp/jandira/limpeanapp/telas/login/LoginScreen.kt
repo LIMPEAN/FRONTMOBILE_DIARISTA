@@ -2,9 +2,7 @@ package br.senai.sp.jandira.limpeanapp.telas.login
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,52 +12,37 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.telas.login.components.TextComLinhasLogin
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.R
-//import br.senai.sp.jandira.limpeanapp.dados.Logar
-import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
-
 import androidx.compose.ui.tooling.preview.Preview
-
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Logar
-import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
-import br.senai.sp.jandira.limpeanapp.telas.componentes.inputText
+import br.senai.sp.jandira.limpeanapp.telas.AuthViewModel
+import br.senai.sp.jandira.limpeanapp.telas.componentes.PasswordField
+import br.senai.sp.jandira.limpeanapp.telas.login.components.TextComLinhasLogin
 import br.senai.sp.jandira.limpeanapp.telas.login.components.inputTextEmail
 import com.example.compose.LimpeanAppTheme
-import com.example.compose.md_theme_light_background
-import com.example.compose.md_theme_light_onBackground
-import com.example.compose.md_theme_light_onPrimary
 import com.example.compose.md_theme_light_primary
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun TelaDeLogin(
-    tipoDeUsuario : TipoDeUsuario,
-    aoClicarEmLogar: (Logar) -> Unit
+fun LoginScreen(
+    onClickToLogin: () -> Unit
 ) {
 
     var login by remember {
@@ -87,11 +70,11 @@ fun TelaDeLogin(
 
         Spacer(modifier = Modifier.height(25.dp))
 
-//        CaixaDeSenha(
-//            etiqueta = "Digite sua senha...",
-//            estado = login.senha,
-//            aoDigitar = {}
-//        )
+        PasswordField(
+            etiqueta = "Digite sua senha...",
+            estado = login.senha?: "",
+            aoDigitar = {}
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -122,7 +105,7 @@ fun TelaDeLogin(
         Spacer(modifier = Modifier.height(25.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick =  onClickToLogin,
             modifier = Modifier.width(340.dp),
         ) {
             Text(text = "Logar")
@@ -164,15 +147,10 @@ fun TelaDeLogin(
 @RequiresApi(Build.VERSION_CODES.Q)
 @Preview(showSystemUi = true)
 @Composable
-fun TelaDeLoginPreview() {
+fun LoginScreenPreview() {
     LimpeanAppTheme {
-        val tipoDeUsuario = TipoDeUsuario.pegaCliente()
+       LoginScreen(onClickToLogin = {})
 
-        TelaDeLogin(
-            tipoDeUsuario = tipoDeUsuario
-        ){
-
-        }
 
     }
 }

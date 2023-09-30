@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,13 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.dados.repositorios.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
+import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
+import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
 import br.senai.sp.jandira.limpeanapp.telas.componentes.FotoDePerfil
+import br.senai.sp.jandira.limpeanapp.telas.componentes.PasswordField
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.dsc.form_builder.TextFieldState
 import com.example.compose.LimpeanAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -139,14 +141,7 @@ data class Perfil (
 fun FormularioDePerfil() {
     val tipoDeUsuario = TipoDeUsuario.pegaCliente()
     LimpeanAppTheme {
-        TelaDeCadastro(titulo = "Crie seu Perfil") {
-//            FormularioDePerfil(
-//                tipoDeUsuario = tipoDeUsuario,
-//                salvarPerfil = {
-//                    Log.i("PERFIL-CLIENTE",it.toString())
-//                }
-//            )
-        }
+
     }
 
 }
@@ -156,14 +151,7 @@ fun FormularioDePerfil() {
 fun FormularioDePerfilDeDiarista() {
     val tipoDeUsuario = TipoDeUsuario.pegaDiarista()
     LimpeanAppTheme {
-        TelaDeCadastro(titulo = "Perfil") {
-//            FormularioDePerfil(
-//                tipoDeUsuario = tipoDeUsuario,
-//                salvarPerfil = {
-//                    Log.i("PERFIL-DIARISTA",it.toString())
-//                }
-//            )
-        }
+
     }
 
 }

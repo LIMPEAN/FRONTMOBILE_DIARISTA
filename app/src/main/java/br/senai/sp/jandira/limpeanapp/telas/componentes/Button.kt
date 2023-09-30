@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.telas.componentes
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,13 +26,12 @@ import com.example.compose.md_theme_light_primary
 fun Button(
     name: String,
     containerColor: Color = md_theme_light_primary,
-    action: () -> Unit,
-    height : Dp = 60.dp,
-    width : Dp = 270.dp) {
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier) {
     androidx.compose.material3
         .Button(
-            modifier = Modifier.size(height = height, width = width),
-            onClick = { action() },
+            modifier = modifier,
+            onClick = { onClick() },
             shape = RoundedCornerShape(60.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,
@@ -39,7 +40,7 @@ fun Button(
         ) {
             Text(
                 text = name,
-                color = Color.Black,
+                color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )
@@ -49,5 +50,5 @@ fun Button(
 @Preview(showBackground = true)
 @Composable
 fun ButtonPreview() {
-    Button(name = "Próximo", action = { /*TODO*/ })
+    Button(name = "Próximo", onClick = { /*TODO*/ })
 }
