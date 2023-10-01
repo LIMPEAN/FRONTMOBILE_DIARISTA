@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.FormularioDePerfil
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.user.UserForm
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import android.widget.Toast
@@ -76,54 +76,6 @@ fun TelaDeCadastro(
 
 
 
-
-<<<<<<< HEAD
-//@SuppressLint("SuspiciousIndentation")
-//@Composable
-//fun CadastroDeCliente(
-//    status : String?,
-//    cadastrarDiaristaFake : (UserApi) -> Unit
-//) {
-//
-//    val diaristaFakeEmJson = "{   \n" +
-//            "    \"typeUser\": \"diarist\",\n" +
-//            "    \"email\": \"paulo@gmail.com\",\n" +
-//            "    \"password\": \"135796\",\n" +
-//            "    \"nameUser\" : \"Felipe Florencio\",\n" +
-//            "    \"photoUser\" : \"https://fotoUsuario.png\",\n" +
-//            "    \"phone\": \"959601631\",\n" +
-//            "    \"ddd\": \"11\",\n" +
-//            "    \"birthDate\": \"2006-12-23\",\n" +
-//            "    \"idGender\": 2,\n" +
-//            "    \"cpf\": \"449.688.110-12\",\n" +
-//            "    \"biography\": \"Biografia. OBS: Pode ser null\",\n" +
-//            "    \"averagePrice\": \"2.00\",\n" +
-//            "            \"address\" : {\n" +
-//            "                 \"state\": 4,\n" +
-//            "                 \"city\": \"Cidade\",\n" +
-//            "                 \"cep\" : \"06720250\",\n" +
-//            "                 \"publicPlace\" : \"Rua da flores\",\n" +
-//            "                 \"complement\": \"Complemento. OBS: Pode ser null\",\n" +
-//            "                 \"district\": \"Bairroo\",\n" +
-//            "                 \"houseNumber\": \"203\"\n" +
-//            "                }\n" +
-//            "    \n" +
-//            "}"
-//
-//
-//    if(status != null){
-//        Text(text = status)
-//    }
-//    TelaDeCadastro(titulo = "Cadastro Rapido") {
-//        Button("Cadastrar", action = {val gson = Gson()
-//            val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
-//            cadastrarDiaristaFake(diaristaFake)
-//            //Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
-//        })
-//
-//    }
-//}
-=======
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun CadastroDeCliente(
@@ -161,7 +113,7 @@ fun CadastroDeCliente(
         Text(text = status)
     }
     TelaDeCadastro(titulo = "Cadastro Rapido") {
-        Button("Cadastrar", action = {val gson = Gson()
+        Button("Cadastrar", onClick = {val gson = Gson()
             val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
             cadastrarDiaristaFake(diaristaFake)
             //Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
@@ -169,7 +121,6 @@ fun CadastroDeCliente(
 
     }
 }
->>>>>>> 6f4efbc06c876d2eefcb9d69253683d1e3149875
 
 @Preview
 @Composable
@@ -193,15 +144,7 @@ fun CadastroTeste() {
         }
     }
 
-<<<<<<< HEAD
-//    Column {
-//        TelaDeCadastro(titulo = "Cadastro Rápido") {
-//            CadastroDeCliente(status = viewModel.cadastroState.status) { userData ->
-//                viewModel.cadastrarUsuario(userData)
-//            }
-//        }
-//    }
-=======
+
     Column {
         TelaDeCadastro(titulo = "Cadastro Rápido") {
             CadastroDeCliente(status = viewModel.cadastroState.status) { userData ->
@@ -209,7 +152,6 @@ fun CadastroTeste() {
             }
         }
     }
->>>>>>> 6f4efbc06c876d2eefcb9d69253683d1e3149875
 }
 
 @Preview
@@ -217,7 +159,7 @@ fun CadastroTeste() {
 fun CadastroTeste1() {
     LimpeanAppTheme {
         TelaDeCadastro(titulo = "Crie seu Perfil") {
-            FormularioDePerfil()
+            UserForm()
         }
     }
 }

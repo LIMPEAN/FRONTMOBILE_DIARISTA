@@ -23,9 +23,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
+import com.example.compose.LimpeanAppTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,19 +51,19 @@ fun PasswordField (
             Text(
                 text = etiqueta,
 
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.inter)),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF53575A),
+//                style = TextStyle(
+////                    fontSize = 12.sp,
+////                    lineHeight = 16.sp,
+////                    fontFamily = FontFamily(Font(R.font.inter)),
+////                    fontWeight = FontWeight(400),
+////                    color = Color(0xFF53575A),
                 )
-            )
+
         },
         singleLine = true,
-        modifier = Modifier
-            .width(368.dp),
-        shape = RoundedCornerShape(8.dp),
+//        modifier = Modifier
+//            .width(368.dp),
+//        shape = RoundedCornerShape(8.dp),
         visualTransformation = if (passVisibilityState)
             PasswordVisualTransformation()
         else
@@ -82,8 +84,17 @@ fun PasswordField (
     )
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun CaixaDeSenhaPreview() {
-//    CaixaDeSenha()
-//}
+@Preview(showBackground = true)
+@Composable
+fun CaixaDeSenhaPreview() {
+    var passwordState by remember { mutableStateOf("") }
+    LimpeanAppTheme {
+        PasswordField(
+            "Senha",
+            estado = passwordState,
+            aoDigitar = {passwordState = it}
+        )
+
+    }
+
+}

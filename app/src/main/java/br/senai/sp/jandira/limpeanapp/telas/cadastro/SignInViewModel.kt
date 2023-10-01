@@ -1,51 +1,57 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
-import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
 import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.RepositorioDeUsuario
 import br.senai.sp.jandira.limpeanapp.regras.MaskTransformation
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.Perfil
+import br.senai.sp.jandira.limpeanapp.regras.use_cases.ValidateRepeatedPassword
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.user.UserFormBuilder
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.user.UserState
+import coil.request.ImageRequest
 import com.dsc.form_builder.ChoiceState
 import com.dsc.form_builder.FormState
-import com.dsc.form_builder.SelectState
 import com.dsc.form_builder.TextFieldState
 import com.dsc.form_builder.Validators
-import org.jetbrains.annotations.TestOnly
 
 class SignInViewModel(
     private val repositorioDeUsuario: RepositorioDeUsuario,
+    private val validateRepeatedPassword : ValidateRepeatedPassword = ValidateRepeatedPassword()
 
 ) : ViewModel(){
 
-
+    private var userApi by mutableStateOf(UserApi())
+    var userCreated by mutableStateOf<UserState?>(null)
+        private set
 
     var uiState by mutableStateOf(PersonFormState())
-        private set
-    var generosState by mutableStateOf(Genero.values())
         private set
     var cadastroState by mutableStateOf(CadastroState())
         private set
 
-    var user by mutableStateOf(UserApi())
+
+
+    var userForm : FormState<TextFieldState> by mutableStateOf(UserFormBuilder.build())
         private set
 
-
+    var photoUri by mutableStateOf<Uri?>(null)
 
     private fun getGenderId(genderName : String) : Int{
         return when (genderName){
@@ -85,36 +91,16 @@ class SignInViewModel(
         }
     }
 
-
+    
     fun onSelectGender(genderName : String){
         val genderId = getGenderId(genderName)
-        user = user.copy(
+        userApi = userApi.copy(
             genderId = genderId
         )
         val genderState : ChoiceState = uiState.personForm.getState("gender")
         genderState.change(genderName)
     }
-    fun getTransformations() : List<MaskTransformation>{
-        return listOf(
-            MaskTransformation.CPF,
-            MaskTransformation.DATE,
-            MaskTransformation.PHONE
-        )
-    }
 
-    fun alterarTipoDeUsuario(tipoDeUsuario : TipoDeUsuario){
-        cadastroState = cadastroState.copy(tipoDeUsuario = tipoDeUsuario)
-    }
-
-    fun salvarPerfil(perfil : Perfil){
-        cadastroState = cadastroState.copy(userData = UserApi(
-            photoUrl = perfil.fotoDePerfil.toString(),
-            biography = perfil.biografia,
-            email = perfil.email,
-            password = perfil.senha,
-            averagePrice = perfil.media
-        ))
-    }
 
     fun getPersonData(){
         val personForm = this.uiState.personForm
@@ -124,15 +110,31 @@ class SignInViewModel(
 
     fun savePerson(person : PersonData){
         val (name,cpf,dateBirth, gender) = person
-        user = user.copy(
+        userApi = userApi.copy(
             userName = name,
             cpf = cpf,
             birthDate = dateBirth,
             genderId = getGenderId(gender)
         )
-        Log.i("UserApi Updated", user.toString())
+        Log.i("UserApi Updated", userApi.toString())
 
     }
+
+    fun validateUserForm(){
+        val userData = userForm.getData(UserState::class)
+//        val automaticFormValidation = this.userForm.validate()
+//        val result = validateRepeatedPassword.execute(
+//            userData.password, userData.repeatedPassword
+//        )
+//        val hasError = listOf(
+//            result,
+//            automaticFormValidation
+//        ).any { it == false }
+
+        userCreated = userData
+
+    }
+
 
 //    fun createUser(usuario : ti){
 //        viewModelScope.launch {
@@ -254,7 +256,7 @@ data class PersonFormState(
                 )
             )
         )
-    )
+    ),
 )
 
 data class PersonData(

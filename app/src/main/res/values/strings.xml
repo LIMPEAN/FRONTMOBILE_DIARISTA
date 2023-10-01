@@ -31,4 +31,5 @@
     <string name="label_media">Média</string>
     <string name="label_tipo_casa">Selecione o tipo de Casa</string>
     <string name="validate_not_null">Este campo não pode ser vazio!</string>
+    <string name="description_profile_photo">Escolha uma foto de perfil</string>
 </resources>

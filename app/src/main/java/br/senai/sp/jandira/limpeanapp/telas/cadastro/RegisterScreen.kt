@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
+import CepViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
@@ -20,9 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.PersonForm
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.user.UserForm
 import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
@@ -46,7 +51,7 @@ fun RegisterScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.15f)
+                    .fillMaxHeight(0.13f)
                     ,
                 contentAlignment = Alignment.Center
             ) {
@@ -62,7 +67,7 @@ fun RegisterScreen(
         bottomBar = {
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.2f)
+                .fillMaxHeight(0.13f)
             ) {
                 Button(
                     modifier = Modifier
@@ -172,5 +177,43 @@ fun RegisterScreenDefaultPreview() {
     }
 }
 
+@Composable
+fun RegisterProfileScreen(
+    viewModel : SignInViewModel = viewModel<SignInViewModel>(factory = SignInViewModel.fazerIntegracaoComApi),
+    onNext: () -> Unit
+){
+    val viewModelCep = viewModel<CepViewModel>()
+    RegisterScreen(
+        title = "Crie seu Perfil",
+        form = { UserForm(viewModel) },
+        nameButton = "Continuar") {
+        onNext()
+    }
+}
+@Composable
+fun RegisterPersonScreen(
+    viewModel : SignInViewModel = viewModel<SignInViewModel>(factory = SignInViewModel.fazerIntegracaoComApi),
+    onNext: () -> Unit
+){
+    RegisterScreen(
+        title = "Dados Pessoais",
+        form = { PersonForm(viewModel) },
+        nameButton = "Continuar") {
+        onNext()
+    }
+}
+@Composable
+fun RegisterAddressScreen(
+    viewModel : SignInViewModel = viewModel<SignInViewModel>(factory = SignInViewModel.fazerIntegracaoComApi),
+    onFinish: () -> Unit
+){
+    val viewModelCep = viewModel<CepViewModel>()
+    RegisterScreen(
+        title = "Adicione um endereço",
+        form = { AddressForm(viewModelCep) },
+        nameButton = "Finalizar") {
+        onFinish()
+    }
+}
 
 
