@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp
 
 import androidx.compose.ui.text.AnnotatedString
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.MaskTransformation
+import br.senai.sp.jandira.limpeanapp.regras.MaskTransformation
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

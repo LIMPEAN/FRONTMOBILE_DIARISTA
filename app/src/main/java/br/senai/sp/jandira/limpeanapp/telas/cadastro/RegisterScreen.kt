@@ -102,59 +102,58 @@ fun RegisterScreen(
 
 
 
-
-
-@SuppressLint("SuspiciousIndentation")
-@Composable
-fun CadastroDeCliente(
-    status : String?,
-    cadastrarDiaristaFake : (UserApi) -> Unit
-) {
-
-    val diaristaFakeEmJson = "{   \n" +
-            "    \"typeUser\": \"diarist\",\n" +
-            "    \"email\": \"paulo@gmail.com\",\n" +
-            "    \"password\": \"135796\",\n" +
-            "    \"nameUser\" : \"Felipe Florencio\",\n" +
-            "    \"photoUser\" : \"https://fotoUsuario.png\",\n" +
-            "    \"phone\": \"959601631\",\n" +
-            "    \"ddd\": \"11\",\n" +
-            "    \"birthDate\": \"2006-12-23\",\n" +
-            "    \"idGender\": 2,\n" +
-            "    \"cpf\": \"449.688.110-12\",\n" +
-            "    \"biography\": \"Biografia. OBS: Pode ser null\",\n" +
-            "    \"averagePrice\": \"2.00\",\n" +
-            "            \"address\" : {\n" +
-            "                 \"state\": 4,\n" +
-            "                 \"city\": \"Cidade\",\n" +
-            "                 \"cep\" : \"06720250\",\n" +
-            "                 \"publicPlace\" : \"Rua da flores\",\n" +
-            "                 \"complement\": \"Complemento. OBS: Pode ser null\",\n" +
-            "                 \"district\": \"Bairroo\",\n" +
-            "                 \"houseNumber\": \"203\"\n" +
-            "                }\n" +
-            "    \n" +
-            "}"
-
-
-    if(status != null){
-        Text(text = status)
-    }
-    val gson = Gson()
-    RegisterScreen(
-        navController = rememberNavController(),
-        title = "Cadastro Rapido",
-        form = {
-            Text(modifier = Modifier.padding(it),text = "Formulario")
-        },
-        nameButton = "Cadastrar",
-        onClick = {
-            val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
-            cadastrarDiaristaFake(diaristaFake)
-            //Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
-        }
-    )
-}
+//
+//
+////@Composable
+////fun CadastroDeCliente(
+////    status : String?,
+////    cadastrarDiaristaFake : (UserApi) -> Unit
+////) {
+//
+//    val diaristaFakeEmJson = "{   \n" +
+//            "    \"typeUser\": \"diarist\",\n" +
+//            "    \"email\": \"paulo@gmail.com\",\n" +
+//            "    \"password\": \"135796\",\n" +
+//            "    \"nameUser\" : \"Felipe Florencio\",\n" +
+//            "    \"photoUser\" : \"https://fotoUsuario.png\",\n" +
+//            "    \"phone\": \"959601631\",\n" +
+//            "    \"ddd\": \"11\",\n" +
+//            "    \"birthDate\": \"2006-12-23\",\n" +
+//            "    \"idGender\": 2,\n" +
+//            "    \"cpf\": \"449.688.110-12\",\n" +
+//            "    \"biography\": \"Biografia. OBS: Pode ser null\",\n" +
+//            "    \"averagePrice\": \"2.00\",\n" +
+//            "            \"address\" : {\n" +
+//            "                 \"state\": 4,\n" +
+//            "                 \"city\": \"Cidade\",\n" +
+//            "                 \"cep\" : \"06720250\",\n" +
+//            "                 \"publicPlace\" : \"Rua da flores\",\n" +
+//            "                 \"complement\": \"Complemento. OBS: Pode ser null\",\n" +
+//            "                 \"district\": \"Bairroo\",\n" +
+//            "                 \"houseNumber\": \"203\"\n" +
+//            "                }\n" +
+//            "    \n" +
+//            "}"
+//
+//
+//    if(status != null){
+//        Text(text = status)
+//    }
+//    val gson = Gson()
+//    RegisterScreen(
+//        navController = rememberNavController(),
+//        title = "Cadastro Rapido",
+//        form = {
+//            Text(modifier = Modifier.padding(it),text = "Formulario")
+//        },
+//        nameButton = "Cadastrar",
+//        onClick = {
+//            val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
+//            cadastrarDiaristaFake(diaristaFake)
+//            //Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)
+//        }
+//    )
+//}
 
 
 @Preview

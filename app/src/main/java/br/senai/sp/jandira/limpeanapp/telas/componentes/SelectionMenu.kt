@@ -11,8 +11,11 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemColors
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,9 +51,8 @@ fun SelectionMenu(
         onExpandedChange = { newValue ->
             isExpanded = newValue
         },
-        modifier = Modifier.width(368.dp)
     ) {
-        TextField (
+        OutlinedTextField (
             value = selected,
             onValueChange = {},
             readOnly = true,
@@ -59,21 +61,14 @@ fun SelectionMenu(
             },
             placeholder = {
                 Text(
-                    text = placeHolder,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        fontFamily = FontFamily(Font(R.font.inter)),
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF19161D),
-                        letterSpacing = 0.2.sp,
-                    )
+                    text = placeHolder
                 )
             },
-            colors = ExposedDropdownMenuDefaults .textFieldColors(
-            ),
             modifier = Modifier.menuAnchor(),
-            shape = RoundedCornerShape(size = 40.dp)
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.White
+            )
+
         )
         ExposedDropdownMenu(
             expanded = isExpanded,
@@ -85,15 +80,7 @@ fun SelectionMenu(
             options.map {
                 DropdownMenuItem(
                     text = { Text(
-                        text = it,
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            fontFamily = FontFamily(Font(R.font.inter)),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF19161D),
-                            letterSpacing = 0.2.sp,
-                        )
+                        text = it
                     ) },
                     onClick = {
                         selected = it

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes
 
+import CepViewModel
 import ViewModelCep
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,11 +41,11 @@ import com.example.compose.md_theme_light_primary
 
 @Composable
 fun AddressForm(
-      viewModelCep: ViewModelCep = viewModel(),
+      cepViewModel: CepViewModel = viewModel(),
 ) {
 
 
-      val uiState = viewModelCep.uiState
+      val uiState = cepViewModel.uiState
       val formState = uiState.addressForm
       val cepState: TextFieldState = formState.getState("Cep")
       val numberState : TextFieldState = formState.getState("Número")
@@ -70,7 +71,7 @@ fun AddressForm(
                   onValueChange = {
                         cepState.change(it)
                         if (it.length == 8) {
-                              viewModelCep.fetchCep(it)
+                              cepViewModel.fetchCep(it)
                         }
                   }
             )
@@ -122,13 +123,13 @@ fun AddressForm(
 @Composable
 fun AddressPreview() {
       val route = "address"
-      val viewModelCep = viewModel<ViewModelCep>()
-      val addressForm = viewModelCep.uiState.addressForm
+      val cepViewModel = viewModel<CepViewModel>()
+      val addressForm = cepViewModel.uiState.addressForm
       LimpeanAppTheme {
             RegisterScreen(
                   title = "Teste",
                   form = {
-                        AddressForm(viewModelCep)
+                        AddressForm(cepViewModel)
                   } ,
                   nameButton = "Teste Adress"
             ) {

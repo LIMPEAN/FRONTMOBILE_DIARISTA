@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp
 
-import ViewModelCep
+import CepViewModel
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.telas.AuthViewModel
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.PersonForm
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.PersonForm
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
 import br.senai.sp.jandira.limpeanapp.telas.login.LoginScreen
@@ -49,41 +49,42 @@ class MainActivity : ComponentActivity() {
                             )
 
                         }
-                        navigation(route = "register", startDestination = "address"){
+                        navigation(route = "register", startDestination = "address") {
                             composable("personal") {
                                 val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
                             }
-                            composable("address"){
-                                val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
-                                val cepViewModel = viewModel<ViewModelCep>()
+                            composable("address") {
+                                val authViewModel =
+                                    it.sharedViewModel<AuthViewModel>(navController = navController)
+                                val cepViewModel = viewModel<CepViewModel>()
                                 RegisterScreen(
                                     title = "Adicione um Endereço",
                                     form = { AddressForm(cepViewModel) },
                                     nameButton = "Próximo"
-                                ){
-                                    if(cepViewModel.validateAddress()){
+                                ) {
+                                    if (cepViewModel.validateAddress()) {
                                         navController.navigate("profile")
                                     }
                                 }
                             }
-                            composable("profile"){
+                            composable("profile") {
                                 val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
                                 RegisterScreen(
                                     title = "Dados Pessoais",
                                     form = {
-                                           PersonForm()
+                                        PersonForm()
                                     },
                                     nameButton = "Próxima"
-                                ) {
+                                ){
 
                                 }
                             }
-                        }
 
-                        composable("forgot_password") {
-                            val viewModel = it.sharedViewModel<AuthViewModel>(navController)
+                            composable("forgot_password") {
+                                val viewModel = it.sharedViewModel<AuthViewModel>(navController)
 
+                            }
                         }
                     }
                 }
@@ -99,3 +100,4 @@ inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navControll
     }
     return viewModel(parentEntry)
 }
+

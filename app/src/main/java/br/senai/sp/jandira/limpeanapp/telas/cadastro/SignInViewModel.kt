@@ -1,81 +1,61 @@
 package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
+import br.senai.sp.jandira.limpeanapp.dados.modelos.Telefone
 import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.RepositorioDeUsuario
+import br.senai.sp.jandira.limpeanapp.regras.MaskTransformation
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.Perfil
 import com.dsc.form_builder.ChoiceState
 import com.dsc.form_builder.FormState
+import com.dsc.form_builder.SelectState
 import com.dsc.form_builder.TextFieldState
 import com.dsc.form_builder.Validators
+import org.jetbrains.annotations.TestOnly
+
 class SignInViewModel(
     private val repositorioDeUsuario: RepositorioDeUsuario,
+
 ) : ViewModel(){
 
 
+
+    var uiState by mutableStateOf(PersonFormState())
+        private set
     var generosState by mutableStateOf(Genero.values())
         private set
     var cadastroState by mutableStateOf(CadastroState())
         private set
 
-    val personFormState = FormState(
-        fields = listOf(
-            TextFieldState(
-                name = "Nome",
-                initial = "",
-                validators = listOf(
-                    Validators.Required("Este campo não pode estar vazio!"),
-                    Validators.Max(100, "O nome pode ter até 100 caracteres.")
-                )
-            ),
-            TextFieldState(
-                name = "Cpf",
-                initial = "",
-                validators = listOf(
-                    Validators.Required("Este campo é obrigatório!"),
-                    Validators.MinValue(20, "Minímo : O cpf deve ter 20 caracteres!"),
-                    Validators.MaxValue(20, "Máximo : O cpf deve ter 20 caracteres!"),
-                    Validators.Custom("Este Cpf não é um cpf válido!") {
-                        validarCpf(it.toString())
-                    }
-                )
-            ),
-            TextFieldState(
-                name = "Telefone",
-                initial = "",
-                validators = listOf(
-                    Validators.Required("Este campo é obrigatório!"),
-                    Validators.Phone("Deve ser um telefone válido!")
-                )
-            ),
-            TextFieldState(
-                name = "Data de Nascimento",
-                initial = "",
-                validators = listOf(
-                    Validators.Required("Este campo é obrigatório!"),
-                    Validators.Custom("Deve ser uma data de nascimento válida!"){
-                        validarData(it.toString())
-                    }
-                )
-            ),
-            ChoiceState(
-                name = "Generos",
-                validators = listOf(
-                    Validators.Required("Deve estar selecionado uma opção!"),
-                )
-            )
-        )
-    )
+    var user by mutableStateOf(UserApi())
+        private set
+
+
+
+    private fun getGenderId(genderName : String) : Int{
+        return when (genderName){
+            Genero.MASCULINO.etiqueta -> Genero.MASCULINO.id
+            Genero.FEMININO.etiqueta -> Genero.FEMININO.id
+            Genero.OUTRO.etiqueta -> Genero.OUTRO.id
+            Genero.PREFIRO_NAO_INFORMAR.etiqueta -> Genero.PREFIRO_NAO_INFORMAR.id
+            else -> {return 0}
+        }
+    }
 
     fun cadastrarUsuario(userData: UserApi) {
         repositorioDeUsuario.adicionarUsuario(userData, object : RepositorioDeUsuario.RepositorioDeUsuarioCallback {
@@ -96,6 +76,31 @@ class SignInViewModel(
         return true
     }
 
+    fun getVisualTransformation(type: String) : MaskTransformation? {
+        return when(type){
+            "cpf" ->  MaskTransformation.CPF
+            "dateBirth" -> MaskTransformation.DATE
+            "phone" -> MaskTransformation.PHONE
+            else -> null
+        }
+    }
+
+
+    fun onSelectGender(genderName : String){
+        val genderId = getGenderId(genderName)
+        user = user.copy(
+            genderId = genderId
+        )
+        val genderState : ChoiceState = uiState.personForm.getState("gender")
+        genderState.change(genderName)
+    }
+    fun getTransformations() : List<MaskTransformation>{
+        return listOf(
+            MaskTransformation.CPF,
+            MaskTransformation.DATE,
+            MaskTransformation.PHONE
+        )
+    }
 
     fun alterarTipoDeUsuario(tipoDeUsuario : TipoDeUsuario){
         cadastroState = cadastroState.copy(tipoDeUsuario = tipoDeUsuario)
@@ -111,7 +116,23 @@ class SignInViewModel(
         ))
     }
 
+    fun getPersonData(){
+        val personForm = this.uiState.personForm
+        val personDTO = personForm.getData(PersonData::class)
+        savePerson(personDTO)
+    }
 
+    fun savePerson(person : PersonData){
+        val (name,cpf,dateBirth, gender) = person
+        user = user.copy(
+            userName = name,
+            cpf = cpf,
+            birthDate = dateBirth,
+            genderId = getGenderId(gender)
+        )
+        Log.i("UserApi Updated", user.toString())
+
+    }
 
 //    fun createUser(usuario : ti){
 //        viewModelScope.launch {
@@ -179,6 +200,7 @@ class SignInViewModel(
 //        }
 
 
+
     }
 
 
@@ -188,3 +210,67 @@ data class CadastroState(
     val tipoDeUsuario : TipoDeUsuario? = null,
     val userData : UserApi? = null
 )
+data class PersonFormState(
+    val personForm : FormState<TextFieldState> = FormState(
+        fields = listOf(
+            TextFieldState(
+                name = "name",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo não pode estar vazio!"),
+                    Validators.Max(100, "O nome pode ter até 100 caracteres.")
+                )
+            ),
+            TextFieldState(
+                name = "cpf",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.Max(14, "Cpf deve ter 14 caracteres : Somente número!"),
+                    Validators.Custom("Este Cpf não é um cpf válido!") { validateCpf(it.toString()) }
+                )
+            ),
+            TextFieldState(
+                name = "phone",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.Phone("Deve ser um telefone válido!")
+                )
+            ),
+            TextFieldState(
+                name = "dateBirth",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Este campo é obrigatório!"),
+                    Validators.Custom("Deve ser uma data de nascimento válida!"){ validateData(it.toString()) }
+                )
+            ),
+            ChoiceState(
+                name = "gender",
+                initial = "",
+                validators = listOf(
+                    Validators.Required("Escolha uma das opções!")
+                )
+            )
+        )
+    )
+)
+
+data class PersonData(
+    val name: String,
+    val cpf: String,
+    val dateBirth : String,
+    val gender : String
+)
+fun validateCpf(cpf: String) : Boolean{
+    if(cpf.length > 14){
+        return false
+    }
+    return true
+}
+fun validateData(date : String) : Boolean{
+    return true
+}
+
+

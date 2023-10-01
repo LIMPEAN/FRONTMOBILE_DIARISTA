@@ -18,7 +18,7 @@ import com.dsc.form_builder.TextFieldState
 import com.dsc.form_builder.Validators
 import kotlinx.coroutines.launch
 
-class ViewModelCep(
+class CepViewModel(
     private val userType: TipoDeUsuario = TipoDeUsuario.pegaDiarista()
 ): ViewModel() {
     // Função para buscar informações do CEP
