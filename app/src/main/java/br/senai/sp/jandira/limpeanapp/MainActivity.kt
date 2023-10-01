@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
                                 val authViewModel =
                                     it.sharedViewModel<AuthViewModel>(navController = navController)
                                 val cepViewModel = viewModel<CepViewModel>()
+
                                 RegisterScreen(
                                     title = "Adicione um Endereço",
                                     form = { AddressForm(cepViewModel) },
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("profile") {
                                 val authViewModel = it.sharedViewModel<AuthViewModel>(navController = navController)
+
                                 RegisterScreen(
                                     title = "Dados Pessoais",
                                     form = {

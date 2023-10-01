@@ -27,11 +27,14 @@ fun Button(
     name: String,
     containerColor: Color = md_theme_light_primary,
     onClick: () -> Unit,
+
     modifier: Modifier = Modifier) {
     androidx.compose.material3
         .Button(
             modifier = modifier,
+
             onClick = { onClick() },
+
             shape = RoundedCornerShape(60.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,

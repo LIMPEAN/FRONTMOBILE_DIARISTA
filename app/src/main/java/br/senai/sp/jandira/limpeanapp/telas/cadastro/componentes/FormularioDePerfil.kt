@@ -21,6 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
+import br.senai.sp.jandira.limpeanapp.telas.cadastro.TelaDeCadastro
+
 import br.senai.sp.jandira.limpeanapp.telas.componentes.Button
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTexto
 import br.senai.sp.jandira.limpeanapp.telas.componentes.CaixaDeTextoSemDropDown
@@ -34,8 +36,10 @@ import com.example.compose.LimpeanAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioDePerfil(
-    salvarPerfil : (Perfil) -> Unit = {},
+
+    salvarPerfil : () -> Unit = {},
     tipoDeUsuario: TipoDeUsuario = TipoDeUsuario.pegaDiarista()
+
 ) {
 
     var photoUri by remember {
@@ -111,17 +115,7 @@ fun FormularioDePerfil(
 
 
         }
-        Button("Continuar", onClick = {val perfil  = Perfil(
-            fotoDePerfil = photoUri,
-            biografia = biografiaState,
-            email = emailState,
-            senha = senhaState,
-            media = mediaState.toDouble()
-        )
-            salvarPerfil(perfil)})
     }
-
-
 }
 
 data class Perfil (
