@@ -6,8 +6,3 @@ sealed class NavigationRoute(val route: String) {
     object Home : NavigationRoute("home")
     object Settings : NavigationRoute("settings")
 }
-sealed class RegisterRoute(val route: String) {
-    object Person : RegisterRoute("person")
-    object Profile : RegisterRoute("profile")
-    object Address : RegisterRoute("address")
-}

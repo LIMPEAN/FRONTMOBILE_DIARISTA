@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.telas.cadastro
 
 import CepViewModel
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -81,7 +82,7 @@ fun RegisterScreen(
 
                     ,
                     name = nameButton,
-                    onClick = onClick
+                    onClick = { onClick() }
                 )
             }
 
@@ -190,6 +191,8 @@ fun RegisterProfileScreen(
         onNext()
     }
 }
+
+
 @Composable
 fun RegisterPersonScreen(
     viewModel : SignInViewModel = viewModel<SignInViewModel>(factory = SignInViewModel.fazerIntegracaoComApi),
@@ -212,8 +215,25 @@ fun RegisterAddressScreen(
         title = "Adicione um endereço",
         form = { AddressForm(viewModelCep) },
         nameButton = "Finalizar") {
-        onFinish()
+                onFinish()
     }
+}
+
+
+@Preview
+@Composable
+fun RegisterPersonScreenPreview() {
+    RegisterPersonScreen(
+        onNext = {}
+    )
+}
+
+@Preview
+@Composable
+fun RegisterAddressScreenPreview() {
+    RegisterAddressScreen(
+        onFinish = {}
+    )
 }
 
 

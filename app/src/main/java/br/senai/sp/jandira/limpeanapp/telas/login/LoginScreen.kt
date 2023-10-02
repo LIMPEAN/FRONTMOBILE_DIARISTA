@@ -39,7 +39,7 @@ import br.senai.sp.jandira.limpeanapp.telas.login.components.inputTextEmail
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun LoginScreen(
     onClickToLogin: () -> Unit
