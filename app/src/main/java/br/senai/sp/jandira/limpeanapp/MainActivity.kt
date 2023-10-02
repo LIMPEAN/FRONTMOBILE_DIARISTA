@@ -27,7 +27,6 @@ import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.PersonForm
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.SignInViewModel
 import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.person.RegisterPersonScreen
 import br.senai.sp.jandira.limpeanapp.telas.login.LoginScreen
 import com.example.compose.LimpeanAppTheme
 

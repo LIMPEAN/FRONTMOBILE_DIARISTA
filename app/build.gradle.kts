@@ -91,7 +91,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     // ViewModel utilities for Compose
 
-//teste
+    //teste
     //teste
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1") //teste
 

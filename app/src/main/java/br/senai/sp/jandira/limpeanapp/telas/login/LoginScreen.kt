@@ -55,7 +55,8 @@ fun LoginScreen(
 
     Column(
         modifier = Modifier.padding(20.dp),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center
     ) {
 
         Text(text = "Entrar", color = md_theme_light_primary, fontSize = 30.sp)
@@ -143,6 +144,7 @@ fun LoginScreen(
             }
         }
     }
+
 }
 @RequiresApi(Build.VERSION_CODES.Q)
 @Preview(showSystemUi = true)
