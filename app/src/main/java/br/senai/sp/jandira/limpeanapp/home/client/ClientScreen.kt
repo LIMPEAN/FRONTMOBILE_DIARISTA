@@ -30,14 +30,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
-import br.senai.sp.jandira.limpeanapp.dados.modelos.Genero
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.SignInViewModel
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.PersonForm
-import com.example.compose.LimpeanAppTheme
-import com.example.compose.md_theme_light_primary
+
 import com.example.compose.seed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
