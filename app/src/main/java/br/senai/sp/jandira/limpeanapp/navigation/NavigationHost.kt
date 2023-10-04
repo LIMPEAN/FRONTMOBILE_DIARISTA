@@ -1,7 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,19 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import br.senai.sp.jandira.limpeanapp.authentication.AuthenticationHost
 import br.senai.sp.jandira.limpeanapp.authentication.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterHost
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterRoute
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
-import br.senai.sp.jandira.limpeanapp.telas.inicio.TelaInicial
-import br.senai.sp.jandira.limpeanapp.telas.login.LoginScreen
+import br.senai.sp.jandira.limpeanapp.authentication.welcome.TelaInicial
+import br.senai.sp.jandira.limpeanapp.authentication.login.LoginScreen
+import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute
 import com.example.compose.LimpeanAppTheme
 
 
@@ -46,13 +41,13 @@ fun NavigationHost(
             composable(AuthenticationRoute.Register.route){
                 RegisterHost(
                     navHostController = navHostController,
-                    startDestination = br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute.Profile
+                    startDestination = RegisterRoute.Profile
                 )
             }
             composable(AuthenticationRoute.Login.route){
                 LoginScreen(
                     onClickToLogin = {
-                        navHostController.navigate(br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute.Profile.route)
+                        navHostController.navigate(RegisterRoute.Profile.route)
                     }
                 )
             }
