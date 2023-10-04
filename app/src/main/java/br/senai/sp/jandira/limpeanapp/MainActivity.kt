@@ -14,20 +14,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.navigation.NavigationHost
 import br.senai.sp.jandira.limpeanapp.navigation.NavigationRoute
-<<<<<<< HEAD
-import br.senai.sp.jandira.limpeanapp.navigation.RegisterRoute
-import br.senai.sp.jandira.limpeanapp.telas.AuthViewModel
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterAddressScreen
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterPersonScreen
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterProfileScreen
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterRoute
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.PersonForm
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.RegisterScreen
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.SignInViewModel
-import br.senai.sp.jandira.limpeanapp.telas.cadastro.componentes.AddressForm
-import br.senai.sp.jandira.limpeanapp.telas.login.LoginScreen
-=======
->>>>>>> a4ca33250a94d6a93f8151f3dfe27dc281529df4
 import com.example.compose.LimpeanAppTheme
 
 class MainActivity : ComponentActivity() {

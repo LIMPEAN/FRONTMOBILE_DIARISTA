@@ -1,8 +1,4 @@
 import android.util.Log
-<<<<<<< HEAD
-=======
-
->>>>>>> a4ca33250a94d6a93f8151f3dfe27dc281529df4
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
