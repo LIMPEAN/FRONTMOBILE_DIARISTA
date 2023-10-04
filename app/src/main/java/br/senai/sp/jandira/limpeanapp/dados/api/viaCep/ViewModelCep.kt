@@ -1,14 +1,13 @@
 import android.util.Log
+<<<<<<< HEAD
+=======
+
+>>>>>>> a4ca33250a94d6a93f8151f3dfe27dc281529df4
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.dados.api.viaCep.AddressResponse
 import br.senai.sp.jandira.limpeanapp.dados.api.viaCep.RetrofitFactoryCep
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import com.dsc.form_builder.ChoiceState
@@ -94,10 +93,10 @@ data class AddressUiState(
                 name = "Tipo de Casa"
             ),
             TextFieldState(
-                name = "Cep"
+                name = "cep"
             ),
             TextFieldState(
-                name = "Número",
+                name = "numero",
                 validators = listOf(
                     Validators.Required("Este campo deve ser obrigatório!")
                 )
