@@ -35,5 +35,4 @@ object RetrofitFactory {
     fun getUserService() : UserService {
         return retrofitFactory.create(UserService::class.java)
     }
-
 }

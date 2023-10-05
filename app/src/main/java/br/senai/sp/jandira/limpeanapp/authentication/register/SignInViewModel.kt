@@ -56,6 +56,10 @@ class SignInViewModel(
         }
     }
 
+    fun handle(){
+
+    }
+
     fun cadastrarUsuario(userData: UserApi) {
         repositorioDeUsuario.adicionarUsuario(userData, object : RepositorioDeUsuario.RepositorioDeUsuarioCallback {
             override fun onSuccess(message: String) {
@@ -98,6 +102,7 @@ class SignInViewModel(
     fun getPersonData(){
         val personForm = this.uiState.personForm
         val personDTO = personForm.getData(PersonData::class)
+        Log.i("PESSOA CRIADA", personDTO.toString())
         savePerson(personDTO)
     }
 
@@ -114,17 +119,22 @@ class SignInViewModel(
     }
 
     fun validateUserForm(){
-        val userData = userForm.getData(UserState::class)
-//        val automaticFormValidation = this.userForm.validate()
-//        val result = validateRepeatedPassword.execute(
-//            userData.password, userData.repeatedPassword
-//        )
-//        val hasError = listOf(
-//            result,
-//            automaticFormValidation
-//        ).any { it == false }
-
-        userCreated = userData
+         val result = userForm.validate()
+         Log.i("Result do ViewModel", result.toString())
+//        if(userForm.validate()){
+//            onNext()
+//        }
+//        val userData = userForm.getData(UserState::class)
+////        val automaticFormValidation = this.userForm.validate()
+////        val result = validateRepeatedPassword.execute(
+////            userData.password, userData.repeatedPassword
+////        )
+////        val hasError = listOf(
+////            result,
+////            automaticFormValidation
+////        ).any { it == false }
+//
+//        userCreated = userData
 
     }
 

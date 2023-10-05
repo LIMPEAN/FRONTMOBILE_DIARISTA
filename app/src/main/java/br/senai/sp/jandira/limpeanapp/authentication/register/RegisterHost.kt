@@ -36,7 +36,6 @@ fun RegisterTest(){
     val navHostController = rememberNavController()
     RegisterHost(
         navHostController = navHostController,
-        startDestination = RegisterRoute
-            .Profile
+        startDestination = RegisterRoute.Profile
     )
 }
