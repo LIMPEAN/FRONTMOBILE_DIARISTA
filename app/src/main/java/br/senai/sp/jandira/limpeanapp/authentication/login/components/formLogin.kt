@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.authentication.login
+package br.senai.sp.jandira.limpeanapp.authentication.login.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +24,7 @@ import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute
 import com.example.compose.LimpeanAppTheme
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
@@ -46,7 +49,7 @@ fun NavigationHost(
             }
             composable(AuthenticationRoute.Login.route){
                 LoginScreen(
-                    onClickToLogin = {
+                    onLogin = {
                         navHostController.navigate(RegisterRoute.Profile.route)
                     }
                 )

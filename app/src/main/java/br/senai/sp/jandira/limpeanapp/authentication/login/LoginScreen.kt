@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -30,26 +32,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.dados.modelos.Logar
 import br.senai.sp.jandira.limpeanapp.authentication.componentes.PasswordField
 import br.senai.sp.jandira.limpeanapp.authentication.login.components.TextComLinhasLogin
 import br.senai.sp.jandira.limpeanapp.authentication.login.components.inputTextEmail
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dsc.form_builder.FormState
+import com.example.compose.md_theme_light_error
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun LoginScreen(
-    onClickToLogin: () -> Unit
+    onLogin: () -> Unit,
+    viewModel: LoginViewModel = viewModel()
 ) {
 
-    var login by remember {
-        mutableStateOf(Logar())
-    }
 
     var state by remember {
         mutableStateOf("")
     }
+    val uiState = viewModel.uiState
+    val emailState = uiState.email
+    val passwordState = uiState.password
 
     Column(
         modifier = Modifier.padding(20.dp),
@@ -62,17 +68,29 @@ fun LoginScreen(
         inputTextEmail(
             label = "Email",
             keyboardType = KeyboardType.Text,
-            state = state,
-            onTyping = { state = it }
+            state = emailState.value,
+            onTyping = { emailState.change(it)}
         )
+        if(emailState.hasError){
+            Text(
+                text = emailState.errorMessage,
+                color = md_theme_light_error
+            )
+        }
 
         Spacer(modifier = Modifier.height(25.dp))
 
         PasswordField(
             etiqueta = "Digite sua senha...",
-            estado = login.senha?: "",
-            aoDigitar = {}
+            estado = passwordState.value,
+            aoDigitar = {passwordState.change(it)},
         )
+        if(passwordState.hasError){
+            Text(
+                text = passwordState.errorMessage,
+                color = md_theme_light_error
+            )
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -103,10 +121,26 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(25.dp))
 
         Button(
-            onClick =  onClickToLogin,
+            onClick = { viewModel.handle(
+                FormState(
+                    listOf(
+                        emailState,
+                        passwordState
+                    )
+                )
+            ) },
             modifier = Modifier.width(340.dp),
         ) {
             Text(text = "Logar")
+        }
+        if (uiState.isLoading){
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                CircularProgressIndicator()
+            }
+
+        }
+        if(uiState.message != null){
+            Text(text = uiState.message)
         }
 
         Spacer(modifier = Modifier.height(25.dp))
@@ -147,7 +181,9 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LimpeanAppTheme {
-       LoginScreen(onClickToLogin = {})
+       LoginScreen(
+           onLogin = {}
+       )
 
 
     }
