@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.BottomAppBar
@@ -41,15 +43,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.limpeanapp.R
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_onPrimary
 import com.example.compose.seed
@@ -68,7 +74,7 @@ fun TypeOfRequest() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.25f)
-                    .padding(start = 24.dp, bottom = 70.dp)
+                    .padding(start = 24.dp, bottom = 85.dp)
                     .offset(x = 6.dp),
                 verticalArrangement = Arrangement.Center
             ) {
@@ -77,7 +83,7 @@ fun TypeOfRequest() {
                     buildAnnotatedString {
                         withStyle(style = ParagraphStyle()) {
                             withStyle(style = SpanStyle(color = Color.White, fontSize = 16.sp)) {
-                                append("Bem vinda de volta,\n")
+                                append("criação \n")
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -86,7 +92,7 @@ fun TypeOfRequest() {
                                     fontSize = 28.sp
                                 )
                             ) {
-                                append("Leticia Wandinha")
+                                append("Tipo de solicitação")
                             }
                         }
                     }
@@ -96,31 +102,56 @@ fun TypeOfRequest() {
         },
        bottomBar = {
            Text(text = "footer")
-       }
+       },
 
-    )
-    {
+        content = {
 
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(color = seed), verticalArrangement = Arrangement.Bottom
-        ) {
-            Spacer(modifier = Modifier.height(100.dp))
-            Card(
-                modifier = Modifier
-                    .fillMaxSize(),
-                colors = CardDefaults.cardColors(Color.White),
-
-                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(color = seed), verticalArrangement = Arrangement.Bottom
             ) {
-                Spacer(modifier = Modifier.height(40.dp))
-                Text(text = "conteúdo")
+                Spacer(modifier = Modifier.height(100.dp))
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    colors = CardDefaults.cardColors(Color.White),
 
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row(modifier = Modifier
+                        .padding(25.dp)
+                        .width(215.dp)) {
+                        Text(text = stringResource(id = R.string.choose_type_request),
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 28.sp)
+                    }
+
+                    Column(modifier = Modifier.fillMaxWidth().padding(25.dp)) {
+
+                        Card(modifier = Modifier.width(300.dp).height(215.dp), colors = CardDefaults.cardColors(Color(49, 71, 245))
+                        ) {
+
+                            Text(text = stringResource(id = R.string.open_request))
+                        }
+
+                        Spacer(modifier = Modifier.height(50.dp))
+
+                        Card(modifier = Modifier.width(300.dp).height(215.dp), colors = CardDefaults.cardColors(Color(49, 71, 245))
+                        ) {
+
+                            Text(text = stringResource(id = R.string.closed_request))
+                        }
+
+                    }
+
+                }
             }
         }
 
-    }
+    )
+
 
 }
 
