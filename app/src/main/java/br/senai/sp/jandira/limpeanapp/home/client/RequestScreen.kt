@@ -148,8 +148,6 @@ fun TypeOfRequest() {
 
                 }
             }
-
-//            testes
         }
 
     )
@@ -163,6 +161,7 @@ fun TypeOfRequest() {
 @Composable
 fun RequestPreview() {
     TypeOfRequest()
+    //teste
 }
 
 
