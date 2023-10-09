@@ -93,6 +93,7 @@ dependencies {
 
     //teste
     //teste
+    //teste
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1") //teste
 
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
