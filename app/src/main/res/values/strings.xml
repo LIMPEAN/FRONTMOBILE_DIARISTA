@@ -32,4 +32,12 @@
     <string name="label_tipo_casa">Selecione o tipo de Casa</string>
     <string name="validate_not_null">Este campo não pode ser vazio!</string>
     <string name="description_profile_photo">Escolha uma foto de perfil</string>
+    <string name="description_create_request">criação</string>
+    <string name="description_type_request">Tipo de solicitação</string>
+    <string name="choose_type_request">Escolha o tipo de solicitação</string>
+    <string name="open_request">SOLICITAÇÃO ABERTA</string>
+    <string name="closed_request">SOLICITAÇÃO FECHADA</string>
+    <string name="description_open_request">Faça uma solicitação sem diarista e já defina o preço</string>
+    <string name="description_closed_request">Faça uma solicitação com um diarista específico</string>
+
 </resources>

@@ -57,7 +57,9 @@ fun LoginScreen(
     }
 
     Column(
+
         modifier = Modifier.padding(20.dp).fillMaxSize(),
+        modifier = Modifier.padding(20.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
@@ -147,6 +149,7 @@ fun LoginScreen(
             }
         }
     }
+
 }
 @RequiresApi(Build.VERSION_CODES.Q)
 @Preview(showSystemUi = true)
