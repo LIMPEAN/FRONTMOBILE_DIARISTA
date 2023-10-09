@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.authentication.login
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,7 @@ import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dsc.form_builder.FormState
+import com.dsc.form_builder.TextFieldState
 import com.example.compose.md_theme_light_error
 
 
@@ -122,13 +124,8 @@ fun LoginScreen(
 
         Button(
             onClick = { viewModel.handle(
-                FormState(
-                    listOf(
-                        emailState,
-                        passwordState
-                    )
-                )
-            ) },
+                email = emailState.value,
+                password = passwordState.value) },
             modifier = Modifier.width(340.dp),
         ) {
             Text(text = "Logar")
@@ -180,9 +177,16 @@ fun LoginScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
+    val viewModel = viewModel<LoginViewModel>()
+    viewModel.uiState.copy(
+        email = TextFieldState("email", initial = "felipe@gmail.com"),
+        password = TextFieldState("password", initial = "12345678")
+    )
     LimpeanAppTheme {
        LoginScreen(
-           onLogin = {}
+           onLogin = {
+               Log.i("ONLOGIN", "presente")
+           }
        )
 
 

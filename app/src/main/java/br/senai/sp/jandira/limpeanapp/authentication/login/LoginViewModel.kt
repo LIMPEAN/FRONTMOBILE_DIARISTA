@@ -6,60 +6,85 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.api.servicos.UserService
 import com.dsc.form_builder.FormState
 import com.dsc.form_builder.TextFieldState
+import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.await
+import retrofit2.awaitResponse
 
 
-class LoginViewModel () : ViewModel() {
+class LoginViewModel (
+    private val userService: UserService = RetrofitFactory.getUserService()
+) : ViewModel() {
 
     var uiState by mutableStateOf(LoginState())
         private set
 
-    private lateinit var userService: UserService
 
     private fun getData(loginForm: FormState<TextFieldState>): LoginApi {
         return loginForm.getData(LoginApi::class)
     }
 
-    fun handle(loginForm: FormState<TextFieldState>) {
-        uiState = uiState.copy(
-            isLoading = true
+    fun handle(email: String, password:String) {
+
+
+        val value = LoginApi(
+            email = "caua@hotmail.com",
+            password = "12345678"
         )
-        if (loginForm.validate()) {
-            val login = getData(loginForm)
-            userService = RetrofitFactory.getUserService()
-            userService.login(login = login).enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    uiState = if(response.isSuccessful){
-                        uiState.copy(
-                            isLoading = false,
-                            message = response.body().toString()
-                        )
-                    } else {
-                        uiState.copy(
-                            isLoading = false,
-                            message = "Erro"
-                        )
-                    }
-                }
+        val apiService = RetrofitFactory.getApiService()
+        apiService.loginUser(value).enqueue( object : Callback<LoginResponse> {
 
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    uiState = uiState.copy(
-                        message = t.message
-                    )
-                }
 
-            })
-        }
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Log.i("teste", response.body()?.email.toString())
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.i("teste", t.message.toString())
+            }
+
+        })
+
 
     }
+
+
+
+//            userService.login(login = login).enqueue(object : Callback<LoginResponse> {
+//                override fun onResponse(
+//                    call: Call<LoginResponse>,
+//                    response: Response<LoginResponse>
+//                ) {
+//                    uiState = if(response.isSuccessful){
+//                        uiState.copy(
+//                            isLoading = false,
+//                            message = response.body().toString()
+//                        )
+//                    } else {
+//                        uiState.copy(
+//                            isLoading = false,
+//                            message = "Erro"
+//                        )
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+//                    uiState = uiState.copy(
+//                        message = t.message
+//                    )
+//                }
+//
+//            })
+
+
 }
