@@ -14,7 +14,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.navigation.NavigationHost
 import br.senai.sp.jandira.limpeanapp.navigation.NavigationRoute
-
 import com.example.compose.LimpeanAppTheme
 
 class MainActivity : ComponentActivity() {
