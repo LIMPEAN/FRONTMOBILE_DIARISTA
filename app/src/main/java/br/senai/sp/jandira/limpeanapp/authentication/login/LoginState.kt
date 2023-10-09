@@ -8,7 +8,8 @@ data class LoginState(
     val email : TextFieldState = LoginFormBuilder.addEmail(),
     val password : TextFieldState = LoginFormBuilder.addPassword(),
     val isLoading : Boolean = false,
-    val message : String? = null
+    val message : String? = null,
+    val logged : Boolean = false
 )
 data class LoginApi(
     val typeUser: String = "diarist",

@@ -43,10 +43,10 @@ class LoginViewModel (
         )
         val apiService = RetrofitFactory.getApiService()
         apiService.loginUser(value).enqueue( object : Callback<LoginResponse> {
-
-
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                Log.i("teste", response.body()?.email.toString())
+                if(response.isSuccessful){
+                    uiState = uiState.copy(logged = true)
+                }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
