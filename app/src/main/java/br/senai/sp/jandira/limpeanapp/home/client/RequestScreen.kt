@@ -2,8 +2,10 @@ package br.senai.sp.jandira.limpeanapp.home.client
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Icon
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,10 +45,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.fontResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,6 +68,12 @@ import com.example.compose.seed
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TypeOfRequest() {
+
+    //fonte
+    val customFontFamily = FontFamily(
+        Font(R.font.poppins_regular)
+    )
+
 
 
     Scaffold(
@@ -82,14 +93,21 @@ fun TypeOfRequest() {
                 Text(
                     buildAnnotatedString {
                         withStyle(style = ParagraphStyle()) {
-                            withStyle(style = SpanStyle(color = Color.White, fontSize = 16.sp)) {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 16.sp,
+                                    fontFamily = customFontFamily
+                                )
+                            ) {
                                 append("criação \n")
                             }
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
-                                    fontSize = 28.sp
+                                    fontSize = 28.sp,
+                                    fontFamily = customFontFamily
                                 )
                             ) {
                                 append("Tipo de solicitação")
@@ -100,9 +118,9 @@ fun TypeOfRequest() {
 
             }
         },
-       bottomBar = {
-           Text(text = "footer")
-       },
+        bottomBar = {
+//           Text(text = "footer")
+        },
 
         content = {
 
@@ -119,29 +137,108 @@ fun TypeOfRequest() {
 
                     shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row(modifier = Modifier
-                        .padding(25.dp)
-                        .width(215.dp)) {
-                        Text(text = stringResource(id = R.string.choose_type_request),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 28.sp)
+//                    Spacer(modifier = Modifier.height(5.dp))
+                    Row(
+                        modifier = Modifier
+                            .padding(25.dp)
+                            .width(450.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.choose_type_request),
+                            modifier = Modifier.width(450.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 26.sp,
+                            fontFamily = customFontFamily
+                        )
                     }
 
-                    Column(modifier = Modifier.fillMaxWidth().padding(25.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
 
-                        Card(modifier = Modifier.width(300.dp).height(215.dp), colors = CardDefaults.cardColors(Color(49, 71, 245))
+                        Card(
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(240.dp)
+                                .clickable {
+                                    //açao de clique do card
+                                },
+
+                            colors = CardDefaults.cardColors(Color(49, 71, 245))
                         ) {
-
-                            Text(text = stringResource(id = R.string.open_request))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.open_request),
+                                    color = Color.White,
+                                    fontFamily = customFontFamily
+                                )
+                                Image(
+                                    painter = painterResource(id = R.drawable.request_open),
+                                    contentDescription = "imagem solicitação aberta"
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.description_open_request),
+                                    color = Color.White,
+                                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                                    fontFamily = customFontFamily,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
 
-                        Spacer(modifier = Modifier.height(50.dp))
 
-                        Card(modifier = Modifier.width(300.dp).height(215.dp), colors = CardDefaults.cardColors(Color(49, 71, 245))
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Card(
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(240.dp)
+                                .clickable {
+                                    //açao de clique do card
+                                },
+
+
+                            colors = CardDefaults.cardColors(Color(49, 71, 245))
                         ) {
 
-                            Text(text = stringResource(id = R.string.closed_request))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.closed_request),
+
+                                    color = Color.White,
+                                    fontFamily = customFontFamily
+                                )
+                                Image(
+                                    painter = painterResource(id = R.drawable.request_closed),
+                                    contentDescription = "imagem solicitação fechada"
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.description_closed_request),
+                                    color = Color.White,
+                                    fontFamily = customFontFamily,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+
                         }
 
                     }
@@ -154,7 +251,6 @@ fun TypeOfRequest() {
 
 
 }
-
 
 
 @Preview(showSystemUi = true)
