@@ -24,7 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.authentication.register.address.AddressForm
 import br.senai.sp.jandira.limpeanapp.authentication.register.personal.PersonForm
 import br.senai.sp.jandira.limpeanapp.authentication.register.profile.UserForm
-import br.senai.sp.jandira.limpeanapp.authentication.componentes.Button
+import br.senai.sp.jandira.limpeanapp.authentication.componentes.MyButton
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
@@ -64,7 +64,7 @@ fun RegisterScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.13f)
             ) {
-                Button(
+                MyButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(

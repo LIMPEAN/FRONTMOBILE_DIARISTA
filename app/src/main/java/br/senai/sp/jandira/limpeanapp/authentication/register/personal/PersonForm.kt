@@ -149,16 +149,17 @@ fun PersonFormPreview() {
     val context = LocalContext.current
 
     val gendersName = Genero.values().map { it.etiqueta }
-    LimpeanAppTheme (useDarkTheme = false){
-        RegisterScreen(
-            title = "Dados Pessoais",
-            form = { PersonForm(viewModel, gendersName) },
-            nameButton = "Continuar"
-        ) {
-            if(uiState.personForm.validate()){
-                Toast.makeText(context,"Dados Bons, ${uiState.personForm}",Toast.LENGTH_LONG).show()
-            }
-            viewModel.getPersonData()
+    RegisterScreen(
+        title = "Dados Pessoais",
+        form = { PersonForm(viewModel, gendersName) },
+        nameButton = "Continuar"
+    ) {
+        if(uiState.personForm.validate()){
+            Toast.makeText(context,"Dados Bons, ${uiState.personForm}",Toast.LENGTH_LONG).show()
         }
+        viewModel.getPersonData()
+    }
+    LimpeanAppTheme (useDarkTheme = false){
+
     }
 }

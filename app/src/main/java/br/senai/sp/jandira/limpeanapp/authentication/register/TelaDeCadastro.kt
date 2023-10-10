@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.dados.modelos.UserApi
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.Status
-import br.senai.sp.jandira.limpeanapp.authentication.componentes.Button
+import br.senai.sp.jandira.limpeanapp.authentication.componentes.MyButton
 import com.google.gson.Gson
 
 
@@ -113,7 +113,7 @@ fun CadastroDeCliente(
         Text(text = status)
     }
     TelaDeCadastro(titulo = "Cadastro Rapido") {
-        Button("Cadastrar", onClick = {val gson = Gson()
+        MyButton("Cadastrar", onClick = {val gson = Gson()
             val diaristaFake = gson.fromJson(diaristaFakeEmJson, UserApi::class.java)
             cadastrarDiaristaFake(diaristaFake)
             //Log.i("DiaristaFakeEmJson", diaristaFakeEmJson)

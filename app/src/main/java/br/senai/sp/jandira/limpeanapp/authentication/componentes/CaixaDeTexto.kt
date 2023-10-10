@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -87,7 +86,7 @@ fun CaixaDeTextoPreview() {
 
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             CaixaDeTexto(state)
-            Button(name = "Submit", onClick = {
+            MyButton(name = "Submit", onClick = {
                 if (state.validate()) {
                     Toast.makeText(
                         context,
