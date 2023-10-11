@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.authentication.register.address
 
 import CepViewModel
+import androidx.compose.foundation.layout.Box
 
 import androidx.compose.foundation.layout.Column
 
@@ -9,17 +10,19 @@ import androidx.compose.material3.OutlinedTextField
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterAddressScreen
 import com.dsc.form_builder.TextFieldState
+import com.example.compose.LimpeanAppTheme
 
 
 @Composable
 fun AddressForm(
-      cepViewModel: CepViewModel = viewModel<CepViewModel>(),
+      cepViewModel: CepViewModel = viewModel(),
 ) {
 
 
@@ -89,13 +92,13 @@ fun AddressForm(
 @Preview
 @Composable
 fun AddressPreview() {
-      val route = "address"
-      val cepViewModel = viewModel<CepViewModel>()
-      val addressForm = cepViewModel.uiState.addressForm
 
-      RegisterAddressScreen(
-            onFinish = {}
-      )
+      LimpeanAppTheme {
+            Box(contentAlignment = Alignment.Center) {
+
+                  AddressForm()
+            }
+      }
 }
 
 

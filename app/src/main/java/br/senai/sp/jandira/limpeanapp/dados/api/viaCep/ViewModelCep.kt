@@ -13,15 +13,12 @@ import com.dsc.form_builder.Validators
 import kotlinx.coroutines.launch
 
 class CepViewModel(
-    private val userType: TipoDeUsuario = TipoDeUsuario.pegaDiarista()
 ): ViewModel() {
     // Função para buscar informações do CEP
 
 
 
-    var uiState by mutableStateOf(AddressUiState(
-        userType = this.userType
-    ))
+    var uiState by mutableStateOf(AddressUiState())
         private set
 
     fun fetchCep(cep: String) {
@@ -59,7 +56,7 @@ class CepViewModel(
         }
     }
 
-    fun isClient() = userType.nomeDaApi == "client"
+
 
     fun handleNextRoute(route : String) : String{
         return when(route){
@@ -80,7 +77,6 @@ class CepViewModel(
 
 
 data class AddressUiState(
-    val isClient: Boolean = true,
     val isDigitCpf : Boolean = true,
     val isFetchingApi : Boolean = false,
     val addressForm : FormState<TextFieldState> = FormState(
@@ -103,8 +99,7 @@ data class AddressUiState(
         )
     ),
     val viaCepAddress : ViaCepAddress? = null,
-    val showResultApi : Boolean = false,
-    val userType: TipoDeUsuario
+    val showResultApi : Boolean = false
 )
 data class ViaCepAddress(
     val logradouro : String,

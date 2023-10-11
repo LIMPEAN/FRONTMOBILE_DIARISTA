@@ -177,7 +177,7 @@ fun RegisterProfileScreen(
     viewModel : SignInViewModel = viewModel<SignInViewModel>(factory = SignInViewModel.fazerIntegracaoComApi),
     onNext: () -> Unit
 ){
-    val viewModelCep = viewModel<CepViewModel>()
+
     RegisterScreen(
         title = "Crie seu Perfil",
         form = { UserForm(viewModel) },
@@ -205,6 +205,7 @@ fun RegisterAddressScreen(
     onFinish: () -> Unit
 ){
     val viewModelCep = viewModel<CepViewModel>()
+
     RegisterScreen(
         title = "Adicione um endereço",
         form = { AddressForm(viewModelCep) },
@@ -230,4 +231,11 @@ fun RegisterAddressScreenPreview() {
     )
 }
 
+@Preview
+@Composable
+fun RegisterProfileScreenPreview() {
+    RegisterProfileScreen(
+        onNext = {}
+    )
+}
 

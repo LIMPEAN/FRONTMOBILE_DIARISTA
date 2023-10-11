@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,10 +20,14 @@ import br.senai.sp.jandira.limpeanapp.authentication.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterHost
 import br.senai.sp.jandira.limpeanapp.authentication.welcome.TelaInicial
 import br.senai.sp.jandira.limpeanapp.authentication.login.LoginScreen
+import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterAddressScreen
+import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterPersonScreen
+import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterProfileScreen
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute
 import com.example.compose.LimpeanAppTheme
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
@@ -38,16 +44,29 @@ fun NavigationHost(
                     navegarParaCadastro ={navHostController.navigate(AuthenticationRoute.Register.route)}
                 )
             }
-            composable(AuthenticationRoute.Register.route){
-                RegisterHost(
-                    navHostController = navHostController,
-                    startDestination = RegisterRoute.Profile
-                )
+            navigation(startDestination = RegisterRoute.Profile.route, route = AuthenticationRoute.Register.route){
+                composable(route = RegisterRoute.Profile.route){
+                    RegisterProfileScreen(
+                        onNext = {navHostController.navigate(RegisterRoute.Person.route)}
+                    )
+                }
+                composable(route = RegisterRoute.Person.route){
+                    RegisterPersonScreen(
+                        onNext = {navHostController.navigate(RegisterRoute.Address.route)}
+                    )
+                }
+                composable(route = RegisterRoute.Address.route){
+                    RegisterAddressScreen(
+                        onFinish = {
+                            navHostController.navigate(NavigationRoute.Home.route)
+                        }
+                    )
+                }
             }
             composable(AuthenticationRoute.Login.route){
                 LoginScreen(
                     onClickToLogin = {
-                        navHostController.navigate(RegisterRoute.Profile.route)
+                        navHostController.navigate(RegisterRoute.Address.route)
                     }
                 )
             }
@@ -78,6 +97,7 @@ fun NavigationHost(
 
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun TestNavHost() {
