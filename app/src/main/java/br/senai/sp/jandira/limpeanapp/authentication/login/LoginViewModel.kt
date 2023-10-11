@@ -45,12 +45,12 @@ class LoginViewModel (
         apiService.loginUser(value).enqueue( object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if(response.isSuccessful){
-                    uiState = uiState.copy(logged = true)
+                    Log.i("SERVICE", response.body()!!.toString())
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.i("teste", t.message.toString())
+                Log.i("SERVICE", t.message.toString())
             }
 
         })
