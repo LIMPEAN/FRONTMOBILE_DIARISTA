@@ -65,8 +65,9 @@ fun NavigationHost(
             }
             composable(AuthenticationRoute.Login.route){
                 LoginScreen(
-                    onClickToLogin = {
-                        navHostController.navigate(RegisterRoute.Address.route)
+
+                    onLogin = {
+                        navHostController.navigate(RegisterRoute.Profile.route)
                     }
                 )
             }
