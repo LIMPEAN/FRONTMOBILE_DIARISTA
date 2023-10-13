@@ -66,10 +66,11 @@ fun inputTextEmail(
     keyboardType: KeyboardType,
     state: String,
     onTyping : (String) -> Unit,
+    modifier : Modifier = Modifier.fillMaxWidth()
 
     ) {
     OutlinedTextField(
-        modifier = Modifier.width(340.dp),
+        modifier = modifier,
         value = state,
         onValueChange = {
             onTyping(it)

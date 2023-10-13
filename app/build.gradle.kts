@@ -51,7 +51,6 @@ android {
 
 dependencies {
 
-
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:compose")
@@ -69,43 +68,53 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 
+    //COMPOSE UI DEPENDENCIES:
 
-    //Utilizando implementação do Retrofit e conversores
-    implementation ("com.google.code.gson:gson:2.9.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    // - Navigation Compose para navegação da aplicação como rotas.
+    implementation("androidx.navigation:navigation-compose:2.7.4")
 
-    //Navigation Component
-    implementation("androidx.navigation:navigation-compose:2.7.3")
-
-    //Coil
+    // - Coil para renderizar imagens junto com o Compose
     implementation("io.coil-kt:coil-compose:2.3.0")
 
-    //Mais icones
+    //- Ícones do Compose para utilizar diretamente dele
     implementation ("androidx.compose.material:material-icons-extended:compose_ui_version")
 
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    // ViewModel utilities for Compose
-
-    //teste
-    //teste
-    //teste
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1") //teste
-
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-
-
-    // Form Builder
+    // - Form Builder para fazer formulários mais rápidos
     implementation ("com.github.jkuatdsc:form-builder:1.0.7")
+
+    // VIEW MODEL DEPENDENCIES:
+
+    // Dependências do View Model também com o Compose para gerenciar de estado da UI
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
+
+    // API DEPENDENCIES
+
+    // Retrofit como Client HTTP - Conversor de GSON
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    // OkHttp3 Loggin Inteceptor como interceptor de requisições
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
+    // Conversor de JSON da Google : JSON
+    implementation ("com.google.code.gson:gson:2.9.0")
+
+    // COROUTINES DEPENDENCIES - Gerenciar estados assíncronos
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+
+    // TESTS DEPENDENCIES
+
+    // Para testes unitários:
+    testImplementation ("androidx.test:core:1.5.0")
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation ("com.google.truth:truth:1.1.3")
+    testImplementation ("com.squareup.okhttp3:mockwebserver:4.9.1")
+    testImplementation ("io.mockk:mockk:1.10.5")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.6.0-alpha07")
 
 }
