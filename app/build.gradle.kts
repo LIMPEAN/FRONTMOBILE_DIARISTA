@@ -117,4 +117,15 @@ dependencies {
     testImplementation ("io.mockk:mockk:1.10.5")
     debugImplementation ("androidx.compose.ui:ui-test-manifest:1.6.0-alpha07")
 
+    implementation ("com.google.dagger:hilt-android:2.48.1")
+    annotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+
+    // For instrumentation tests
+    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48.1")
+    androidTestAnnotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+
+    // For local unit tests
+    testImplementation ("com.google.dagger:hilt-android-testing:2.48.1")
+    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+
 }
