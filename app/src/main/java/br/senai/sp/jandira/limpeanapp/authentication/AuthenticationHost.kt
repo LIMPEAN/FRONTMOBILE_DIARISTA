@@ -95,9 +95,7 @@ fun AuthenticationHost(
 @Preview
 @Composable
 fun TestAuthenticationRoute() {
-    val viewModel = viewModel<SignInViewModel>(
-        factory = SignInViewModel.fazerIntegracaoComApi
-    )
+
     val navController = rememberNavController()
     AuthenticationHost(navHostController = navController, startDestination = AuthenticationRoute.ForgotPassword)
 

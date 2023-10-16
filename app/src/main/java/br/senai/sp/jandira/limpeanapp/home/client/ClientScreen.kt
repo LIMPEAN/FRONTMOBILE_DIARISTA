@@ -27,7 +27,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomAppBar
@@ -65,16 +65,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.authentication.componentes.MyButton
-import com.example.compose.LimpeanAppTheme
 
-import androidx.compose.ui.zIndex
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.authentication.componentes.Button
-import com.example.compose.LimpeanAppTheme
-import com.example.compose.md_theme_light_primary
 
 import com.example.compose.seed
 
@@ -301,22 +292,7 @@ fun ScaffoldExample() {
 }
 
 
-@Preview
-@Composable
-fun Tesye() {
-LimpeanAppTheme {
-    ScaffoldExample()
-    //teste
-}
 
-
-@Preview(showSystemUi = true)
-@Composable
-fun ClientePreview() {
-    LimpeanAppTheme {
-        ClientViewDiarist()
-    }
-}
 
 
 

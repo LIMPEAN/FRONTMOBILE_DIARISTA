@@ -1,7 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import br.senai.sp.jandira.limpeanapp.authentication.AuthViewModel
 import br.senai.sp.jandira.limpeanapp.authentication.AuthenticationRoute
-import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterHost
-import br.senai.sp.jandira.limpeanapp.authentication.welcome.TelaInicial
+import br.senai.sp.jandira.limpeanapp.authentication.welcome.WelcomeScreen
 import br.senai.sp.jandira.limpeanapp.authentication.login.LoginScreen
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterAddressScreen
 import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterPersonScreen
@@ -27,7 +26,7 @@ import br.senai.sp.jandira.limpeanapp.authentication.register.RegisterRoute
 import com.example.compose.LimpeanAppTheme
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
@@ -39,9 +38,11 @@ fun NavigationHost(
     ){
         navigation(startDestination = AuthenticationRoute.Welcome.route, route = NavigationRoute.Authentication.route){
             composable(AuthenticationRoute.Welcome.route){
-                TelaInicial(
-                    navegarParaLogin = {navHostController.navigate(AuthenticationRoute.Login.route)},
-                    navegarParaCadastro ={navHostController.navigate(AuthenticationRoute.Register.route)}
+                val authViewModel = hiltViewModel<AuthViewModel>()
+                WelcomeScreen(
+                    onLogin = {navHostController.navigate(AuthenticationRoute.Login.route)},
+                    onRegister ={navHostController.navigate(AuthenticationRoute.Register.route)},
+                    authViewModel = authViewModel
                 )
             }
             navigation(startDestination = RegisterRoute.Profile.route, route = AuthenticationRoute.Register.route){
@@ -65,7 +66,6 @@ fun NavigationHost(
             }
             composable(AuthenticationRoute.Login.route){
                 LoginScreen(
-
                     onLogin = {
                         navHostController.navigate(RegisterRoute.Profile.route)
                     }
@@ -98,12 +98,11 @@ fun NavigationHost(
 
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Preview
 @Composable
 fun TestNavHost() {
     val navHostController = rememberNavController()
-
     LimpeanAppTheme {
         NavigationHost(
             navHostController = navHostController ,

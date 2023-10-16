@@ -25,7 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.authentication.AuthViewModel
+import br.senai.sp.jandira.limpeanapp.authentication.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.dados.repositorios.UserTypesRepository
 import br.senai.sp.jandira.limpeanapp.regras.TipoDeUsuario
 import br.senai.sp.jandira.limpeanapp.authentication.welcome.components.SectionButton
@@ -34,11 +37,16 @@ import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
 
+val TAG = AuthenticationRoute.Welcome.route
 @Composable
-fun TelaInicial(
-    navegarParaLogin : (TipoDeUsuario) -> Unit,
-    navegarParaCadastro : (TipoDeUsuario) -> Unit
+fun WelcomeScreen(
+    onLogin : (TipoDeUsuario) -> Unit,
+    onRegister : (TipoDeUsuario) -> Unit,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
+    val teste = authViewModel.helloFromRepository()
+    Log.i("AuthViewModel", teste)
+
     val tiposDeUsuario = UserTypesRepository.getAll()
     var usuarioSelecionado by remember {
         mutableStateOf(tiposDeUsuario[0])
@@ -99,11 +107,11 @@ fun TelaInicial(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SectionButton(name = "Entrar") {
-                    navegarParaLogin(usuarioSelecionado)
+                    onLogin(usuarioSelecionado)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 SectionButton(name = "Cadastrar") {
-                    navegarParaCadastro(usuarioSelecionado)
+                    onRegister(usuarioSelecionado)
 
                 }
             }
@@ -113,14 +121,14 @@ fun TelaInicial(
 
 @Preview(showSystemUi = true)
 @Composable
-fun TelaInicialPreview() {
+fun WelcomeScreenPreview() {
     LimpeanAppTheme {
-        TelaInicial(
-            navegarParaLogin = {
-                Log.i("LOGIN", it.toString())
+        WelcomeScreen(
+            onLogin = {
+                Log.i(AuthenticationRoute.Login.route, it.toString())
             },
-            navegarParaCadastro = {
-                Log.i( "CADASTRO", it.toString())
+            onRegister = {
+                Log.i(AuthenticationRoute.Register.route, it.toString())
             }
         )
     }

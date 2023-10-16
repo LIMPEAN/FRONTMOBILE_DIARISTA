@@ -1,6 +1,10 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -30,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -77,55 +81,72 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.3.0")
 
     //- Ícones do Compose para utilizar diretamente dele
-    implementation ("androidx.compose.material:material-icons-extended:compose_ui_version")
+    implementation("androidx.compose.material:material-icons-extended:compose_ui_version")
 
     // - Form Builder para fazer formulários mais rápidos
-    implementation ("com.github.jkuatdsc:form-builder:1.0.7")
+    implementation("com.github.jkuatdsc:form-builder:1.0.7")
 
     // VIEW MODEL DEPENDENCIES:
 
     // Dependências do View Model também com o Compose para gerenciar de estado da UI
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
 
     // API DEPENDENCIES
 
     // Retrofit como Client HTTP - Conversor de GSON
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // OkHttp3 Loggin Inteceptor como interceptor de requisições
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
     // Conversor de JSON da Google : JSON
-    implementation ("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.0")
 
     // COROUTINES DEPENDENCIES - Gerenciar estados assíncronos
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
 
     // TESTS DEPENDENCIES
 
     // Para testes unitários:
-    testImplementation ("androidx.test:core:1.5.0")
-    testImplementation ("junit:junit:4.13.2")
-    testImplementation ("androidx.arch.core:core-testing:2.2.0")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation ("com.google.truth:truth:1.1.3")
-    testImplementation ("com.squareup.okhttp3:mockwebserver:4.9.1")
-    testImplementation ("io.mockk:mockk:1.10.5")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.6.0-alpha07")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
-    implementation ("com.google.dagger:hilt-android:2.48.1")
-    annotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
+    testImplementation("io.mockk:mockk:1.10.5")
+
+
+
+
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.0-alpha07")
+
 
     // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48.1")
-    androidTestAnnotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    androidTestAnnotationProcessor("com.google.dagger:hilt-compiler:2.48.1")
 
     // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.48.1")
-    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.48.1")
+    testImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    testAnnotationProcessor("com.google.dagger:hilt-compiler:2.48.1")
 
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+
+    //Google Assertions
+    testImplementation("com.google.truth:truth:1.1.3")
+    androidTestImplementation("com.google.truth:truth:1.1.3")
+
+}
+kapt {
+    correctErrorTypes = true
 }

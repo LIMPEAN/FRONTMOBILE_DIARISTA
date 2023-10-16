@@ -40,20 +40,22 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.authentication.componentes.PasswordField
 import br.senai.sp.jandira.limpeanapp.authentication.login.components.TextComLinhasLogin
-import br.senai.sp.jandira.limpeanapp.authentication.login.components.inputTextEmail
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.senai.sp.jandira.limpeanapp.authentication.AuthRepository
+import br.senai.sp.jandira.limpeanapp.authentication.login.components.InputTextEmail
+import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import com.dsc.form_builder.FormState
 import com.dsc.form_builder.TextFieldState
 import com.example.compose.md_theme_light_error
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun LoginScreen(
     onLogin: () -> Unit,
-    viewModel: LoginViewModel = viewModel()
+    viewModel: LoginViewModel = LoginViewModel(AuthRepository(RetrofitFactory.getUserService()))
 ) {
 
 
@@ -81,7 +83,7 @@ fun LoginScreen(
         Text(text = "Entrar", color = md_theme_light_primary, fontSize = 32.sp, fontWeight = FontWeight.Bold)
         Text(text = "Insira seu e-mail e senha 2")
 
-        inputTextEmail(
+        InputTextEmail(
             label = "Email",
             keyboardType = KeyboardType.Text,
             state = emailState.value,
@@ -188,15 +190,11 @@ fun LoginScreen(
     }
 
 }
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    val viewModel = viewModel<LoginViewModel>()
-    viewModel.uiState.copy(
-        email = TextFieldState("email", initial = "felipe@gmail.com"),
-        password = TextFieldState("password", initial = "12345678")
-    )
+
     LimpeanAppTheme {
        LoginScreen(
            onLogin = {

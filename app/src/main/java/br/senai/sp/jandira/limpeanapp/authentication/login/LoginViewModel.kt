@@ -7,11 +7,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.senai.sp.jandira.limpeanapp.authentication.AuthRepository
 import br.senai.sp.jandira.limpeanapp.dados.api.RetrofitFactory
 import br.senai.sp.jandira.limpeanapp.dados.api.servicos.UserService
 import com.dsc.form_builder.FormState
 import com.dsc.form_builder.TextFieldState
 import com.google.gson.JsonObject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,10 +22,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.await
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
 
-class LoginViewModel (
-    private val userService: UserService = RetrofitFactory.getUserService()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val authRepository : AuthRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(LoginState())

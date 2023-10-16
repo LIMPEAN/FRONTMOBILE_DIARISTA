@@ -60,8 +60,7 @@ fun TextComLinhasLogin(texto: String){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@RequiresApi(Build.VERSION_CODES.Q)
-fun inputTextEmail(
+fun InputTextEmail(
     label: String,
     keyboardType: KeyboardType,
     state: String,
