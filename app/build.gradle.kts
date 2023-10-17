@@ -4,7 +4,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    id ("dagger.hilt.android.plugin")
+    id ("com.google.devtools.ksp") version "1.6.10-1.0.2"
 }
 
 android {
@@ -63,6 +64,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.datastore:datastore-core:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -145,6 +148,23 @@ dependencies {
     //Google Assertions
     testImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation("com.google.truth:truth:1.1.3")
+
+    // Compose dependencies
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    //Dagger - Hilt
+    implementation ("com.google.dagger:hilt-android:2.48.1")
+    kapt ("com.google.dagger:hilt-android-compiler:2.44")
+    kapt ("androidx.hilt:hilt-compiler:1.0.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    //Datastore - Preferences
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 
 }
 kapt {
