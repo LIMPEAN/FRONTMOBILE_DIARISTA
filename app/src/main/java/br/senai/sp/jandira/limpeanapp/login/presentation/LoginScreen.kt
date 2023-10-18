@@ -81,11 +81,8 @@ fun LoginScreen(
     }
 
     LoginScreen(
-           onLogin = { viewModel.onEvent(LoginEvent.Login) },
-           onChangeEmail = {viewModel.onEvent(LoginEvent.EmailChanged(it))},
-           onChangePassword = {viewModel.onEvent(LoginEvent.PasswordChanged(it))},
-           onLoginWithGoogle = { viewModel.onEvent(LoginEvent.LoginWithGoogle) },
-           state = state
+        state = viewModel.state,
+        onEvent = viewModel::onEvent
     )
 
 }
@@ -93,11 +90,8 @@ fun LoginScreen(
 
 @Composable
 private fun LoginScreen(
-    onLogin: () -> Unit,
-    onChangeEmail: (String) -> Unit,
-    onChangePassword : (String) -> Unit,
-    onLoginWithGoogle : () -> Unit,
-    state : LoginState
+    state : LoginState,
+    onEvent: (LoginEvent) -> Unit
 ) {
 
     Column(
@@ -124,7 +118,7 @@ private fun LoginScreen(
                 keyboardType = KeyboardType.Text,
                 state = state.email,
                 onTyping = {
-                    onChangeEmail(it)
+                    onEvent(LoginEvent.EmailChanged(it))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -136,7 +130,7 @@ private fun LoginScreen(
                 etiqueta = "Digite sua senha...",
                 estado = state.password,
                 aoDigitar = {
-                    onChangePassword(it)
+                    onEvent(LoginEvent.PasswordChanged(it))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -184,7 +178,7 @@ private fun LoginScreen(
 
             Button(
                 onClick = {
-                    onLogin()
+                    onEvent(LoginEvent.Login)
                 },
                 modifier = Modifier.fillMaxWidth(1f)
             ) {
@@ -194,7 +188,7 @@ private fun LoginScreen(
 
             TextComLinhasLogin(texto = "ou")
 
-            OutlinedButton(onClick = {onLoginWithGoogle()},
+            OutlinedButton(onClick = { onEvent(LoginEvent.LoginWithGoogle)},
                 modifier = Modifier.fillMaxWidth()) {
                 Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo google")
                 Text(text = "Entrar com Google")
@@ -237,16 +231,6 @@ fun LoginScreenPreview() {
 
 
     LimpeanAppTheme {
-       LoginScreen(
-           onLogin = {},
-           onChangeEmail = {},
-           onChangePassword = {},
-           onLoginWithGoogle = {},
-
-           state = LoginState(
-               isLoading = true
-           )
-       )
-
+       LoginScreen(state = LoginState(), onEvent = {})
     }
 }
