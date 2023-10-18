@@ -93,6 +93,7 @@ fun InputTextEmail(
 fun TextoComLinhasPreview() {
     LimpeanAppTheme {
         Column {
+
             TextComLinhasLogin(texto = "Teste")
 
         }

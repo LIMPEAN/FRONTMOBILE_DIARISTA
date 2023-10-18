@@ -4,6 +4,7 @@ package br.senai.sp.jandira.limpeanapp.login.presentation
 
 data class LoginState(
     val isLoading : Boolean = false,
+    val userType : String? = null,
     val email : String = "",
     val emailError: String? = null,
     val password : String = "",

@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.auth.AuthViewModel
 import br.senai.sp.jandira.limpeanapp.core.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.auth.presentation.welcome.components.SectionButton
 import com.example.compose.LimpeanAppTheme
@@ -34,11 +33,9 @@ val TAG = AuthenticationRoute.Welcome.route
 @Composable
 fun WelcomeScreen(
     onLogin : () -> Unit,
-    onRegister : () -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
+    onRegister : () -> Unit
 ) {
-    val teste = authViewModel.helloFromRepository()
-    Log.i("AuthViewModel", teste)
+
 //
 //    val tiposDeUsuario =
 //    var usuarioSelecionado by remember {

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.core.presentation.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,6 +29,7 @@ fun PasswordField (
     etiqueta : String,
     estado : String,
     aoDigitar : (String) -> Unit,
+    modifier : Modifier = Modifier.fillMaxWidth()
 ){
     var passVisibilityState by remember {
         mutableStateOf(true)
@@ -36,7 +38,7 @@ fun PasswordField (
     OutlinedTextField(
         value = estado,
 
-        modifier = Modifier.width(340.dp),
+        modifier = modifier,
         onValueChange = {
             aoDigitar(it)
         },

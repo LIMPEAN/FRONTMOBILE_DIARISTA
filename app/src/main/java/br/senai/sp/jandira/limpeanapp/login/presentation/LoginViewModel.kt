@@ -6,11 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.senai.sp.jandira.limpeanapp.login.data.api.AuthResult
+import br.senai.sp.jandira.limpeanapp.login.domain.AuthResult
 import br.senai.sp.jandira.limpeanapp.login.domain.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository : AuthRepository
+    private val authRepository : AuthRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginState())
@@ -38,15 +37,19 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.Login -> {
                 login()
             }
+
+            LoginEvent.LoginWithGoogle -> TODO()
         }
     }
     private fun login(){
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
-            state = state.copy(isLoading = true)
-            val result = repository.login(
+            val result = authRepository.login(
                 email = state.email,
                 password = state.password
             )
+            state = state.copy(isLoading = false)
+            resultChannel.send(result)
 
         }
     }
