@@ -10,9 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.senai.sp.jandira.limpeanapp.login.data.repository.TokenRepositoryImpl
-import br.senai.sp.jandira.limpeanapp.login.di.LoginModule
-import br.senai.sp.jandira.limpeanapp.login.domain.TokenRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.repository.TokenRepositoryImpl
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.di.LoginModule
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.domain.TokenRepository
 
 @Composable
 fun HomeScreen(
@@ -39,6 +39,7 @@ fun HomePrev() {
     HomeScreen(
         viewModel = HomeViewModel(tokenManager = TokenRepositoryImpl(
             LoginModule.providePreferencesDataStore(context)
-        ))
+        )
+        )
     )
 }
