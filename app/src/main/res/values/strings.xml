@@ -39,5 +39,9 @@
     <string name="closed_request">SOLICITAÇÃO FECHADA</string>
     <string name="description_open_request">Faça uma solicitação sem diarista e já defina o preço</string>
     <string name="description_closed_request">Faça uma solicitação com um diarista específico</string>
+    <string name="section_entrar">Entrar</string>
+    <string name="section_entrar_description">Insira seu e-mail e senha</string>
+    <string name="register_title">Crie uma conta</string>
+    <string name="register_description">Para acessar a plataforma</string>
 
 </resources>

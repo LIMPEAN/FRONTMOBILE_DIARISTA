@@ -23,15 +23,16 @@ class AddDiarist(
 
     @Throws(InvalidDiaristException::class)
     suspend operator fun invoke(diarist : Diarist){
-//
-//        if(!Diarist.genders.contains(diarist.gender)){
-//            throw InvalidDiaristException("O gênero deve ser uma opção da lista.")
-//        }
-//
-//        if(diarist.email =="Felipe"){
-//            throw InvalidDiaristException("Teste")
-//        }
 
+
+
+        val userExists = repository.getDiaristByPhoneAndEmail(diarist.phone, diarist.email)
+            ?: throw InvalidDiaristException.UserAlreadyExists
+
+
+
+
+        repository.insertDiarist(diarist)
 //        val validEmail = emailMatcher.isValid(diarist.email)
 //        if (!validEmail){
 //            throw InvalidDiaristException("Email inválido!")
@@ -40,7 +41,6 @@ class AddDiarist(
 //            phone = diarist.phone,
 //            email = diarist.email
 //        ) ?: throw InvalidDiaristException("Esta diarista já foi cadastrada!")
-        val teste = ""
-        throw InvalidDiaristException("Teste")
+
     }
 }

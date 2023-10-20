@@ -7,15 +7,10 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.mod
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Gender
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
+
 
 
 import org.junit.Before
@@ -51,14 +46,23 @@ class AddDiaristTest{
 
 
     }
+
+
     @Test()
-    fun `deve capturar a exceção de texte`() = runTest{
+    fun `não deve ser permitido criar duas diaristas`() = runBlocking{
+
+        addDiaristUseCase = AddDiarist(repository, emailMatcher)
 
         try {
             addDiaristUseCase(diarist)
-        } catch (e: InvalidDiaristException) {
-           assertEquals(e.message, "Teste")
+        } catch (e: InvalidDiaristException.UserAlreadyExists) {
+            assertThat("User already exists").isEqualTo(e.message)
         }
-
     }
+
+
+
+
+
+
 }

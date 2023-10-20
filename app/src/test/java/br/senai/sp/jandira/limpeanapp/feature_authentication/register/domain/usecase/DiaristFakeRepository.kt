@@ -16,11 +16,7 @@ class DiaristFakeRepository()  : DiaristRepository{
 
     }
     override fun getDiarists(): Flow<List<Diarist>> {
-        val testeFlow = flow {
-            delay(2000)
-            emit(diarists)
-        }
-        return testeFlow
+        return flow { emit(diarists) }
     }
 
     override suspend fun getDiaristById(id: Int): Diarist? {

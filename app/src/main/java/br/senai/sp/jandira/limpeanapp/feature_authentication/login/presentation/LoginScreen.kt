@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.PasswordField
+import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.repository.AuthRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.di.LoginModule
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.domain.AuthResult
@@ -104,10 +106,7 @@ private fun LoginScreen(
     ) {
 
 
-        Column (Modifier.fillMaxWidth(),horizontalAlignment = Alignment.Start){
-            Text(text = "Entrar", color = md_theme_light_primary, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-            Text(text = "Insira seu e-mail e senha")
-        }
+        TitleSection(title = stringResource(R.string.section_entrar), description = stringResource(R.string.section_entrar_description))
 
         Column (
             modifier = Modifier.fillMaxWidth(),

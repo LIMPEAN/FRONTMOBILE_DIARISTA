@@ -20,4 +20,4 @@ data class Diarist(
         val genders = listOf(Gender.MASCULINO, Gender.FEMININO, Gender.OUTROS)
     }
 }
-class InvalidDiaristException(message: String): Exception(message)
+
