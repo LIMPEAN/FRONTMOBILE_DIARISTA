@@ -41,6 +41,6 @@ class AddDiarist(
 //            email = diarist.email
 //        ) ?: throw InvalidDiaristException("Esta diarista já foi cadastrada!")
         val teste = ""
-        throw Exception("teste")
+        throw InvalidDiaristException("Teste")
     }
 }

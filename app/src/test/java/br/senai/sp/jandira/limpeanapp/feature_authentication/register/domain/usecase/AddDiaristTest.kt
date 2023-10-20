@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 
 
@@ -51,10 +52,12 @@ class AddDiaristTest{
 
     }
     @Test()
-    fun `deve retornar erro`() = runTest{
+    fun `deve capturar a exceção de texte`() = runTest{
 
-        assertThrows(Exception::class.java){
-            launch { addDiaristUseCase(diaristTest) }
+        try {
+            addDiaristUseCase(diarist)
+        } catch (e: InvalidDiaristException) {
+           assertEquals(e.message, "Teste")
         }
 
     }
