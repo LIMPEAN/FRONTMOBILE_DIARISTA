@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.ui.navigation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -10,7 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.core.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.home.HomeScreen
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginScreen
-import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginViewModel
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.RegisterScreen
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.diaristTest
 import com.example.compose.LimpeanAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +36,18 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
+                            }
+                        )
+                    }
+                    composable(AuthenticationRoute.Register.route){
+                        val TAG = "Rota de Registro"
+                        RegisterScreen(
+                            diarist = diaristTest,
+                            handlerAddressEvent = {
+                                Log.i(TAG, it.toString())
+                            },
+                            handlerProfileEvent = {
+                                Log.i(TAG, it.toString())
                             }
                         )
                     }

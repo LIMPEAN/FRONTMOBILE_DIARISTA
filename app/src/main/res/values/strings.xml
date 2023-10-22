@@ -43,5 +43,7 @@
     <string name="section_entrar_description">Insira seu e-mail e senha</string>
     <string name="register_title">Crie uma conta</string>
     <string name="register_description">Para acessar a plataforma</string>
+    <string name="register_address_title">Onde você mora?</string>
+    <string name="register_address_description">Precisamos dessa informação para o filtro</string>
 
 </resources>

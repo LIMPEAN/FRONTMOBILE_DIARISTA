@@ -26,9 +26,9 @@ import com.example.compose.LimpeanAppTheme
 
 @Composable
 fun PasswordField (
-    etiqueta : String,
-    estado : String,
-    aoDigitar : (String) -> Unit,
+    labelText : String,
+    state : String,
+    onValueChange : (String) -> Unit,
     modifier : Modifier = Modifier.fillMaxWidth()
 ){
     var passVisibilityState by remember {
@@ -36,15 +36,15 @@ fun PasswordField (
     }
 
     OutlinedTextField(
-        value = estado,
+        value = state,
 
         modifier = modifier,
         onValueChange = {
-            aoDigitar(it)
+            onValueChange(it)
         },
         label = {
             Text(
-                text = etiqueta,
+                text = labelText,
 
 //                style = TextStyle(
 ////                    fontSize = 12.sp,
@@ -87,9 +87,9 @@ fun CaixaDeSenhaPreview() {
     var passwordState by remember { mutableStateOf("") }
     LimpeanAppTheme {
         PasswordField(
-            "Senha",
-            estado = passwordState,
-            aoDigitar = {passwordState = it}
+            labelText = "Senha",
+            state = passwordState,
+            onValueChange = {passwordState = it}
         )
 
     }

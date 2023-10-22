@@ -15,9 +15,11 @@ import com.example.compose.md_theme_light_primary
 @Composable
 fun TitleSection(
     title: String,
-    description : String
+    description : String,
+    modifier : Modifier = Modifier.fillMaxWidth(),
+    horizontal: Alignment.Horizontal = Alignment.Start
 ) {
-    Column (Modifier.fillMaxWidth(),horizontalAlignment = Alignment.Start){
+    Column (modifier = modifier,horizontalAlignment = horizontal){
         Text(text = title, color = md_theme_light_primary, fontSize = 32.sp, fontWeight = FontWeight.Bold)
         Text(text = description)
     }

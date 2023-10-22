@@ -11,12 +11,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AuthContainer(
-    content : @Composable ()-> Unit
+    modifier: Modifier,
+    content : @Composable ()-> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(20.dp)
-            .fillMaxSize(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){

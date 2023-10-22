@@ -126,9 +126,9 @@ private fun LoginScreen(
                 color = md_theme_light_error
             )
             PasswordField(
-                etiqueta = "Digite sua senha...",
-                estado = state.password,
-                aoDigitar = {
+                labelText = "Digite sua senha...",
+                state = state.password,
+                onValueChange = {
                     onEvent(LoginEvent.PasswordChanged(it))
                 },
                 modifier = Modifier.fillMaxWidth()

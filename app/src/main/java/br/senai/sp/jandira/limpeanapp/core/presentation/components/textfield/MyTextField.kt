@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.PasswordField
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.profile_form.TextFieldVariant
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.TextFieldVariant
 
 @Composable
 fun MyTextField(
@@ -15,11 +15,11 @@ fun MyTextField(
 ) {
     when(variant){
         is TextFieldVariant.Normal -> {
-            NormalTextField(label = nameLabel, keyboardType = KeyboardType.Text, state = state, onTyping = { onValueChange(it)})
+            NormalTextField(labelText = nameLabel, keyboardType = KeyboardType.Text, value = state, onValueChange = { onValueChange(it)})
         } TextFieldVariant.Date -> {
 
         } TextFieldVariant.Password -> {
-            PasswordField(etiqueta = nameLabel, estado = state, aoDigitar = {onValueChange(it)} )
+            PasswordField(labelText = nameLabel, state = state, onValueChange = {onValueChange(it)} )
         }
     }
 }
