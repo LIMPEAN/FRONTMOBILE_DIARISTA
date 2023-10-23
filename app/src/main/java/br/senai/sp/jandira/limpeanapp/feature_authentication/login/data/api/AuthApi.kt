@@ -1,5 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.api
 
+import br.senai.sp.jandira.limpeanapp.core.data.remote.BaseResponse
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.RegisterRequest
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -9,4 +12,10 @@ interface AuthApi {
     suspend fun login(
         @Body request: AuthRequest
     ) : TokenResponse
+
+
+    @POST("cadastro")
+    suspend fun register(
+        @Body diarist : RegisterRequest
+    ): Response<BaseResponse>
 }

@@ -53,6 +53,7 @@ import com.example.compose.md_theme_light_error
 
 @Composable
 fun LoginScreen(
+    onRegister: () -> Unit,
     onLogin: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -84,7 +85,8 @@ fun LoginScreen(
 
     LoginScreen(
         state = viewModel.state,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onRegister = onRegister
     )
 
 }
@@ -93,7 +95,8 @@ fun LoginScreen(
 @Composable
 private fun LoginScreen(
     state : LoginState,
-    onEvent: (LoginEvent) -> Unit
+    onEvent: (LoginEvent) -> Unit,
+    onRegister : ()-> Unit
 ) {
 
     Column(
@@ -167,28 +170,26 @@ private fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.7f),
+                .fillMaxHeight(0.5f),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceEvenly
 
         ) {
-
-
-
             Button(
                 onClick = {
                     onEvent(LoginEvent.Login)
                 },
                 modifier = Modifier.fillMaxWidth(1f)
             ) {
-                Text(text = "Logar como ${state.userType?: "Diarista"}")
+                Text(text = "Entrar")
             }
-
-
             TextComLinhasLogin(texto = "ou")
-
-            OutlinedButton(onClick = { onEvent(LoginEvent.LoginWithGoogle)},
-                modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(
+                onClick = {
+                    onEvent(LoginEvent.LoginWithGoogle)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ){
                 Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo google")
                 Text(text = "Entrar com Google")
             }
@@ -197,19 +198,20 @@ private fun LoginScreen(
                     CircularProgressIndicator()
                 }
             }
-            Column() {
+            Row() {
                 Text(
-                    text = "Ainda não possui uma conta? Realize seu cadastro como",
+                    text = "Ainda não possui uma conta? Crie seu ",
                     fontSize = 12.sp)
-                Row {
-                    Text(fontSize = 12.sp , text = "Diarista", textDecoration = TextDecoration.Underline, modifier = Modifier.clickable {  })
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "ou",
-                        fontSize = 12.sp)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(fontSize = 12.sp , text = "Contratante", textDecoration = TextDecoration.Underline, modifier = Modifier.clickable {  })
-                }
+                Text(
+                    fontSize = 12.sp ,
+                    text = "Cadastro",
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier
+                        .clickable {
+                            onRegister()
+                        }
+                )
+
             }
 
 
@@ -228,8 +230,9 @@ private fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
 
-
     LimpeanAppTheme {
-       LoginScreen(state = LoginState(), onEvent = {})
+       LoginScreen(state = LoginState(
+           isLoading = true
+       ), onEvent = {}, onRegister = {})
     }
 }

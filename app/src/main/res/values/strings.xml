@@ -45,5 +45,7 @@
     <string name="register_description">Para acessar a plataforma</string>
     <string name="register_address_title">Onde você mora?</string>
     <string name="register_address_description">Precisamos dessa informação para o filtro</string>
+    <string name="button_register_profile">Próxima parte</string>
+    <string name="address_form_cep">Cep</string>
 
 </resources>

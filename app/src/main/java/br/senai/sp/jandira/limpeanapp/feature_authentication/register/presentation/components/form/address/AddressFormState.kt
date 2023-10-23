@@ -22,3 +22,14 @@ fun createAddressFormState(address: Address): AddressFormState {
         isLoading = false
     )
 }
+fun AddressFormState.toDomain() : Address{
+    return Address(
+        cep = this.cep,
+        street = this.logradouro,
+        district = this.bairro,
+        city = this.cidade,
+        state = this.estado,
+        number = this.numero,
+        complement = null
+    )
+}

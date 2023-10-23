@@ -12,13 +12,4 @@ data class ProfileFormState(
     val password: String = "",
 )
 
-fun createProfileFormState(diarist : Diarist) : ProfileFormState {
-    return ProfileFormState(
-        name = diarist.name,
-        password = diarist.password,
-        cpf = diarist.cpf,
-        ddd = diarist.ddd,
-        phone = diarist.phone,
-        email = diarist.email
-    )
-}
+

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
@@ -28,8 +30,7 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun AddressFormUi(
     state : AddressFormState,
-    onChangeNumber : (String) -> Unit,
-    onChangeCep : (String) -> Unit,
+    onEvent : (AddressFormEvent) -> Unit,
     modifier : Modifier
 ) {
 
@@ -41,12 +42,15 @@ fun AddressFormUi(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Cep")
+                Text(text = stringResource(R.string.address_form_cep))
             },
             value = state.cep,
             onValueChange = {
-                onChangeCep(it)
-            }
+                onEvent(AddressFormEvent.CepChanged(it))
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
         )
 
         if (state.isLoading) {
@@ -56,44 +60,51 @@ fun AddressFormUi(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(R.string.label_logradouro))},
             value = state.logradouro,
-            onValueChange = {}
+            onValueChange = {},
+            readOnly = true,
+            enabled = !state.isLoading
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-
             label = { Text(text = stringResource(R.string.label_bairro))},
+            value = state.bairro,
+            onValueChange = {},
             readOnly = true,
-                value = state.bairro,
-                onValueChange = {}
+            enabled = !state.isLoading
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(R.string.label_estado))},
-            readOnly = true,
             value = state.estado ,
-            onValueChange = {}
+            onValueChange = {},
+            readOnly = true,
+            enabled = !state.isLoading
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(R.string.label_cidade))},
-            readOnly = true,
             value = state.cidade,
-            onValueChange = {}
+            onValueChange = {},
+            readOnly = true,
+            enabled = !state.isLoading
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(id = R.string.label_numero))},
             value = state.numero,
             onValueChange = {
-                onChangeNumber(it)
-            }
+                onEvent(AddressFormEvent.NumberChanged(it))
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
         )
     }
 
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun AddressFormUiPreview() {
     LimpeanAppTheme {
@@ -113,19 +124,14 @@ fun AddressFormUiPreview() {
                     "",
                     "",
                     numero,
-                    false,
+                    true,
                 )
             )
         }
         AddressFormUi(
             state = state,
-            onChangeCep = {
-                cep = it
-            },
-            onChangeNumber = {
-                numero = it
-            },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            onEvent = {},
         )
     }
 }

@@ -4,6 +4,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.mat
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
+import javax.inject.Inject
 import kotlin.jvm.Throws
 
 
@@ -16,7 +17,7 @@ import kotlin.jvm.Throws
 * O email deve estar no formato de email
 *  - A data deve ter um padrão de data. (2000/12/01)
 * */
-class AddDiarist(
+class AddDiarist @Inject constructor(
     private val repository : DiaristRepository,
     private val emailMatcher: EmailMatcher
 ) {
@@ -31,8 +32,12 @@ class AddDiarist(
 
 
 
+        try {
+            repository.insertDiarist(diarist)
+        } catch (e: Exception){
+            throw e
+        }
 
-        repository.insertDiarist(diarist)
 //        val validEmail = emailMatcher.isValid(diarist.email)
 //        if (!validEmail){
 //            throw InvalidDiaristException("Email inválido!")

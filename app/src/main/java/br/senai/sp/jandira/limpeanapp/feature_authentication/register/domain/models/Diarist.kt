@@ -4,7 +4,7 @@ import android.net.Uri
 import java.time.LocalDate
 
 data class Diarist(
-    val name: String,
+    val name: String ,
     val cpf : String,
     val ddd : String,
     val phone: String,

@@ -34,7 +34,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.mod
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.createAddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormUi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.createProfileFormState
+
 import com.example.compose.LimpeanAppTheme
 import java.time.LocalDate
 
@@ -42,72 +42,12 @@ import java.time.LocalDate
 
 
 @Composable
-fun RegisterScreenController(){
-
-    val registerState = rememberRegisterState()
-
-    val modifierForm = Modifier
-        .fillMaxHeight(0.7f)
-        .padding(20.dp)
-
-    val navController = rememberNavController()
-    RegisterScreen(
-        state = diaristTest,
-        titleSection = {
-            TitleSection(title = registerState.title, description = registerState.description)
-        },
-        onEvent = {},
-        onButtonClick = {
-
-
-
-        },
-        titleButton = registerState.titleButton
-   ){
-        NavHost(
-           startDestination = "Profile",
-           navController = navController
-       ){
-           composable("Profile"){
-               val profileFormState = createProfileFormState(diaristTest)
-               ProfileFormUi(
-                   profilePhoto = { /*TODO*/ },
-                   state = profileFormState,
-                   onEvent = {}
-               )
-           }
-           composable("Address"){
-               val addressFormState = createAddressFormState(diaristTest.address)
-               AddressFormUi(
-                   state = addressFormState,
-                   onChangeNumber = {
-
-                   },
-                   onChangeCep = {
-
-                   },
-                   modifier = modifierForm
-               )
-           }
-
-       }
-   }
-
-}
-
-
-
-
-@Composable
 fun RegisterScreen(
-    state : Diarist,
     titleSection: @Composable ()-> Unit,
-    onEvent : (RegisterEvent) -> Unit,
     onButtonClick: () -> Unit,
     titleButton: String,
-    form: @Composable (Diarist)-> Unit,
+    form: @Composable ()-> Unit,
 ) {
-
 
 
     val scrollState = rememberScrollState()
@@ -119,7 +59,7 @@ fun RegisterScreen(
     ) {
         titleSection()
 
-        form(state)
+        form()
 
         Button(onClick = { onButtonClick() } ){
             Text(text = titleButton)
@@ -129,38 +69,7 @@ fun RegisterScreen(
 }
 
 
-@Preview(showSystemUi = true)
-@Composable
-fun RegisterProfilePreview() {
 
-    var profileFormState by remember{
-        mutableStateOf(
-            createProfileFormState(diaristTest)
-        )
-    }
-
-    LimpeanAppTheme {
-        RegisterScreen(
-            state = diaristTest,
-            titleSection = {
-                TitleSection(
-                    horizontal = Alignment.CenterHorizontally,
-                    title = stringResource(R.string.register_title),
-                    description = stringResource(R.string.register_description)
-                )
-            },
-            onEvent = {},
-            onButtonClick = {},
-            titleButton = "Próxima parte"
-        ) {
-            ProfileFormUi(
-                profilePhoto = { /*TODO*/ },
-                state = profileFormState,
-                onEvent = {}
-            )
-        }
-    }
-}
 @Preview(showBackground = true)
 @Composable
 fun RegisterAddressPreview() {
@@ -172,28 +81,7 @@ fun RegisterAddressPreview() {
     }
 
     LimpeanAppTheme {
-        RegisterScreen(
-            state = diaristTest,
-            onEvent = {},
-            onButtonClick = {},
-            titleSection = {
-                TitleSection(
-                    horizontal = Alignment.CenterHorizontally,
-                    title = stringResource(R.string.register_address_title),
-                    description = stringResource(R.string.register_address_description)
-                )
-            },
-            titleButton = "Finalizar"
-        ) {
-            AddressFormUi(
-                modifier = Modifier
-                    .fillMaxHeight(0.7f)
-                    .padding(20.dp),
-                state = addressFormState,
-                onChangeNumber = {},
-                onChangeCep = {}
-            )
-        }
+
     }
 }
 @Preview(showBackground = true, showSystemUi = true)
@@ -202,7 +90,6 @@ fun RegisterScreenPreview() {
 
     LimpeanAppTheme {
         RegisterScreen(
-            state = diaristTest,
             titleSection = {
                 TitleSection(
                     horizontal = Alignment.CenterHorizontally,
@@ -211,7 +98,7 @@ fun RegisterScreenPreview() {
                 )
             },
             onButtonClick = {},
-            onEvent = {},
+          
             titleButton = "Próxima parte"
         ){
             Text(text = "form")
