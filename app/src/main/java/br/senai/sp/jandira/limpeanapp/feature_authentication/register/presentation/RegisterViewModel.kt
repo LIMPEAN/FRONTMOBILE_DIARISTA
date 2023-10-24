@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.ViaCepApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.ErrorRepositoryException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.AddDiarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormEvent
@@ -46,26 +48,24 @@ class RegisterViewModel @Inject constructor(
     val registerResult = resultChannel.receiveAsFlow()
 
     fun createProfileFormState() : ProfileFormState {
-        val state = diarist
         return ProfileFormState(
-            name = state.name,
-            password = state.password,
-            cpf = state.cpf,
-            ddd = state.ddd,
-            phone = state.phone,
-            email = state.email
+            name = diarist.name,
+            password = diarist.password,
+            cpf = diarist.cpf,
+            ddd = diarist.ddd,
+            phone = diarist.phone,
+            email = diarist.email
         )
     }
 
     fun createAddressFormState() : AddressFormState{
-        val state = address
         return AddressFormState(
-            cep = state.cep,
-            logradouro = state.street,
-            bairro =  state.district,
-            estado = state.state,
-            cidade = state.city,
-            numero = state.number,
+            cep = address.cep,
+            logradouro = address.street,
+            bairro =  address.district,
+            estado = address.state,
+            cidade = address.city,
+            numero = address.number,
             isLoading = false
         )
     }
@@ -124,14 +124,32 @@ class RegisterViewModel @Inject constructor(
         )
         Log.i("save-address", diarist.address.toString())
     }
+    fun save(profileState: ProfileFormState){
+       diarist = diarist.copy(
+           name = profileState.name,
+           cpf = profileState.cpf,
+           phone = profileState.phone,
+           ddd = profileState.ddd,
+           email = profileState.email,
+           password = profileState.password
+       )
+        Log.i("save-diarist", diarist.toString())
+    }
 
     fun saveDiarist(){
+        Log.i("DIARIST ANTES", diarist.toString())
+        val newDiarist = diarist.copy(address = address)
+        Log.i("DIARIST_COMPLETO", diarist.toString())
         viewModelScope.launch {
             try {
-                addDiarist(diarist)
+                Log.i("DIARISTA EM TELA", diarist.toString())
+                addDiarist(newDiarist)
                 resultChannel.send(RegisterResult.Successful)
-            }catch (e: InvalidDiaristException) {
-                resultChannel.send(RegisterResult.Error("Há dados inválidos."))
+            }
+            catch (e: Exception) {
+                resultChannel.send(
+                    RegisterResult.Error(e.message!!)
+                )
             }
         }
     }

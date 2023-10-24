@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +26,7 @@ import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.createAddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.toDomain
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormUi
 import com.example.compose.LimpeanAppTheme
@@ -50,6 +54,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavController) {
                     )
                 },
                 onButtonClick = {
+                    viewModel.save(profileState = state)
                     navController.navigate(RegisterRoute.Address)
                 },
                 titleButton = stringResource(R.string.button_register_profile)

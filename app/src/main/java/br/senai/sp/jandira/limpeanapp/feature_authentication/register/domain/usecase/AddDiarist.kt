@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.us
 
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.matcher.EmailMatcher
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.ErrorRepositoryException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
 import javax.inject.Inject
@@ -18,34 +19,21 @@ import kotlin.jvm.Throws
 *  - A data deve ter um padrão de data. (2000/12/01)
 * */
 class AddDiarist @Inject constructor(
-    private val repository : DiaristRepository,
-    private val emailMatcher: EmailMatcher
+    private val repository : DiaristRepository
 ) {
 
     @Throws(InvalidDiaristException::class)
     suspend operator fun invoke(diarist : Diarist){
 
-
-
-        val userExists = repository.getDiaristByPhoneAndEmail(diarist.phone, diarist.email)
-            ?: throw InvalidDiaristException.UserAlreadyExists
-
-
-
         try {
             repository.insertDiarist(diarist)
         } catch (e: Exception){
-            throw e
+            if(e.message != null){
+                throw e
+            }else{
+                throw Exception("Erro com o Repositório.")
+            }
         }
-
-//        val validEmail = emailMatcher.isValid(diarist.email)
-//        if (!validEmail){
-//            throw InvalidDiaristException("Email inválido!")
-//        }
-//        repository.getDiaristByPhoneAndEmail(
-//            phone = diarist.phone,
-//            email = diarist.email
-//        ) ?: throw InvalidDiaristException("Esta diarista já foi cadastrada!")
 
     }
 }

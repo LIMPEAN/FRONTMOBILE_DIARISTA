@@ -1,6 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.di
 
+import br.senai.sp.jandira.limpeanapp.core.data.repository.DiaristRepositoryImpl
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.api.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.ViaCepApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -36,5 +39,10 @@ object RegisterModule{
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create()
+    }
+    @Provides
+    @Singleton
+    fun provideDiaristRepository(api: AuthApi) : DiaristRepository{
+        return DiaristRepositoryImpl(api)
     }
 }

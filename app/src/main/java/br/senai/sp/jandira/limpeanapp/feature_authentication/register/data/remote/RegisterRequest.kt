@@ -13,5 +13,5 @@ data class RegisterRequest(
     val cpf: String,
     val biography: String?,
     val averagePrice: String,
-    val address: Address
+    val address: AddressRequest
 )
