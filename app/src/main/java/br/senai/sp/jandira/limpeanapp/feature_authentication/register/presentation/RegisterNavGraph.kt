@@ -15,9 +15,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,14 +41,15 @@ object RegisterRoute{
     val Address = "address"
 }
 
-fun NavGraphBuilder.registerNavGraph(navController : NavController) {
+fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
     navigation(
         route = "register",
         startDestination = RegisterRoute.Profile
     ){
-        composable(RegisterRoute.Profile){
-            val viewModel = hiltViewModel<RegisterViewModel>()
+        composable(RegisterRoute.Profile){entry ->
+            val viewModel = entry.sharedViewModel<RegisterViewModel>(navController)
             val state = viewModel.createProfileFormState()
+            
             RegisterScreen(
                 titleSection = {
                     TitleSection(
@@ -66,8 +71,8 @@ fun NavGraphBuilder.registerNavGraph(navController : NavController) {
                 )
             }
         }
-        composable(RegisterRoute.Address){
-            val viewModel = hiltViewModel<RegisterViewModel>()
+        composable(RegisterRoute.Address){entry ->
+            val viewModel = entry.sharedViewModel<RegisterViewModel>(navController)
             val state = viewModel.createAddressFormState()
             val context = LocalContext.current
 
@@ -96,10 +101,6 @@ fun NavGraphBuilder.registerNavGraph(navController : NavController) {
 
 
             RegisterScreen(
-                onButtonClick = {
-                    viewModel.save(address = state.toDomain())
-                    viewModel.saveDiarist()
-                },
                 titleSection = {
                     TitleSection(
                         horizontal = Alignment.CenterHorizontally,
@@ -107,7 +108,11 @@ fun NavGraphBuilder.registerNavGraph(navController : NavController) {
                         description = stringResource(R.string.register_address_description)
                     )
                 },
-                titleButton = "Finalizar"
+                titleButton = "Finalizar",
+                onButtonClick = {
+                    viewModel.save(address = state.toDomain())
+                    viewModel.saveDiarist()
+                },
             ) {
                 AddressFormUi(
                     modifier = Modifier
@@ -121,6 +126,25 @@ fun NavGraphBuilder.registerNavGraph(navController : NavController) {
     }
 }
 
+@Composable
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
+    navController: NavHostController,
+): T {
+    val navGraphRoute = destination.parent?.route ?: return viewModel()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+    return hiltViewModel(parentEntry)
+}
 
-
+@Preview
+@Composable
+fun TesteNavRegistration() {
+    val navController = rememberNavController()
+    LimpeanAppTheme {
+        NavHost(navController = navController, startDestination = "register"){
+            registerNavGraph(navController)
+        }
+    }
+}
 

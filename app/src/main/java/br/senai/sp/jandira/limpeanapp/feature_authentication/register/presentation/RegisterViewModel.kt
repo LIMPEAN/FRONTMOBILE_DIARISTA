@@ -122,7 +122,7 @@ class RegisterViewModel @Inject constructor(
         diarist = diarist.copy(
             address = address
         )
-        Log.i("save-address", diarist.address.toString())
+        Log.i("save-address", diarist.toString())
     }
     fun save(profileState: ProfileFormState){
        diarist = diarist.copy(
@@ -137,13 +137,10 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun saveDiarist(){
-        Log.i("DIARIST ANTES", diarist.toString())
-        val newDiarist = diarist.copy(address = address)
-        Log.i("DIARIST_COMPLETO", diarist.toString())
         viewModelScope.launch {
             try {
                 Log.i("DIARISTA EM TELA", diarist.toString())
-                addDiarist(newDiarist)
+                addDiarist(diarist)
                 resultChannel.send(RegisterResult.Successful)
             }
             catch (e: Exception) {
