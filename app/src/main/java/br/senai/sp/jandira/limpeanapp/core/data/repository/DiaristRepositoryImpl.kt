@@ -44,11 +44,6 @@ class DiaristRepositoryImpl @Inject  constructor(
     override suspend fun insertDiarist(diarist: Diarist) {
 
         val response = api.register(diarist.toRequestApi())
-        if(response.isSuccessful)
-            throw Exception(
-                "Response: $response" +
-                "Body: ${response.body()}"
-            )
 
         if (!response.isSuccessful) {
             val errorBody = response.errorBody()?.string()

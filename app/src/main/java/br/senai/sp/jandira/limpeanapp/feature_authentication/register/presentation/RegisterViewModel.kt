@@ -139,7 +139,6 @@ class RegisterViewModel @Inject constructor(
     fun saveDiarist(){
         viewModelScope.launch {
             try {
-                Log.i("DIARISTA EM TELA", diarist.toString())
                 addDiarist(diarist)
                 resultChannel.send(RegisterResult.Successful)
             }

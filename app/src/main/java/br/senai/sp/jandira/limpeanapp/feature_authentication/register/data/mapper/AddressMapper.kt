@@ -12,7 +12,7 @@ fun Address.toAddressRequest() : AddressRequest{
         cep = this.cep,
         publicPlace = this.street,
         houseNumber = this.number,
-        complement = this.complement,
+        complement = this.complement?: "",
         district = this.district
     )
 }
