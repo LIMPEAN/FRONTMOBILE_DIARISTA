@@ -2,7 +2,7 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.mapp
 
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.AddressRequest
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.repository.Estado
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
 
 fun Address.toAddressRequest() : AddressRequest{
     val sp = 26

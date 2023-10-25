@@ -1,9 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
 
-import android.net.Uri
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
 import java.time.LocalDate
 
 fun getListDiarists() : List<Diarist> {
@@ -20,7 +19,8 @@ fun getListDiarists() : List<Diarist> {
             photo = null,
             gender = Gender.FEMININO,
             biography = null
-        ),Diarist(
+        ),
+        Diarist(
             id = 2,
             name = "Giovani",
             cpf = "123456789089",

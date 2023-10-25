@@ -2,15 +2,14 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.us
 
 import android.net.Uri
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.matcher.EmailMatcherImpl
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.matcher.EmailMatcher
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Gender
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.matcher.EmailMatcher
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.InvalidDiaristException
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
-
 
 
 import org.junit.Before

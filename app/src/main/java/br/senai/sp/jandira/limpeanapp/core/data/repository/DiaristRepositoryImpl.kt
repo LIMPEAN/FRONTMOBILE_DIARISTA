@@ -1,28 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.data.repository
 
-import android.util.Log
-import androidx.datastore.core.DataStore
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toRequestApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.BaseResponse
-import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.api.AuthApi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.login.domain.TokenRepository
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.RegisterRequest
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.ErrorRepositoryException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
 import javax.inject.Inject
 import kotlin.jvm.Throws
 

@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.login.domain
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
 sealed class AuthResult<T>(val data: T? = null) {
     class Authorized<T>(data: T? = null): AuthResult<T>(data)

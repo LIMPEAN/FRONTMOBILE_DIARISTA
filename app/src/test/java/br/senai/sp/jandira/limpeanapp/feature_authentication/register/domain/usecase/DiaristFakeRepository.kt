@@ -1,12 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
-import kotlinx.coroutines.delay
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class DiaristFakeRepository()  : DiaristRepository{
+class DiaristFakeRepository()  : DiaristRepository {
 
 
     private val diarists = mutableListOf<Diarist>()

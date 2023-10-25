@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
 
 data class AddressFormState(
     val cep: String,
@@ -22,7 +22,7 @@ fun createAddressFormState(address: Address): AddressFormState {
         isLoading = false
     )
 }
-fun AddressFormState.toDomain() : Address{
+fun AddressFormState.toDomain() : Address {
     return Address(
         cep = this.cep,
         street = this.logradouro,

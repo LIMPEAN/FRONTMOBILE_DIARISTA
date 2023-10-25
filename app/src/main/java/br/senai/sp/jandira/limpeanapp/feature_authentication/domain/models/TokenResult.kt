@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.login.domain
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
 sealed class TokenResult<T>(val data: T? = null) {
     class SuccessfulSaveToken<T>(): TokenResult<T>()

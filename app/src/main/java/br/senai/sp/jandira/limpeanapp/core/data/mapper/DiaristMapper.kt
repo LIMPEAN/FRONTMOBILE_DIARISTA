@@ -3,7 +3,7 @@ package br.senai.sp.jandira.limpeanapp.core.data.mapper
 import android.util.Log
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.mapper.toAddressRequest
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.RegisterRequest
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
 import com.google.gson.Gson
 
 fun Diarist.toRequestApi() : RegisterRequest{

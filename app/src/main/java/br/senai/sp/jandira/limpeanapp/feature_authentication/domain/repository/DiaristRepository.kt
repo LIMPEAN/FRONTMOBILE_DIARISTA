@@ -1,9 +1,7 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.ErrorRepositoryException
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
 import kotlinx.coroutines.flow.Flow
-import kotlin.jvm.Throws
 
 interface DiaristRepository {
 

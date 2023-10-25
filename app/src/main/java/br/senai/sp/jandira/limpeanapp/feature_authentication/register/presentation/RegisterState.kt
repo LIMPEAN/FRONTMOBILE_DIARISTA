@@ -1,10 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormState
 

@@ -1,15 +1,14 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.di
 
 import br.senai.sp.jandira.limpeanapp.core.data.repository.DiaristRepositoryImpl
-import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.api.AuthApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.ViaCepApi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,7 +41,7 @@ object RegisterModule{
     }
     @Provides
     @Singleton
-    fun provideDiaristRepository(api: AuthApi) : DiaristRepository{
+    fun provideDiaristRepository(api: AuthApi) : DiaristRepository {
         return DiaristRepositoryImpl(api)
     }
 }

@@ -1,14 +1,14 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.repository
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Gender
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 
-class DiaristFakeRepository : DiaristRepository{
+class DiaristFakeRepository : DiaristRepository {
     override fun getDiarists(): Flow<List<Diarist>> {
         return flow {
             emit(listOf(
@@ -25,7 +25,8 @@ class DiaristFakeRepository : DiaristRepository{
                     gender = Gender.FEMININO,
                     ddd = "10",
 
-                ),Diarist(
+                ),
+                Diarist(
                     id = 2,
                     name = "Giovani",
                     cpf = "123456789089",

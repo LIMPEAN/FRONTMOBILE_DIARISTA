@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
 data class Address(
     val cep: String = "",

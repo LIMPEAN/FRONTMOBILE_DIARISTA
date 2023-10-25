@@ -1,6 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models
-
-import br.senai.sp.jandira.limpeanapp.core.data.repository.ErrorServerException
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
 
 sealed class InvalidDiaristException(message : String) : Exception(message) {

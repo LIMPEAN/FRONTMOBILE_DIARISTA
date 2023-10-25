@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.api
+package br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote
 
 data class AuthRequest(
     val typeUser: String = "diarist",

@@ -1,16 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation
 
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,20 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
 import br.senai.sp.jandira.limpeanapp.feature_authentication.components.AuthContainer
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.repository.DiaristFakeRepository
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Gender
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.createAddressFormState
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormUi
 
 import com.example.compose.LimpeanAppTheme
 import java.time.LocalDate

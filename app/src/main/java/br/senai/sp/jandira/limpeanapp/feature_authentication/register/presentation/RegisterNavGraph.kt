@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +16,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,9 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.RegisterResult
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.createAddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.toDomain
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormUi
 import com.example.compose.LimpeanAppTheme

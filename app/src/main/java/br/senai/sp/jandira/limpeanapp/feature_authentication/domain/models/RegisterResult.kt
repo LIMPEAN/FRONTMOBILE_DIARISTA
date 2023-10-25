@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
+package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
 sealed class RegisterResult<T> {
     object Successful : RegisterResult<Unit>()

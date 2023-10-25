@@ -7,12 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.ViaCepApi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.RegisterResult
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.ErrorRepositoryException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.models.InvalidDiaristException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase.AddDiarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormEvent
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.toDomain
