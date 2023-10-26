@@ -17,24 +17,21 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
     override suspend fun login(email: String, password: String): AuthResult<Unit> {
         return try {
-            val tokenResponse = api.login(
+            val response = api.login(
                 request = AuthRequest(
                     email = email,
                     password = password
                 )
             )
-            sessionCache.saveSession(session = tokenResponse.toSession())
+            sessionCache.saveSession(response.toSession())
             AuthResult.Authorized()
-        } catch (e: HttpException){
-            if(e.code() == 401){
-                Log.e(AUTH_REPOSITORY_IMPL, e.message())
+        } catch(e: HttpException) {
+            if(e.code() == 401) {
                 AuthResult.Unauthorized()
             } else {
-                Log.e(AUTH_REPOSITORY_IMPL, e.message())
                 AuthResult.UnknownError()
             }
-        } catch (e: Exception){
-            Log.e(AUTH_REPOSITORY_IMPL, e.message.toString())
+        } catch (e: Exception) {
             AuthResult.UnknownError()
         }
     }

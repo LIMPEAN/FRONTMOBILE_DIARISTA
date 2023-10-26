@@ -11,6 +11,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.AuthRepositoryImpl
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.TokenRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.SessionCache
@@ -82,5 +83,11 @@ object LoginModule {
                 appContext.preferencesDataStoreFile(USER_PREFERENCES)
             }
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionCache(dataStore : DataStore<Preferences>): SessionCache{
+        return SessionCacheImpl(dataStore)
     }
 }

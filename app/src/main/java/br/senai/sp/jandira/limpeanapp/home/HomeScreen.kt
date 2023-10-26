@@ -18,7 +18,6 @@ fun HomeScreen(
         Column {
             Text(text = "Home Screen")
             Text(text = viewModel.session.toString())
-
         }
        
     }

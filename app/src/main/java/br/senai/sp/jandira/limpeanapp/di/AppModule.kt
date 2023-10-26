@@ -15,10 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    @Singleton
-    fun provideSessionCache(dataStore : DataStore<Preferences>): SessionCache{
-        return SessionCacheImpl(dataStore)
-    }
+
 
 }
