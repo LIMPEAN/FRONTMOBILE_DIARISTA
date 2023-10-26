@@ -9,11 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.core.AuthenticationRoute
-import br.senai.sp.jandira.limpeanapp.home.HomeScreen
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginScreen
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.RegisterScreen
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.diaristTest
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.registerNavGraph
+import br.senai.sp.jandira.limpeanapp.home.HomeScreen
+import br.senai.sp.jandira.limpeanapp.home.HomeViewModel
 import com.example.compose.LimpeanAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,7 +44,9 @@ class MainActivity : ComponentActivity() {
                     }
                     registerNavGraph(navHostController)
                     composable(NavigationRoute.Home.route){
-                        HomeScreen()
+                        val vm = hiltViewModel<HomeViewModel>()
+                        vm.findDiarist()
+                        HomeScreen(diarist = vm.profileDiarist)
                     }
                 }
             }

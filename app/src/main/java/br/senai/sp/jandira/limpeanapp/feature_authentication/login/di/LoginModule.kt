@@ -9,12 +9,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
+import br.senai.sp.jandira.limpeanapp.core.data.remote.AuthInterceptor
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.AuthRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.TokenRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.SessionCache
+import br.senai.sp.jandira.limpeanapp.home.data.remote.DiaristApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,26 +50,40 @@ object LoginModule {
     }
     @Provides
     @Singleton
-    fun provideAuthApi(client : OkHttpClient) : AuthApi {
+    fun provideAuthApi(retrofit: Retrofit) : AuthApi {
+        return retrofit.create()
+    }
+    @Provides
+    @Singleton
+    fun provideDiaristApi(retrofit: Retrofit) : DiaristApi {
+        return retrofit.create()
+    }
+    @Provides
+    @Singleton
+    fun provideRetrofit(client : OkHttpClient) : Retrofit {
         return Retrofit.Builder()
-                .baseUrl("http://$HOST:8080/v1/limpean/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create()
+            .baseUrl("http://$HOST:8080/v1/limpean/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
     }
 
 
 
     @Provides
     @Singleton
-    fun provideOkHttpClient() : OkHttpClient {
+    fun provideOkHttpClient(sessionCache: SessionCache) : OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
-            }).build()
+            })
+            .addInterceptor(
+                AuthInterceptor(sessionCache)
+            )
+            .build()
     }
 
     @Provides
