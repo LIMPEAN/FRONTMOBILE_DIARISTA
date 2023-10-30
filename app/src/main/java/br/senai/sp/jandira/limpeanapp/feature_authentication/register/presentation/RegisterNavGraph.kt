@@ -28,6 +28,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Regis
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.toDomain
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.profile.ProfileFormUi
+import br.senai.sp.jandira.limpeanapp.ui.navigation.NavigationRoute
 import com.example.compose.LimpeanAppTheme
 import kotlinx.coroutines.delay
 
@@ -81,7 +82,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     delay(2000)
-                                    navController.navigate("Home")
+                                    navController.navigate(NavigationRoute.Home.route)
                                 }
                                 is RegisterResult.Error -> {
                                     Toast.makeText(
