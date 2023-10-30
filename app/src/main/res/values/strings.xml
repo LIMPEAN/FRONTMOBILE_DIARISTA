@@ -48,4 +48,85 @@
     <string name="button_register_profile">Próxima parte</string>
     <string name="address_form_cep">Cep</string>
 
+
+
+
+    <string name="registration_step">Passo 1 de 2</string>
+    <string name="registration_request">Cadastro solicitação</string>
+    <string name="description_registration">Informe os dados da solicitação</string>
+    <string name="select_residence">Selecione uma residência</string>
+    <string name="rooms_cleaned">Quais comôdos devem ser limpos?</string>
+    <string name="schedule_view">Visualize seus agendamentos</string>
+    <string name="request_token">Insira o token fornecido</string>
+    <string name="description_request_token">Para sua segurança e todos, desenvolvemos essa autenticação para comprovar idoneidade e assim manter você e o profissional seguros</string>
+    <string name="authenticate_token">código de autenticação</string>
+    <string name="authenticate">AUTENTICAR</string>
+    <string name="type_cleaning">Tipo da faxina</string>
+    <string name="children_or_animals">Crianças ou animais?</string>
+    <string name="question_children_or_animals">Haverão crianças ou animais no momento da faxina?</string>
+    <string name="start_time">Horário de início</string>
+    <string name="end_time">Horário de término</string>
+    <string name="cleaning_date">Horário da faxina</string>
+    <string name="set_value">Valor definido</string>
+    <string name="home">Casa</string>
+    <string name="date">Data</string>
+    <string name="diarist">Diarista</string>
+    <string name="latest_services">Últimos serviços</string>
+    <string name="select_date">Selecione a data</string>
+    <string name="select_start_time">Selecione o horário de início</string>
+    <string name="button_accept">Aceitar</string>
+    <string name="define_time">Defina o horário de término</string>
+    <string name="define_value">Defina um valor</string>
+    <string name="request_data_service">Dados da solicitação</string>
+    <string name="choose_services">Encontre seus serviços</string>
+
+
+    // SCREEN VIEW NOTIFICATIONS
+    <string name="view_your_notifications">Visualize suas notificações</string>
+    <string name="no_notifications">Você ainda não possui notificações</string>
+    <string name="view_notifications">Visualize as notificações</string>
+    <string name="search_diarist_or_code">Pesquisar por diarista ou código</string>
+    <string name="value_definition">definiu o valor da solicitação de número</string>
+    <string name="notification_for">para</string>
+
+    // SCREEN NO NOTIFICATIONS
+    <string name="title_create_new_request">Crie uma nova solicitação e acesse os benefícios abaixo:</string>
+    <string name="benefit_one">Sistema de ranqueamento</string>
+    <string name="benefit_two">Solicitação hibrida, com possibilidade de definição de preço</string>
+    <string name="benefit_three">Customização de solicitação</string>
+    <string name="benefit_four">Chat direto com o profissional</string>
+
+    // SCREEN CLEANING MONITOR
+    <string name="cleaning_monitor">Acompanhe a faxina em tempo real</string>
+    <string name="tasks">Tarefas</string>
+    <string name="something_went_wrong">algo deu errado?</string>
+    <string name="report">Reportar</string>
+    <string name="cancel">Cancelar</string>
+
+
+    // SCREEN DIALOG ASSESSMENT
+    <string name="dialog_assessment_description">nos ajude a ranquear a plataforma e avalie o diarista</string>
+    <string name="assess">AVALIAR</string>
+
+    // SCREEN FIND YOUR SERVICES
+    <string name="find_your_services">Encontre seus serviços</string>
+
+    // SCREEN REQUEST DATA
+    <string name="request_data">Dados da solicitação</string>
+    <string name="which_rooms_should_be_cleaned">Quais cômodos devem ser limpos?</string>
+    <string name="view">VISUALIZAR</string>
+    <string name="report_service_status">Informe o status do seviço</string>
+    <string name="finish">FINALIZAR</string>
+
+    // SCREEN MY PROFILE
+    <string name="gender">Gênero:</string>
+    <string name="locality">Localidade:</string>
+    <string name="phone">Telefone:</string>
+    <string name="others">Outros</string>
+    <string name="talk_to_support">Falar com o suporte</string>
+    <string name="privacy_policy">Política de privacidade</string>
+    <string name="add_house">Adicionar casa</string>
+    <string name="edit_profile">Editar casa</string>
+
+
 </resources>
