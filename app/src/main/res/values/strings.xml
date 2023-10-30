@@ -46,6 +46,18 @@
     <string name="register_address_title">Onde você mora?</string>
     <string name="register_address_description">Precisamos dessa informação para o filtro</string>
     <string name="button_register_profile">Próxima parte</string>
-    <string name="address_form_cep">Cep</string>
+    <string name="address_form_cep">CEP</string>
+    <string name="request_data">Dados da solicitação</string>
+    <string name="rooms_cleaned">Quais comôdos devem ser limpos?</string>
+    <string name="type_cleaning">Tipo da faxina</string>
+    <string name="question_children_or_animals">Haverão crianças ou animais no momento da faxina?</string>
+    <string name="date">Data</string>
+    <string name="start_time">Horário de início</string>
+    <string name="end_time">Horário de término</string>
+    <string name="set_value">Valor definido</string>
+    <string name="button_accept">Aceitar</string>
+    <string name="define_value">Defina um valor</string>
+    <string name="define_time">Defina o horário de término</string>
+
 
 </resources>

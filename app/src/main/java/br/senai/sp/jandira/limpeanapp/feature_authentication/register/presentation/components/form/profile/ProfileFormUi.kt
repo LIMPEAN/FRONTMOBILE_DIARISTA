@@ -8,6 +8,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DocumentScanner
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Numbers
+import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.PhoneAndroid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.PasswordField
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.RegisterEvent
 import com.example.compose.LimpeanAppTheme
 
 
@@ -48,16 +54,18 @@ fun ProfileFormUi(
             onValueChange = { onEvent(ProfileFormEvent.NameChanged(it)) }
         )
         NormalTextField(
-            labelText = "Cpf (apenas dígito)",
+            labelText = "CPF (apenas dígito)",
             value = state.cpf,
             onValueChange = { onEvent(ProfileFormEvent.CpfChanged(it)) },
             keyboardType = KeyboardType.Number
+
         )
         NormalTextField(
             labelText = "Email",
             value = state.email,
             onValueChange = { onEvent(ProfileFormEvent.EmailChanged(it)) },
             keyboardType = KeyboardType.Email
+
         )
         PasswordField(
             labelText = "Senha",

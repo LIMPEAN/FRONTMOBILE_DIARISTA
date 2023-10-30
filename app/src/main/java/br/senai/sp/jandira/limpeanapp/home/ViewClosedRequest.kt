@@ -56,7 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.feature_client.components.NavBar
+//import br.senai.sp.jandira.limpeanapp.feature_client.components.NavBar
 import com.example.compose.seed
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,7 +124,7 @@ fun ViewClosedRequest() {
 
             }
         }, bottomBar = {
-            NavBar()
+//            NavBar()
 
         },
 

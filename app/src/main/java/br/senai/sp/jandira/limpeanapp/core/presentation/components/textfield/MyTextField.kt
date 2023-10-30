@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.core.presentation.components.textfield
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.PasswordField
