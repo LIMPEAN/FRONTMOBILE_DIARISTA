@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
+import com.example.compose.md_theme_light_secondary
 
 @Composable
 fun TitleSection(

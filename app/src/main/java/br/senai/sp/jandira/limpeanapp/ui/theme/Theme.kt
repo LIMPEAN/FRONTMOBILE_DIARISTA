@@ -85,7 +85,7 @@ fun LimpeanAppTheme(
   }
 
   MaterialTheme(
-    colorScheme = colors,
+    colorScheme = LightColors,
     content = content,
     typography = Typography
   )

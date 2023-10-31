@@ -23,6 +23,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.core.AuthenticationRoute
+import br.senai.sp.jandira.limpeanapp.core.navigation.NavigationRoute
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.components.form.address.AddressFormUi
@@ -32,16 +34,16 @@ import com.example.compose.LimpeanAppTheme
 import kotlinx.coroutines.delay
 
 object RegisterRoute{
-    val Profile = "profile"
-    val Address = "address"
+    const val PROFILE = "profile"
+    const val ADDRESS = "address"
 }
 
 fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
     navigation(
-        route = "register",
-        startDestination = RegisterRoute.Profile
+        route = AuthenticationRoute.REGISTER,
+        startDestination = RegisterRoute.PROFILE
     ){
-        composable(RegisterRoute.Profile){entry ->
+        composable(RegisterRoute.PROFILE){entry ->
             val viewModel = entry.sharedViewModel<RegisterViewModel>(navController)
             val state = viewModel.createProfileFormState()
             
@@ -55,7 +57,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                 },
                 onButtonClick = {
                     viewModel.save(profileState = state)
-                    navController.navigate(RegisterRoute.Address)
+                    navController.navigate(RegisterRoute.ADDRESS)
                 },
                 titleButton = stringResource(R.string.button_register_profile)
             ) {
@@ -66,7 +68,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                 )
             }
         }
-        composable(RegisterRoute.Address){entry ->
+        composable(RegisterRoute.ADDRESS){entry ->
             val viewModel = entry.sharedViewModel<RegisterViewModel>(navController)
             val state = viewModel.createAddressFormState()
             val context = LocalContext.current
@@ -111,7 +113,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
             ) {
                 AddressFormUi(
                     modifier = Modifier
-                        .fillMaxHeight(0.7f)
+                        .fillMaxHeight()
                         .padding(20.dp),
                     state = state,
                     onEvent = viewModel::onEvent

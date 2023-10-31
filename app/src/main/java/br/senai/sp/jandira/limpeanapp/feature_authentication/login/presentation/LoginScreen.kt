@@ -75,6 +75,8 @@ fun LoginScreen(
                         "Um erro inesperado aconteceu. Tente novamente.",
                         Toast.LENGTH_SHORT).show()
                 }
+
+                else -> {}
             }
         }
     }
@@ -105,7 +107,7 @@ private fun LoginScreen(
     ) {
 
 
-        TitleSection(title = stringResource(R.string.section_entrar), description = stringResource(R.string.section_entrar_description))
+        TitleSection(title = stringResource(R.string.login), description = stringResource(R.string.login_description))
 
         Column (
             modifier = Modifier.fillMaxWidth(),
@@ -138,28 +140,34 @@ private fun LoginScreen(
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+               verticalAlignment = Alignment.CenterVertically
             ) {
 
                 var checkedState = remember { mutableStateOf(false) }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                ) {
                     Checkbox(
                         checked = checkedState.value,
                         onCheckedChange = { checkedState.value = it }
                     )
-
                     Text(
                         text = "Relembrar",
                         color = md_theme_light_primary,
                         fontSize = 13.sp
                     )
-                }
 
-                TextButton(
-                    onClick = { /*TODO*/ }) {
-                    Text("Esqueceu a senha?")
                 }
+                Text(
+                    fontSize = 13.sp ,
+                    text = "Esqueceu a senha?",
+                    color = md_theme_light_primary
+                )
+
+
             }
         }
 
@@ -194,26 +202,26 @@ private fun LoginScreen(
                     CircularProgressIndicator()
                 }
             }
-            Row() {
-                Text(
-                    text = "Ainda não possui uma conta? Crie seu ",
-                    fontSize = 12.sp)
-                Text(
-                    fontSize = 12.sp ,
-                    text = "Cadastro",
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier
-                        .clickable {
-                            onRegister()
-                        }
-                )
 
-            }
 
 
 
         }
+        Row() {
+            Text(
+                text = stringResource(R.string.question_have_account),
+                fontSize = 12.sp)
+            Text(
+                fontSize = 12.sp ,
+                text = stringResource(R.string.login_go_to_register),
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier
+                    .clickable {
+                        onRegister()
+                    }
+            )
 
+        }
 
 
     }
@@ -225,5 +233,8 @@ private fun LoginScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
+    LimpeanAppTheme {
+       LoginScreen(state = LoginState(), onEvent = {}){}
+    }
 
 }

@@ -75,11 +75,11 @@ fun InputTextEmail(
         label = {
             Text(
                 text = label,
-                lineHeight = 16.sp,
-                fontFamily = FontFamily(Font(R.font.inter)),
-                fontWeight = FontWeight(400),
-                color = Color(0xFF53575A),
-                textAlign = TextAlign.Center
+//                lineHeight = 16.sp,
+//                fontFamily = FontFamily(Font(R.font.inter)),
+//                fontWeight = FontWeight(400),
+//                color = Color(0xFF53575A),
+//                textAlign = TextAlign.Center
             )
         }
         ,

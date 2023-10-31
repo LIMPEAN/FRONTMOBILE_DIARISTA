@@ -35,7 +35,7 @@ fun ProfileFormUi(
     profilePhoto: @Composable () -> Unit,
     state: ProfileFormState,
     onEvent: (ProfileFormEvent) -> Unit,
-    modifier: Modifier = Modifier.fillMaxHeight(0.7f).padding(20.dp)
+    modifier: Modifier = Modifier.fillMaxHeight().padding(20.dp)
 ) {
     Column(
         modifier = modifier,
