@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -56,6 +57,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.home.components.HomeSection
+import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -105,192 +109,9 @@ fun CleanScreen(
 
             }
         },
-        bottomBar = {
-            Text(text = "navbar")
-        },
-//        floatingActionButton = {
-//            FloatingActionButton(onClick = {
-//                onCreateService()
-//            }) {
-//                Text(text = "Add")
-//            }
-//        },
-
-
-
         content = {
 
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(color = seed), verticalArrangement = Arrangement.Bottom
-            ) {
 
-                Column(modifier = Modifier.fillMaxSize().background(seed)) {
-
-
-                    Column(modifier = Modifier.fillMaxSize()) {
-
-
-                        Spacer(modifier = Modifier.height(100.dp))
-
-                        Card(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            colors = CardDefaults.cardColors(Color.White),
-
-                            shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
-                        ) {
-                            Spacer(modifier = Modifier.height(10.dp))
-
-
-                            Column(
-                                modifier = Modifier
-                                    .padding(20.dp)
-                                    .fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = "Suas faxinas",
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 26.sp,
-                                    fontFamily = customFontFamily
-                                )
-                                Row(modifier = Modifier.height(50.dp)) {
-                                    OutlinedTextField(value = "", onValueChange = {}, leadingIcon = {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.baseline_search_24),
-                                            contentDescription = "icone de pesquisa"
-                                        )
-                                    }, shape = RoundedCornerShape(12.dp))
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                    Card(
-                                        modifier = Modifier
-                                            .fillMaxHeight()
-                                            .width(50.dp), colors = CardDefaults.cardColors(seed)
-                                    ) {
-                                        Column(
-                                            modifier = Modifier.fillMaxSize(),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.FilterAlt,
-                                                contentDescription = "Filtro",
-                                                modifier = Modifier
-                                                    .height(50.dp),
-                                                tint = Color.White,
-                                            )
-                                        }
-                                    }
-                                }
-
-                            }
-
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(25.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                item() {
-                                    Card(
-                                        modifier = Modifier
-                                            .width(350.dp)
-                                            .height(215.dp),
-                                        colors = CardDefaults.cardColors(
-                                            Color.White
-                                        )
-                                    ) {
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                        ) {
-                                            Row(
-                                            ) {
-                                                //mapa
-//                                        Image(painter = , contentDescription = "mapa da solicitação" )
-                                                Text(
-                                                    text = "Maria Dolores",
-                                                    fontSize = 20.sp,
-                                                    fontFamily = customFontFamily,
-                                                    fontWeight = FontWeight(600),
-                                                    color = Color(0xFF393939),
-                                                    textAlign = TextAlign.Center
-                                                )
-                                                Spacer(modifier = Modifier.width(90.dp))
-                                                Text(
-                                                    text = "R\$400,00",
-                                                    fontSize = 20.sp,
-                                                    fontFamily = customFontFamily,
-                                                    fontWeight = FontWeight(600),
-                                                    color = Color(0xFF3147F5)
-                                                )
-                                            }
-                                            Spacer(modifier = Modifier.height(3.dp))
-                                            Text(
-                                                text = "06600-025, Osasco, SP",
-                                                fontFamily = customFontFamily,
-                                                fontWeight = FontWeight.Light,
-                                                color = Color.Gray
-                                            )
-                                            Spacer(modifier = Modifier.height(15.dp))
-                                            Row(
-
-                                                modifier = Modifier.fillMaxWidth(),
-
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                Button(
-                                                    modifier = Modifier
-                                                        .width(145.dp)
-                                                        .height(40.dp),
-                                                    shape = RoundedCornerShape(size = 12.dp),
-                                                    colors = ButtonDefaults.buttonColors(seed),
-
-                                                    onClick = { onCreateService() }
-                                                ) {
-                                                    Text(
-                                                        text = "Iniciar",
-                                                        fontFamily = customFontFamily,
-                                                        fontWeight = FontWeight.Bold
-                                                    )
-                                                }
-
-                                                Spacer(modifier = Modifier.width(42.dp))
-
-                                                Button(
-                                                    modifier = Modifier
-                                                        .width(145.dp)
-                                                        .height(40.dp),
-                                                    shape = RoundedCornerShape(size = 12.dp),
-                                                    border = BorderStroke(1.dp, Color.Red),
-                                                    colors = ButtonDefaults.outlinedButtonColors(
-                                                        contentColor = Color.Red
-                                                    ),
-
-                                                    onClick = { /*TODO*/ }
-                                                ) {
-                                                    Text(
-                                                        text = "Cancelar",
-                                                        fontFamily = customFontFamily,
-                                                        fontWeight = FontWeight.Normal
-                                                    )
-
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    Spacer(modifier = Modifier.height(50.dp))
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-
-            }
         }
 
     )
@@ -300,73 +121,164 @@ fun CleanScreen(
 
 
 }
-
-@Preview(showSystemUi = true)
 @Composable
-fun DiaristPreview() {
+private fun CleaningContent(){
+    val customFontFamily = poopins
+    Column(
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "Suas faxinas",
+            fontWeight = FontWeight.Medium,
+            fontSize = 26.sp,
+            fontFamily = customFontFamily
+        )
+        Row(modifier = Modifier.height(50.dp)) {
+            OutlinedTextField(value = "", onValueChange = {}, leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "icone de pesquisa"
+                )
+            }, shape = RoundedCornerShape(12.dp))
+            Spacer(modifier = Modifier.width(10.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(50.dp), colors = CardDefaults.cardColors(seed)
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.FilterAlt,
+                        contentDescription = "Filtro",
+                        modifier = Modifier
+                            .height(50.dp),
+                        tint = Color.White,
+                    )
+                }
+            }
+        }
 
-    CleanScreen({})
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(25.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item() {
+            Card(
+                modifier = Modifier
+                    .width(350.dp)
+                    .height(215.dp),
+                colors = CardDefaults.cardColors(
+                    Color.White
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Row(
+                    ) {
+                        //mapa
+//                                        Image(painter = , contentDescription = "mapa da solicitação" )
+                        Text(
+                            text = "Maria Dolores",
+                            fontSize = 20.sp,
+                            fontFamily = customFontFamily,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF393939),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.width(90.dp))
+                        Text(
+                            text = "R\$400,00",
+                            fontSize = 20.sp,
+                            fontFamily = customFontFamily,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF3147F5)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = "06600-025, Osasco, SP",
+                        fontFamily = customFontFamily,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(15.dp))
+                    Row(
+
+                        modifier = Modifier.fillMaxWidth(),
+
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            modifier = Modifier
+                                .width(145.dp)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(size = 12.dp),
+                            colors = ButtonDefaults.buttonColors(seed),
+
+                            onClick = {  }
+                        ) {
+                            Text(
+                                text = "Iniciar",
+                                fontFamily = customFontFamily,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(42.dp))
+
+                        Button(
+                            modifier = Modifier
+                                .width(145.dp)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(size = 12.dp),
+                            border = BorderStroke(1.dp, Color.Red),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color.Red
+                            ),
+
+                            onClick = { /*TODO*/ }
+                        ) {
+                            Text(
+                                text = "Cancelar",
+                                fontFamily = customFontFamily,
+                                fontWeight = FontWeight.Normal
+                            )
+
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(50.dp))
+        }
+
+    }
+
 }
 
 
-
-val TAG_HOME = "cliente-home"
-
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
 @Composable
-fun ScaffoldExample() {
-    var presses by remember { mutableIntStateOf(0) }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(modifier = Modifier.background(Color.Blue),
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Top app bar")
-                }
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom app bar",
-                )
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .background(Color.Red, shape = RectangleShape),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
+fun CleaningContentPreview() {
+    LimpeanAppTheme {
+        Column {
             Text(
-                modifier = Modifier.padding(8.dp),
-                text =
-                """
-                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
-
-                    It also contains some basic inner content, such as this text.
-
-                    You have pressed the floating action button $presses times.
-                """.trimIndent(),
+                text = "Suas Faxinas",
+                style = MaterialTheme.typography.bodyLarge
             )
         }
-    }
 
+    }
 }

@@ -1,43 +1,59 @@
 package br.senai.sp.jandira.limpeanapp.feature_diarist
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.Button
-import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.feature_diarist.cleaning.CleanScreen
-import br.senai.sp.jandira.limpeanapp.feature_diarist.cleaning.CleaningDetailScreen
-import br.senai.sp.jandira.limpeanapp.feature_diarist.notifications.NotificationsScreen
-import br.senai.sp.jandira.limpeanapp.feature_diarist.schedules.FindYourServicesScreen
-import br.senai.sp.jandira.limpeanapp.home.profile.ProfileScreen
+import br.senai.sp.jandira.limpeanapp.home.components.HomeNavBar
+import br.senai.sp.jandira.limpeanapp.home.components.HomeNavGraph
+import br.senai.sp.jandira.limpeanapp.home.components.HomeRoute
+import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
+import com.example.compose.md_theme_light_primary
 import com.example.compose.seed
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    title: String,
+    description: String,
+    content : @Composable () -> Unit
+){
     val navController = rememberNavController()
-    
+
+
+    var topPadding = 54.dp
     Scaffold(
-        bottomBar = {
-            HomeNavBar(navController = navController)
+        modifier = Modifier.fillMaxSize(),
+        containerColor = md_theme_light_primary,
+        contentColor = Color.Black,
+        topBar = {
+            HomeAppBarTest(
+                title = title,
+                description = description
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -47,40 +63,61 @@ fun HomeScreen(){
             ) {
                 Icon(Icons.Filled.Search, "Small floating action button.")
             }
-        }
-    ) {
-        val paddingValues = it
-        NavHost(navController = navController, startDestination = HomeRoute.CLEANING){
-            composable(HomeRoute.CLEANING){
-                CleanScreen {
-                    navController.navigate(HomeRoute.CLEANING_DETAIL)
-                }
+        },
+        bottomBar = {
+            HomeNavBar(navController = navController)
+        },
+
+    ) {paddingValues ->
+            Card(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                ,
+                shape = RoundedCornerShape(
+                    topStart = topPadding,
+                    topEnd = topPadding
+                )
+            ){
+                content()
             }
-            composable(HomeRoute.CLEANING_DETAIL){
-                CleaningDetailScreen()
-            }
-            composable(HomeRoute.FIND_CLEANING){
-                Box (contentAlignment = Alignment.Center){
-                    Text(text = "ChoseRequest")
-                }
-            }
-            composable(HomeRoute.SCHEDULES){
-                FindYourServicesScreen()
-            }
-            composable(HomeRoute.NOTIFICATIONS){
-                NotificationsScreen()
-            }
-            composable(HomeRoute.PROFILE){
-                ProfileScreen()
-            }
-        }
     }
 }
 
-@Preview
+@Composable
+fun HomeAppBarTest(
+    title : String,
+    description : String,
+) {
+    Column(
+        Modifier
+            .padding(
+                24.dp
+            )
+            .background(md_theme_light_primary)
+    ) {
+        Text(
+            style = MaterialTheme.typography.titleSmall,
+            text = title,
+            color = Color.White,
+            fontFamily = poopins
+        )
+        Text(
+            style = MaterialTheme.typography.titleLarge,
+            text = description,
+            color = Color.White,
+            fontFamily = poopins
+        )
+    }
+
+}
+
+@Preview()
 @Composable
 fun HomeScreenPrev() {
     LimpeanAppTheme {
-        HomeScreen()
+        HomeScreen(title = "", description = ""){
+            Text(text = "test")
+        }
     }
 }

@@ -11,8 +11,13 @@ import br.senai.sp.jandira.limpeanapp.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    labelSmall = TextStyle(
+        fontFamily = poopins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
+    ),
     labelMedium = TextStyle(
-        fontFamily = FontFamily(Font(R.font.inter)),
+        fontFamily = poopins,
         fontWeight = FontWeight.Normal,
         color = Color(0xFF53575A),
         fontSize = 16.sp
@@ -20,11 +25,8 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = poopins,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 32.sp
+        fontSize = 32.sp,
+        color = Color(0xFF393939)
     ),
-    labelSmall = TextStyle(
-        fontFamily = poopins,
-        fontWeight = FontWeight.Normal,
-        fontSize = 10.sp
-    ),
+
 )

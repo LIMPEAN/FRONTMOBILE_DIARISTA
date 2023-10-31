@@ -37,7 +37,8 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 
 private const val USER_PREFERENCES = "user_preferences"
-private const val HOST = "10.107.144.17"
+private const val HOST = "10.0.0.2"
+//EM DISPOSITIVO FISICO, USE O IP REAL
 @Module
 @InstallIn(SingletonComponent::class)
 object LoginModule {

@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.feature_diarist
+package br.senai.sp.jandira.limpeanapp.home.components
 
 object HomeRoute {
     const val CLEANING = "cleaning"

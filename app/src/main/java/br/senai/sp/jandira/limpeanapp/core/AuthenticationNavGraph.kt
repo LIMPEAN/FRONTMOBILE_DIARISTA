@@ -9,7 +9,11 @@ import androidx.navigation.navigation
 import br.senai.sp.jandira.limpeanapp.core.navigation.NavigationRoute
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginScreen
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.registerNavGraph
-
+object AuthenticationRoute {
+    const val REGISTER = "register"
+    const val LOGIN = "login"
+    const val FORGOT_PASSWORD = "forgot_password"
+}
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation(
         route = NavigationRoute.AUTHENTICATION,
@@ -19,7 +23,7 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
             LoginScreen(
                 onLogin = {
                     navController.navigate(NavigationRoute.HOME){
-                        popUpTo(NavigationRoute.HOME) {
+                        popUpTo(AuthenticationRoute.LOGIN) {
                             inclusive = true
                         }
                     }

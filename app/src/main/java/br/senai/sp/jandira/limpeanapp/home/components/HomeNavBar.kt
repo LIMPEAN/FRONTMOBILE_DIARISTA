@@ -1,31 +1,18 @@
-package br.senai.sp.jandira.limpeanapp.feature_diarist
+package br.senai.sp.jandira.limpeanapp.home.components
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -36,13 +23,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed
 
 //Coloque aqui o nav bar
@@ -110,7 +97,8 @@ fun HomeNavBar(
                 label = {
                     Text(
                         text = item.title,
-                        fontFamily = poopins
+                        fontFamily = poopins,
+                        style = MaterialTheme.typography.labelSmall
                     )
                 },
                 icon = {
@@ -137,4 +125,12 @@ fun HomeNavBar(
         }
     }
 
+}
+
+@Preview
+@Composable
+fun HomeNavBarPrev() {
+    LimpeanAppTheme {
+        HomeNavBar(navController = rememberNavController())
+    }
 }

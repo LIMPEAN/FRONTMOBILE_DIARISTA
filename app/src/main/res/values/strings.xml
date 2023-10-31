@@ -120,7 +120,7 @@
     <string name="login_go_to_register">Crie uma conta</string>
     <string name="register_title">Crie uma conta</string>
     <string name="register_description">Para acessar a plataforma</string>
-    <string name="button_register_profile">Cadastrar</string>
+    <string name="button_register_profile">Continuar</string>
     <string name="register_address_title">Onde você mora?</string>
     <string name="register_address_description">Adicione um endereço</string>
     <string name="address_form_cep">Cep</string>

@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.feature_diarist.HomeNavBar
+import br.senai.sp.jandira.limpeanapp.home.components.HomeNavBar
 import com.example.compose.seed
 
 @OptIn(ExperimentalFoundationApi::class)
