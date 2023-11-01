@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.home.components.HomeNavBar
+import br.senai.sp.jandira.limpeanapp.home.components.HomeTopBar
 import com.example.compose.seed
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -118,7 +118,7 @@ fun NotificationsScreen() {
             }
 
         }, bottomBar = {
-            HomeNavBar(navController = rememberNavController())
+            HomeTopBar(navController = rememberNavController())
         },
 
         content = {

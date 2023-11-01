@@ -1,11 +1,12 @@
-package br.senai.sp.jandira.limpeanapp.home.cleaning.components
+package br.senai.sp.jandira.limpeanapp.home.data.repository
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Garage
 import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.Chair
 import androidx.compose.material.icons.outlined.Shower
-import br.senai.sp.jandira.limpeanapp.home.cleaning.quantityRooms
+import br.senai.sp.jandira.limpeanapp.home.presentation.cleaning.components.CleaningCardState
+import br.senai.sp.jandira.limpeanapp.home.presentation.cleaning.components.QuantityRoomsCategory
 
 
 val quantityRooms = listOf(

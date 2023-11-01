@@ -1,13 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.core.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.core.presentation.SplashScreen
-import br.senai.sp.jandira.limpeanapp.feature_diarist.HomeScreen
+import br.senai.sp.jandira.limpeanapp.home.HomeScreen
 
 
 

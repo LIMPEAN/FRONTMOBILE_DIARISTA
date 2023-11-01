@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.home.cleaning.components
+package br.senai.sp.jandira.limpeanapp.home.presentation.cleaning.components
 
 
 
@@ -82,7 +82,7 @@ fun CleaningCard(
         ) {
             Image(
                 modifier = modifier
-                    .heightIn(min = 200.dp, max = 200.dp),
+                    .heightIn(min = 10.dp, max = 150.dp),
                 painter = painterResource(id = R.drawable.map_example),
                 contentDescription = "Image map",
                 contentScale = ContentScale.Crop

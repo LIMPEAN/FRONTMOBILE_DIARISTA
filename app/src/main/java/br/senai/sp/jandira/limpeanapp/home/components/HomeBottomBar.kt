@@ -43,7 +43,7 @@ data class BottomNavigationItem(
 )
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeNavBar(
+fun HomeTopBar(
     navController: NavController
 ){
     val items = listOf(
@@ -131,6 +131,6 @@ fun HomeNavBar(
 @Composable
 fun HomeNavBarPrev() {
     LimpeanAppTheme {
-        HomeNavBar(navController = rememberNavController())
+        HomeTopBar(navController = rememberNavController())
     }
 }

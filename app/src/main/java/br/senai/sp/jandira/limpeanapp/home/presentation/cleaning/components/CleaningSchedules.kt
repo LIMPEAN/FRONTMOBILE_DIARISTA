@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.home.cleaning.components
+package br.senai.sp.jandira.limpeanapp.home.presentation.cleaning.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.home.data.repository.cleanings
 import com.example.compose.LimpeanAppTheme
 
 @Composable
