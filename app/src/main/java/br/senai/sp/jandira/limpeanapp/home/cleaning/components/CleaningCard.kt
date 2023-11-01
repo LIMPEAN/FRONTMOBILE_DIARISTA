@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Garage
@@ -25,6 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -42,19 +47,28 @@ import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
+
+
+data class CleaningCardState(
+    val nameClient: String,
+    val servicePrice: Double,
+    val local: String,
+    val quantityRooms: List<QuantityRoomsCategory>
+)
 @Composable
 fun CleaningCard(
+    modifier: Modifier = Modifier.fillMaxWidth(),
     nameClient: String,
     servicePrice: Double,
     local: String,
     quantityRooms: List<QuantityRoomsCategory>,
     actions : @Composable () -> Unit,
-    onCleaningDetail: ()->Unit
+    onCleaningDetail: ()->Unit,
 ) {
     val customFontFamily = poopins
+    val spacerModifier = Modifier.height(8.dp)
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .clickable {
                 onCleaningDetail()
             },
@@ -63,21 +77,19 @@ fun CleaningCard(
         )
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = modifier
                 .padding(10.dp)
         ) {
             Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.6f),
+                modifier = modifier
+                    .heightIn(min = 200.dp, max = 200.dp),
                 painter = painterResource(id = R.drawable.map_example),
                 contentDescription = "Image map",
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = spacerModifier)
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -86,24 +98,32 @@ fun CleaningCard(
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight(600),
                     color = Color(0xFF393939),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = "R\$ $servicePrice",
                     fontSize = 20.sp,
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF3147F5)
+                    color = Color(0xFF3147F5),
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
-            Text(
-                text = local,
-                fontFamily = customFontFamily,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray
-            )
-            QuantityRoomsInfo(quantityRooms = quantityRooms)
-            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = modifier
+            ) {
+                Text(
+                    text = local,
+                    fontFamily = customFontFamily,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                QuantityRoomsInfo(quantityRooms = quantityRooms)
+            }
+            Spacer(spacerModifier)
             actions()
         }
     }
@@ -199,15 +219,16 @@ data class QuantityRoomsCategory(
 
 @Composable
 private fun QuantityRoomsInfo(
+    modifier : Modifier = Modifier,
     quantityRooms : List<QuantityRoomsCategory>
 ){
     Row(
-        modifier = Modifier.fillMaxWidth(0.5f),
-        horizontalArrangement = Arrangement.SpaceAround
+        modifier = Modifier.fillMaxWidth( 0.75f),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         quantityRooms.forEach {room ->
             if(room.quantity != null){
-                Row {
+                Row() {
                     Icon(
                         imageVector = room.icon,
                         contentDescription = room.name,
@@ -217,9 +238,11 @@ private fun QuantityRoomsInfo(
                         color = Color(0xFF393939))
                 }
             }
-
-
         }
-
     }
+}
+
+@Composable
+fun CleaningsStartedColumn() {
+    
 }

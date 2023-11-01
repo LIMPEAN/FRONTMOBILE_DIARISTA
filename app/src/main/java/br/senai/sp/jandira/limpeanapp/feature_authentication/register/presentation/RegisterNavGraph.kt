@@ -23,7 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.core.AuthenticationRoute
+import br.senai.sp.jandira.limpeanapp.core.navigation.AuthenticationRoute
 import br.senai.sp.jandira.limpeanapp.core.navigation.NavigationRoute
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.TitleSection
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
@@ -83,7 +83,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     delay(2000)
-                                    navController.navigate("Home")
+                                    navController.navigate(NavigationRoute.HOME)
                                 }
                                 is RegisterResult.Error -> {
                                     Toast.makeText(

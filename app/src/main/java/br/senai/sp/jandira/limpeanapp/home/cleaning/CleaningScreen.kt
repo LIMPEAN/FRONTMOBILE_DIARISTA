@@ -1,33 +1,21 @@
 package br.senai.sp.jandira.limpeanapp.home.cleaning
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Garage
 import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.Chair
 import androidx.compose.material.icons.outlined.Shower
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.feature_diarist.HomeScreen
-import br.senai.sp.jandira.limpeanapp.home.cleaning.components.CleaningCard
-import br.senai.sp.jandira.limpeanapp.home.cleaning.components.CleaningCardActions
-import br.senai.sp.jandira.limpeanapp.home.cleaning.components.CleaningCardState
 import br.senai.sp.jandira.limpeanapp.home.cleaning.components.QuantityRoomsCategory
+import br.senai.sp.jandira.limpeanapp.feature_diarist.HomeContent
+import br.senai.sp.jandira.limpeanapp.home.cleaning.components.CleaningSchedules
 import br.senai.sp.jandira.limpeanapp.home.cleaning.components.cleanings
-import br.senai.sp.jandira.limpeanapp.home.components.HomeNavGraph
-import br.senai.sp.jandira.limpeanapp.home.components.HomeRoute
-import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import br.senai.sp.jandira.limpeanapp.home.components.HomeSection
 import com.example.compose.LimpeanAppTheme
 
 val quantityRooms = listOf(
@@ -53,56 +41,21 @@ val quantityRooms = listOf(
     )
 )
 
-@Composable
-fun CleaningScreen(
-    cleanings : List<CleaningCardState>
-) {
 
-    Column(
-        Modifier
-            .padding(
-                28.dp
-            )
-            .padding(bottom = 0.dp)
-    ) {
-        Text(
-            text = "Suas faxinas",
-            style = MaterialTheme.typography.headlineSmall,
-            fontFamily = poopins,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        LazyColumn(){
-           items(cleanings){
-               CleaningCard(
-                   nameClient = it.nameClient,
-                   servicePrice = it.servicePrice,
-                   local = it.local,
-                   quantityRooms = it.quantityRooms,
-                   actions = {
-                        CleaningCardActions(
-                            onStart = { /*TODO*/ },
-                            onCancel = { TODO() }
-                        )
-                   },
-                   onCleaningDetail = {}
-               )
-               Spacer(modifier = Modifier.height(12.dp))
-           }
-        }
-    }
-}
+
 
 @Preview
 @Composable
 fun CleaningScreenPreview() {
     LimpeanAppTheme {
-        val navController = rememberNavController()
-        HomeScreen(title = "Seja Bem vinda", description = "Leslie") {
-            HomeNavGraph(
-                navController = navController,
-                startDestination = HomeRoute.CLEANING
-            )
+        val paddingValues = PaddingValues(20.dp)
+        HomeContent(paddingValues = paddingValues) {
+            HomeSection(title = "Suas faxinas") {
+                CleaningSchedules(
+                    modifier = Modifier.fillMaxWidth(),
+                    cleanings = cleanings
+                )
+            }
         }
     }
 }

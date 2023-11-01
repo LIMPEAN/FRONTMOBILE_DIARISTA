@@ -1,12 +1,9 @@
-package br.senai.sp.jandira.limpeanapp.core
+package br.senai.sp.jandira.limpeanapp.core.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import br.senai.sp.jandira.limpeanapp.core.navigation.NavigationRoute
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginScreen
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation.registerNavGraph
 object AuthenticationRoute {
