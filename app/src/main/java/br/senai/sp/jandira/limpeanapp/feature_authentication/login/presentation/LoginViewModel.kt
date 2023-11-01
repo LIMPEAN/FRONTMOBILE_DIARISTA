@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation
 
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,11 +9,9 @@ import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.AuthResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 

@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthResponse
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.remote.AuthResponse
 
 data class Session(
     val user: User,

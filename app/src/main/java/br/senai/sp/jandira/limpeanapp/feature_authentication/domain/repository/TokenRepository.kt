@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.TokenResponse
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.remote.TokenResponse
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.TokenResult
 
 interface TokenRepository {

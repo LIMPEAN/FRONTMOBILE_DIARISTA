@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.core.presentation.SplashScreen
-import br.senai.sp.jandira.limpeanapp.home.HomeScreen
+import br.senai.sp.jandira.limpeanapp.home.presentation.home.HomeScreen
 
 
 

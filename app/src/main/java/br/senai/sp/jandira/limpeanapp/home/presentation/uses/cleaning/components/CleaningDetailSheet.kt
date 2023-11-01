@@ -1,7 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.feature_diarist.cleaning
 
+
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -27,44 +28,45 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.home.presentation.home.components.HomeTopBar
+import br.senai.sp.jandira.limpeanapp.home.presentation.home.components.HomeContent
+import br.senai.sp.jandira.limpeanapp.home.presentation.home.components.HomeSection
+import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
+import com.example.compose.md_theme_light_primary
 import com.example.compose.seed
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-
-fun ViewClosedRequest() {
+fun CleaningDetailScreen() {
 
     //lista de comodos pra vir da api
     val checkboxItems = listOf(
@@ -79,8 +81,6 @@ fun ViewClosedRequest() {
         "Área de lazer"
     )
     val checkedStates = remember { checkboxItems.map { mutableStateOf(false) } }
-
-
 
     data class Address(val id: Int, val street: String, val city: String)
 
@@ -118,23 +118,21 @@ fun ViewClosedRequest() {
                                 fontFamily = customFontFamily
                             )
                         ) {
-                            append("Solicitação fechada")
+                            append("Solicitação aberta")
                         }
                     }
                 })
 
             }
         }, bottomBar = {
-            HomeTopBar(navController = rememberNavController())
-
+//           Text(text = "footer")
         },
 
         content = {
             Column(
                 Modifier
                     .fillMaxSize()
-                    .background(color = seed)
-                    .padding(bottom = 90.dp),
+                    .background(color = seed),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Spacer(modifier = Modifier.height(100.dp))
@@ -150,30 +148,13 @@ fun ViewClosedRequest() {
                             .fillMaxWidth()
                     ) {
                         Text(
-                            text = stringResource(R.string.request_data_service),
+                            text = stringResource(id = R.string.request_data_service),
                             modifier = Modifier.width(450.dp),
                             fontWeight = FontWeight.Normal,
                             fontSize = 26.sp,
                             fontFamily = customFontFamily
                         )
                         Spacer(modifier = Modifier.height(15.dp))
-//
-//                        val selectedDate by remember { mutableStateOf(DatePickerState()) }
-//
-//                        // Converter a data do Calendar para DatePickerState
-//                        val calendar = Calendar.getInstance()
-//                        selectedDate.value = DatePickerState(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-//
-//                        DatePicker(
-//                            state = selectedDate.value,
-//                            onValueChange = { selectedDate.value = it }
-//                        )
-//                    }
-
-
-//                    })
-
-
 
                         LazyColumn(
                             modifier = Modifier
@@ -232,8 +213,7 @@ fun ViewClosedRequest() {
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
 
-                                                CheckboxItem(
-                                                    text = checkboxItems[index],
+                                                CheckboxItem(text = checkboxItems[index],
                                                     checkedState = checkedStates[index].value,
                                                     onStateChange = {
                                                         checkedStates[index].value = it
@@ -325,7 +305,7 @@ fun ViewClosedRequest() {
                                     Button(modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.Start)
-                                        .height(50.dp),
+                                        .height(40.dp),
                                         colors = ButtonDefaults.buttonColors(
                                             containerColor = Color(
                                                 242, 242, 242
@@ -333,9 +313,9 @@ fun ViewClosedRequest() {
                                         ),
                                         shape = RoundedCornerShape(size = 12.dp),
                                         onClick = { /*TODO*/ }) {
-                                        Row(
+                                        Row (
                                             modifier = Modifier.fillMaxWidth(),
-                                        ) {
+                                        ){
                                             Icon(
                                                 imageVector = Icons.Outlined.CalendarMonth,
                                                 contentDescription = "Calendário",
@@ -361,7 +341,7 @@ fun ViewClosedRequest() {
                                 Button(modifier = Modifier
                                     .fillMaxWidth()
                                     .align(Alignment.Start)
-                                    .height(50.dp),
+                                    .height(40.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(
                                             242, 242, 242
@@ -387,133 +367,277 @@ fun ViewClosedRequest() {
                                 Spacer(modifier = Modifier.height(10.dp))
 
                                 Text(
-                                    text = stringResource(id = R.string.define_time),
+                                    text = stringResource(id = R.string.end_time),
                                     fontFamily = customFontFamily,
                                     fontSize = 16.sp
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
 
-                                Row(modifier = Modifier.fillMaxWidth()) {
-                                    val text = rememberSaveable { mutableStateOf("") }
+                                Button(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.Start)
+                                    .height(40.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(
+                                            242, 242, 242
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(size = 12.dp),
+                                    onClick = { /*TODO*/ }) {
+                                    Row(modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        Icon(
+                                            imageVector = Icons.Outlined.Timer,
+                                            contentDescription = "Relógio",
+                                            tint = Color(83, 87, 90)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            "11:00", color = Color(83, 87, 90)
+                                        )
+                                    }
 
-                                    val textFieldState = rememberUpdatedState("")
 
-                                    OutlinedTextField(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(50.dp),
-                                        value = text.value,
-                                        onValueChange = { text.value = it },
-                                        shape = RoundedCornerShape(size = 12.dp),
-                                        keyboardOptions = KeyboardOptions.Default.copy(
-                                            keyboardType = KeyboardType.Number,
-                                            imeAction = ImeAction.Done
-                                        ),
-//                                        KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        leadingIcon = {
-                                          Icon(modifier = Modifier.padding(start = 25.dp),
-                                              imageVector = Icons.Outlined.Timer,
-                                              contentDescription = "Relógio",
-                                              tint = Color(83, 87, 90)
-                                              )
-                                        }
-                                    )
                                 }
 
                                 Spacer(modifier = Modifier.height(10.dp))
 
                                 Text(
-                                    text = stringResource(id = R.string.define_value),
+                                    text = stringResource(id = R.string.set_value),
                                     fontFamily = customFontFamily,
                                     fontSize = 16.sp
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
 
-                                Row(modifier = Modifier.fillMaxWidth()) {
-
-                                    val text = rememberSaveable { mutableStateOf("") }
-
-                                    OutlinedTextField(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(50.dp),
-                                        value = text.value, onValueChange = { text.value = it },
-                                        shape = RoundedCornerShape(size = 12.dp),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        leadingIcon = {
-                                            Icon(modifier = Modifier.padding(start = 25.dp),
-                                                imageVector = Icons.Outlined.AttachMoney,
-                                                contentDescription = "Dinheiro",
-                                                tint = Color(83, 87, 90)
-                                            )
-                                        }
-                                    )
-                                }
-
-                                Spacer(modifier = Modifier.height(20.dp))
-
-
-                                Row(
-
-                                    modifier = Modifier.fillMaxWidth(),
-
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Button(
-                                        modifier = Modifier
-                                            .width(145.dp)
-                                            .height(40.dp),
-                                        shape = RoundedCornerShape(size = 18.dp),
-                                        border = BorderStroke(1.dp, Color.Red),
-                                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
-                                        onClick = { /*TODO*/ }
-                                    ) {
+                                Button(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.Start)
+                                    .height(40.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(
+                                            242, 242, 242
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(size = 12.dp),
+                                    onClick = { /*TODO*/ }) {
+                                    Row(modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        Icon(
+                                            imageVector = Icons.Outlined.AttachMoney,
+                                            contentDescription = "Valor",
+                                            tint = Color(83, 87, 90)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
                                         Text(
-                                            text = "Recusar",
-                                            fontFamily = customFontFamily,
-                                            fontWeight = FontWeight.Medium
+                                            "300,00", color = Color(83, 87, 90)
                                         )
                                     }
 
-                                    Spacer(modifier = Modifier.width(42.dp))
-
-                                    Button(
-                                        modifier = Modifier
-                                            .width(145.dp)
-                                            .height(40.dp),
-                                        shape = RoundedCornerShape(size = 18.dp),
-                                        colors = ButtonDefaults.buttonColors(seed),
-                                        onClick = { /*TODO*/ }
-                                    ) {
-                                        Text(
-                                            text = "Enviar",
-                                            fontFamily = customFontFamily,
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                    }
                                 }
+
+                                Spacer(modifier = Modifier.height(15.dp))
+
+
+                                Button(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(40.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                    colors = ButtonDefaults.buttonColors(containerColor = seed),
+                                    onClick = { /*TODO*/ }) {
+                                    Text( text = stringResource(id = R.string.button_accept))
+                                }
+                            }
 
                             }
 
-                        }
+
 
                     }
 
                 }
             }
+}
+)
+
+}
+
+@Composable
+fun QuantityCard(quantity: Int) {
+    Card(
+        modifier = Modifier
+            .height(30.dp)
+            .width(70.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(Color(49, 71, 245))
+    ) {
+
+        Box(
+            contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = quantity.toString(), color = Color.White, fontWeight = FontWeight.Medium
+            )
         }
-    )
+    }
+}
+
+
+@Composable
+fun CheckboxItem(
+
+    text: String,
+    checkedState: Boolean,
+    onStateChange: (Boolean) -> Unit,
+//    onRemoveClick: () -> Unit
+) {
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .toggleable(
+                value = checkedState,
+                onValueChange = { onStateChange(!checkedState) },
+                role = Role.Checkbox
+            )
+            .padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            colors = CheckboxDefaults.colors(seed),
+            checked = true, onCheckedChange = null
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .width(100.dp)
+        )
+        Spacer(modifier = Modifier.width(55.dp))
+
+        //passar quantidade vindo da api
+        val q = 2
+        QuantityCard(q)
+    }
 
 }
 
 
-
-
-
-
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
+//@Composable
+//fun ViewOpenRequestPreview() {
+//    CleaningDetailScreen()
+//
+//}
+@Preview(showBackground = true)
 @Composable
-fun ViewClosedRequestPreview() {
-    ViewClosedRequest()
+fun CleaningDetail() {
+    LimpeanAppTheme {
+        val modifier = Modifier.fillMaxWidth()
+        val horizontalArrangement = Arrangement.SpaceBetween
+        Column {
+            HomeSection(
+                title = "Dados do Serviço"
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+
+                ) {
+                    SubSection(text = "Valor definido") {
+                        Text(text = "200.00")
+                    }
+                    SubSection(text = "Data da Faxina") {
+                        Text(text = "20")
+                    }
+                }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(33.dp)
+                ) {
+                    SubSection(text = "Hora de Início"){
+                        Text(text = "14:00h")
+                    }
+                    SubSection(text = "Hora de Término"){
+                        Text(text = "18:00h")
+                    }
+                }
+
+
+            }
+            HomeSection(title = "Endereço") {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(33.dp)
+                ) {
+                    SubSection(text = "Logradouro"){
+                        Text(text = "Rua das Flores")
+                    }
+                    SubSection(text = "Bairro"){
+                        Text(text = "Jardim Cotia")
+                    }
+                    SubSection(text = "Cidade"){
+                        Text(text = "Cotia")
+                    }
+                }
+
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(33.dp)
+                ) {
+                    SubSection(text = "Complemento"){
+                        Text(text = "274")
+                    }
+                    SubSection(text = "Estado"){
+                        Text(text = "São Paulo")
+                    }
+                }
+            }
+
+            HomeSection(title = "Sobre o Cliente") {
+                
+            }
+            HomeSection(title = "Suporte a faxina") {
+
+            }
+            HomeSection(
+                title = "Gostou do Serviço?"
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "Sim, eu quero!")
+                    }
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "Não gostei :(")
+                    }
+                }
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Quero enviar uma proposta.")
+                }
+
+            }
+
+        }
+
+    }
+}
+
+@Composable
+fun SubSection(
+    text : String,
+    content: @Composable ()-> Unit
+) {
+    Column() {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        content()
+        Spacer(modifier = Modifier.height(12.dp))
+    }
 
 }

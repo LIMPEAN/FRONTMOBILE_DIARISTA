@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.di
 
 import br.senai.sp.jandira.limpeanapp.core.data.repository.DiaristRepositoryImpl
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.ViaCepApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import com.google.gson.Gson

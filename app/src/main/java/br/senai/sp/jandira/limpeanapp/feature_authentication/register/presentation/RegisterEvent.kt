@@ -1,7 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.presentation
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.login.presentation.LoginEvent
-
 sealed class RegisterEvent {
 
     data class RepeatedPasswordChanged(val value: String) : RegisterEvent()

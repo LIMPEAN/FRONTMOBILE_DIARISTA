@@ -2,7 +2,7 @@ package br.senai.sp.jandira.limpeanapp.core.data.repository
 
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toRequestApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.BaseResponse
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.AuthApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
 import com.google.gson.Gson
