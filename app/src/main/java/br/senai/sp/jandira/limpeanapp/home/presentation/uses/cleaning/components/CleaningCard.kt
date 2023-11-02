@@ -43,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.home.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
@@ -50,10 +51,11 @@ import com.example.compose.md_theme_light_primary
 
 
 data class CleaningCardState(
+    val id: Number,
     val nameClient: String,
     val servicePrice: Double,
     val local: String,
-    val quantityRooms: List<QuantityRoomsCategory>
+    val quantityRooms: List<RoomQuantity>
 )
 @Composable
 fun CleaningCard(
@@ -61,7 +63,7 @@ fun CleaningCard(
     nameClient: String,
     servicePrice: Double,
     local: String,
-    quantityRooms: List<QuantityRoomsCategory>,
+    quantityRooms: List<RoomQuantity>,
     actions : @Composable () -> Unit,
     onCleaningDetail: ()->Unit,
 ) {
@@ -129,47 +131,7 @@ fun CleaningCard(
     }
 }
 
-@Preview
-@Composable
-fun CardPrev() {
-    val quantityRooms = listOf(
-        QuantityRoomsCategory(
-            name = "Quarto",
-            icon = Icons.Outlined.Bed,
-            quantity = 3
-        ),
-        QuantityRoomsCategory(
-            name = "Banheiro",
-            icon = Icons.Outlined.Shower,
-            quantity = 2
-        ),
-        QuantityRoomsCategory(
-            name = "Sala",
-            icon = Icons.Outlined.Chair,
-            quantity = 3
-        ),
-        QuantityRoomsCategory(
-            name = "Garagem",
-            icon = Icons.Filled.Garage,
-            quantity = null
-        )
-    )
-    LimpeanAppTheme {
-        CleaningCard(
-            nameClient = "Maria Dolores",
-            servicePrice = 400.00,
-            local = "06600-025, Osasco,SP",
-            quantityRooms = quantityRooms,
-            actions = {
-                CleaningCardActions(
-                    onStart = {},
-                    onCancel = {}
-                )
-            },
-            onCleaningDetail = {}
-        )
-    }
-}
+
 @Composable
 fun CleaningCardActions(
     onStart: () -> Unit,
@@ -220,7 +182,7 @@ data class QuantityRoomsCategory(
 @Composable
 private fun QuantityRoomsInfo(
     modifier : Modifier = Modifier,
-    quantityRooms : List<QuantityRoomsCategory>
+    quantityRooms : List<RoomQuantity>
 ){
     Row(
         modifier = Modifier.fillMaxWidth( 0.75f),
@@ -230,8 +192,8 @@ private fun QuantityRoomsInfo(
             if(room.quantity != null){
                 Row() {
                     Icon(
-                        imageVector = room.icon,
-                        contentDescription = room.name,
+                        imageVector = room.roomType.icon,
+                        contentDescription = room.roomType.name,
                         tint = Color(0xFF393939)
                     )
                     Text(text = room.quantity.toString(),

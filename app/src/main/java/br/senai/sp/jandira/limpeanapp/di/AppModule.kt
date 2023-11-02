@@ -10,12 +10,14 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
 import br.senai.sp.jandira.limpeanapp.core.data.remote.AuthInterceptor
+import br.senai.sp.jandira.limpeanapp.core.data.repository.CleaningRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.remote.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.repository.AuthRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.login.data.repository.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.SessionCache
 import br.senai.sp.jandira.limpeanapp.home.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.home.domain.repository.CleaningRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -104,5 +106,11 @@ object AppModule {
     @Singleton
     fun provideSessionCache(dataStore : DataStore<Preferences>): SessionCache{
         return SessionCacheImpl(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCleaningRepository() : CleaningRepository{
+        return CleaningRepositoryImpl()
     }
 }

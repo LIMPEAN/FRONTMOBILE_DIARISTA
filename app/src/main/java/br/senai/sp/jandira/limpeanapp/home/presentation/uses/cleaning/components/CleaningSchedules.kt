@@ -14,7 +14,10 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun CleaningSchedules(
     modifier : Modifier = Modifier,
-    cleanings : List<CleaningCardState>
+    cleanings : List<CleaningCardState>,
+    onCleaningDetail : (Number) -> Unit,
+    onStart: (Number) -> Unit,
+    onCancel: (Number) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -29,11 +32,11 @@ fun CleaningSchedules(
                 quantityRooms = it.quantityRooms,
                 actions = {
                     CleaningCardActions(
-                        onStart = { /*TODO*/ },
-                        onCancel = { TODO() }
+                        onStart = { onStart(it.id) },
+                        onCancel = { onCancel(it.id) }
                     )
                 },
-                onCleaningDetail = {}
+                onCleaningDetail = { onCleaningDetail(it.id) }
             )
         }
     }
@@ -43,7 +46,12 @@ fun CleaningSchedules(
 @Composable
 fun CleaningSchedulesPreview() {
     LimpeanAppTheme {
-        CleaningSchedules(cleanings = cleanings)
+        CleaningSchedules(
+            cleanings = cleanings,
+            onCancel = {},
+            onStart = {},
+            onCleaningDetail = {}
+        )
 
     }
 }
