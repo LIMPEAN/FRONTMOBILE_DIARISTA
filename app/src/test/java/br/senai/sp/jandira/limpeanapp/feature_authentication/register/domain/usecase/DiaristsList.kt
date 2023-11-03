@@ -1,8 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Address
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
 import java.time.LocalDate
 
 fun getListDiarists() : List<Diarist> {

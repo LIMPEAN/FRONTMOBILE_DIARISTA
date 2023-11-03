@@ -1,12 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
 
 import android.net.Uri
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.matcher.EmailMatcherImpl
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.matcher.EmailMatcherImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.matcher.EmailMatcher
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.InvalidDiaristException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking

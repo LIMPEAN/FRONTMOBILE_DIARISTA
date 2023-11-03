@@ -1,12 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.data.mapper
 
 import android.util.Log
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.mapper.toAddressRequest
-import br.senai.sp.jandira.limpeanapp.feature_authentication.register.data.remote.RegisterRequest
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.mapper.toAddressRequest
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.dto.RegisterRequest
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import com.google.gson.Gson
 
-fun Diarist.toRequestApi() : RegisterRequest{
+fun Diarist.toRequestApi() : RegisterRequest {
     val dataFake = "2000-10-12"
     val averagePrice = "0.00" //FLOAT
     val photoUser = "https://example.png"

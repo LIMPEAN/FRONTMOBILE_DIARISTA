@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.register.domain.usecase
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

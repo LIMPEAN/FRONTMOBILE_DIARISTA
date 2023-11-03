@@ -1,8 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases
 
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.InvalidDiaristException
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.DiaristRepository
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.errors.InvalidDiarist
+import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -20,7 +20,7 @@ class AddDiarist @Inject constructor(
     private val repository : DiaristRepository
 ) {
 
-    @Throws(InvalidDiaristException::class)
+    @Throws(InvalidDiarist::class)
     suspend operator fun invoke(diarist : Diarist){
 
         try {
