@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register
 
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.AddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState

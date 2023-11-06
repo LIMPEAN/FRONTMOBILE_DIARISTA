@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.home.presentation.home.HomeRoute
+import br.senai.sp.jandira.limpeanapp.navigation.HomeRoute
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed

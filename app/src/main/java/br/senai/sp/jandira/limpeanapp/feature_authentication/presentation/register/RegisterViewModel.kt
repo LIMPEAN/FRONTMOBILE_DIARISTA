@@ -1,11 +1,13 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register
 
+
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.ViaCepApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
@@ -115,9 +117,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun save(address : Address){
-        diarist = diarist.copy(
-            address = address
-        )
+        diarist = diarist.copy(address = address)
         Log.i("save-address", diarist.toString())
     }
     fun save(profileState: ProfileFormState){

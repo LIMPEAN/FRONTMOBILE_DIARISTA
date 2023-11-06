@@ -2,7 +2,7 @@ package br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data
 
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.core.domain.models.roomTypes
-import br.senai.sp.jandira.limpeanapp.home.presentation.uses.cleaning.components.CleaningCardState
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCardState
 
 
 val quantityRooms = listOf(
