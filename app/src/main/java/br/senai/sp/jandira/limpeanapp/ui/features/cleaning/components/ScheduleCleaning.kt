@@ -8,16 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.cleanings
 import com.example.compose.LimpeanAppTheme
 
 @Composable
-fun CleaningSchedules(
+fun ScheduleCleaning(
     modifier : Modifier = Modifier,
-    cleanings : List<CleaningCardState>,
-    onCleaningDetail : (Number) -> Unit,
-    onStart: (Number) -> Unit,
-    onCancel: (Number) -> Unit
+    cleanings : List<Cleaning>,
+    onCleaningDetail : (Cleaning) -> Unit,
+    onStart: (Cleaning) -> Unit,
+    onCancel: (Cleaning) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -25,33 +27,21 @@ fun CleaningSchedules(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
         items(cleanings){
+            val model = it.toCleaningCardState()
             CleaningCard(
-                nameClient = it.nameClient,
-                servicePrice = it.servicePrice,
-                local = it.local,
-                quantityRooms = it.quantityRooms,
+                nameClient = model.nameClient,
+                servicePrice = model.servicePrice,
+                local = model.local,
+                quantityRooms = model.quantityRooms,
                 actions = {
                     CleaningCardActions(
-                        onStart = { onStart(it.id) },
-                        onCancel = { onCancel(it.id) }
+                        onStart = { onStart(it) },
+                        onCancel = { onCancel(it) }
                     )
                 },
-                onCleaningDetail = { onCleaningDetail(it.id) }
+                onCleaningDetail = { onCleaningDetail(it) }
             )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CleaningSchedulesPreview() {
-    LimpeanAppTheme {
-        CleaningSchedules(
-            cleanings = cleanings,
-            onCancel = {},
-            onStart = {},
-            onCleaningDetail = {}
-        )
-
-    }
-}

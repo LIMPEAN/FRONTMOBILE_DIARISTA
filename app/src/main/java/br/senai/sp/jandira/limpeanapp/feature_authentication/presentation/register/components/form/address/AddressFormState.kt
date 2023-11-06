@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address
 
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
+
 data class AddressFormState(
     val cep: String,
     val logradouro: String,

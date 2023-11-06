@@ -54,21 +54,22 @@ import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 
 
 data class CleaningDetailsState(
-    val primordialInfo: PrimordialInfoState,
-    val addressCleaning : AddressCleaningState,
-    val aboutClientInfo: AboutClientState,
-    val cleaningSupport : CleaningSupportState
+    val primordialInfo: PrimordialInfoState = PrimordialInfoState(),
+    val addressCleaning : AddressCleaningState = AddressCleaningState(),
+    val aboutClientInfo: AboutClientState = AboutClientState(),
+    val cleaningSupport : CleaningSupportState = CleaningSupportState()
 )
 
 data class CleaningSupportState(
-    val questions : List<Question>,
-    val typeCleaning : TypeCleaning,
-    val rooms : List<RoomQuantity>
+    val questions : List<Question> = emptyList(),
+    val typeCleaning : TypeCleaning = TypeCleaning.DEFAULT,
+    val rooms : List<RoomQuantity> = emptyList()
 )
 
 @Composable
-fun CleaningDetail(
-    state: CleaningDetailsState
+fun CleaningDetails(
+    state: CleaningDetailsState,
+    onBackPress: () -> Unit
 ) {
     val modifier = Modifier.fillMaxWidth()
 
@@ -85,14 +86,16 @@ fun CleaningDetail(
         Divider(modifier)
         CleaningSupport(state.cleaningSupport)
         Divider(modifier)
-        DoYouLikeService()
+        DoYouLikeService(
+            onBackPress = onBackPress
+        )
     }
 
 }
 data class PrimordialInfoState(
-    val price : Double,
-    val date : String,
-    val startTime : String
+    val price : Double = 0.0,
+    val date : String = "",
+    val startTime : String = ""
 )
 
 @Composable
@@ -132,11 +135,11 @@ fun MainServiceInformation(
 
 
 data class AddressCleaningState (
-    val street : String,
-    val district : String,
-    val city : String,
-    val complement : String?,
-    val state : String
+    val street : String = "",
+    val district : String = "",
+    val city : String = "" ,
+    val complement : String? = null,
+    val state : String = ""
 )
 
 @Composable
@@ -175,12 +178,12 @@ fun AddressCleaningInfo(
 
 
 data class HomeInfoState(
-    val typeHouse : String,
-    val name:  String
+    val typeHouse : String = "",
+    val name:  String = ""
 )
 data class AboutClientState(
-    val clientInfo : ClientInfoState,
-    val homeInfo : HomeInfoState
+    val clientInfo : ClientInfoState = ClientInfoState(),
+    val homeInfo : HomeInfoState = HomeInfoState()
 )
 
 @Composable
@@ -198,7 +201,9 @@ fun AboutClient(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DoYouLikeService() {
+fun DoYouLikeService(
+    onBackPress : () -> Unit
+) {
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -242,12 +247,9 @@ fun DoYouLikeService() {
             Button(onClick = { showDialog = true }) {
                 Text(text = "Sim, eu quero!")
             }
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Não gostei :(")
+            Button(onClick = { onBackPress() }) {
+                Text(text = "Não gostei :( Voltar")
             }
-        }
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Quero enviar uma proposta.")
         }
 
     }
@@ -269,8 +271,8 @@ fun SubSection(
 }
 
 data class ClientInfoState(
-    val name : String,
-    val assentment: Number
+    val name : String = "",
+    val assentment: Number = 0.0
 )
 
 @Composable

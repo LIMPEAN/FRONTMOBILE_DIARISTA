@@ -21,4 +21,5 @@ fun HomeLayout(
     ) {paddingValues ->
         content(paddingValues)
     }
+
 }

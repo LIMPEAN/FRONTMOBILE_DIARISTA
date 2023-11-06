@@ -7,19 +7,19 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.Primordial
 import java.time.LocalDate
 
 data class Cleaning(
-    val id : Number?,
-    val price : Double,
-    val client : Client,
-    val date: LocalDate,
-    val type : TypeCleaning,
-    val status : List<ServiceStatus>,
-    val address : Address,
-    val details : CleaningDetails
+    val id : Number? = null,
+    val price : Double = 0.0,
+    val client : Client = Client(),
+    val date: LocalDate = LocalDate.now(),
+    val type : TypeCleaning = TypeCleaning.DEFAULT,
+    val status : List<ServiceStatus> = emptyList(),
+    val address : Address = Address(),
+    val details : CleaningDetails = CleaningDetails()
 )
 
 data class CleaningDetails(
-    val questions : List<Question>,
-    val roomsQuantity : List<RoomQuantity>
+    val questions : List<Question> = emptyList(),
+    val roomsQuantity : List<RoomQuantity> = emptyList()
 )
 data class Question(
     val question : String,

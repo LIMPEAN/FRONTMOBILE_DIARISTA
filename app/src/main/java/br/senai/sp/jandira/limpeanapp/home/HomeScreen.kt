@@ -6,36 +6,24 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.limpeanapp.home.presentation.home.components.HomeTopBar
+import br.senai.sp.jandira.limpeanapp.home.components.HomeTopBar
 import br.senai.sp.jandira.limpeanapp.navigation.HomeNavGraph
 
 
-@Composable
-fun HomeScreen(
-    navController: NavHostController = rememberNavController(),
-    viewModel : HomeViewModel = hiltViewModel()
-) {
-
-    HomeScreen(
-        navController = navController
-    ){
-        HomeNavGraph(navController = navController)
-    }
-
-}
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun HomeScreen(
-    navController: NavHostController,
-    screenContent : @Composable () -> Unit
+fun HomeScreen(
+    navController: NavHostController = rememberNavController()
 ) {
+
     Scaffold(
         bottomBar = {
             HomeTopBar(navController = navController)
-        }
+        },
     ) {
-        screenContent()
+        HomeNavGraph(navController = navController)
     }
+
 }
 
 

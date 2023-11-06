@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.ViaCepApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
