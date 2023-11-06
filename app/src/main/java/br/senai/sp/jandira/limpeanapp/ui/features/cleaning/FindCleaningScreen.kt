@@ -94,6 +94,9 @@ fun FindCleaningScreen(
             ModalBottomSheet(onDismissRequest = { isShowBottomSheet =  false}) {
                 CleaningDetails(
                     state = cleaningDetails,
+                    onAcceptPress = {
+                          viewModel.onEvent(FindCleaningEvent.OnAcceptClick(viewModel.selectedCleaning))
+                    },
                     onBackPress = {
                         isShowBottomSheet = false
                     }

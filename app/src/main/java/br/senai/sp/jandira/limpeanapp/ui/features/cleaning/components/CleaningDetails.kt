@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.Checkbox
@@ -36,11 +37,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
@@ -49,8 +52,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeHomeInfo
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
-
-
+import com.example.compose.md_theme_light_primary
 
 
 data class CleaningDetailsState(
@@ -69,6 +71,7 @@ data class CleaningSupportState(
 @Composable
 fun CleaningDetails(
     state: CleaningDetailsState,
+    onAcceptPress: () -> Unit,
     onBackPress: () -> Unit
 ) {
     val modifier = Modifier.fillMaxWidth()
@@ -87,7 +90,8 @@ fun CleaningDetails(
         CleaningSupport(state.cleaningSupport)
         Divider(modifier)
         DoYouLikeService(
-            onBackPress = onBackPress
+            onAcceptPress = onAcceptPress,
+            onBackPress = onBackPress,
         )
     }
 
@@ -199,43 +203,26 @@ fun AboutClient(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
 @Composable
 fun DoYouLikeService(
-    onBackPress : () -> Unit
+    onBackPress : () -> Unit = {},
+    onAcceptPress : () -> Unit = {}
 ) {
 
     var showDialog by remember {
         mutableStateOf(false)
     }
     if(showDialog){
-        AlertDialog(
-            title = {
-                    Text(
-                        text = "Confirmação",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontFamily = poopins
-                    )
-            },
-            text = {
-                Text(
-                    text = "Está certo disso?",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontFamily = poopins
-                )
-            },
-            onDismissRequest = { showDialog = false },
-            confirmButton = {
-                Button(onClick = { showDialog = false }) {
-                    Text(text = "Confirmar")
-                }
-            },
-            dismissButton = {
-                Button(onClick = { showDialog = false}) {
-                    Text(text = "Cancelar")
-                }
-            },
-        )
+       ConfirmDialog(
+           onDismissRequest = { showDialog = false },
+           onConfirmPress = {
+               onAcceptPress()
+           },
+           onCancelPress = {
+               onBackPress()
+           },
+       )
     }
 
     HomeSection(
@@ -244,15 +231,57 @@ fun DoYouLikeService(
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Button(onClick = { showDialog = true }) {
-                Text(text = "Sim, eu quero!")
-            }
-            Button(onClick = { onBackPress() }) {
-                Text(text = "Não gostei :( Voltar")
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = md_theme_light_primary
+                ),
+                onClick = { showDialog = true }
+            ) {
+                Text(
+                    text = "Sim, eu quero!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontFamily = poopins
+                )
             }
         }
 
     }
+}
+
+@Composable
+fun ConfirmDialog(
+    onDismissRequest : () -> Unit,
+    onConfirmPress :() -> Unit,
+    onCancelPress : () -> Unit
+) {
+    AlertDialog(
+        title = {
+            Text(
+                text = "Confirmação",
+                style = MaterialTheme.typography.bodyLarge,
+                fontFamily = poopins
+            )
+        },
+        text = {
+            Text(
+                text = "Está certo disso?",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = poopins
+            )
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            Button(onClick = onConfirmPress) {
+                Text(text = "Confirmar")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onCancelPress) {
+                Text(text = "Cancelar")
+            }
+        },
+    )
 }
 @Composable
 fun SubSection(
