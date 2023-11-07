@@ -126,4 +126,7 @@
     <string name="address_form_cep">Cep</string>
 
 
+    <string name="edit_profile_diarist">EDITAR PERFIL</string>
+    <string name="delete_account">DELETAR CONTA</string>
+
 </resources>

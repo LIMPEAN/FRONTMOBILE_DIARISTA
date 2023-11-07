@@ -109,22 +109,15 @@ fun YourProfile() {
                     ) {
                         items(1) {
                             Text(
-                                text = "Leticia",
-                                fontSize = 32.sp,
+                                text = "Leticia Evelin Aguiar",
+                                fontSize = 30.sp,
                                 lineHeight = 20.sp,
                                 fontWeight = FontWeight(600),
                                 color = Color(0xFF19161D),
                                 letterSpacing = 0.2.sp
                             )
-                            Spacer(modifier = Modifier.height(15.dp))
-                            Text(
-                                text = "Sla",
-                                fontSize = 24.sp,
-                                lineHeight = 20.sp,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF19161D),
-                                letterSpacing = 0.2.sp
-                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+
                             Spacer(modifier = Modifier.height(15.dp))
                             StarView(
                                 rating = (2.0)
@@ -135,7 +128,7 @@ fun YourProfile() {
                             Text(
                                 text = "Biografia:".uppercase(),
                                 modifier = Modifier.fillMaxWidth(),
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 lineHeight = 20.sp,
                                 fontWeight = FontWeight(600),
                                 color = Color.Black,
@@ -165,9 +158,9 @@ fun YourProfile() {
                             Spacer(modifier = Modifier.height(20.dp))
 
                             Text(
-                                text = "Dados pessoais:".uppercase(),
+                                text = "Dados pessoais:",
                                 modifier = Modifier.fillMaxWidth(),
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 lineHeight = 20.sp,
                                 fontWeight = FontWeight(600),
                                 color = Color.Black,
@@ -181,8 +174,8 @@ fun YourProfile() {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = stringResource(id = R.string.gender),
-                                    fontSize = 16.sp,
+                                    text = stringResource(id = R.string.gender).toUpperCase(),
+                                    fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     fontWeight = FontWeight(600),
                                     color = Color.Black,
@@ -208,8 +201,8 @@ fun YourProfile() {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = stringResource(id = R.string.locality),
-                                    fontSize = 16.sp,
+                                    text = stringResource(id = R.string.locality).toUpperCase(),
+                                    fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     fontWeight = FontWeight(600),
                                     color = Color.Black,
@@ -235,8 +228,8 @@ fun YourProfile() {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = stringResource(id = R.string.phone),
-                                    fontSize = 16.sp,
+                                    text = stringResource(id = R.string.phone).toUpperCase(),
+                                    fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     fontWeight = FontWeight(600),
                                     color = Color.Black,
@@ -271,13 +264,13 @@ fun YourProfile() {
                                     onClick = { /*TODO*/ }
                                 ) {
                                     Text(
-                                        text = stringResource(id = R.string.edit_profile),
+                                        text = stringResource(id = R.string.edit_profile_diarist),
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp
+                                        fontSize = 14.sp
                                     )
                                 }
 
-                                Spacer(modifier = Modifier.width(10.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
 
                                 Button(
                                     modifier = Modifier
@@ -291,9 +284,9 @@ fun YourProfile() {
                                     })
                                 ) {
                                     Text(
-                                        text = stringResource(id = R.string.add_house),
+                                        text = stringResource(id = R.string.delete_account),
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp
+                                        fontSize = 14.sp
                                     )
                                 }
                             }
@@ -325,7 +318,7 @@ fun YourProfile() {
                                     modifier = Modifier
                                         .size(22.dp)
                                 )
-
+                                    Spacer(modifier = Modifier.width(5.dp))
                                 Text(
                                     text = stringResource(id = R.string.talk_to_support),
                                     fontSize = 12.sp,
@@ -349,6 +342,7 @@ fun YourProfile() {
                                     modifier = Modifier
                                         .size(22.dp)
                                 )
+                                Spacer(modifier = Modifier.width(5.dp))
                                 Text(
                                     text = stringResource(id = R.string.privacy_policy),
                                     fontSize = 12.sp,
