@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.ui.features.notifications
+package br.senai.sp.jandira.limpeanapp.ui.features.profile
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SeeInvitesAndAlerts() {
+fun ProfileScreen() {
     Box (Modifier.fillMaxSize()){
-        Text(text = "See Invites and Alerts")
+        Text(text = "Here your profile")
     }
 }

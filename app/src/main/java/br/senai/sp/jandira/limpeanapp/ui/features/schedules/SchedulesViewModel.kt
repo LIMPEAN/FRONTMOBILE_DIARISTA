@@ -65,7 +65,7 @@ class SchedulesViewModel @Inject constructor(
 //            cleaning = it.toDetailsState()
         }
     }
-    private fun createCleaningDetailsState(): CleaningDetailsState{
+    private fun createCleaningDetailsState(): CleaningDetailsState {
         return CleaningDetailsState(
             primordialInfo = PrimordialInfoState(
                 price = 0.0,

@@ -4,11 +4,10 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AboutClien
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.ClientInfoState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.HomeInfoState
 
-
 data class Client(
-    val name: String,
-    val photo : String,
-    val biography: String?
+    val name: String = "",
+    val photo : String = "",
+    val biography: String? = null
 ) {
     fun toAboutClientState(): AboutClientState {
         return AboutClientState(

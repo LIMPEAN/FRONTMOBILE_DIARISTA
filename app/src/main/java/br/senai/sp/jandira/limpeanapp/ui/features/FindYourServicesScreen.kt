@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.ui.features.cleaning
+package br.senai.sp.jandira.limpeanapp.ui.features
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
