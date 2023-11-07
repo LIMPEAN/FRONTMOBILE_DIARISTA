@@ -2,8 +2,10 @@ package br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components
 
 
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.Button
@@ -25,18 +28,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeAddressCleaning
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeQuantityRooms
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.greenColor
+import com.example.compose.md_theme_light_onPrimaryContainer
+import com.example.compose.md_theme_light_onTertiary
 import com.example.compose.md_theme_light_primary
-
+import com.example.compose.md_theme_light_secondary
+import com.example.compose.md_theme_light_tertiary
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 data class CleaningCardState(
@@ -46,15 +60,20 @@ data class CleaningCardState(
     val local: String,
     val quantityRooms: List<RoomQuantity>
 )
+
+
+@Preview
 @Composable
 fun CleaningCard(
-    modifier: Modifier = Modifier.fillMaxWidth(),
-    nameClient: String,
-    servicePrice: Double,
-    local: String,
-    quantityRooms: List<RoomQuantity>,
-    actions : @Composable () -> Unit,
-    onCleaningDetail: ()->Unit,
+    modifier: Modifier = Modifier,
+    nameClient: String =  "Felipe",
+    servicePrice: Double = 10.0,
+    dateTime : LocalDateTime? = LocalDateTime.now(),
+    local: String = fakeAddressCleaning.street,
+    quantityRooms: List<RoomQuantity>? = null,
+    actions : @Composable () -> Unit ={},
+    onCleaningDetail: ()->Unit = {},
+    showRooms : Boolean = true
 ) {
     val customFontFamily = poopins
     val spacerModifier = Modifier.height(8.dp)
@@ -73,14 +92,15 @@ fun CleaningCard(
         ) {
             Image(
                 modifier = modifier
-                    .heightIn(min = 10.dp, max = 150.dp),
+                    .heightIn(min = 20.dp, max = 100.dp)
+                    .fillMaxWidth(),
                 painter = painterResource(id = R.drawable.map_example),
                 contentDescription = "Image map",
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = spacerModifier)
             Row(
-                modifier = modifier,
+                modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -112,7 +132,29 @@ fun CleaningCard(
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
+            }
+            quantityRooms?.let {
                 QuantityRoomsInfo(quantityRooms = quantityRooms)
+            }
+            dateTime?.let {
+                Column {
+                    Text(
+                        text = "Marcado para dia ${it.dayOfMonth} de ${it.month}" ,
+                        fontFamily = customFontFamily,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Black,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "${it.hour}:${it.minute}h" ,
+                        fontFamily = customFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
+                        color = md_theme_light_tertiary,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
             Spacer(spacerModifier)
             actions()
@@ -168,14 +210,67 @@ data class QuantityRoomsCategory(
     val quantity: Number?
 )
 
+sealed class FindCleaningCardEvent {
+    data class onInfoClick(val cleaning: Cleaning) : FindCleaningCardEvent()
+    data class onAcceptClick(val cleaning: Cleaning) : FindCleaningCardEvent()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun FindCleaningCardActions(
+    cleaning : Cleaning = Cleaning(),
+    onAcceptClick: (Cleaning) -> Unit ={},
+    onInfoClick : (Cleaning) -> Unit ={}
+){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = md_theme_light_tertiary
+            ),
+            modifier = Modifier.fillMaxWidth(0.48f),
+            onClick = {
+           onAcceptClick(cleaning)
+        }) {
+            Text(
+                text = "Aceitar",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = poopins
+            )
+        }
+        Spacer(modifier = Modifier.fillMaxWidth(0.1f))
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp , md_theme_light_tertiary),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = md_theme_light_tertiary
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+            onInfoClick(cleaning)
+        }) {
+            Text(
+                text = "Ver detalhes",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = poopins
+            )
+        }
+    }
+
+}
 @Composable
 private fun QuantityRoomsInfo(
     modifier : Modifier = Modifier,
     quantityRooms : List<RoomQuantity>
 ){
     Row(
-        modifier = Modifier.fillMaxWidth( 0.75f),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth( 1f),
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         quantityRooms.forEach {room ->
             if(room.quantity != null){
@@ -193,7 +288,3 @@ private fun QuantityRoomsInfo(
     }
 }
 
-@Composable
-fun CleaningsStartedColumn() {
-    
-}

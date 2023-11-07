@@ -44,12 +44,12 @@ class SchedulesViewModel @Inject constructor(
 
     }
 
-    fun onEvent(event : CleaningStartEvent){
+    fun onEvent(event : ScheduleEvent){
         when(event){
-            is CleaningStartEvent.SeeCleanings -> {
+            is ScheduleEvent.SeeCleanings -> {
                TODO()
             }
-            is CleaningStartEvent.SeeCleaningDetail -> {
+            is ScheduleEvent.SeeCleaningDetail -> {
 //                getCleaningDetail(event.id)
             }
 
