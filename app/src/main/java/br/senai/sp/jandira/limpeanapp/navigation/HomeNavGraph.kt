@@ -32,6 +32,7 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDe
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.ScheduleCleaning
 import br.senai.sp.jandira.limpeanapp.ui.features.notifications.NotificationsScreen
 import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileScreen
+import br.senai.sp.jandira.limpeanapp.ui.features.profile.YourProfile
 import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -70,7 +71,7 @@ fun HomeNavGraph(
             NotificationsScreen()
         }
         composable(HomeRoute.PROFILE){
-            ProfileScreen()
+            YourProfile()
         }
 
     }

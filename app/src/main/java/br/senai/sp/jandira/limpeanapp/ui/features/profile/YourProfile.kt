@@ -30,6 +30,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialog
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.SignInViewModel
@@ -53,18 +56,20 @@ import com.example.compose.seed
 
 
 
-
-
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 
 fun YourProfile(
-//    signInViewModel: SignInViewModel = viewModel
-//        (
-//    ),
-//    state: YourProfileState,
+    signInViewModel: SignInViewModel = viewModel
+        (
+    ),
+    state: ProfileState,
 ) {
+
+    var results by remember {
+        mutableStateOf<DiaristDto?>(null)
+    }
+
     Box (Modifier.fillMaxSize()){
         Text(text = "Here your profile")
     }
