@@ -29,9 +29,9 @@ import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.FindCleaningScreen
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDetailsState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.ScheduleCleaning
 import br.senai.sp.jandira.limpeanapp.ui.features.notifications.NotificationsScreen
-import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileScreen
+//import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileScreen
+import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileState
 import br.senai.sp.jandira.limpeanapp.ui.features.profile.YourProfile
 import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,7 +65,7 @@ fun HomeNavGraph(
             )
         }
         composable(HomeRoute.SCHEDULES){
-            ScheduleCleaning( cleanings = fakeCleanings, onCleaningDetail = {}, onStart = {}, onCancel = {})
+
         }
         composable(HomeRoute.NOTIFICATIONS){
             NotificationsScreen()

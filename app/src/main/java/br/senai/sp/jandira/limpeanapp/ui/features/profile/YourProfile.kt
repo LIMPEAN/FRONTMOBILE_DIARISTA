@@ -51,6 +51,7 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialo
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.SignInViewModel
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
+import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
 import coil.compose.AsyncImage
 import com.example.compose.seed
 
@@ -66,9 +67,9 @@ fun YourProfile(
     state: ProfileState,
 ) {
 
-    var results by remember {
-        mutableStateOf<DiaristDto?>(null)
-    }
+//    var results by remember {
+//        mutableStateOf<DiaristDto?>(null)
+//    }
 
     Box (Modifier.fillMaxSize()){
         Text(text = "Here your profile")
@@ -132,7 +133,7 @@ fun YourProfile(
                     ) {
                         items(1) {
                             Text(
-                                text = "Leticia Evelin Aguiar",
+                                text = state.nome_diarista,
                                 fontSize = 30.sp,
                                 lineHeight = 20.sp,
                                 fontWeight = FontWeight(600),
@@ -163,7 +164,7 @@ fun YourProfile(
                                 item {
                                     Column(modifier = Modifier.fillMaxSize()) {
                                         Text(
-                                            text = "Sla",
+                                            text = state.biografia,
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .wrapContentHeight(),
@@ -181,7 +182,7 @@ fun YourProfile(
                             Spacer(modifier = Modifier.height(20.dp))
 
                             Text(
-                                text = "Dados pessoais:",
+                                text = "Dados pessoais:".uppercase(),
                                 modifier = Modifier.fillMaxWidth(),
                                 fontSize = 18.sp,
                                 lineHeight = 20.sp,
@@ -207,7 +208,7 @@ fun YourProfile(
                                 )
 
                                 Text(
-                                    text = "Feminina",
+                                    text = state.dadosPessoais.genero,
                                     modifier = Modifier
                                         .padding(start = 5.dp),
                                     fontSize = 16.sp,
@@ -234,7 +235,7 @@ fun YourProfile(
                                 )
 
                                 Text(
-                                    text = "osasco sp",
+                                    text = state.dadosPessoais.cidade + state.dadosPessoais.estado,
                                     modifier = Modifier
                                         .padding(start = 5.dp),
                                     fontSize = 16.sp,
@@ -261,7 +262,7 @@ fun YourProfile(
                                 )
 
                                 Text(
-                                    text = "1199838534",
+                                    text = state.dadosPessoais.numero_telefone,
                                     modifier = Modifier
                                         .padding(start = 5.dp),
                                     fontSize = 16.sp,
@@ -386,8 +387,13 @@ fun YourProfile(
 
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun YourProfilePreview(){
-    YourProfile()
-}
+//@Preview(showSystemUi = true)
+//@Composable
+//fun YourProfilePreview(){
+//    YourProfile(state = ProfileState(
+//        nome_diarista = String(),
+//        biografia = String(),
+//        dadosPessoais = DadosPessoais(genero = String(), numero_telefone = String(), cidade = String(), estado = String()),
+//        avaliacaoMedia = Double.NaN
+//    ))
+//}

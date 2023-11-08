@@ -9,10 +9,11 @@ import retrofit2.http.PUT
 interface DiaristApi {
 
     @GET("diarist")
-    suspend fun getDiarist(interceptor: AuthInterceptor) : GetDiaristDto
+    suspend fun getDiarist(authInterceptor: AuthInterceptor) : GetDiaristDto
 
     @GET("diarists")
     suspend fun getListOfDiarists() : GetDiaristsDto
+
 
 
 }
