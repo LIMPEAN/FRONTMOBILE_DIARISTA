@@ -75,9 +75,10 @@ fun ScheduleScreen(
             HomeTopBar(
                 modifier = Modifier
                     .padding(horizontal = 24.dp),
-                title = "Fique de olho!",
-                description = "Agendamentos"
+                titleSmall = "Fique de olho!",
+                titleLarge = "Agendamentos"
             )
+
         }
     ) { paddingValues ->
 

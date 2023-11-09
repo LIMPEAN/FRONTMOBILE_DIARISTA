@@ -124,6 +124,8 @@
     <string name="register_address_title">Onde você mora?</string>
     <string name="register_address_description">Adicione um endereço</string>
     <string name="address_form_cep">Cep</string>
+    <string name="section_suas_faxinas">Suas faxinas</string>
+    <string name="topbar_bem_vindo">Bem Vindo</string>
 
 
 </resources>
