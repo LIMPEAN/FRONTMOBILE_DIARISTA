@@ -140,7 +140,7 @@ fun CleaningCard(
             dateTime?.let {
                 Column {
                     Text(
-                        text = "Marcado para dia ${it.dayOfMonth} de ${it.month}" ,
+                        text = "Marcado para dia ${it.dayOfMonth} de ${it.monthValue}" ,
                         fontFamily = customFontFamily,
                         fontWeight = FontWeight.Light,
                         color = Color.Black,
@@ -162,7 +162,19 @@ fun CleaningCard(
     }
 }
 
-
+enum class Mounth {
+    JANEIRO,
+    FEVEREIRO,
+    MARCO,
+    ABRIL,
+    MAIO,
+    JUNHO,
+    JULHO,
+    SETEMBRO,
+    OUTUBRO,
+    NOVEMBRO,
+    DEZEMBRO
+}
 @Composable
 fun CleaningCardActions(
     onStart: () -> Unit,
