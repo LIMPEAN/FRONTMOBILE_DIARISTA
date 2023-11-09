@@ -34,9 +34,5 @@ fun Diarist.toRequestApi() : RegisterRequest {
     return modelo
 }
 
-fun Diarist.getRequestApi(): DiaristDto {
 
-
-
-}
 

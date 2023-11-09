@@ -23,8 +23,4 @@ interface AuthApi {
         @Body diarist : RegisterRequest
     ): Response<BaseDto>
 
-    @GET("diarist")
-    suspend fun getDiarist(authInterceptor: AuthInterceptor) : GetDiaristDto
-
-
 }
