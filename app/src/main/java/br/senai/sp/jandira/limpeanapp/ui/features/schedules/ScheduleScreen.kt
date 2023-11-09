@@ -50,7 +50,12 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.SearchBar
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.md_theme_light_error
+import com.example.compose.md_theme_light_errorContainer
+import com.example.compose.md_theme_light_onPrimary
 import com.example.compose.md_theme_light_tertiary
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Preview(showSystemUi = true)
 @Composable
@@ -146,10 +151,20 @@ fun ScheduleList(
                 servicePrice = model.servicePrice,
                 local = model.local,
                 actions = {
-                    ScheduleCardActions(
-                        onStartClick = { onStartClick(cleaning)},
-                        onInfoClick = { onInfoClick(cleaning)}
-                    )
+                    val startedHour = cleaning.dateTime.toLocalTime()
+                    val currentHour = LocalTime.now()
+                    val readyToStart = currentHour >= startedHour
+                    if(readyToStart){
+                        ScheduleCardActions(
+                            onStartClick = { onStartClick(cleaning)},
+                            onInfoClick = { onInfoClick(cleaning)}
+                        )
+                    } else {
+                        SeeDetailsButton() {
+                            onInfoClick(cleaning)
+                        }
+                    }
+
                 },
                 onCleaningDetail = { onCleaningDetail(cleaning) }
             )
@@ -170,7 +185,7 @@ fun ScheduleCardActions(
         Button(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = md_theme_light_tertiary
+                containerColor = md_theme_light_error
             ),
             modifier = Modifier.fillMaxWidth(0.48f),
             onClick = {
@@ -204,6 +219,28 @@ fun ScheduleCardActions(
 
 }
 
+@Composable
+fun SeeDetailsButton(
+    onInfoClick : () -> Unit
+) {
+    Button(
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp , md_theme_light_tertiary),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = md_theme_light_tertiary
+        ),
+        modifier = Modifier.fillMaxWidth(),
+        onClick = {
+            onInfoClick()
+        }) {
+        Text(
+            text = "Ver detalhes",
+            style = MaterialTheme.typography.bodySmall,
+            fontFamily = poopins
+        )
+    }
+}
 @Composable
 fun CleaningNotFound() {
     Box(

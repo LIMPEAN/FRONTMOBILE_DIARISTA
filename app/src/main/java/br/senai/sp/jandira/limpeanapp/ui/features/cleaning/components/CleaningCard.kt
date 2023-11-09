@@ -51,6 +51,7 @@ import com.example.compose.md_theme_light_secondary
 import com.example.compose.md_theme_light_tertiary
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 data class CleaningCardState(
@@ -138,43 +139,72 @@ fun CleaningCard(
                 QuantityRoomsInfo(quantityRooms = quantityRooms)
             }
             dateTime?.let {
-                Column {
-                    Text(
-                        text = "Marcado para dia ${it.dayOfMonth} de ${it.monthValue}" ,
-                        fontFamily = customFontFamily,
-                        fontWeight = FontWeight.Light,
-                        color = Color.Black,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = "${it.hour}:${it.minute}h" ,
-                        fontFamily = customFontFamily,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 24.sp,
-                        color = md_theme_light_tertiary,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+                DateTimeInfo(dateTime = it)
             }
             Spacer(spacerModifier)
             actions()
         }
     }
 }
-
-enum class Mounth {
-    JANEIRO,
-    FEVEREIRO,
-    MARCO,
-    ABRIL,
-    MAIO,
-    JUNHO,
-    JULHO,
-    SETEMBRO,
-    OUTUBRO,
-    NOVEMBRO,
-    DEZEMBRO
+enum class Meses(val nome: String) {
+    JANEIRO("Janeiro"),
+    FEVEREIRO("Fevereiro"),
+    MARCO("Março"),
+    ABRIL("Abril"),
+    MAIO("Maio"),
+    JUNHO("Junho"),
+    JULHO("Julho"),
+    AGOSTO("Agosto"),
+    SETEMBRO("Setembro"),
+    OUTUBRO("Outubro"),
+    NOVEMBRO("Novembro"),
+    DEZEMBRO("Dezembro")
 }
+fun obterNomeDoMes(numeroDoMes: Int): String? {
+    return Meses.values().find { it.ordinal + 1 == numeroDoMes }?.nome
+}
+@Composable
+fun ServiceScheduledActions(
+    dateTime : LocalDateTime,
+    onStartService : () -> Unit,
+) {
+    val nowMinutes = LocalDateTime.now().minute
+    val started = dateTime.minute >= nowMinutes
+    if(started){
+        Button(
+            onClick = {onStartService()}
+        ) {
+            Text(text = "Iniciar faxina")
+        }
+    }
+}
+fun formatarParaHora(localDateTime: LocalDateTime): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm'h'")
+    return localDateTime.format(formatter)
+}
+@Composable
+fun DateTimeInfo(
+    dateTime: LocalDateTime
+) {
+    Column {
+        Text(
+            text = "Marcado para dia ${dateTime.dayOfMonth} de ${obterNomeDoMes(dateTime.monthValue)}" ,
+            fontFamily = poopins,
+            fontWeight = FontWeight.Light,
+            color = Color.Black,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = formatarParaHora(dateTime) ,
+            fontFamily = poopins,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 24.sp,
+            color = md_theme_light_tertiary,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
 @Composable
 fun CleaningCardActions(
     onStart: () -> Unit,
