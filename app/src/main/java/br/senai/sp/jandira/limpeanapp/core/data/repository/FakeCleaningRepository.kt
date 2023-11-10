@@ -13,6 +13,8 @@ import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 val fakeCleanings = listOf(
@@ -42,7 +44,7 @@ val fakeCleanings = listOf(
                 RoomQuantity(roomTypes[3], 1)
             )
         ),
-        date = LocalDate.now(),
+        dateTime = LocalDateTime.now(),
         price = 450.00,
         type = TypeCleaning.DEFAULT
     ),
@@ -75,7 +77,7 @@ val fakeCleanings = listOf(
         ),
         price = 300.00,
         type = TypeCleaning.DEFAULT,
-        date = LocalDate.of(2020,12,1)
+        dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(10,12))
     )
 )
 

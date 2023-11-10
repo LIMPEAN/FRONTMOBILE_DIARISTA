@@ -5,12 +5,13 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDe
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningSupportState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PrimordialInfoState
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Cleaning(
     val id : Number? = null,
     val price : Double = 0.0,
     val client : Client = Client(),
-    val date: LocalDate = LocalDate.now(),
+    val dateTime: LocalDateTime = LocalDateTime.now(),
     val type : TypeCleaning = TypeCleaning.DEFAULT,
     val status : List<ServiceStatus> = emptyList(),
     val address : Address = Address(),
@@ -48,7 +49,7 @@ fun Cleaning.toDetailsState() : CleaningDetailsState {
         primordialInfo = PrimordialInfoState(
             price = this.price,
             startTime = "Test",
-            date = this.date.toString()
+            date = this.dateTime.toString()
         ),
         addressCleaning = this.address.toAddressCleaningState(),
         aboutClientInfo = this.client.toAboutClientState(),
@@ -59,4 +60,22 @@ fun Cleaning.toDetailsState() : CleaningDetailsState {
         )
 
     )
+}
+
+enum class Meses(val nome: String) {
+    JANEIRO("Janeiro"),
+    FEVEREIRO("Fevereiro"),
+    MARCO("Março"),
+    ABRIL("Abril"),
+    MAIO("Maio"),
+    JUNHO("Junho"),
+    JULHO("Julho"),
+    AGOSTO("Agosto"),
+    SETEMBRO("Setembro"),
+    OUTUBRO("Outubro"),
+    NOVEMBRO("Novembro"),
+    DEZEMBRO("Dezembro")
+}
+fun obterNomeDoMes(numeroDoMes: Int): String? {
+    return Meses.values().find { it.ordinal + 1 == numeroDoMes }?.nome
 }

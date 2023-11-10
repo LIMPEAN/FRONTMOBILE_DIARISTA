@@ -1,14 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.profile
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.util.Log
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,58 +34,44 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.AddressDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialog
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.SignInViewModel
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
-import br.senai.sp.jandira.limpeanapp.ui.features.profile.service.RetrofitFactory
-import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
-import coil.compose.AsyncImage
 import com.example.compose.seed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val api : DiaristApi
-) : ViewModel(){
+) : ViewModel() {
+
 
     var resultado by mutableStateOf<DiaristDto?>(null)
         private set
 
-    var endereco by mutableStateOf<AddressDto?>(null)
+    var telefone by mutableStateOf<PhoneDto?>(null)
         private set
 
-    var telefone by mutableStateOf<PhoneDto?>(null)
-    private set
-//    var endereco = diaristDto?.address?.firstOrNull()
 
-
-    fun carregarDiarista(){
+    fun carregarDiarista() {
         runBlocking {
             val diaristDto = api.getDiarist().data
 
@@ -101,6 +83,17 @@ class ProfileViewModel @Inject constructor(
             Log.i("TESTE", resultado.toString())
         }
     }
+
+    suspend fun apagarDiarista() {
+        try {
+            api.deleteDiarist()
+            Log.i("ProfileViewModel", "Diarista excluído com sucesso")
+        } catch (e: Exception) {
+            // Trate a exceção de maneira apropriada
+            Log.e("ProfileViewModel", "Erro ao excluir diarista: ${e.message}")
+        }
+    }
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -110,8 +103,12 @@ fun YourProfile(
     viewModel : ProfileViewModel = hiltViewModel<ProfileViewModel>(),
 ) {
     viewModel.carregarDiarista()
-    val resultado = viewModel.resultado
 
+
+    val resultado = viewModel.resultado
+    val api : DiaristApi
+
+    var isDialogVisible by remember { mutableStateOf(false) }
 
     resultado?.let {
         Scaffold(
@@ -274,10 +271,9 @@ fun YourProfile(
                                     )
 
                                     Text(
-//                                        text = resultado.address,
                                         text = buildAnnotatedString {
                                             resultado?.address?.firstOrNull()?.let { addressDto ->
-                                                    append("${addressDto.city}, ${addressDto.state}")
+                                                append("${addressDto.city}, ${addressDto.state}")
                                             }
                                         },
                                         modifier = Modifier
@@ -306,7 +302,6 @@ fun YourProfile(
                                     )
 
                                     Text(
-//                                        text = state.numero_telefone,
                                         text = buildAnnotatedString {
                                             resultado?.phone?.firstOrNull()?.let { phoneDto ->
                                                 append("${phoneDto.ddd} ${phoneDto.numberPhone}")
@@ -353,6 +348,7 @@ fun YourProfile(
                                         shape = RoundedCornerShape(size = 8.dp),
                                         onClick = ({
                                             //chamando dialog alert para confirmaçao
+                                            isDialogVisible = true
 
                                         })
                                     ) {
@@ -360,6 +356,34 @@ fun YourProfile(
                                             text = stringResource(id = R.string.delete_account),
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 14.sp
+                                        )
+                                    }
+
+                                    if (isDialogVisible) {
+                                        AlertDialog(
+                                            onDismissRequest = {
+                                                isDialogVisible = false
+                                            },
+                                            onConfirmation = {
+//                                                viewModel.viewModelScope.launch {
+//                                                    viewModel.apagarDiarista()
+//                                                }
+                                                viewModel.viewModelScope.launch {
+                                                    try {
+                                                        viewModel.apagarDiarista()
+                                                        // Operação concluída com sucesso
+                                                    } catch (e: Exception) {
+                                                        // Trate a exceção de maneira apropriada
+                                                        Log.e("Chamada ApagarDiarista", "Erro: ${e.message}")
+                                                    }
+                                                }
+
+
+
+                                            },
+                                            dialogTitle = "Deseja excluir sua conta?",
+                                            dialogText = "Todos os demais cadastros vinculados a esta conta também serão removidos",
+                                            icon = Icons.Default.Info
                                         )
                                     }
                                 }
@@ -435,55 +459,6 @@ fun YourProfile(
         )
     }
 
-//    Row {
-//        resultado?.let {
-//            Text(text = "Nome da diarista : ${it.name}")
-//        }
-//        Box (Modifier.fillMaxSize()){
-//            Text(text = "Here your profile")
-//        }
-//    }
-
-
-//    call.enqueue(object : Callback<GetDiaristDto> {
-//        override fun onResponse(
-//            call: Call<GetDiaristDto>,
-//            response: Response<GetDiaristDto>
-//        ) {
-//            results = response.body()!!.data
-//            Log.i("TESTE-API", "${response.body()!!}")
-//        }
-//        override fun onFailure(call: Call<GetDiaristDto>, t: Throwable) {
-//            TODO("Not yet implemented")
-//            Log.i(
-//                "ds2m",
-//                "onFailure: ${t.message}"
-//            )
-//        }
-//    }
-
-
-
-
-
-
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-private fun ProfileScreen(
-    state : ProfileState
-) {
 
-}
-
-//@Preview(showSystemUi = true)
-//@Composable
-//fun YourProfilePreview(){
-//    YourProfile(state = ProfileState(
-//        nome_diarista = String(),
-//        biografia = String(),
-//        dadosPessoais = DadosPessoais(genero = String(), numero_telefone = String(), cidade = String(), estado = String()),
-//        avaliacaoMedia = Double.NaN
-//    ))
-//}

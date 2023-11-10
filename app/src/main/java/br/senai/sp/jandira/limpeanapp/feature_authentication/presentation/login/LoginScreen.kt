@@ -1,7 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -96,6 +99,7 @@ private fun LoginScreen(
 
     Column(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
             .padding(20.dp)
             .fillMaxSize(),
 
@@ -104,7 +108,10 @@ private fun LoginScreen(
     ) {
 
 
-        TitleSection(title = stringResource(R.string.login), description = stringResource(R.string.login_description))
+        TitleSection(
+            title = stringResource(R.string.login),
+            description = stringResource(R.string.login_description)
+        )
 
         Column (
             modifier = Modifier.fillMaxWidth(),
@@ -121,7 +128,7 @@ private fun LoginScreen(
             )
             Text(
                 text = state.emailError?: "",
-                color = md_theme_light_error
+                color = MaterialTheme.colorScheme.error
             )
             PasswordField(
                 labelText = "Digite sua senha...",
@@ -227,8 +234,8 @@ private fun LoginScreen(
 }
 
 
-
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
 @Composable
 fun LoginScreenPreview() {
     LimpeanAppTheme {

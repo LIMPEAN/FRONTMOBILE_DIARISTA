@@ -112,10 +112,9 @@ fun FindCleaningContent(
     HomeLayout(
         topBar = {
             HomeTopBar(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp),
-                title = "Bem vindo (a)",
-                description = nameUser
+                modifier = Modifier.padding(horizontal = 24.dp),
+                titleSmall = "Bem vindo (a)",
+                titleLarge = nameUser
             )
         }
     ) { paddingValues ->

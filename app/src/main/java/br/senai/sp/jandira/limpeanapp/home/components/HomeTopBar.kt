@@ -16,8 +16,8 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun HomeTopBar(
     modifier : Modifier = Modifier,
-    title : String,
-    description : String
+    titleSmall : String,
+    titleLarge : String
 ){
     Column(
         modifier
@@ -27,13 +27,13 @@ fun HomeTopBar(
             )) {
         Text(
             style = MaterialTheme.typography.titleSmall,
-            text = title,
+            text = titleSmall,
             color = Color.White,
             fontFamily = poopins
         )
         Text(
             style = MaterialTheme.typography.titleLarge,
-            text = description,
+            text = titleLarge,
             color = Color.White,
             fontFamily = poopins
         )
@@ -44,8 +44,8 @@ fun HomeTopBar(
 fun HomeAppBarPreview() {
     LimpeanAppTheme {
         HomeTopBar(
-            title = "Title",
-            description = "Description"
+            titleSmall = "Bem Vindo",
+            titleLarge = "Felipe"
         )
     }
 }

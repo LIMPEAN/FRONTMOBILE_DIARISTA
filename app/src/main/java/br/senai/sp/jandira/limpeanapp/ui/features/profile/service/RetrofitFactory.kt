@@ -17,4 +17,6 @@ class RetrofitFactory {
     fun getDiaristService(): DiaristApi {
         return retrofitFactory.create(DiaristApi::class.java)
     }
+
+
 }
