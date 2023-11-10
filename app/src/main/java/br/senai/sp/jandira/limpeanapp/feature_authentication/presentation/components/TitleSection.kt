@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -22,11 +23,12 @@ fun TitleSection(
 ) {
     Column (modifier = modifier,horizontalAlignment = horizontal){
         Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-        Text(text = description)
+        Text(text = description, color = MaterialTheme.colorScheme.onTertiaryContainer)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
 @Composable
 fun TitleSectionPreview() {
     LimpeanAppTheme {
