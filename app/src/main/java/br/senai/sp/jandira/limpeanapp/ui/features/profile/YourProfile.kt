@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,8 +53,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.AddressDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialog
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.SignInViewModel
@@ -78,25 +81,37 @@ class ProfileViewModel @Inject constructor(
     var resultado by mutableStateOf<DiaristDto?>(null)
         private set
 
+    var endereco by mutableStateOf<AddressDto?>(null)
+        private set
+
+    var telefone by mutableStateOf<PhoneDto?>(null)
+    private set
+//    var endereco = diaristDto?.address?.firstOrNull()
+
+
     fun carregarDiarista(){
         runBlocking {
-            resultado = api.getDiarist().data
+            val diaristDto = api.getDiarist().data
+
+
+            var endereco = diaristDto?.address?.firstOrNull()
+            var telefone = diaristDto?.phone?.firstOrNull()
+            resultado = diaristDto
+//            endereco = api.getDiarist().data
             Log.i("TESTE", resultado.toString())
         }
     }
 }
-data class Endereco(
-    val bairro : String
-)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 
 fun YourProfile(
-    viewModel : ProfileViewModel = hiltViewModel<ProfileViewModel>()
+    viewModel : ProfileViewModel = hiltViewModel<ProfileViewModel>(),
 ) {
     viewModel.carregarDiarista()
     val resultado = viewModel.resultado
+
 
     resultado?.let {
         Scaffold(
@@ -259,7 +274,12 @@ fun YourProfile(
                                     )
 
                                     Text(
-//                                        text = resultado.address.toEndereco,
+//                                        text = resultado.address,
+                                        text = buildAnnotatedString {
+                                            resultado?.address?.firstOrNull()?.let { addressDto ->
+                                                    append("${addressDto.city}, ${addressDto.state}")
+                                            }
+                                        },
                                         modifier = Modifier
                                             .padding(start = 5.dp),
                                         fontSize = 16.sp,
@@ -286,7 +306,12 @@ fun YourProfile(
                                     )
 
                                     Text(
-                                        text = resultado.phone.toString(),
+//                                        text = state.numero_telefone,
+                                        text = buildAnnotatedString {
+                                            resultado?.phone?.firstOrNull()?.let { phoneDto ->
+                                                append("${phoneDto.ddd} ${phoneDto.numberPhone}")
+                                            }
+                                        },
                                         modifier = Modifier
                                             .padding(start = 5.dp),
                                         fontSize = 16.sp,
