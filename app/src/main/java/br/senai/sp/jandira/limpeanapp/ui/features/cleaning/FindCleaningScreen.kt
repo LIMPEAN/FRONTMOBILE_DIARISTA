@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.cleaning
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,6 +49,7 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDe
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.ui.features.schedules.CleaningNotFound
 import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
+import com.example.compose.LimpeanAppTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +98,14 @@ fun FindCleaningScreen(
 }
 
 
-@Preview(showSystemUi = true)
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
+@Composable
+fun FindCleaningPreview() {
+    LimpeanAppTheme {
+        FindCleaningContent()
+    }
+}
 @Composable
 fun FindCleaningContent(
     nameUser : String = "Felipe",

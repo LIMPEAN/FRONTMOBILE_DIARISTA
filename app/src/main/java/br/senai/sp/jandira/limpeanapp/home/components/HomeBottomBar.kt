@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.home.components
 
+import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Home
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.limpeanapp.navigation.HomeRoute
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed
@@ -82,13 +84,16 @@ fun HomeTopBar(
     }
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.onSecondary
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground
     ) {
         items.forEachIndexed { index,item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = seed,
-                    selectedIconColor = Color(251, 251, 251)
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    indicatorColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 selected = selectedItemIndex == index,
                 onClick = {
@@ -98,8 +103,8 @@ fun HomeTopBar(
                 label = {
                     Text(
                         text = item.title,
-                        fontFamily = poopins,
-                        style = MaterialTheme.typography.labelSmall
+                        fontFamily = Poppins,
+                        style = MaterialTheme.typography.labelSmall,
                     )
                 },
                 icon = {
@@ -129,6 +134,7 @@ fun HomeTopBar(
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HomeNavBarPrev() {
     LimpeanAppTheme {

@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
 import com.example.compose.LimpeanAppTheme
 import org.w3c.dom.Text
@@ -33,8 +34,9 @@ fun HomeSection(
             text = title,
             textAlign = textAlign,
             style = MaterialTheme.typography.headlineSmall,
-            fontFamily = poopins,
-            fontWeight = FontWeight.SemiBold
+            fontFamily = Poppins,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
         content()

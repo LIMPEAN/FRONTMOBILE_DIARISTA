@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.home.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,18 +29,19 @@ fun HomeTopBar(
         Text(
             style = MaterialTheme.typography.titleSmall,
             text = titleSmall,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = poopins
         )
         Text(
             style = MaterialTheme.typography.titleLarge,
             text = titleLarge,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = poopins
         )
     }
 }
-@Preview
+@Preview(showBackground = true)
+@Preview(showBackground = true,uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
 @Composable
 fun HomeAppBarPreview() {
     LimpeanAppTheme {
