@@ -37,7 +37,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 
 private const val USER_PREFERENCES = "user_preferences"
-private const val HOST = "10.107.144.18"
+private const val HOST = "https://backend-tcc-limpean-crud.azurewebsites.net/"
 //EM DISPOSITIVO FISICO, USE O IP REAL
 @Module
 @InstallIn(SingletonComponent::class)
@@ -65,7 +65,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(client : OkHttpClient) : Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://$HOST:8080/v1/limpean/")
+            .baseUrl("$HOST:8080/v1/limpean/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
