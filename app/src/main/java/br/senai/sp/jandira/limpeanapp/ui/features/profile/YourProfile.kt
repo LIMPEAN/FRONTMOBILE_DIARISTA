@@ -108,6 +108,7 @@ fun YourProfile(
     val resultado = viewModel.resultado
     val api : DiaristApi
 
+
     var isDialogVisible by remember { mutableStateOf(false) }
 
     resultado?.let {
@@ -365,6 +366,7 @@ fun YourProfile(
                                                 isDialogVisible = false
                                             },
                                             onConfirmation = {
+//                                                viewModel.apagarDiarista()
 //                                                viewModel.viewModelScope.launch {
 //                                                    viewModel.apagarDiarista()
 //                                                }
