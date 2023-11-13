@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,10 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 
 
@@ -43,6 +46,8 @@ fun PasswordField (
         label = {
             Text(
                 text = labelText,
+                style = MaterialTheme.typography.titleMedium,
+                fontFamily = Poppins,
 
 //                style = TextStyle(
 ////                    fontSize = 12.sp,
