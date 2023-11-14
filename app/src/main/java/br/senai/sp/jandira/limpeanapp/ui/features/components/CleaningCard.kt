@@ -87,7 +87,7 @@ fun CleaningCard(
                 onCleaningDetail()
             },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
         shape = MaterialTheme.shapes.large
     ) {
@@ -113,7 +113,7 @@ fun CleaningCard(
                     fontSize = 20.sp,
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight(600),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -203,7 +203,7 @@ fun DateTimeInfo(
             fontFamily = poopins,
             fontWeight = FontWeight.SemiBold,
             fontSize = 24.sp,
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.bodyMedium,
         )
     }
@@ -262,7 +262,7 @@ sealed class FindCleaningCardEvent {
 }
 
 
-@Preview(showBackground = true)
+
 @Composable
 fun FindCleaningCardActions(
     cleaning : Cleaning = Cleaning(),
@@ -294,8 +294,8 @@ fun FindCleaningCardActions(
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = MaterialTheme.colorScheme.tertiary
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier.fillMaxWidth(),
             onClick = {
@@ -305,11 +305,20 @@ fun FindCleaningCardActions(
                 text = "Ver detalhes",
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = Poppins,
-                color = MaterialTheme.colorScheme.tertiaryContainer
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true,uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun ActionsPreview() {
+    LimpeanAppTheme {
+        FindCleaningCardActions()
+    }
 }
 @Composable
 private fun QuantityRoomsInfo(
@@ -326,10 +335,10 @@ private fun QuantityRoomsInfo(
                     Icon(
                         imageVector = room.roomType.icon,
                         contentDescription = room.roomType.name,
-                        tint = Color(0xFF393939)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(text = room.quantity.toString(),
-                        color = Color(0xFF393939))
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -341,6 +350,6 @@ private fun QuantityRoomsInfo(
 @Composable
 fun CleaningCardPreview() {
     LimpeanAppTheme {
-        CleaningCard()
+        CleaningCard(quantityRooms = fakeQuantityRooms)
     }
 }

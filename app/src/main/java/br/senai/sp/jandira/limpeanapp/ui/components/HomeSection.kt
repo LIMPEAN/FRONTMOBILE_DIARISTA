@@ -1,9 +1,13 @@
 package br.senai.sp.jandira.limpeanapp.ui.components
 
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +31,8 @@ fun HomeSection(
     content : @Composable () -> Unit
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = horizontalAlignment
     ) {
         Text(
@@ -36,7 +41,7 @@ fun HomeSection(
             style = MaterialTheme.typography.headlineSmall,
             fontFamily = Poppins,
             fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(8.dp))
         content()
@@ -44,6 +49,7 @@ fun HomeSection(
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HomeSectionPrev() {
     LimpeanAppTheme {
