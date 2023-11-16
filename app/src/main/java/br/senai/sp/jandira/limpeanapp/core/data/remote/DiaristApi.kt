@@ -18,8 +18,7 @@ interface DiaristApi {
 
     @PUT("diarist")
     suspend fun updateDiarist(diaristDto: DiaristDto)
-    @POST("diarist")
-    suspend fun deleteDiarist()
+    
 
     @GET("diarist/service")
     suspend fun getInvites()
