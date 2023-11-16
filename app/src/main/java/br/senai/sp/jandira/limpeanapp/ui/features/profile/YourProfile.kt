@@ -366,10 +366,6 @@ fun YourProfile(
                                                 isDialogVisible = false
                                             },
                                             onConfirmation = {
-//                                                viewModel.apagarDiarista()
-//                                                viewModel.viewModelScope.launch {
-//                                                    viewModel.apagarDiarista()
-//                                                }
                                                 viewModel.viewModelScope.launch {
                                                     try {
                                                         viewModel.apagarDiarista()
