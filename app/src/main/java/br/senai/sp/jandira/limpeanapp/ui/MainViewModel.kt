@@ -14,7 +14,7 @@ class MainViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            delay(3000)
+            delay(10)
             _isLoading.value = false
         }
     }

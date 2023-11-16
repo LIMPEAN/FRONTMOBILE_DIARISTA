@@ -79,7 +79,7 @@ class ProfileViewModel @Inject constructor(
             var endereco = diaristDto?.address?.firstOrNull()
             var telefone = diaristDto?.phone?.firstOrNull()
             resultado = diaristDto
-//            endereco = api.getDiarist().data
+
             Log.i("TESTE", resultado.toString())
         }
     }
@@ -330,7 +330,10 @@ fun YourProfile(
                                             .height(50.dp),
                                         colors = ButtonDefaults.buttonColors(containerColor = seed),
                                         shape = RoundedCornerShape(size = 8.dp),
-                                        onClick = { /*TODO*/ }
+                                        onClick = {
+                                        /*TODO*/
+                                            //atualizar endereço completo, todos os dados pessoais
+                                        }
                                     ) {
                                         Text(
                                             text = stringResource(id = R.string.edit_profile_diarist),
@@ -458,5 +461,7 @@ fun YourProfile(
     }
 
 }
+
+
 
 

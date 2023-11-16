@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components
 
 
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -42,7 +43,9 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeAddressCleaning
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeQuantityRooms
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.greenColor
 import com.example.compose.md_theme_light_onPrimaryContainer
 import com.example.compose.md_theme_light_onTertiary
@@ -84,8 +87,9 @@ fun CleaningCard(
                 onCleaningDetail()
             },
         colors = CardDefaults.cardColors(
-            Color.White
-        )
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        shape = MaterialTheme.shapes.large
     ) {
         Column(
             modifier = modifier
@@ -109,17 +113,17 @@ fun CleaningCard(
                     fontSize = 20.sp,
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF393939),
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Text(
                     text = "R\$ $servicePrice",
                     fontSize = 20.sp,
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF3147F5),
-                    style = MaterialTheme.typography.bodyLarge
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
             Row(
@@ -130,7 +134,7 @@ fun CleaningCard(
                     text = local,
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight.Light,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )
 
@@ -191,7 +195,7 @@ fun DateTimeInfo(
             text = "Marcado para dia ${dateTime.dayOfMonth} de ${obterNomeDoMes(dateTime.monthValue)}" ,
             fontFamily = poopins,
             fontWeight = FontWeight.Light,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
@@ -199,7 +203,7 @@ fun DateTimeInfo(
             fontFamily = poopins,
             fontWeight = FontWeight.SemiBold,
             fontSize = 24.sp,
-            color = md_theme_light_tertiary,
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.bodyMedium,
         )
     }
@@ -258,7 +262,7 @@ sealed class FindCleaningCardEvent {
 }
 
 
-@Preview(showBackground = true)
+
 @Composable
 fun FindCleaningCardActions(
     cleaning : Cleaning = Cleaning(),
@@ -272,7 +276,7 @@ fun FindCleaningCardActions(
         Button(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = md_theme_light_tertiary
+                containerColor = MaterialTheme.colorScheme.tertiary
             ),
             modifier = Modifier.fillMaxWidth(0.48f),
             onClick = {
@@ -281,16 +285,17 @@ fun FindCleaningCardActions(
             Text(
                 text = "Aceitar",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.onTertiary
             )
         }
         Spacer(modifier = Modifier.fillMaxWidth(0.1f))
         Button(
             shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(1.dp , md_theme_light_tertiary),
+            border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = md_theme_light_tertiary
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier.fillMaxWidth(),
             onClick = {
@@ -299,11 +304,21 @@ fun FindCleaningCardActions(
             Text(
                 text = "Ver detalhes",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true,uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun ActionsPreview() {
+    LimpeanAppTheme {
+        FindCleaningCardActions()
+    }
 }
 @Composable
 private fun QuantityRoomsInfo(
@@ -320,13 +335,21 @@ private fun QuantityRoomsInfo(
                     Icon(
                         imageVector = room.roomType.icon,
                         contentDescription = room.roomType.name,
-                        tint = Color(0xFF393939)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(text = room.quantity.toString(),
-                        color = Color(0xFF393939))
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
     }
 }
 
+@Preview
+@Preview(name = "Night Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun CleaningCardPreview() {
+    LimpeanAppTheme {
+        CleaningCard(quantityRooms = fakeQuantityRooms)
+    }
+}

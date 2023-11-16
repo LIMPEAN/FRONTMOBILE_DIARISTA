@@ -38,7 +38,7 @@ fun ProfileFormUi(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.spacedBy(28.dp)
     ) {
         profilePhoto()
         NormalTextField(

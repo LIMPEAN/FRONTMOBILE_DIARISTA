@@ -1,7 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components
 
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,10 +24,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -51,7 +52,11 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeHomeInfo
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeSection
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeCleaningDetail
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeCleaningSupport
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
 
@@ -80,6 +85,7 @@ fun CleaningDetails(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
     ) {
         MainServiceInformation(state.primordialInfo)
         Divider(modifier)
@@ -114,23 +120,16 @@ fun MainServiceInformation(
             horizontalArrangement = Arrangement.spacedBy(32.dp)
 
         ) {
-            SubSection(text = "Valor definido") {
-                Text(text = "${state.price}")
-            }
-            SubSection(text = "Data da Faxina") {
-                Text(text = state.date)
-            }
+            ItemSection(name = "Valor definido", value = "${state.price}")
+            ItemSection(name = "Data da Faxina", value = state.date)
         }
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(33.dp)
         ) {
-            SubSection(text = "Hora de Início"){
-                Text(text = state.startTime + "h")
-            }
-            SubSection(text = "Duração estimada"){
-                Text(text = "18:00h")
-            }
+            ItemSection(name = "Hora de Início", value = state.startTime + "h")
+            ItemSection(name = "Duração estimada", value = "-")
+
         }
 
 
@@ -155,27 +154,17 @@ fun AddressCleaningInfo(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(33.dp)
         ) {
-            SubSection(text = "Logradouro"){
-                Text(text = state.street)
-            }
-            SubSection(text = "Bairro"){
-                Text(text = state.district)
-            }
-            SubSection(text = "Cidade"){
-                Text(text = state.city)
-            }
+            ItemSection(name = "Logradouro",value = state.street)
+            ItemSection(name = "Bairro", value = state.district)
+            ItemSection(name = "Cidade", value = state.city)
         }
 
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(33.dp)
         ) {
-            SubSection(text = "Complemento"){
-                Text(text = state.complement?: "Ausente.")
-            }
-            SubSection(text = "Estado"){
-                Text(text = state.state)
-            }
+            ItemSection(name = "Complemento", value = state.complement?: "Ausente.")
+            ItemSection(name = "Estado", value = state.state)
         }
     }
 }
@@ -203,7 +192,6 @@ fun AboutClient(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun DoYouLikeService(
     onBackPress : () -> Unit = {},
@@ -284,14 +272,26 @@ fun ConfirmDialog(
     )
 }
 @Composable
-fun SubSection(
+fun ItemSection(name : String, value : String){
+    ItemSection(text = name){
+        Text(
+            text = value,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontFamily = Poppins
+        )
+    }
+}
+@Composable
+fun ItemSection(
     text : String,
     content: @Composable ()-> Unit
 ) {
     Column() {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontFamily = Poppins
         )
         Spacer(modifier = Modifier.height(8.dp))
         content()
@@ -310,7 +310,10 @@ fun ClientInfo(
 ) {
     Card(
         modifier = Modifier.padding(12.dp),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -329,7 +332,8 @@ fun ClientInfo(
                 Text(
                     text = state.name,
                     style = MaterialTheme.typography.labelMedium,
-                    fontFamily = poopins
+                    fontFamily = poopins,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Row(
@@ -338,13 +342,15 @@ fun ClientInfo(
                     Icon(
                         imageVector = Icons.Default.StarBorder,
                         contentDescription = null,
-                        modifier = Modifier.size(21.dp)
+                        modifier = Modifier.size(21.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "${state.assentment}",
                         style = MaterialTheme.typography.labelLarge,
                         fontFamily = poopins,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -416,7 +422,8 @@ fun CleaningFormSection(
             text = title,
             style = MaterialTheme.typography.bodyLarge,
             fontFamily = poopins,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Normal,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(4.dp))
         content()
@@ -454,7 +461,8 @@ fun CheckQuestion(
         Text(
             text = question,
             style = MaterialTheme.typography.bodyMedium,
-            fontFamily = poopins
+            fontFamily = poopins,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -478,7 +486,8 @@ fun TypeOfCleningSection(
             Text(
                 text = typeCleaning.inPortuguese,
                 style = MaterialTheme.typography.bodyMedium,
-                fontFamily = poopins
+                fontFamily = poopins,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -489,7 +498,9 @@ fun HomeClientInfo(
     state : HomeInfoState = fakeHomeInfo
 ) {
     Card(
-        modifier = Modifier.padding(12.dp),
+        modifier = Modifier
+            .padding(12.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
     ) {
         Row(
@@ -511,13 +522,15 @@ fun HomeClientInfo(
                 Text(
                     text = state.typeHouse,
                     style = MaterialTheme.typography.labelMedium,
-                    fontFamily = poopins
+                    fontFamily = poopins,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = state.name,
                     style = MaterialTheme.typography.labelMedium,
-                    fontFamily = poopins
+                    fontFamily = poopins,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
             }
@@ -542,7 +555,8 @@ fun RoomsQuantity(
                 Text(
                     text = name,
                     style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = poopins
+                    fontFamily = poopins,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
             trailingContent = {
@@ -551,4 +565,23 @@ fun RoomsQuantity(
             )
     }
 
+}
+
+
+@Composable
+fun CleaningDetailsPreview() {
+    LimpeanAppTheme {
+        CleaningDetails(state = fakeCleaningDetail, onAcceptPress = { /*TODO*/ }) {
+        }
+    }
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun CleaningInfoPreview() {
+    LimpeanAppTheme {
+        CleaningSupport(state = fakeCleaningSupport)
+    }
+    
 }

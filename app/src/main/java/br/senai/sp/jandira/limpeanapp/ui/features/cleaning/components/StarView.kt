@@ -30,14 +30,14 @@ fun StarView(
     val halfStar = !(rating.rem(1).equals(0.0))
     Row(modifier = modifier) {
         repeat(filledStars) {
-            Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = starsColor, modifier = Modifier.height(40.dp).width(40.dp))
+            Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = starsColor, modifier = Modifier.height(25.dp).width(25.dp))
         }
         if (halfStar) {
             Icon(
                 imageVector = Icons.Outlined.StarHalf,
                 contentDescription = null,
                 tint = starsColor,
-                modifier = Modifier.height(40.dp).width(40.dp)
+                modifier = Modifier.height(25.dp).width(25.dp)
             )
         }
         repeat(unfilledStars) {
@@ -45,7 +45,7 @@ fun StarView(
                 imageVector = Icons.Outlined.StarOutline,
                 contentDescription = null,
                 tint = starsColor,
-                modifier = Modifier.height(40.dp).width(40.dp)
+                modifier = Modifier.height(25.dp).width(25.dp)
             )
         }
     }
