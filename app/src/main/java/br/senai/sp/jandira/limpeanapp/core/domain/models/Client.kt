@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.models
 
-
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AboutClientState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.ClientInfoState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.HomeInfoState
