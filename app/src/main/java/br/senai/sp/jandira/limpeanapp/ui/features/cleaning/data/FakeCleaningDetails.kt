@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.models.roomTypes
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AboutClientState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AddressCleaningState
@@ -65,7 +66,7 @@ val fakeQuantityRooms = listOf(
 val fakeCleaningSupport = CleaningSupportState(
     rooms = fakeQuantityRooms,
     questions = fakeQuestions,
-    typeCleaning = TypeCleaning.DEFAULT
+    typeCleaning = TypeCleaningEnum.PADRAO
 )
 val fakeCleaningDetail = CleaningDetailsState(
     primordialInfo = fakePrimordialInfoState,
