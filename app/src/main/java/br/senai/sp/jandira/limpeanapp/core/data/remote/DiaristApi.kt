@@ -31,9 +31,8 @@ interface DiaristApi {
     @GET("diarist/service")
     suspend fun getInviteById(@Query("id") id : Number)
 
-
     @PUT("diarist/service/price")
     suspend fun updatePrice()
 
-
 }
+
