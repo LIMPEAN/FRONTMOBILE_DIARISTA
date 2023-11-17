@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
 import com.example.compose.seed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -71,12 +72,7 @@ fun CustomDialog(
 
     val text = rememberSaveable { mutableStateOf("") }
 
-//    @Composable
-//    fun ServiceInformationScreen() {
-    var context = LocalContext.current
-//        var token by remember {
-//            mutableStateOf()
-//        }
+
 
 
     Dialog(
@@ -205,9 +201,6 @@ fun CustomDialog(
 
                 Button(
                     onClick = {
-//                            val intent = Intent(context, ReportSevice)
-//                            intent.putExtra("token", "${it.token}")
-//                            context.startActivity(intent)
                     },
                     modifier = androidx.compose.ui.Modifier
                         .fillMaxWidth()

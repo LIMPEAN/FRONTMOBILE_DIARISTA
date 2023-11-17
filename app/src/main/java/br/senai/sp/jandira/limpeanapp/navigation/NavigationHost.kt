@@ -22,7 +22,7 @@ fun NavigationHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.HOME
+        startDestination = NavigationRoute.AUTHENTICATION
     ){
         composable(NavigationRoute.ONBOARDING){
             SplashScreen {
