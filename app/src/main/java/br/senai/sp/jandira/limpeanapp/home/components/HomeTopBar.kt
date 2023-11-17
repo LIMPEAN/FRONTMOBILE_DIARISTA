@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.home.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,8 +17,8 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun HomeTopBar(
     modifier : Modifier = Modifier,
-    title : String,
-    description : String
+    titleSmall : String,
+    titleLarge : String
 ){
     Column(
         modifier
@@ -27,25 +28,26 @@ fun HomeTopBar(
             )) {
         Text(
             style = MaterialTheme.typography.titleSmall,
-            text = title,
-            color = Color.White,
+            text = titleSmall,
+            color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = poopins
         )
         Text(
             style = MaterialTheme.typography.titleLarge,
-            text = description,
-            color = Color.White,
+            text = titleLarge,
+            color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = poopins
         )
     }
 }
-@Preview
+@Preview(showBackground = true)
+@Preview(showBackground = true,uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
 @Composable
 fun HomeAppBarPreview() {
     LimpeanAppTheme {
         HomeTopBar(
-            title = "Title",
-            description = "Description"
+            titleSmall = "Bem Vindo",
+            titleLarge = "Felipe"
         )
     }
 }

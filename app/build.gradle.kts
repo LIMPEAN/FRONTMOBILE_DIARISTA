@@ -169,8 +169,13 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
 
+//    //Splash Screen
+    implementation ("androidx.core:core-splashscreen:1.0.0")
+
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
+
 
 }
-kapt {
+ kapt {
     correctErrorTypes = true
 }

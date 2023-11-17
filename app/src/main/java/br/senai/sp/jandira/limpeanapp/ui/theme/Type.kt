@@ -10,6 +10,16 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
 
 // Set of Material typography styles to start with
+
+
+val Poppins = FontFamily(
+    Font(R.font.poppins_light),
+    Font(R.font.poopins_medium),
+    Font(R.font.poppins_regular),
+    Font(R.font.poopins_medium),
+    Font(R.font.poppins_semibold),
+    Font(R.font.poppins_thin)
+)
 val Typography = Typography(
     labelSmall = TextStyle(
         fontFamily = poopins,

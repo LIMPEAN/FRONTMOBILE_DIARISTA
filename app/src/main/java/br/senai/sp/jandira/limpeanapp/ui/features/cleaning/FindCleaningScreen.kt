@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.cleaning
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -16,9 +18,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -30,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +53,8 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDe
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.ui.features.schedules.CleaningNotFound
 import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import com.example.compose.LimpeanAppTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +103,14 @@ fun FindCleaningScreen(
 }
 
 
-@Preview(showSystemUi = true)
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
+@Composable
+fun FindCleaningPreview() {
+    LimpeanAppTheme {
+        FindCleaningContent()
+    }
+}
 @Composable
 fun FindCleaningContent(
     nameUser : String = "Felipe",
@@ -112,10 +126,9 @@ fun FindCleaningContent(
     HomeLayout(
         topBar = {
             HomeTopBar(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp),
-                title = "Bem vindo (a)",
-                description = nameUser
+                modifier = Modifier.padding(horizontal = 24.dp),
+                titleSmall = "Bem vindo (a)",
+                titleLarge = nameUser
             )
         }
     ) { paddingValues ->
@@ -161,14 +174,28 @@ fun FindYourCleanings(
     HomeSection(
         title = "Encontre seus serviços",
     ) {
-        SearchBar()
-        FindCleaningList(
-            cleanings = cleanings,
-            onAcceptClick = { onAcceptClick(it) },
-            onInfoClick = { onInfoClick(it) },
-            onCleaningDetail = { onCleaningDetail(it)}
+        LazyColumn(){
+            item {
+                SearchBar()
+            }
+            items(cleanings) {cleaning ->
+                val model = cleaning.toCleaningCardState()
+                CleaningCard(
+                    nameClient = model.nameClient,
+                    servicePrice = model.servicePrice,
+                    local = model.local,
+                    quantityRooms = model.quantityRooms,
+                    actions = {
+                        FindCleaningCardActions(
+                            onAcceptClick = { onAcceptClick(cleaning)},
+                            onInfoClick = { onInfoClick(cleaning)}
+                        )
+                    },
+                    onCleaningDetail = { onCleaningDetail(cleaning) }
+                )
+            }
+        }
 
-        )
     }
 }
 

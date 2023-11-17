@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.schedules
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +51,12 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.SearchBar
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
+import com.example.compose.md_theme_light_error
+import com.example.compose.md_theme_light_errorContainer
+import com.example.compose.md_theme_light_onPrimary
 import com.example.compose.md_theme_light_tertiary
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Preview(showSystemUi = true)
 @Composable
@@ -70,9 +76,10 @@ fun ScheduleScreen(
             HomeTopBar(
                 modifier = Modifier
                     .padding(horizontal = 24.dp),
-                title = "Fique de olho!",
-                description = "Agendamentos"
+                titleSmall = "Fique de olho!",
+                titleLarge = "Agendamentos"
             )
+
         }
     ) { paddingValues ->
 
@@ -146,10 +153,20 @@ fun ScheduleList(
                 servicePrice = model.servicePrice,
                 local = model.local,
                 actions = {
-                    ScheduleCardActions(
-                        onStartClick = { onStartClick(cleaning)},
-                        onInfoClick = { onInfoClick(cleaning)}
-                    )
+                    val startedHour = cleaning.dateTime.toLocalTime()
+                    val currentHour = LocalTime.now()
+                    val readyToStart = currentHour >= startedHour
+                    if(readyToStart){
+                        ScheduleCardActions(
+                            onStartClick = { onStartClick(cleaning)},
+                            onInfoClick = { onInfoClick(cleaning)}
+                        )
+                    } else {
+                        SeeDetailsButton() {
+                            onInfoClick(cleaning)
+                        }
+                    }
+
                 },
                 onCleaningDetail = { onCleaningDetail(cleaning) }
             )
@@ -157,6 +174,7 @@ fun ScheduleList(
     }
 }
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Modo noturno")
 @Composable
 fun ScheduleCardActions(
     cleaning : Cleaning = Cleaning(),
@@ -170,7 +188,7 @@ fun ScheduleCardActions(
         Button(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = md_theme_light_tertiary
+                containerColor = MaterialTheme.colorScheme.error
             ),
             modifier = Modifier.fillMaxWidth(0.48f),
             onClick = {
@@ -179,7 +197,8 @@ fun ScheduleCardActions(
             Text(
                 text = "Iniciar",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = poopins,
+                color = MaterialTheme.colorScheme.onError
             )
         }
         Spacer(modifier = Modifier.fillMaxWidth(0.1f))
@@ -187,8 +206,8 @@ fun ScheduleCardActions(
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp , md_theme_light_tertiary),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = md_theme_light_tertiary
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier.fillMaxWidth(),
             onClick = {
@@ -197,13 +216,36 @@ fun ScheduleCardActions(
             Text(
                 text = "Ver detalhes",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = poopins,
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
     }
 
 }
 
+@Composable
+fun SeeDetailsButton(
+    onInfoClick : () -> Unit
+) {
+    Button(
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp , md_theme_light_tertiary),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = md_theme_light_tertiary
+        ),
+        modifier = Modifier.fillMaxWidth(),
+        onClick = {
+            onInfoClick()
+        }) {
+        Text(
+            text = "Ver detalhes",
+            style = MaterialTheme.typography.bodySmall,
+            fontFamily = poopins
+        )
+    }
+}
 @Composable
 fun CleaningNotFound() {
     Box(

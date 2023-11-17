@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.components
 
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,15 +13,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
@@ -31,18 +35,19 @@ fun TextComLinhasLogin(texto: String){
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly){
         Card(
-            colors = CardDefaults.cardColors(Color.LightGray),
+            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.outline),
             modifier = Modifier
                 .width(85.dp)
                 .height(0.8.dp)
         ){}
 
         Text(
-            text = texto, color = md_theme_light_primary
+            text = texto, color = MaterialTheme.colorScheme.outline,
+            fontFamily = Poppins
         )
 
         Card(
-            colors = CardDefaults.cardColors(Color.LightGray),
+            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.outline),
             modifier = Modifier
                 .width(85.dp)
                 .height(0.8.dp)
@@ -69,6 +74,9 @@ fun InputTextEmail(
         label = {
             Text(
                 text = label,
+                style = MaterialTheme.typography.titleMedium,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Normal
 //                lineHeight = 16.sp,
 //                fontFamily = FontFamily(Font(R.font.inter)),
 //                fontWeight = FontWeight(400),
@@ -83,6 +91,7 @@ fun InputTextEmail(
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
 fun TextoComLinhasPreview() {
     LimpeanAppTheme {
@@ -92,5 +101,14 @@ fun TextoComLinhasPreview() {
 
         }
 
+    }
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
+@Composable
+fun TextFieldPreview() {
+    LimpeanAppTheme {
+        InputTextEmail(label = "Email", keyboardType = KeyboardType.Text, state = "", onTyping = {})
     }
 }
