@@ -183,7 +183,7 @@ private fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.2f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
 
@@ -201,27 +201,27 @@ private fun LoginScreen(
                     fontFamily = Poppins
                 )
             }
-            TextComLinhasLogin(texto = "ou")
-            OutlinedButton(
-                onClick = {
-                    onEvent(LoginEvent.LoginWithGoogle)
-                },
-                modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-            ){
-                Image(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(id = R.drawable.logo_google),
-                    contentDescription = "logo google"
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Entrar com Google",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.outline,
-                    fontFamily = Poppins
-                )
-            }
+//            TextComLinhasLogin(texto = "ou")
+//            OutlinedButton(
+//                onClick = {
+//                    onEvent(LoginEvent.LoginWithGoogle)
+//                },
+//                modifier = Modifier.fillMaxWidth(),
+//                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+//            ){
+//                Image(
+//                    modifier = Modifier.size(32.dp),
+//                    painter = painterResource(id = R.drawable.logo_google),
+//                    contentDescription = "logo google"
+//                )
+//                Spacer(modifier = Modifier.width(8.dp))
+//                Text(
+//                    text = "Entrar com Google",
+//                    style = MaterialTheme.typography.titleSmall,
+//                    color = MaterialTheme.colorScheme.outline,
+//                    fontFamily = Poppins
+//                )
+//            }
             if (state.isLoading){
                 Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.fillMaxWidth()) {
                     CircularProgressIndicator()
