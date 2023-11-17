@@ -128,4 +128,7 @@
     <string name="topbar_bem_vindo">Bem Vindo</string>
 
 
+    <string name="edit_profile_diarist">EDITAR PERFIL</string>
+    <string name="delete_account">DELETAR CONTA</string>
+
 </resources>
