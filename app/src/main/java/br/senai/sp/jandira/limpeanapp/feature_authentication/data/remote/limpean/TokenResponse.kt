@@ -8,4 +8,6 @@ data class TokenResponse(
     val id: Number,
     val email : String,
     val token : String,
-)
+) {
+
+}
