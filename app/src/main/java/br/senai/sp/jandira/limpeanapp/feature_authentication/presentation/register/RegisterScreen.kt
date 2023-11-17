@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +29,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.compon
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.createAddressFormState
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 
 import com.example.compose.LimpeanAppTheme
 import java.time.LocalDate
@@ -49,9 +52,8 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
-            .scrollable(
-                scrollState,
-                Orientation.Vertical
+            .verticalScroll(
+                scrollState
             )
     ) {
         titleSection()
@@ -62,7 +64,12 @@ fun RegisterScreen(
 
 
         Button(onClick = { onButtonClick() } ){
-            Text(text = titleButton)
+            Text(
+                text = titleButton,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontFamily = Poppins
+            )
         }
     }
 

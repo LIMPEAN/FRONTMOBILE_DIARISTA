@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login
 
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -45,6 +47,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.components.InputTextEmail
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.md_theme_light_error
 
 
@@ -164,15 +167,17 @@ private fun LoginScreen(
                     )
                     Text(
                         text = "Relembrar",
-                        color = md_theme_light_primary,
-                        fontSize = 13.sp
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontFamily = Poppins
                     )
 
                 }
                 Text(
-                    fontSize = 13.sp ,
                     text = "Esqueceu a senha?",
-                    color = md_theme_light_primary
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontFamily = Poppins
                 )
 
 
@@ -193,17 +198,33 @@ private fun LoginScreen(
                 },
                 modifier = Modifier.fillMaxWidth(1f)
             ) {
-                Text(text = "Entrar")
+                Text(
+                    text = "Entrar",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontFamily = Poppins
+                )
             }
             TextComLinhasLogin(texto = "ou")
             OutlinedButton(
                 onClick = {
                     onEvent(LoginEvent.LoginWithGoogle)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
             ){
-                Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo google")
-                Text(text = "Entrar com Google")
+                Image(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(id = R.drawable.logo_google),
+                    contentDescription = "logo google"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Entrar com Google",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.outline,
+                    fontFamily = Poppins
+                )
             }
             if (state.isLoading){
                 Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.fillMaxWidth()) {
@@ -221,9 +242,13 @@ private fun LoginScreen(
         ) {
             Text(
                 text = stringResource(R.string.question_have_account),
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-                fontSize = 12.sp)
-            Spacer(modifier = Modifier.width(8.dp))
+
+                color = MaterialTheme.colorScheme.outline,
+                fontFamily = Poppins,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+
             Text(
                 text = stringResource(R.string.login_go_to_register),
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -232,7 +257,9 @@ private fun LoginScreen(
                 modifier = Modifier
                     .clickable {
                         onRegister()
-                    }
+                    },
+                fontFamily = Poppins,
+                style = MaterialTheme.typography.bodySmall
             )
 
         }

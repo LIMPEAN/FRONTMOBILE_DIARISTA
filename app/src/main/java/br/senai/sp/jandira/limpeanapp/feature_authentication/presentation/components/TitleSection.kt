@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 
@@ -22,13 +23,16 @@ fun TitleSection(
     horizontal: Alignment.Horizontal = Alignment.Start
 ) {
     Column (modifier = modifier,horizontalAlignment = horizontal){
-        Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-        Text(text = description, color = MaterialTheme.colorScheme.onTertiaryContainer)
+        Text(text = title, color = MaterialTheme.colorScheme.primary, fontSize = 32.sp, fontWeight = FontWeight.Bold, fontFamily = Poppins, style = MaterialTheme.typography.headlineMedium)
+        Text(text = description, color = MaterialTheme.colorScheme.outline, fontFamily = Poppins, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
     }
 }
 
-@Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
+
+
+@Preview
+@Preview (uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark mode")
+
 @Composable
 fun TitleSectionPreview() {
     LimpeanAppTheme {

@@ -12,9 +12,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 
 
@@ -36,7 +38,9 @@ fun NormalTextField(
         label = {
             Text(
                 text = labelText,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.titleMedium,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Normal
             )
         }
         ,

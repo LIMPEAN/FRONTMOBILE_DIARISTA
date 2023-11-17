@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.ui.features.schedules
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -173,6 +174,7 @@ fun ScheduleList(
     }
 }
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Modo noturno")
 @Composable
 fun ScheduleCardActions(
     cleaning : Cleaning = Cleaning(),
@@ -186,7 +188,7 @@ fun ScheduleCardActions(
         Button(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = md_theme_light_error
+                containerColor = MaterialTheme.colorScheme.error
             ),
             modifier = Modifier.fillMaxWidth(0.48f),
             onClick = {
@@ -195,7 +197,8 @@ fun ScheduleCardActions(
             Text(
                 text = "Iniciar",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = poopins,
+                color = MaterialTheme.colorScheme.onError
             )
         }
         Spacer(modifier = Modifier.fillMaxWidth(0.1f))
@@ -203,8 +206,8 @@ fun ScheduleCardActions(
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp , md_theme_light_tertiary),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = md_theme_light_tertiary
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier.fillMaxWidth(),
             onClick = {
@@ -213,7 +216,8 @@ fun ScheduleCardActions(
             Text(
                 text = "Ver detalhes",
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = poopins
+                fontFamily = poopins,
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
     }
