@@ -1,9 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.models
 
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningSupportState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCardState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDetailsState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningSupportState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PrimordialInfoState
 import java.time.LocalDate
 import java.time.LocalDateTime
 

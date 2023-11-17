@@ -21,7 +21,6 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.models.obterTipoDeLimpeza
 import br.senai.sp.jandira.limpeanapp.core.domain.models.roomTypes
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeQuantityRooms
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

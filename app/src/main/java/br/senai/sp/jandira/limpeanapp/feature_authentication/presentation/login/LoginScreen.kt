@@ -45,7 +45,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.components.InputTextEmail
-import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.md_theme_light_error
 
 

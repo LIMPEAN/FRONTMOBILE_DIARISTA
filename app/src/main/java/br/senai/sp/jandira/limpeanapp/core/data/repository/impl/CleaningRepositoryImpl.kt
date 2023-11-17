@@ -18,12 +18,12 @@ class CleaningRepositoryImpl @Inject constructor(
     override fun getOpenServices(): Flow<List<Cleaning>> {
         return flow {
             while (true){
-                val servicesDto = api.getOpenServices()
-                val services = servicesDto.data.map {
-                    it.service.toCleaning()
-                }
-                Log.i("SERVICES", services.toString())
-                emit(services)
+//                val servicesDto = api.getOpenServices()
+//                val services = servicesDto.data.map {
+//                    it.service.toCleaning()
+//                }
+//                Log.i("SERVICES", services.toString())
+                emit(fakeCleanings)
                 delay(5000)
             }
         }
@@ -32,9 +32,9 @@ class CleaningRepositoryImpl @Inject constructor(
     override fun getScheduledCleanings(): Flow<List<Cleaning>> {
         return flow {
             while (true){
-                val servicesDto = api.getOpenServices()
-                Log.i("SERVICES", servicesDto.toString())
-                val services = servicesDto.data.map { it.service.toCleaning() }
+//                val servicesDto = api.getOpenServices()
+//                Log.i("SERVICES", servicesDto.toString())
+//                val services = servicesDto.data.map { it.service.toCleaning() }
                 emit(fakeCleanings)
                 delay(5000)
             }
