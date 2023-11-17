@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface CleaningRepository {
 
+
+    fun getOpenServices() :Flow<List<Cleaning>>
     fun getScheduledCleanings() : Flow<List<Cleaning>>
 
     suspend fun getCleaningDetail(id: Number) : Cleaning?

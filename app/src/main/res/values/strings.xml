@@ -129,4 +129,7 @@
     <string name="title_activity_upload_firebase">UploadFirebase</string>
 
 
+    <string name="edit_profile_diarist">EDITAR PERFIL</string>
+    <string name="delete_account">DELETAR CONTA</string>
+
 </resources>

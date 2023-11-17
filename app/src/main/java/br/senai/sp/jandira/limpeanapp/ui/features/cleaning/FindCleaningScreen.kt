@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,6 +56,9 @@ import br.senai.sp.jandira.limpeanapp.ui.features.schedules.CleaningNotFound
 import br.senai.sp.jandira.limpeanapp.ui.features.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,8 +67,8 @@ fun FindCleaningScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel : FindCleaningViewModel = hiltViewModel()
 ) {
-
     val cleanings = viewModel.cleanings.collectAsState(initial = emptyList())
+
     val nameUser = viewModel.emailUser
 
     val snackbarHostState = remember { SnackbarHostState() }

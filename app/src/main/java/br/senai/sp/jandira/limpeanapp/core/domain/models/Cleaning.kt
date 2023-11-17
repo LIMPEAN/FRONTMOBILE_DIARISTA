@@ -12,7 +12,7 @@ data class Cleaning(
     val price : Double = 0.0,
     val client : Client = Client(),
     val dateTime: LocalDateTime = LocalDateTime.now(),
-    val type : TypeCleaning = TypeCleaning.DEFAULT,
+    val type : TypeCleaningEnum = TypeCleaningEnum.PADRAO,
     val status : List<ServiceStatus> = emptyList(),
     val address : Address = Address(),
     val details : CleaningDetails = CleaningDetails()
@@ -27,8 +27,8 @@ data class Question(
     val answer : Boolean,
 )
 data class ServiceStatus(
-    val name: String,
-    val dateTime : String
+    val type : StatusService,
+    val dateTime : LocalDateTime
 )
 
 enum class StatusService(val codigo: Number, val descricao: String) {
@@ -87,4 +87,14 @@ enum class Meses(val nome: String) {
 }
 fun obterNomeDoMes(numeroDoMes: Int): String? {
     return Meses.values().find { it.ordinal + 1 == numeroDoMes }?.nome
+}
+enum class TypeCleaningEnum(val code: Int, val description: String) {
+    COMERCIAL(1, "Comercial"),
+    PADRAO(2, "Padrão"),
+    POS_OBRA(4, "Pós obra"),
+    PRE_MUDANCA(5, "Pré mudança"),
+    PRE_OBRA(3, "Pré obra")
+}
+fun obterTipoDeLimpeza(nomeDoTipo : String) : TypeCleaningEnum?{
+    return TypeCleaningEnum.values().find { it.description == nomeDoTipo }
 }

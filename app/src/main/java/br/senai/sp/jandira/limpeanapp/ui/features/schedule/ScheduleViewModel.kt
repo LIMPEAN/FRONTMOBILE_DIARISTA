@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AboutClientState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AddressCleaningState
@@ -83,7 +84,7 @@ class SchedulesViewModel @Inject constructor(
                 ClientInfoState(name = "", assentment = 0.0),
                 HomeInfoState(typeHouse = "", name = "")
             ),
-            CleaningSupportState(fakeQuestions, TypeCleaning.DEFAULT, rooms = fakeQuantityRooms)
+            CleaningSupportState(fakeQuestions, TypeCleaningEnum.PADRAO, rooms = fakeQuantityRooms)
         )
     }
 

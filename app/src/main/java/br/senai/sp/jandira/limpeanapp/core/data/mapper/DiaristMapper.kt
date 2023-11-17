@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.core.data.mapper
 
 import android.util.Log
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.mapper.toAddressRequest
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.dto.RegisterRequest
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
@@ -32,3 +33,6 @@ fun Diarist.toRequestApi() : RegisterRequest {
         converter.toJson(modelo))
     return modelo
 }
+
+
+
