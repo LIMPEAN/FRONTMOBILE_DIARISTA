@@ -11,7 +11,11 @@ import java.util.UUID
 class StorageUtil {
     companion object {
 
-        fun uploadToStorage(uri: Uri, context: Context, type: String) {
+        fun uploadToStorage(
+            uri: Uri,
+            context: Context,
+            type: String
+        ) {
             val storage = Firebase.storage
 
             // Create a storage reference from our app
@@ -37,7 +41,7 @@ class StorageUtil {
                 uploadTask.addOnFailureListener {
                     Toast.makeText(
                         context,
-                        "upload failed",
+                        "Falha ao salvar foto. Tente novamente.",
                         Toast.LENGTH_SHORT
                     ).show()
                     // Handle unsuccessful uploads
@@ -46,7 +50,7 @@ class StorageUtil {
                     // ...
                     Toast.makeText(
                         context,
-                        "upload successed",
+                        "Foto carregada com sucesso!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

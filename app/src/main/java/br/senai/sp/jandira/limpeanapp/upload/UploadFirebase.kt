@@ -52,14 +52,16 @@ class UploadFirebase : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SinglePhotoPicker()                }
+                    SinglePhotoPicker({})                }
             }
         }
     }
 }
 
 @Composable
-fun SinglePhotoPicker(){
+fun SinglePhotoPicker(
+    onSaveUri: (Uri?) -> Unit
+){
     var uri by remember{
         mutableStateOf<Uri?>(null)
     }
@@ -68,6 +70,7 @@ fun SinglePhotoPicker(){
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
             uri = it
+            onSaveUri(it)
         }
     )
 
@@ -85,13 +88,8 @@ fun SinglePhotoPicker(){
 
             Card(
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-                    .clickable {
-                        singlePhotoPicker.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                        )
-                    },
+                    .size(140.dp)
+                    ,
                 shape = CircleShape,
             ) {
                 AsyncImage(
@@ -114,7 +112,13 @@ fun SinglePhotoPicker(){
             Image(
                 painterResource(id = R.drawable.add_a_photo),
                 contentDescription = "",
-                modifier = Modifier.size(height = 32.dp, width = 32.dp)
+                modifier = Modifier.size(height = 32.dp, width = 32.dp).clickable {
+
+                    singlePhotoPicker.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+
+                }
             )
         }
 
@@ -129,8 +133,10 @@ fun SinglePhotoPicker(){
     }
 
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun UploadFirebasePreview() {
-    SinglePhotoPicker()
+    LimpeanAppTheme {
+        SinglePhotoPicker({})
+    }
 }

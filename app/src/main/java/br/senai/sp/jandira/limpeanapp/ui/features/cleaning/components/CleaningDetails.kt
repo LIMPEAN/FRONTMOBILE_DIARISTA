@@ -49,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
-import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.data.fakeHomeInfo
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeSection

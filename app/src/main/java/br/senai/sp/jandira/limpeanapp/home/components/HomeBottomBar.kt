@@ -4,10 +4,12 @@ import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.InsertInvitation
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.InsertInvitation
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Badge
@@ -65,9 +67,9 @@ fun HomeTopBar(
             route = HomeRoute.SCHEDULES
         ),
         BottomNavigationItem(
-            title = "Alertas",
-            selectedIcon = Icons.Filled.Notifications,
-            unselectedIcon = Icons.Outlined.Notifications,
+            title = "Convites",
+            selectedIcon = Icons.Filled.InsertInvitation,
+            unselectedIcon = Icons.Outlined.InsertInvitation,
             hasNews = true,
             route = HomeRoute.NOTIFICATIONS
         ),

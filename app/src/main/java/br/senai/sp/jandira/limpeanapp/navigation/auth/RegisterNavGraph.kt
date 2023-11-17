@@ -31,6 +31,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.regist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.toDomain
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
 import br.senai.sp.jandira.limpeanapp.navigation.NavigationRoute
+import br.senai.sp.jandira.limpeanapp.upload.SinglePhotoPicker
 import com.example.compose.LimpeanAppTheme
 import kotlinx.coroutines.delay
 
@@ -63,7 +64,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                 titleButton = stringResource(R.string.button_register_profile)
             ) {
                 ProfileFormUi(
-                    profilePhoto = { /*TODO*/ },
+                    profilePhoto = { SinglePhotoPicker({}) },
                     state = state,
                     onEvent = viewModel::onEvent
                 )
@@ -135,7 +136,7 @@ inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
     return hiltViewModel(parentEntry)
 }
 
-@Preview
+
 @Composable
 fun TesteNavRegistration() {
     val navController = rememberNavController()

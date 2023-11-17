@@ -21,7 +21,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,18 +43,10 @@ import br.senai.sp.jandira.limpeanapp.home.components.HomeTopBar
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.ui.components.HomeSection
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.FindCleaningList
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.FindYourCleanings
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.ModalCleaningDetails
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.SearchBar
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.ui.theme.poopins
-import com.example.compose.md_theme_light_error
-import com.example.compose.md_theme_light_errorContainer
-import com.example.compose.md_theme_light_onPrimary
 import com.example.compose.md_theme_light_tertiary
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Preview(showSystemUi = true)

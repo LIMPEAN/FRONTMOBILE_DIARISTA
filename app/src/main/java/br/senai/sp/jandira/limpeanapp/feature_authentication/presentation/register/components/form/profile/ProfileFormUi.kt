@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.PasswordField
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
+import br.senai.sp.jandira.limpeanapp.upload.SinglePhotoPicker
 import com.example.compose.LimpeanAppTheme
 
 
@@ -34,11 +35,14 @@ fun ProfileFormUi(
     profilePhoto: @Composable () -> Unit,
     state: ProfileFormState,
     onEvent: (ProfileFormEvent) -> Unit,
-    modifier: Modifier = Modifier.fillMaxHeight().padding(20.dp)
+    modifier: Modifier = Modifier
+        .fillMaxHeight()
+        .padding(20.dp)
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(28.dp)
+        verticalArrangement = Arrangement.spacedBy(28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         profilePhoto()
         NormalTextField(
@@ -88,7 +92,7 @@ fun ProfileFormUi(
 
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ProfileFormPreview() {
     LimpeanAppTheme {
@@ -96,7 +100,7 @@ fun ProfileFormPreview() {
             modifier = Modifier.fillMaxSize(),
             state = ProfileFormState(),
             profilePhoto = {
-                Text("Testando")
+                SinglePhotoPicker(onSaveUri = {})
             },
             onEvent = {}
         )
