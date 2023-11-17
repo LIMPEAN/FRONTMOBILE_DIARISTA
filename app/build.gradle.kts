@@ -7,6 +7,7 @@ plugins {
     kotlin("kapt")
     id ("dagger.hilt.android.plugin")
     id ("com.google.devtools.ksp") version "1.6.10-1.0.2"
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,6 +51,11 @@ android {
     }
 
     buildToolsVersion = "33.0.1"
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -64,12 +70,16 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.datastore:datastore-core:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("com.google.firebase:firebase-common-ktx:20.4.2")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
@@ -170,6 +180,8 @@ dependencies {
 
     //Splash Screen
     implementation ("androidx.core:core-splashscreen:1.0.0")
+
+    //
 
 }
 kapt {

@@ -126,6 +126,7 @@
     <string name="address_form_cep">Cep</string>
     <string name="section_suas_faxinas">Suas faxinas</string>
     <string name="topbar_bem_vindo">Bem Vindo</string>
+    <string name="title_activity_upload_firebase">UploadFirebase</string>
 
 
 </resources>
