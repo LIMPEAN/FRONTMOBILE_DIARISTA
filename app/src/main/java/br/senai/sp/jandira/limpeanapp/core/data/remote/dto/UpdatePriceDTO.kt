@@ -5,3 +5,4 @@ data class UpdatePriceDTO(
     val newValue : String
 )
 // Formato new Value : "190,00" , tratar como double
+

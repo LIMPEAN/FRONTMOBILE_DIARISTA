@@ -20,6 +20,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".upload.UploadFirebase"
+            android:exported="false"
+            android:label="@string/title_activity_upload_firebase"
+            android:theme="@style/Theme.LimpeanApp" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

@@ -35,3 +35,4 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
         composable(AuthenticationRoute.FORGOT_PASSWORD){}
     }
 }
+

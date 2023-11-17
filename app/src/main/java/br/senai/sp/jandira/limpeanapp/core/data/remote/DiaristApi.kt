@@ -3,6 +3,9 @@ package br.senai.sp.jandira.limpeanapp.core.data.remote
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristsDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
@@ -24,8 +27,11 @@ interface DiaristApi {
 
     //Pega todos os servicos em aberto do cliente
     //TELA DE ENCONTRAR SERVICOS
+
+
     @GET("client/service-open")
     suspend fun getOpenServices() : OpenServicesDto
+
 
 
     //Atualizar os status do serviço do cliente
@@ -58,4 +64,7 @@ interface DiaristApi {
 //    @POST("assessment")
 //    suspend fun
     //aaaaa
+
 }
+
+
