@@ -76,7 +76,6 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun ProfileScreen() {
     LimpeanAppTheme {
-
         SettingsScreen()
     }
 }

@@ -2,6 +2,8 @@ package br.senai.sp.jandira.limpeanapp.ui.features.profile
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +26,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,11 +38,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -49,8 +55,11 @@ import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.OutlinedLabel
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialog
+import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
+import coil.compose.AsyncImage
 import com.example.compose.seed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -62,7 +71,6 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val api : DiaristApi
 ) : ViewModel() {
-
 
     var resultado by mutableStateOf<DiaristDto?>(null)
         private set
@@ -94,6 +102,19 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    suspend fun atualizarDiarista(diaristDto: DiaristDto) {
+        try {
+            // Substitua a linha a seguir pela lógica real de atualização da API
+            api.updateDiarist(diaristDto)
+            Log.i("ProfileViewModel", "Diarista atualizado com sucesso")
+        } catch (e: Exception) {
+            // Trate a exceção de maneira apropriada
+            Log.e("ProfileViewModel", "Erro ao atualizar diarista: ${e.message}")
+        }
+    }
+
+
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -108,8 +129,11 @@ fun YourProfile(
     val resultado = viewModel.resultado
     val api : DiaristApi
 
-
     var isDialogVisible by remember { mutableStateOf(false) }
+    var isEditing by remember { mutableStateOf(false) }
+    var editedName by remember { mutableStateOf(resultado?.name ?: "") }
+    var editedPhone by remember { mutableStateOf(resultado?.phone?.firstOrNull()?.numberPhone ?: "") }
+    var editedBiography by remember { mutableStateOf(resultado?.biography?: "") }
 
     resultado?.let {
         Scaffold(
@@ -162,6 +186,9 @@ fun YourProfile(
                         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
                     ) {
                         Spacer(modifier = Modifier.height(70.dp))
+                        Column {
+
+
                         LazyColumn(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -169,21 +196,38 @@ fun YourProfile(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             items(1) {
-                                Text(
-                                    text = resultado.name,
-                                    fontSize = 30.sp,
-                                    lineHeight = 20.sp,
-                                    fontWeight = FontWeight(600),
-                                    color = Color(0xFF19161D),
-                                    letterSpacing = 0.2.sp
-                                )
-                                Spacer(modifier = Modifier.height(5.dp))
 
-                                Spacer(modifier = Modifier.height(15.dp))
-                                StarView(
-                                    rating = (2.0)
+                                    OutlinedDaLeticia(
+                                        label = "Nome",
+                                        value = editedName,
+                                        onValueChange = { editedName = it },
+                                        salvar = {
+                                            // Ação para salvar o telefone
+                                            // Você pode adicionar a lógica de salvar aqui, se necessário
+                                        },
+                                        isEditing = isEditing
+                                    )
+                                    if(!isEditing){
+                                        Text(
+                                            text = resultado.name,
+                                            fontSize = 30.sp,
+                                            lineHeight = 20.sp,
+                                            fontWeight = FontWeight(600),
+                                            color = Color(0xFF19161D),
+                                            letterSpacing = 0.2.sp
+                                        )
 
-                                )
+                                        Spacer(modifier = Modifier.height(5.dp))
+
+                                        Spacer(modifier = Modifier.height(15.dp))
+                                        StarView(
+                                            rating = (2.0)
+
+                                        )
+                                    }
+
+
+
                                 Spacer(modifier = Modifier.height(30.dp))
 
                                 Text(
@@ -200,18 +244,32 @@ fun YourProfile(
                                 LazyColumn(modifier = Modifier.height(100.dp)) {
                                     item {
                                         Column(modifier = Modifier.fillMaxSize()) {
-                                            Text(
-                                                text = resultado.biography,
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .wrapContentHeight(),
-                                                fontSize = 16.sp,
-                                                lineHeight = 20.sp,
-                                                fontWeight = FontWeight(300),
-                                                color = Color(25, 22, 29),
-                                                textAlign = TextAlign.Justify,
-                                                letterSpacing = 0.2.sp
-                                            )
+
+                                                OutlinedDaLeticia(
+                                                    label = "Biografia",
+                                                    value = editedBiography,
+                                                    onValueChange = { editedBiography = it },
+                                                    salvar = {
+                                                        // Ação para salvar o telefone
+                                                        // Você pode adicionar a lógica de salvar aqui, se necessário
+                                                    },
+                                                    isEditing = isEditing
+                                                )
+
+                                                Text(
+                                                    text = resultado.biography,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .wrapContentHeight(),
+                                                    fontSize = 16.sp,
+                                                    lineHeight = 20.sp,
+                                                    fontWeight = FontWeight(300),
+                                                    color = Color(25, 22, 29),
+                                                    textAlign = TextAlign.Justify,
+                                                    letterSpacing = 0.2.sp
+                                                )
+
+//
                                         }
                                     }
                                 }
@@ -324,6 +382,7 @@ fun YourProfile(
                                         .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
+
                                     Button(
                                         modifier = Modifier
                                             .weight(1f)
@@ -331,12 +390,13 @@ fun YourProfile(
                                         colors = ButtonDefaults.buttonColors(containerColor = seed),
                                         shape = RoundedCornerShape(size = 8.dp),
                                         onClick = {
-                                        /*TODO*/
-                                            //atualizar endereço completo, todos os dados pessoais
+                                            //atualizar precisamos endereço completo, todos os dados pessoais
+                                            isEditing = !isEditing
                                         }
                                     ) {
                                         Text(
-                                            text = stringResource(id = R.string.edit_profile_diarist),
+                                            text = if (isEditing) "Cancelar" else "Editar",
+//                                            text = stringResource(id = R.string.edit_profile_diarist),
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 14.sp
                                         )
@@ -372,15 +432,10 @@ fun YourProfile(
                                                 viewModel.viewModelScope.launch {
                                                     try {
                                                         viewModel.apagarDiarista()
-                                                        // Operação concluída com sucesso
                                                     } catch (e: Exception) {
-                                                        // Trate a exceção de maneira apropriada
                                                         Log.e("Chamada ApagarDiarista", "Erro: ${e.message}")
                                                     }
                                                 }
-
-
-
                                             },
                                             dialogTitle = "Deseja excluir sua conta?",
                                             dialogText = "Todos os demais cadastros vinculados a esta conta também serão removidos",
@@ -453,13 +508,52 @@ fun YourProfile(
                                 }
                             }
                         }
-
+                        }
                     }
                 }
             }
         )
     }
 
+}
+
+@Composable
+fun OutlinedDaLeticia(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    salvar: () -> Unit = {},
+    isEditing: Boolean
+) {
+    var readOnly by remember { mutableStateOf(!isEditing) }
+    var enabled by remember { mutableStateOf(isEditing) }
+
+    if (isEditing) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(label) },
+            value = value,
+            onValueChange = onValueChange,
+            shape = RoundedCornerShape(size = 8.dp)
+        )
+
+//        Button(onClick = {
+//            salvar()
+//            readOnly = true
+//            enabled = false
+//        }) {
+//            Text(text = "Salvar")
+//        }
+//    } else {
+//        Text(
+////            text = "$label: $value",
+////            fontSize = 16.sp,
+////            fontWeight = FontWeight(300),
+////            color = Color(25, 22, 29),
+////            textAlign = TextAlign.Justify,
+////            letterSpacing = 0.2.sp
+//        )
+    }
 }
 
 

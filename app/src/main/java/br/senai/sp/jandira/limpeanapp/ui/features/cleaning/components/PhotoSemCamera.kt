@@ -82,17 +82,17 @@ fun PhotoSemCamera(
             photo()
 
         }
-//        Image(
-//            modifier = Modifier
-//                .align(Alignment.BottomEnd)
-//                .clickable {
-//                    onAddPhoto()
-//                },
-//            painter = painterResource(
-//                id = R.drawable.add_a_photo
-//            ),
-//            contentDescription = null,
-//        )
+        Image(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .clickable {
+                    onAddPhoto()
+                },
+            painter = painterResource(
+                id = R.drawable.add_a_photo
+            ),
+            contentDescription = null,
+        )
 
     }
     if (!isPhotoSelected) {
