@@ -11,6 +11,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -30,8 +31,11 @@ class FindCleaningViewModel @Inject  constructor(
     val cleanings = repository.getScheduledCleanings()
 
 
+    var isLoading by mutableStateOf(false)
+        private set
 
-
+    var isLoadingOperation by mutableStateOf(false)
+        private set
     var emailUser by mutableStateOf("Carregando")
         private set
 
@@ -52,16 +56,18 @@ class FindCleaningViewModel @Inject  constructor(
 
     fun onEvent(event : br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent){
         when(event){
-            is br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent.OnCleaningClick -> {
+            is FindCleaningEvent.OnCleaningClick -> {
 //
                 selectedCleaning = event.cleaning
                 sendUiEvent(UiEvent.ShowBottomSheet)
             }
-            is br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent.OnAcceptClick -> {
-                TODO()
+            is FindCleaningEvent.OnAcceptClick -> {
+                isLoadingOperation = true
+                acceptService()
             }
-            is br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent.OnCleaningInfoClick -> {
-                TODO()
+            is FindCleaningEvent.OnCleaningInfoClick -> {
+                selectedCleaning = event.cleaning
+                sendUiEvent(UiEvent.ShowBottomSheet)
             }
         }
     }
@@ -69,5 +75,15 @@ class FindCleaningViewModel @Inject  constructor(
         viewModelScope.launch {
             _uiEvent.send(event)
         }
+    }
+    private fun acceptService(){
+        viewModelScope.launch{
+            delay(2000)
+            isLoadingOperation = false
+            sendUiEvent(UiEvent.ShowToast(
+                "Operação bem sucedida!"
+            ))
+        }
+
     }
 }

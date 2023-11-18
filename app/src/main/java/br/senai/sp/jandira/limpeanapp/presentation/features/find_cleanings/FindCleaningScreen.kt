@@ -1,15 +1,21 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -22,9 +28,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
@@ -56,53 +65,107 @@ fun FindCleaningScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val context = LocalContext.current
 
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when(event) {
+                is UiEvent.ShowSnackbar -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.action
+                    )
 
-//    LaunchedEffect(key1 = true) {
-//        viewModel.uiEvent.collect { event ->
-//            when(event) {
-//                is UiEvent.ShowSnackbar -> {
-//                    val result = snackbarHostState.showSnackbar(
-//                        message = event.message,
-//                        actionLabel = event.action
-//                    )
-////                    actionif(result == SnackbarResult.ActionPerformed) {
-////                        viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(Cle))
-////                    }
-//
-//                }
-//                is UiEvent.ShowBottomSheet -> {
-//
-//                }
-//                is UiEvent.Navigate -> onNavigate(event)
-//                else -> Unit
-//            }
-//        }
-//    }
+                }
+                is UiEvent.ShowBottomSheet -> {
+
+                }
+                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.ShowToast -> {
+                    Toast.makeText(
+                        context,
+                         event.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> Unit
+            }
+        }
+    }
+
 
     FindCleaningContent(
         nameUser = nameUser,
         cleanings = cleanings.value,
-        onAcceptPress = {
-            viewModel.onEvent(br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent.OnAcceptClick(it))
-        }
+        onAcceptClick = {
+            viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
+        },
+        onCleaningDetail = {
+            viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
+        },
+        isLoading = viewModel.isLoading,
+        onInfoClick = {
+            viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
+        },
+        selectedCleaning = viewModel.selectedCleaning
     )
+    if(viewModel.isLoadingOperation){
+        LoadingDialog()
+    }
 }
 
+@Preview
+@Composable
+fun LoadingDialog() {
+    Dialog(
+        onDismissRequest = { /*TODO*/ }) {
+        Box (contentAlignment = Alignment.Center){
+            Card(
+                Modifier.size(200.dp)
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    CircularProgressIndicator()
+                }
+            }
+        }
+
+    }
+}
+
+@Preview
+@Composable
+fun LoadingDialogPreview() {
+    LimpeanAppTheme {
+        LoadingDialog()
+    }
+}
 
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DarkMode")
 @Composable
 fun FindCleaningPreview() {
     LimpeanAppTheme {
-        FindCleaningContent()
+        FindCleaningContent(
+            isLoading = false,
+            onInfoClick = {},
+            onAcceptClick = {},
+            onCleaningDetail = {}
+        )
     }
 }
 @Composable
 fun FindCleaningContent(
     nameUser : String = "Felipe",
     cleanings : List<Cleaning> = fakeCleanings,
-    onAcceptPress : (Cleaning) -> Unit = {},
+    onCleaningDetail: (Cleaning) -> Unit,
+    onInfoClick: (Cleaning) -> Unit,
+    onAcceptClick: (Cleaning) -> Unit,
+    isLoading : Boolean,
+    selectedCleaning : Cleaning = Cleaning()
 ){
     var cleaning by remember {
         mutableStateOf(Cleaning())
@@ -121,35 +184,41 @@ fun FindCleaningContent(
     ) { paddingValues ->
 
         HomeContent(paddingValues) {
-            if (cleanings.isEmpty()) {
-                CleaningNotFound()
-            } else {
-                FindYourCleanings(
-                    cleanings = cleanings,
-                    onCleaningDetail = {
-                        cleaning = it
-                        isShowBottomSheet = true
-                    },
-                    onAcceptClick = {onAcceptPress(cleaning)},
-                    onInfoClick = {
-                        cleaning = it
-                        isShowBottomSheet = true
-                    }
-                )
+            if(isLoading) {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgressIndicator()
+                }
             }
-
-
-        }
-        if(isShowBottomSheet){
-            ModalCleaningDetails(
-                cleaningDetails = cleaning.toDetailsState(),
-                onDismissRequest = { isShowBottomSheet = false},
-                onAcceptPress = { onAcceptPress(cleaning) },
-                onBackPress = { isShowBottomSheet = false}
+            FindYourCleanings(
+                cleanings = cleanings,
+                onCleaningDetail = {
+                    onCleaningDetail(it)
+                    isShowBottomSheet = true
+               },
+                onAcceptClick = {
+                    isShowBottomSheet = false
+                    onAcceptClick(it)
+                },
+                onInfoClick = {
+                    onInfoClick(it)
+                    isShowBottomSheet = true
+                }
             )
         }
     }
+    if(isShowBottomSheet){
+        ModalCleaningDetails(
+            cleaningDetails = selectedCleaning.toDetailsState(),
+            onDismissRequest = { isShowBottomSheet = false},
+            onAcceptPress = {
+                onAcceptClick(cleaning)
+                isShowBottomSheet = false
+            },
+            onBackPress = { isShowBottomSheet = false}
+        )
+    }
 }
+
 
 @Composable
 fun FindYourCleanings(

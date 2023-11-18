@@ -51,6 +51,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeAddressCleaning
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeCleaningDetail
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeCleaningSupport
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeHomeInfo
@@ -155,9 +156,9 @@ fun AddressCleaningInfo(
         ) {
             ItemSection(name = "Logradouro",value = state.street)
             ItemSection(name = "Bairro", value = state.district)
-            ItemSection(name = "Cidade", value = state.city)
-        }
 
+        }
+        ItemSection(name = "Cidade", value = state.city)
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(33.dp)
@@ -191,6 +192,8 @@ fun AboutClient(
     }
 }
 
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun DoYouLikeService(
     onBackPress : () -> Unit = {},
@@ -221,14 +224,15 @@ fun DoYouLikeService(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = md_theme_light_primary
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 onClick = { showDialog = true }
             ) {
                 Text(
                     text = "Sim, eu quero!",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = Poppins
+                    fontFamily = Poppins,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

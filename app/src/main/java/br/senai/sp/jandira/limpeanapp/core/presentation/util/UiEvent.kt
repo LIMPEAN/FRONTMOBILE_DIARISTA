@@ -10,4 +10,8 @@ sealed class UiEvent {
 
 
     object ShowBottomSheet : UiEvent()
+
+    object ShowDialogLoading: UiEvent()
+
+    data class ShowToast(val message: String) : UiEvent()
 }
