@@ -25,7 +25,7 @@ class StorageUtil {
             var spaceRef: StorageReference
 
             if (type == "image"){
-                spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
+                spaceRef = storageRef.child("imagens/$unique_image_name.jpg")
             }else{
                 spaceRef = storageRef.child("videos/$unique_image_name.mp4")
             }

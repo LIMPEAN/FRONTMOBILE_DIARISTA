@@ -2,6 +2,8 @@ package br.senai.sp.jandira.limpeanapp.core.data.mapper
 
 import android.app.Service
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OtherHouses
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.AddressDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.QuestionDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.RoomDto
@@ -14,6 +16,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Client
 import br.senai.sp.jandira.limpeanapp.core.domain.models.HomeAddress
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
+import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomType
 
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceStatus
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
@@ -45,12 +48,12 @@ fun ServiceDto.toCleaning(): Cleaning {
             district =address.district,
             city = address.city,
             state = address.state,
-            number = address.numberHouse,
+            number = address.houseNumber,
             complement = address.complement
         ),
         details = CleaningDetails(
             questions = question.map { it.toQuestion() },
-            roomsQuantity = room.map { it.toRoomQuantity()!! }
+            roomsQuantity = room.map { it.toRoomQuantity() }
         )
     )
 }
@@ -74,11 +77,27 @@ fun QuestionDto.toQuestion(): Question {
     )
 }
 
-fun RoomDto.toRoomQuantity(): RoomQuantity? {
-    var roomType = roomTypes.find { it.name == name }
-    return roomType?.let {
-        RoomQuantity(
-            roomType = it,
+fun RoomDto.toRoomQuantity(): RoomQuantity {
+    val roomType = roomTypes.find { it.name == name }
+
+    if(roomType != null){
+        return if(quantity != 0){
+            RoomQuantity(
+                roomType = roomType,
+                quantity = quantity
+            )
+        } else {
+            RoomQuantity(
+                roomType = roomType,
+                quantity = null
+            )
+        }
+    } else{
+        return RoomQuantity(
+            roomType = RoomType(
+                icon =Icons.Default.OtherHouses,
+                name = name
+            ),
             quantity = quantity
         )
     }
@@ -92,6 +111,6 @@ fun AddressDto.toHomeAddress(): HomeAddress {
         cep = cep,
         complement = complement,
         publicPlace = publicPlace,
-        numberHouse = numberHouse
+        numberHouse = houseNumber
     )
 }

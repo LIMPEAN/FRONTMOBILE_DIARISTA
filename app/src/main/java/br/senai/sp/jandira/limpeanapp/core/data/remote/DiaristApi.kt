@@ -3,8 +3,10 @@ package br.senai.sp.jandira.limpeanapp.core.data.remote
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.InvitesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
@@ -41,7 +43,7 @@ interface DiaristApi {
 
     //Pega todos servicos do diarista, como convite. Ou pode filtrar pelo status: Em andamento, Finalizado ...
     @GET("/diarist/service")
-    suspend fun getInvites()
+    suspend fun getInvites() : InvitesDto
 
     //Mesmo que pegar os serviços, mas pegando um pelo id
     @GET("diarist/service")
@@ -54,7 +56,7 @@ interface DiaristApi {
 
     //Pega o codigo do servico do cliente (para iniciar o serviço)
     @GET("diarist/service/token")
-    suspend fun getTokenFromService(@Query("idService") idService: Number)
+    suspend fun getTokenFromService(@Query("idService") idService: Number): StatusTokenDto
 
 //    @POST("assessment")
 //    suspend fun

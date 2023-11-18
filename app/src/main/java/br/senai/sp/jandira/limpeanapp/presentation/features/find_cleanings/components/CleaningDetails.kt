@@ -483,7 +483,7 @@ fun TypeOfCleningSection(
                 enabled = false
             )
             Text(
-                text = typeCleaning.name,
+                text = typeCleaning.nameApi,
                 style = MaterialTheme.typography.bodyMedium,
                 fontFamily = Poppins,
                 color = MaterialTheme.colorScheme.onSurfaceVariant

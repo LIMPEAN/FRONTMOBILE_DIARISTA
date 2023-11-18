@@ -24,7 +24,7 @@ data class AddressDto(
     val city: String,
     val publicPlace: String,
     val district: String,
-    val numberHouse: String,
+    val houseNumber: String,
     val cep: String,
     val complement: String
 )
