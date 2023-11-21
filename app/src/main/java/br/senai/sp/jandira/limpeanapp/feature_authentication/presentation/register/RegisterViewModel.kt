@@ -42,6 +42,7 @@ class RegisterViewModel @Inject constructor(
     var address by mutableStateOf(Address())
         private set
 
+
     private val resultChannel = Channel<RegisterResult<Unit>>()
     val registerResult = resultChannel.receiveAsFlow()
 
