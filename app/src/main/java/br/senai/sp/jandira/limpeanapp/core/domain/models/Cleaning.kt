@@ -1,10 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.models
 
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningSupportState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCardState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningDetailsState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningSupportState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PrimordialInfoState
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Cleaning(
@@ -30,6 +29,9 @@ data class ServiceStatus(
     val type : StatusService,
     val dateTime : LocalDateTime
 )
+
+
+
 
 enum class TypeCleaning(val inPortuguese: String) {
     DEFAULT(inPortuguese = "Padrão")
@@ -79,7 +81,7 @@ enum class Meses(val nome: String) {
 fun obterNomeDoMes(numeroDoMes: Int): String? {
     return Meses.values().find { it.ordinal + 1 == numeroDoMes }?.nome
 }
-enum class TypeCleaningEnum(val code: Int, val description: String) {
+enum class TypeCleaningEnum(val code: Int, val nameApi: String) {
     COMERCIAL(1, "Comercial"),
     PADRAO(2, "Padrão"),
     POS_OBRA(4, "Pós obra"),
@@ -87,5 +89,5 @@ enum class TypeCleaningEnum(val code: Int, val description: String) {
     PRE_OBRA(3, "Pré obra")
 }
 fun obterTipoDeLimpeza(nomeDoTipo : String) : TypeCleaningEnum?{
-    return TypeCleaningEnum.values().find { it.description == nomeDoTipo }
+    return TypeCleaningEnum.values().find { it.nameApi == nomeDoTipo }
 }

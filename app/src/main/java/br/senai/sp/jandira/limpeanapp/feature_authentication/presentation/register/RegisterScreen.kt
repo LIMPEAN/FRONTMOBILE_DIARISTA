@@ -29,7 +29,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.compon
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.createAddressFormState
-import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 
 import com.example.compose.LimpeanAppTheme
 import java.time.LocalDate

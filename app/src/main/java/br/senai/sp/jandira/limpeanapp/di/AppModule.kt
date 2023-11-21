@@ -38,6 +38,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 private const val USER_PREFERENCES = "user_preferences"
 private const val HOST = "https://backend-tcc-limpean-crud.azurewebsites.net"
+
 //private const val HOST = "http://10.107.144.18"
 //EM DISPOSITIVO FISICO, USE O IP REAL
 @Module

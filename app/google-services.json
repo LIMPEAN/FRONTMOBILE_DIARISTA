@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "779561139790",
+    "project_id": "tcc-limpean",
+    "storage_bucket": "tcc-limpean.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779561139790:android:36658906a7c440a71d0d1f",
+        "android_client_info": {
+          "package_name": "br.senai.sp.jandira.limpeanapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779561139790-4mrle7s8e33f9t07ldjabsiv16a0r1gg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHz4NJpwmTkDtxiixTfNP60SwhaAg17g4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779561139790-4mrle7s8e33f9t07ldjabsiv16a0r1gg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
