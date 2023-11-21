@@ -35,7 +35,7 @@ interface DiaristApi {
     //Atualizar os status do serviço do cliente
     // para recusar, mudar para rejeitado,
     //PARA FINALIZAR : mudar para finalizar
-    @PUT("/diarist/schedule-service")
+    @PUT("diarist/schedule-service")
     suspend fun putStatusService(
         @Query("idService") idService : Number,
         @Query("idStatus") idStatus: Number? = StatusService.AGENDADO.codigo
@@ -60,8 +60,7 @@ interface DiaristApi {
     suspend fun getTokenFromService(@Query("idService") idService: Number): StatusTokenDto
 
 
-    @DELETE( "diarist")
-    suspend fun deleteDiarist()
+
 
 //    @POST("assessment")
 //    suspend fun

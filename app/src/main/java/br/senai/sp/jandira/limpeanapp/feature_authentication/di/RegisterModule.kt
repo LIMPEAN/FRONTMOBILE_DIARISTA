@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.di
 
+import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.DiaristRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.ViaCepApi
@@ -41,7 +42,7 @@ object RegisterModule{
     }
     @Provides
     @Singleton
-    fun provideDiaristRepository(api: AuthApi) : DiaristRepository {
-        return DiaristRepositoryImpl(api)
+    fun provideDiaristRepository(api: AuthApi, diaristApi : DiaristApi) : DiaristRepository {
+        return DiaristRepositoryImpl(api,diaristApi)
     }
 }

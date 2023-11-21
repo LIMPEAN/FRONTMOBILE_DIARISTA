@@ -1,8 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
+import android.net.http.HttpException
 import android.util.Log
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
@@ -19,18 +21,8 @@ import javax.inject.Inject
 class CleaningRepositoryImpl @Inject constructor(
     private val api : DiaristApi
 ) : CleaningRepository{
-    override fun getOpenServices(): Flow<List<Cleaning>> {
-        return flow {
-            while (true){
-                val servicesDto = api.getOpenServices()
-                val services = servicesDto.data.map {
-                    it.service.toCleaning()
-                }
-                Log.i("SERVICES", services.toString())
-                emit(services)
-                delay(5000)
-            }
-        }
+    override suspend fun getOpenServices(): OpenServicesDto {
+        return api.getOpenServices()
     }
 
     override suspend fun acceptService(id: Number) {

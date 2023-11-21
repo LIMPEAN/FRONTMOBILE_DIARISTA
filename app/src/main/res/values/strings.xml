@@ -131,5 +131,6 @@
 
     <string name="edit_profile_diarist">EDITAR PERFIL</string>
     <string name="delete_account">DELETAR CONTA</string>
+    <string name="login_diarist_description">Encontre faxinas, exponha serviços.</string>
 
 </resources>

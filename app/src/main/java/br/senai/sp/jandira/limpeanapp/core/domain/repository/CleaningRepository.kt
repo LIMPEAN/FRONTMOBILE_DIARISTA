@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.repository
 
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
 interface CleaningRepository {
 
 
-    fun getOpenServices() :Flow<List<Cleaning>>
+    suspend fun getOpenServices() : OpenServicesDto
 
     suspend fun acceptService(id: Number)
 

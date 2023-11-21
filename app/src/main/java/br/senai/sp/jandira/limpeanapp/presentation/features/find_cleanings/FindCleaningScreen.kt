@@ -59,9 +59,9 @@ fun FindCleaningScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel : FindCleaningViewModel = hiltViewModel()
 ) {
-    val cleanings = viewModel.cleanings.collectAsState(initial = emptyList())
 
-    val nameUser = viewModel.emailUser
+
+    val uiState = viewModel.state.value
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -95,24 +95,25 @@ fun FindCleaningScreen(
 
 
     FindCleaningContent(
-        nameUser = nameUser,
-        cleanings = cleanings.value,
+        nameUser = uiState.diarist.name,
+        cleanings = uiState.openServices,
         onAcceptClick = {
             viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
         onCleaningDetail = {
             viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
         },
-        isLoading = viewModel.isLoading,
+        isLoading = uiState.isLoading,
         onInfoClick = {
             viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
         },
-        selectedCleaning = viewModel.selectedCleaning
+        selectedCleaning = uiState.selectedCleaning
     )
-    if(viewModel.isLoadingOperation){
+    if(uiState.isLoading){
         LoadingDialog()
     }
 }
+
 
 @Preview
 @Composable
@@ -189,21 +190,26 @@ fun FindCleaningContent(
                     CircularProgressIndicator()
                 }
             }
-            FindYourCleanings(
-                cleanings = cleanings,
-                onCleaningDetail = {
-                    onCleaningDetail(it)
-                    isShowBottomSheet = true
-               },
-                onAcceptClick = {
-                    isShowBottomSheet = false
-                    onAcceptClick(it)
-                },
-                onInfoClick = {
-                    onInfoClick(it)
-                    isShowBottomSheet = true
-                }
-            )
+            if(cleanings.isEmpty()){
+                CleaningNotFound()
+            } else {
+                FindYourCleanings(
+                    cleanings = cleanings,
+                    onCleaningDetail = {
+                        onCleaningDetail(it)
+                        isShowBottomSheet = true
+                    },
+                    onAcceptClick = {
+                        isShowBottomSheet = false
+                        onAcceptClick(it)
+                    },
+                    onInfoClick = {
+                        onInfoClick(it)
+                        isShowBottomSheet = true
+                    }
+                )
+            }
+
         }
     }
     if(isShowBottomSheet){

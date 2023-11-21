@@ -28,6 +28,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.compon
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.AuthContainer
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Phone
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.createAddressFormState
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 
@@ -83,7 +84,7 @@ fun RegisterAddressPreview() {
 
     var addressFormState by remember {
         mutableStateOf(
-            createAddressFormState(diaristTest.address)
+            createAddressFormState(diaristTest.address[0])
         )
     }
 
@@ -117,14 +118,20 @@ fun RegisterScreenPreview() {
 val diaristTest = Diarist(
     name = "",
     cpf = "",
-    ddd = "",
-    phone = "",
+    phones = listOf(
+        Phone(
+            "",
+            ""
+        )
+    ),
     email = "",
     password = "",
     dateOfBirth = LocalDate.of(2000,10,10),
     photo = null,
     gender = Gender.FEMININO,
     biography = "",
-    address = Address(),
+    address = listOf(
+        Address()
+    ),
     id = 0
 )

@@ -113,7 +113,7 @@ private fun LoginScreen(
 
         TitleSection(
             title = stringResource(R.string.login),
-            description = stringResource(R.string.login_description)
+            description = stringResource(R.string.login_diarist_description)
         )
 
         Column (
