@@ -72,7 +72,7 @@ class InsetTokenViewModel @Inject constructor(
         private set
 
 
-    fun carregarToken() {
+    suspend fun carregarToken() {
 
             val token = api.getToken(1)
             resultado = token
@@ -91,7 +91,10 @@ fun InsertTokenScreen(
     viewModel : InsetTokenViewModel = hiltViewModel<InsetTokenViewModel>()
 ) {
 
-    viewModel.carregarToken()
+    runBlocking {
+        viewModel.carregarToken()
+    }
+
 
 
     val resultado = viewModel.resultado
