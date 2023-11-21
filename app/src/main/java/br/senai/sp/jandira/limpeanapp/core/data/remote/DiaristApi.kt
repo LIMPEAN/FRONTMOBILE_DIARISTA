@@ -8,6 +8,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -57,5 +58,7 @@ interface DiaristApi {
 
 //    @POST("assessment")
 //    suspend fun
-    //aaaaa
+
+    @DELETE("diarist")
+    suspend fun deleteDiarist()
 }

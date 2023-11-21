@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -56,6 +57,9 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.OutlinedLabel
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormEvent
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormPreview
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AlertDialog
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
@@ -65,6 +69,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi as ProfileFormUi
 
 
 @HiltViewModel
@@ -119,7 +124,6 @@ class ProfileViewModel @Inject constructor(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-
 fun YourProfile(
     viewModel : ProfileViewModel = hiltViewModel<ProfileViewModel>(),
 ) {
@@ -197,17 +201,6 @@ fun YourProfile(
                         ) {
                             items(1) {
 
-                                    OutlinedDaLeticia(
-                                        label = "Nome",
-                                        value = editedName,
-                                        onValueChange = { editedName = it },
-                                        salvar = {
-                                            // Ação para salvar o telefone
-                                            // Você pode adicionar a lógica de salvar aqui, se necessário
-                                        },
-                                        isEditing = isEditing
-                                    )
-                                    if(!isEditing){
                                         Text(
                                             text = resultado.name,
                                             fontSize = 30.sp,
@@ -224,8 +217,6 @@ fun YourProfile(
                                             rating = (2.0)
 
                                         )
-                                    }
-
 
 
                                 Spacer(modifier = Modifier.height(30.dp))
@@ -245,17 +236,6 @@ fun YourProfile(
                                     item {
                                         Column(modifier = Modifier.fillMaxSize()) {
 
-                                                OutlinedDaLeticia(
-                                                    label = "Biografia",
-                                                    value = editedBiography,
-                                                    onValueChange = { editedBiography = it },
-                                                    salvar = {
-                                                        // Ação para salvar o telefone
-                                                        // Você pode adicionar a lógica de salvar aqui, se necessário
-                                                    },
-                                                    isEditing = isEditing
-                                                )
-
                                                 Text(
                                                     text = resultado.biography,
                                                     modifier = Modifier
@@ -268,8 +248,6 @@ fun YourProfile(
                                                     textAlign = TextAlign.Justify,
                                                     letterSpacing = 0.2.sp
                                                 )
-
-//
                                         }
                                     }
                                 }
@@ -382,7 +360,7 @@ fun YourProfile(
                                         .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-
+                                    var isFormVisible by remember { mutableStateOf(false) }
                                     Button(
                                         modifier = Modifier
                                             .weight(1f)
@@ -390,16 +368,29 @@ fun YourProfile(
                                         colors = ButtonDefaults.buttonColors(containerColor = seed),
                                         shape = RoundedCornerShape(size = 8.dp),
                                         onClick = {
+                                            isFormVisible = true
+
+//                                            ProfileFormPreview()
                                             //atualizar precisamos endereço completo, todos os dados pessoais
-                                            isEditing = !isEditing
+//                                            isEditing = !isEditing
                                         }
-                                    ) {
+                                    )  {
                                         Text(
                                             text = if (isEditing) "Cancelar" else "Editar",
 //                                            text = stringResource(id = R.string.edit_profile_diarist),
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 14.sp
                                         )
+
+                                        if (isFormVisible) {
+                                            ProfileFormUi(
+                                                profilePhoto = { /* TODO: Lógica para exibir a foto do perfil */ },
+                                                state = ProfileFormState(),
+                                                onEvent = {
+                                                    // Lógica para lidar com eventos
+                                                }
+                                            )
+                                        }
                                     }
 
                                     Spacer(modifier = Modifier.width(8.dp))
@@ -517,45 +508,13 @@ fun YourProfile(
 
 }
 
+
 @Composable
-fun OutlinedDaLeticia(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    salvar: () -> Unit = {},
-    isEditing: Boolean
+public fun ProfileFormUi(
+    profilePhoto: @Composable () -> Unit,
+    state: ProfileFormState,
+    onEvent: (ProfileFormEvent) -> Unit,
+    modifier: Modifier = Modifier.fillMaxHeight().padding(20.dp)
 ) {
-    var readOnly by remember { mutableStateOf(!isEditing) }
-    var enabled by remember { mutableStateOf(isEditing) }
-
-    if (isEditing) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(label) },
-            value = value,
-            onValueChange = onValueChange,
-            shape = RoundedCornerShape(size = 8.dp)
-        )
-
-//        Button(onClick = {
-//            salvar()
-//            readOnly = true
-//            enabled = false
-//        }) {
-//            Text(text = "Salvar")
-//        }
-//    } else {
-//        Text(
-////            text = "$label: $value",
-////            fontSize = 16.sp,
-////            fontWeight = FontWeight(300),
-////            color = Color(25, 22, 29),
-////            textAlign = TextAlign.Justify,
-////            letterSpacing = 0.2.sp
-//        )
-    }
+    // Implementação do seu ProfileFormUi
 }
-
-
-
-
