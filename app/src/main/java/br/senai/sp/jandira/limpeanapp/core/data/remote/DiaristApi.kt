@@ -8,6 +8,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -20,6 +21,7 @@ interface DiaristApi {
 
     @PUT("diarist")
     suspend fun updateDiarist(diaristDto: DiaristDto)
+
 
 
     //Pega todos os servicos em aberto do cliente
@@ -54,6 +56,10 @@ interface DiaristApi {
     //Pega o codigo do servico do cliente (para iniciar o serviço)
     @GET("diarist/service/token")
     suspend fun getTokenFromService(@Query("idService") idService: Number)
+
+
+    @DELETE( "diarist")
+    suspend fun deleteDiarist()
 
 //    @POST("assessment")
 //    suspend fun
