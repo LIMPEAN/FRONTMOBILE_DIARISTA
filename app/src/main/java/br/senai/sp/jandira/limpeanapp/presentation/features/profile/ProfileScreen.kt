@@ -196,6 +196,7 @@ fun ProfileCardUI(
                     fontWeight = FontWeight.SemiBold,
                 )
 
+
                 Button(
                     modifier = Modifier.padding(top = 10.dp),
                     onClick = {onSeeProfile()},
