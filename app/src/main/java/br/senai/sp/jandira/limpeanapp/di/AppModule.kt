@@ -9,13 +9,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
-import br.senai.sp.jandira.limpeanapp.core.data.repository.FakeCleaningRepository
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.AuthRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.CleaningRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import dagger.Module
 import dagger.Provides
@@ -39,9 +39,12 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 private const val USER_PREFERENCES = "user_preferences"
 
 
-private const val HOST = "backend-tcc-limpean-crud.azurewebsites.net"
+//private const val HOST = "backend-tcc-limpean-crud.azurewebsites.net"
 
 
+private const val HOST = "https://backend-tcc-limpean-crud.azurewebsites.net"
+
+//private const val HOST = "http://10.107.144.18"
 //EM DISPOSITIVO FISICO, USE O IP REAL
 @Module
 @InstallIn(SingletonComponent::class)
@@ -69,9 +72,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(client : OkHttpClient) : Retrofit {
         return Retrofit.Builder()
-
-            .baseUrl("https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/")
-
+            .baseUrl("$HOST/v1/limpean/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -117,7 +118,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCleaningRepository() : CleaningRepository {
-        return FakeCleaningRepository()
+    fun provideCleaningRepository(api : DiaristApi) : CleaningRepository {
+        return CleaningRepositoryImpl(api)
     }
 }

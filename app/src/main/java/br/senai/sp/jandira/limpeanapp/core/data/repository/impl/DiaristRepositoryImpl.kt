@@ -1,7 +1,9 @@
 package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toRequestApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
@@ -11,13 +13,18 @@ import javax.inject.Inject
 import kotlin.jvm.Throws
 
 class DiaristRepositoryImpl @Inject  constructor(
-    private val api: AuthApi
+    private val api: AuthApi,
+    private val diaristApi: DiaristApi
 ) : DiaristRepository {
     override fun getDiarists(): Flow<List<Diarist>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getDiaristById(id: Int): Diarist? {
+    override suspend fun getDiaristByToken(token: String): DiaristDto {
+        return diaristApi.getDiarist().data
+    }
+
+    suspend fun getDiaristById(id: Number): Diarist? {
         TODO("Not yet implemented")
     }
 
