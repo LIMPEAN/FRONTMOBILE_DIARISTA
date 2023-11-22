@@ -49,8 +49,10 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.ModalCleaningDetails
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.quantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_tertiary
 import java.time.LocalTime
 
@@ -119,8 +121,9 @@ private fun ScheduleContent(
             ModalCleaningDetails(
                 cleaningDetails = cleaning.toDetailsState(),
                 onDismissRequest = { isShowBottomSheet = false},
-                onAcceptPress = { onStartClick(cleaning) },
-                onBackPress = { isShowBottomSheet = false}
+                actions = {
+                    Text(text = "Olá")
+                }
             )
         }
     }
@@ -165,10 +168,13 @@ fun ScheduleList(
     ){
         items(cleanings){cleaning ->
             val model = cleaning.toCleaningCardState()
+            val address = cleaning.address
             CleaningCard(
+                quantityRooms = cleaning.details.roomsQuantity,
+                dateTime = cleaning.dateTime,
                 nameClient = model.nameClient,
                 servicePrice = model.servicePrice,
-                local = model.local,
+                local = "${address.street}, ${address.number} - ${address.district}, ${address.state}",
                 actions = {
                     val startedHour = cleaning.dateTime.toLocalTime()
                     val currentHour = LocalTime.now()
@@ -241,16 +247,24 @@ fun ScheduleCardActions(
 
 }
 
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun DetailsButtonPreview() {
+    LimpeanAppTheme {
+        SeeDetailsButton({})
+    }
+}
 @Composable
 fun SeeDetailsButton(
     onInfoClick : () -> Unit
 ) {
     Button(
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp , md_theme_light_tertiary),
+        border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = md_theme_light_tertiary
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -259,7 +273,7 @@ fun SeeDetailsButton(
         Text(
             text = "Ver detalhes",
             style = MaterialTheme.typography.bodySmall,
-            fontFamily = Poppins
+            fontFamily = Poppins,
         )
     }
 }

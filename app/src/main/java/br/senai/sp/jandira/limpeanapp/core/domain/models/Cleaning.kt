@@ -51,8 +51,8 @@ fun Cleaning.toDetailsState() : CleaningDetailsState {
     return CleaningDetailsState(
         primordialInfo = PrimordialInfoState(
             price = this.price,
-            startTime = "Test",
-            date = this.dateTime.toString()
+            startTime = "${dateTime.hour}:${dateTime.minute}",
+            date = "${dateTime.dayOfMonth}/${dateTime.monthValue}/${dateTime.year}"
         ),
         addressCleaning = this.address.toAddressCleaningState(),
         aboutClientInfo = this.client.toAboutClientState(),

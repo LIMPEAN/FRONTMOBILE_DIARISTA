@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -49,6 +50,7 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopB
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.DoYouLikeService
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.CleaningNotFound
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
@@ -225,11 +227,16 @@ fun FindCleaningContent(
         ModalCleaningDetails(
             cleaningDetails = selectedCleaning.toDetailsState(),
             onDismissRequest = { isShowBottomSheet = false},
-            onAcceptPress = {
-                onAcceptClick(selectedCleaning)
-                isShowBottomSheet = false
+            actions = {
+                DoYouLikeService(
+                    onAcceptPress = {
+                        onAcceptClick(selectedCleaning)
+                        isShowBottomSheet = false
+                    },
+                    onBackPress = { isShowBottomSheet = false}
+                )
             },
-            onBackPress = { isShowBottomSheet = false}
+
         )
     }
 }
@@ -252,6 +259,7 @@ fun FindYourCleanings(
             items(cleanings) {cleaning ->
                 val model = cleaning.toCleaningCardState()
                 CleaningCard(
+                    dateTime = cleaning.dateTime,
                     nameClient = model.nameClient,
                     servicePrice = model.servicePrice,
                     local = model.local,
@@ -329,14 +337,15 @@ fun FindCleaningList(
 fun ModalCleaningDetails(
     cleaningDetails : CleaningDetailsState,
     onDismissRequest : () -> Unit,
-    onAcceptPress : () -> Unit,
-    onBackPress : () -> Unit
+    actions : @Composable () -> Unit
 ) {
-    ModalBottomSheet(onDismissRequest = onDismissRequest) {
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        modifier = Modifier.paddingFromBaseline(bottom = 56.dp)
+    ) {
         CleaningDetails(
             state = cleaningDetails,
-            onAcceptPress = onAcceptPress,
-            onBackPress = onBackPress
+            actions = actions
         )
     }
 }
