@@ -6,6 +6,7 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.compo
 
 
 data class Client(
+    val id : Number? = null,
     val name: String = "",
     val photo : String = "",
     val biography: String? = null

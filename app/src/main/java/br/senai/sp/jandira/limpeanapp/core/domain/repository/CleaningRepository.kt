@@ -1,9 +1,11 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.repository
 
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
-import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
@@ -12,9 +14,9 @@ interface CleaningRepository {
 
     suspend fun getOpenServices() : OpenServicesDto
 
-    suspend fun acceptService(id: Number)
+    suspend fun acceptService(id: Number) : UpdateStatusDto
 
-    fun getScheduledCleanings() : Flow<List<Cleaning>>
+    suspend fun getScheduledCleanings() : ScheduledCleaningDto
 
 
     suspend fun startService(id: Number, dateTime : LocalDateTime = LocalDateTime.now()) : ServiceToken

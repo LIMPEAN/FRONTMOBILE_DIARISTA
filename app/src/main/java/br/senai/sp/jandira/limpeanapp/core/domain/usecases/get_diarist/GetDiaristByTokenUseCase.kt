@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist
 
 import android.util.Log
+import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.toDiarist
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.toDiarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
@@ -12,27 +14,22 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetDiaristByTokenUseCase @Inject constructor(
-    private val repository : DiaristRepository
+    private val diaristApi: DiaristApi
 ) {
 
-    operator fun invoke(token: String) : Flow<Resource<Diarist>> = flow {
+    operator fun invoke() : Flow<Resource<Diarist>> = flow {
         try {
             emit(Resource.Loading())
-            val diarist = repository.getDiaristByToken(token).toDiarist()
-            emit(Resource.Success(
-                data = diarist
-            ))
-            Log.i("DIARISt", diarist.toString())
+            val diarist = diaristApi.getDiarist().data.toDiarist()
+            Log.i("USECASE", diarist.toString())
+            emit(Resource.Success(data = diarist))
         }  catch (e: HttpException){
-            emit(Resource.Error(
-               e.localizedMessage?:"Algum erro ocorreu."
-            ))
+
             Log.i("DIARISt", e.message())
+            emit(Resource.Error(e.localizedMessage?:"Algum erro ocorreu."))
         }   catch (e: IOException){
-            emit(Resource.Error(
-                e.localizedMessage?: "Algum erro ocorreu. OPERAÇÃO."
-            ))
             Log.i("DIARISt", e.localizedMessage?: "Algum erro ocorreu. OPERAÇÃO.")
+            emit(Resource.Error(e.localizedMessage?: "Algum erro ocorreu. OPERAÇÃO."))
         }
     }
 }

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.core.data.remote
 
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
@@ -8,6 +9,9 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
 import retrofit2.http.DELETE
@@ -19,7 +23,7 @@ import retrofit2.http.Query
 interface DiaristApi {
 
     @GET("diarist")
-    suspend fun getDiarist() : GetDiaristDto
+    suspend fun getDiarist() : GetDiaristDTOX
 
     @PUT("diarist")
     suspend fun updateDiarist(diaristDto: DiaristDto)
@@ -39,12 +43,13 @@ interface DiaristApi {
     suspend fun putStatusService(
         @Query("idService") idService : Number,
         @Query("idStatus") idStatus: Number? = StatusService.AGENDADO.codigo
-    )
+    ) : UpdateStatusDto
 
 
     //Pega todos servicos do diarista, como convite. Ou pode filtrar pelo status: Em andamento, Finalizado ...
     @GET("/diarist/service")
-    suspend fun getInvites() : InvitesDto
+    suspend fun getServices(@Query("id") idStatus : Number) : ScheduledCleaningDto
+
 
     //Mesmo que pegar os serviços, mas pegando um pelo id
     @GET("diarist/service")

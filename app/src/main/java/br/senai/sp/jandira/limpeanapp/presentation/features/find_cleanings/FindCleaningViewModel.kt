@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,9 +11,12 @@ import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetOpenServicesUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.AcceptServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -24,20 +28,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FindCleaningViewModel @Inject  constructor(
-    private val repository : CleaningRepository,
-    private val sessionCache : SessionCache,
     private val getOpenServicesUseCase: GetOpenServicesUseCase,
-    private val getDiaristByToken : GetDiaristByTokenUseCase
+    private val getDiaristByToken : GetDiaristByTokenUseCase,
+    private val acceptServiceUseCase : AcceptServiceUseCase
 ) : ViewModel() {
 
 
     private val _state = mutableStateOf(FindCleaningState())
     val state : State<FindCleaningState> = _state
 
+    private val _getDiaristState = mutableStateOf(GetDiaristState())
+    val getDiaristState = _getDiaristState
+
     private val _uiEvent =  Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    private val _selectedCleaning = mutableStateOf(Cleaning())
+    val selectedCleaning = _selectedCleaning
 
+    private lateinit var refreshJob : Job
     init {
         getDiarist()
         routineGetServices()
@@ -52,16 +61,22 @@ class FindCleaningViewModel @Inject  constructor(
         }
     }
     private fun getServices(){
-        getOpenServicesUseCase().onEach {result ->
+        refreshJob = getOpenServicesUseCase().onEach {result ->
             when(result){
                 is Resource.Success -> {
-                    _state.value = FindCleaningState(openServices = result.data ?: emptyList())
+                    _state.value = FindCleaningState(
+                        openServices = result.data?: emptyList()
+                    )
                 }
                 is Resource.Error -> {
-                    _state.value = FindCleaningState(error = result.message?: "Um erro inesperado aconteceu.")
+                    _state.value = FindCleaningState(
+                        error = result.message?: "Um erro inesperado aconteceu."
+                    )
                 }
                 is Resource.Loading -> {
-                    _state.value = FindCleaningState(isLoading = true)
+                    _state.value = FindCleaningState(
+                        isLoadingCleanings = true,
+                    )
                 }
             }
         }.launchIn(viewModelScope)
@@ -75,13 +90,13 @@ class FindCleaningViewModel @Inject  constructor(
     fun onEvent(event : FindCleaningEvent){
         when(event){
             is FindCleaningEvent.OnCleaningClick -> {
-                showCleaningDetails(event.cleaning)
+                _selectedCleaning.value = event.cleaning
             }
             is FindCleaningEvent.OnAcceptClick -> {
                 acceptService(event.cleaning)
             }
             is FindCleaningEvent.OnCleaningInfoClick -> {
-                showCleaningDetails(event.cleaning)
+                _selectedCleaning.value = event.cleaning
             }
         }
     }
@@ -90,14 +105,29 @@ class FindCleaningViewModel @Inject  constructor(
             _uiEvent.send(event)
         }
     }
-    private fun showCleaningDetails(selectedCleaning: Cleaning){
-        _state.value = FindCleaningState(
-            selectedCleaning = selectedCleaning,
-            isShowBottomSheet = true
-        )
-    }
     private fun acceptService(cleaningAccept : Cleaning){
-        _state.value = FindCleaningState(isLoading = true)
+        acceptServiceUseCase(id = cleaningAccept.id!!)
+            .onEach {result ->
+                when(result){
+                    is Resource.Success -> {
+                        sendUiEvent(UiEvent.ShowToast(
+                            result.message?: "Operação bem sucedida."
+                        ))
+                    }
+                    is Resource.Error -> {
+                        sendUiEvent(UiEvent.ShowToast(
+                            message = result.message?: "Erro ao aceitar serviço"
+                        ))
+                        getServices()
+                    }
+                    is Resource.Loading -> {
+                        _state.value = FindCleaningState(isLoading = true)
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+
+
 //        viewModelScope.launch{
 //            _state.value = FindCleaningState(isLoading = true)
 //            state.value.selectedCleaning.id?.let {
@@ -110,41 +140,26 @@ class FindCleaningViewModel @Inject  constructor(
 //            ))
 //        }
 
-    }
+//    }
 
     private fun getDiarist(){
-        viewModelScope.launch {
-            val session = sessionCache.getActiveSession()
-
-            if (session != null) {
-                getDiaristByToken(session.token)
-                    .onEach {result ->
-                        when(result){
-                            is Resource.Success -> {
-                                _state.value = FindCleaningState(
-                                    isLoadingDiarist = false,
-                                    diarist = result.data!!
-                                )
-                            }
-
-                            is Resource.Error -> {
-                                _state.value = FindCleaningState(
-                                    isLoadingDiarist = false,
-                                    error = result.message?: "Erro ao carregar perfil."
-                                )
-                            }
-                            is Resource.Loading -> {
-                                _state.value = FindCleaningState(
-                                    isLoadingDiarist = true
-                                )
-                            }
-                        }
-                    }
+        val teste = getDiaristByToken().onEach {result ->
+            when(result){
+                is Resource.Success -> {
+                    _getDiaristState.value = GetDiaristState(
+                        diarist = result.data ?: Diarist("Teste")
+                    )
+                    Log.i("RESULT-SUCCESS", result.data.toString() )
+                }
+                is Resource.Error -> {
+                    sendUiEvent(UiEvent.ShowToast(result.message?: "Erro ao carregar perfil."))
+                }
+                is Resource.Loading -> {
+                    _getDiaristState.value = GetDiaristState(
+                        isLoading = true
+                    )
+                }
             }
-        }
+        }.launchIn(viewModelScope)
     }
-
-
-
-
 }

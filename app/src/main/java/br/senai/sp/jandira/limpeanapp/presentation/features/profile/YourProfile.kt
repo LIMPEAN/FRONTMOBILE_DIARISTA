@@ -48,7 +48,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AlertDialog
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.StarView
@@ -65,7 +64,7 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var resultado by mutableStateOf<DiaristDto?>(null)
+    var resultado by mutableStateOf<br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.DiaristDto?>(null)
         private set
 
     var telefone by mutableStateOf<PhoneDto?>(null)
@@ -307,7 +306,7 @@ fun YourProfile(
                                     Text(
                                         text = buildAnnotatedString {
                                             resultado?.phone?.firstOrNull()?.let { phoneDto ->
-                                                append("${phoneDto.ddd} ${phoneDto.numberPhone}")
+                                                append("${phoneDto.ddd} ${phoneDto.number_phone}")
                                             }
                                         },
                                         modifier = Modifier

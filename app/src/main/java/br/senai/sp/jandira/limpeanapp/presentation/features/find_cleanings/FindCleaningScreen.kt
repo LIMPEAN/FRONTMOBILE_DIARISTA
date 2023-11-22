@@ -18,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,25 +63,14 @@ fun FindCleaningScreen(
 ) {
 
 
-    val uiState = viewModel.state.value
-
-    val snackbarHostState = remember { SnackbarHostState() }
-
+    val state = viewModel.state.value
+    val diaristState = viewModel.getDiaristState.value
     val context = LocalContext.current
+    val selectedCleaning = viewModel.selectedCleaning.value
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when(event) {
-                is UiEvent.ShowSnackbar -> {
-                    val result = snackbarHostState.showSnackbar(
-                        message = event.message,
-                        actionLabel = event.action
-                    )
-
-                }
-                is UiEvent.ShowBottomSheet -> {
-
-                }
                 is UiEvent.Navigate -> onNavigate(event)
                 is UiEvent.ShowToast -> {
                     Toast.makeText(
@@ -95,21 +86,22 @@ fun FindCleaningScreen(
 
 
     FindCleaningContent(
-        nameUser = uiState.diarist.name,
-        cleanings = uiState.openServices,
+        nameUser = diaristState.diarist.name,
+        isLoadingDiarist = diaristState.isLoading,
+        cleanings = state.openServices,
         onAcceptClick = {
-            viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
+           viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
         onCleaningDetail = {
             viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
         },
-        isLoading = uiState.isLoading,
+        isLoadingCleaning = state.isLoadingCleanings,
         onInfoClick = {
             viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
         },
-        selectedCleaning = uiState.selectedCleaning
+        selectedCleaning = selectedCleaning,
     )
-    if(uiState.isLoading){
+    if(state.isLoading){
         LoadingDialog()
     }
 }
@@ -151,10 +143,13 @@ fun LoadingDialogPreview() {
 fun FindCleaningPreview() {
     LimpeanAppTheme {
         FindCleaningContent(
-            isLoading = false,
+            nameUser = "TEste",
+            cleanings = emptyList(),
+            isLoadingCleaning = false,
+            isLoadingDiarist = false,
             onInfoClick = {},
             onAcceptClick = {},
-            onCleaningDetail = {}
+            onCleaningDetail = {},
         )
     }
 }
@@ -165,7 +160,8 @@ fun FindCleaningContent(
     onCleaningDetail: (Cleaning) -> Unit,
     onInfoClick: (Cleaning) -> Unit,
     onAcceptClick: (Cleaning) -> Unit,
-    isLoading : Boolean,
+    isLoadingCleaning : Boolean,
+    isLoadingDiarist: Boolean,
     selectedCleaning : Cleaning = Cleaning()
 ){
     var cleaning by remember {
@@ -176,23 +172,42 @@ fun FindCleaningContent(
     }
     HomeLayout(
         topBar = {
-            HomeTopBar(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                titleSmall = "Bem vindo (a)",
-                titleLarge = nameUser
-            )
+            if(isLoadingDiarist){
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp, vertical = 24.dp)
+                        .fillMaxWidth()
+                ){
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            } else {
+                HomeTopBar(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    titleSmall = "Bem vindo (a)",
+                    titleLarge = nameUser
+                )
+            }
+
         }
     ) { paddingValues ->
 
         HomeContent(paddingValues) {
-            if(isLoading) {
-                Box(Modifier.fillMaxSize()) {
+            if(isLoadingCleaning) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center)
+                {
                     CircularProgressIndicator()
                 }
             }
             if(cleanings.isEmpty()){
-                CleaningNotFound()
-            } else {
+                Box(modifier = Modifier.fillMaxSize()){
+                    CleaningNotFound()
+                }
+            }
                 FindYourCleanings(
                     cleanings = cleanings,
                     onCleaningDetail = {
@@ -211,7 +226,7 @@ fun FindCleaningContent(
             }
 
         }
-    }
+
     if(isShowBottomSheet){
         ModalCleaningDetails(
             cleaningDetails = selectedCleaning.toDetailsState(),
