@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.core.data.remote
 
 
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.InvitesDto
@@ -10,8 +11,10 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
 import retrofit2.http.DELETE
@@ -47,8 +50,8 @@ interface DiaristApi {
 
 
     //Pega todos servicos do diarista, como convite. Ou pode filtrar pelo status: Em andamento, Finalizado ...
-    @GET("/diarist/service")
-    suspend fun getServices(@Query("id") idStatus : Number) : ScheduledCleaningDto
+    @GET("diarist/service")
+    suspend fun getServices(@Query("id") idStatus : Number) : BaseDto<List<ScheduleClient>>
 
 
     //Mesmo que pegar os serviços, mas pegando um pelo id
@@ -57,7 +60,7 @@ interface DiaristApi {
 
     //Atualiza o preço do serviço
     @PUT("diarist/service/price")
-    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto
+    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto<Cleaning>
 
 
     //Pega o codigo do servico do cliente (para iniciar o serviço)
@@ -72,5 +75,5 @@ interface DiaristApi {
     //aaaaa
 
     @DELETE("diarist")
-    suspend fun deleteDiarist() : BaseDto
+    suspend fun deleteDiarist() : BaseResponseDto
 }

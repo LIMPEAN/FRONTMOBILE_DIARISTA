@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services
 
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toCleaning
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
@@ -21,7 +22,12 @@ class GetOpenServicesUseCase @Inject constructor(
                 .data.map { it.service.toCleaning() }
             emit(Resource.Success(openServices))
         } catch (e: HttpException){
-            emit(Resource.Error( e.localizedMessage ?: "Um erro desconhecido ocorreu. INTERNET."))
+            if (e.code() == 404){
+                emit(Resource.Success(data = emptyList()))
+            } else{
+                emit(Resource.Error( e.message() ?: "Um erro desconhecido ocorreu. INTERNET."))
+            }
+
         } catch (e : IOException){
             emit(Resource.Error( "Não foi possível conectar ao servidor. Verifique sua conexão de internet."))
         }

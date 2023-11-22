@@ -4,9 +4,11 @@ import android.util.Log
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toRequestApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.toDiarist
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
@@ -27,13 +29,13 @@ class DiaristRepositoryImpl @Inject  constructor(
     }
 
     @Throws(Exception::class)
-    override suspend fun insertDiarist(diarist: Diarist): BaseDto {
+    override suspend fun insertDiarist(diarist: Diarist): BaseResponseDto {
 
         val response = api.register(diarist.toRequestApi())
 
         if (!response.isSuccessful) {
             val errorBody = response.errorBody()?.string()
-            val serialize = Gson().fromJson(errorBody, BaseDto::class.java)
+            val serialize = Gson().fromJson(errorBody, BaseResponseDto::class.java)
             throw Exception(serialize.message)
         }
         return response.body()!!
@@ -41,7 +43,7 @@ class DiaristRepositoryImpl @Inject  constructor(
     }
 
 
-    override suspend fun deleteDiarist(diarist: Diarist): BaseDto {
+    override suspend fun deleteDiarist(diarist: Diarist): BaseResponseDto {
         return diaristApi.deleteDiarist()
     }
 }

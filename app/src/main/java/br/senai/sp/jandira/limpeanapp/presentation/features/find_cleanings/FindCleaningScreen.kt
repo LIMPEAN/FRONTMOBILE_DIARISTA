@@ -68,19 +68,13 @@ fun FindCleaningScreen(
     val context = LocalContext.current
     val selectedCleaning = viewModel.selectedCleaning.value
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when(event) {
-                is UiEvent.Navigate -> onNavigate(event)
-                is UiEvent.ShowToast -> {
-                    Toast.makeText(
-                        context,
-                         event.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                else -> Unit
-            }
+    LaunchedEffect(state.message) {
+        if(state.message.isNotBlank()){
+            Toast.makeText(
+                context,
+                state.message,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -232,7 +226,7 @@ fun FindCleaningContent(
             cleaningDetails = selectedCleaning.toDetailsState(),
             onDismissRequest = { isShowBottomSheet = false},
             onAcceptPress = {
-                onAcceptClick(cleaning)
+                onAcceptClick(selectedCleaning)
                 isShowBottomSheet = false
             },
             onBackPress = { isShowBottomSheet = false}

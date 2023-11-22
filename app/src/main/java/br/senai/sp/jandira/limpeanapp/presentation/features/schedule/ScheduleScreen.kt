@@ -62,18 +62,13 @@ fun ScheduleScreen(
     val state = viewModel.state.value
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when(event) {
-                is UiEvent.ShowToast -> {
-                    Toast.makeText(
-                        context,
-                        event.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                else -> Unit
-            }
+    LaunchedEffect(state.message) {
+        if(state.message.isNotBlank()){
+            Toast.makeText(
+                context,
+                state.message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
     ScheduleContent(

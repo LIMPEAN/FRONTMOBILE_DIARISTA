@@ -1,17 +1,16 @@
 package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
-import android.util.Log
-import br.senai.sp.jandira.limpeanapp.core.data.mapper.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
-import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +37,7 @@ class CleaningRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getScheduledCleanings(): ScheduledCleaningDto {
+    override suspend fun getScheduledCleanings(): BaseDto<List<ScheduleClient>> {
         return api.getServices(idStatus = StatusService.AGENDADO.codigo)
     }
 

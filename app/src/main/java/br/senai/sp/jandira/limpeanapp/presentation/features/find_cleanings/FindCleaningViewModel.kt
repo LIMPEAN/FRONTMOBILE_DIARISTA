@@ -49,7 +49,7 @@ class FindCleaningViewModel @Inject  constructor(
     private lateinit var refreshJob : Job
     init {
         getDiarist()
-        routineGetServices()
+        getServices()
     }
 
     private fun routineGetServices(){
@@ -70,7 +70,7 @@ class FindCleaningViewModel @Inject  constructor(
                 }
                 is Resource.Error -> {
                     _state.value = FindCleaningState(
-                        error = result.message?: "Um erro inesperado aconteceu."
+                        message = result.message?: "Um erro inesperado aconteceu."
                     )
                 }
                 is Resource.Loading -> {
@@ -110,40 +110,26 @@ class FindCleaningViewModel @Inject  constructor(
             .onEach {result ->
                 when(result){
                     is Resource.Success -> {
-                        sendUiEvent(UiEvent.ShowToast(
-                            result.message?: "Operação bem sucedida."
-                        ))
+                        _state.value = FindCleaningState(
+                            message = result.message?: "Serviço aceito! Agendado com sucesso."
+                        )
                     }
                     is Resource.Error -> {
-                        sendUiEvent(UiEvent.ShowToast(
-                            message = result.message?: "Erro ao aceitar serviço"
-                        ))
-                        getServices()
+                        _state.value = FindCleaningState(
+                            message = result.message?: "Erro ao aceitar serviço."
+                        )
                     }
                     is Resource.Loading -> {
                         _state.value = FindCleaningState(isLoading = true)
                     }
                 }
+                getServices()
             }.launchIn(viewModelScope)
         }
 
 
-//        viewModelScope.launch{
-//            _state.value = FindCleaningState(isLoading = true)
-//            state.value.selectedCleaning.id?.let {
-//                repository.acceptService(it)
-//            }
-//            isLoadingOperation = false
-//            refreshCleanings()
-//            sendUiEvent(UiEvent.ShowToast(
-//                "Operação bem sucedida!"
-//            ))
-//        }
-
-//    }
-
     private fun getDiarist(){
-        val teste = getDiaristByToken().onEach {result ->
+        getDiaristByToken().onEach {result ->
             when(result){
                 is Resource.Success -> {
                     _getDiaristState.value = GetDiaristState(
@@ -152,7 +138,9 @@ class FindCleaningViewModel @Inject  constructor(
                     Log.i("RESULT-SUCCESS", result.data.toString() )
                 }
                 is Resource.Error -> {
-                    sendUiEvent(UiEvent.ShowToast(result.message?: "Erro ao carregar perfil."))
+                    _getDiaristState.value = GetDiaristState(
+                        error = result.message?: "Erro ao pegar diarista."
+                    )
                 }
                 is Resource.Loading -> {
                     _getDiaristState.value = GetDiaristState(

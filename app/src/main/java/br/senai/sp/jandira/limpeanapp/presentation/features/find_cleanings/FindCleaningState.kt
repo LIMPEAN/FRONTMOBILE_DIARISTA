@@ -8,7 +8,7 @@ data class FindCleaningState(
     val isLoadingDiarist : Boolean = false,
     val isLoadingCleanings : Boolean = false,
     val openServices : List<Cleaning> = emptyList(),
-    val error : String = "",
+    val message : String = "",
     val selectedCleaning : Cleaning = Cleaning(),
     val diarist: Diarist = Diarist(),
     val isShowBottomSheet : Boolean = false,
@@ -16,4 +16,5 @@ data class FindCleaningState(
 data class GetDiaristState(
     val diarist : Diarist = Diarist(),
     val isLoading : Boolean = false,
+    val error : String = "",
 )

@@ -26,6 +26,7 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuestions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -60,8 +61,8 @@ class ScheduleViewModel @Inject constructor(
                     )
                 }
                 is Resource.Error -> {
-                    sendUiEvent(
-                        UiEvent.ShowToast(result.message?: "Um erro inesperado aconteceu.")
+                    _state.value = CleaningListState(
+                        message = result.message?: "Um erro inesperado aconteceu."
                     )
 
                 }
@@ -71,8 +72,7 @@ class ScheduleViewModel @Inject constructor(
                     )
                 }
             }
-
-        }
+        }.launchIn(viewModelScope)
     }
 
     private fun sendUiEvent(event: UiEvent) {

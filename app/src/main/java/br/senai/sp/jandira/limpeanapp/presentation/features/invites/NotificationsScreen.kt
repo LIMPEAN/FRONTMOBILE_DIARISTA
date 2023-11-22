@@ -48,7 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.home.components.HomeTopBar
+import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed
 

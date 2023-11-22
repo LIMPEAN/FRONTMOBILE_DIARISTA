@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services
 
+import android.util.Log
 import br.senai.sp.jandira.limpeanapp.core.data.mapper.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
@@ -17,12 +18,17 @@ class GetScheduledServicesUseCase @Inject constructor(
     operator fun invoke() : Flow<Resource<List<Cleaning>>> = flow {
         try {
             emit(Resource.Loading())
-            val schedules = repository
-                .getScheduledCleanings()
+            val schedules = repository.getScheduledCleanings()
                 .data.map { it.client.toCleaning() }
+            Log.i("TAG", "invoke: $schedules")
             emit(Resource.Success(schedules))
         } catch (e: HttpException){
-            emit(Resource.Error( e.localizedMessage ?: "Um erro desconhecido ocorreu. INTERNET."))
+            if(e.code() == 404){
+                emit(Resource.Success(data = emptyList()))
+            } else {
+                emit(Resource.Error( e.localizedMessage ?: "Um erro desconhecido ocorreu. INTERNET."))
+
+            }
         } catch (e : IOException){
             emit(Resource.Error( "Não foi possível conectar ao servidor. Verifique sua conexão de internet."))
         }

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning
 
+import br.senai.sp.jandira.limpeanapp.core.data.mapper.parseStringToDateTime
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Client
@@ -33,7 +34,7 @@ fun ServiceDto.toCleaning() : Cleaning {
             photo = photo,
             biography = biography
         ),
-        dateTime = LocalDateTime.parse(dateHour),
+        dateTime = parseStringToDateTime(dateHour),
         details = CleaningDetails(
             roomsQuantity = rooms.map { it.toRoomQuantity() },
             questions = questions.map { it.toQuestion() },
