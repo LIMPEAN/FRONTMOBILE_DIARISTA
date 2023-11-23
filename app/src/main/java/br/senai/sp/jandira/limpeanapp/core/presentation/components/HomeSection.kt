@@ -34,7 +34,7 @@ fun HomeSection(
         Text(
             text = title,
             textAlign = textAlign,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.bodyLarge,
             fontFamily = Poppins,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground

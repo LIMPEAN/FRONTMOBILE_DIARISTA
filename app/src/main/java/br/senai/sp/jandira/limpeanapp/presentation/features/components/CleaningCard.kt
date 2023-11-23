@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 
@@ -110,20 +111,18 @@ fun CleaningCard(
             ) {
                 Text(
                     text = nameClient,
-                    fontSize = 20.sp,
-                    fontFamily = customFontFamily,
-                    fontWeight = FontWeight(600),
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = "R\$ $servicePrice",
-                    fontSize = 20.sp,
-                    fontFamily = customFontFamily,
-                    fontWeight = FontWeight(600),
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             Row(
@@ -135,7 +134,7 @@ fun CleaningCard(
                     fontFamily = customFontFamily,
                     fontWeight = FontWeight.Light,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodySmall
                 )
 
             }
@@ -196,15 +195,14 @@ fun DateTimeInfo(
             fontFamily = poopins,
             fontWeight = FontWeight.Light,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodySmall
         )
         Text(
             text = formatarParaHora(dateTime) ,
             fontFamily = poopins,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp,
             color = MaterialTheme.colorScheme.secondary,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
         )
     }
 }
@@ -222,7 +220,7 @@ fun CleaningCardActions(
         Button(
             modifier = Modifier.fillMaxWidth(0.46f),
             shape = RoundedCornerShape(size = 12.dp),
-            colors = ButtonDefaults.buttonColors(md_theme_light_primary),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
             onClick = { onStart() }
         ) {
             Text(
@@ -330,15 +328,18 @@ private fun QuantityRoomsInfo(
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         quantityRooms.forEach {room ->
-            if(room.quantity != null){
+            if(room.quantity != null && room.quantity.toInt() > 0){
                 Row() {
                     Icon(
+                        modifier = Modifier.size(20.dp),
                         imageVector = room.roomType.icon,
                         contentDescription = room.roomType.name,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(text = room.quantity.toString(),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }

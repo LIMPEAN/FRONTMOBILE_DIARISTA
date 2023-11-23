@@ -23,7 +23,7 @@ val fakeCleanings = listOf(
     Cleaning(
         1,
         client = Client(
-            "Giovani",
+            name ="Giovani",
             biography = null,
             photo = "minhafoto"
         ),
@@ -48,12 +48,14 @@ val fakeCleanings = listOf(
         ),
         dateTime = LocalDateTime.now(),
         price = 450.00,
-        type = TypeCleaningEnum.PADRAO
+        type = listOf(
+            TypeCleaningEnum.PADRAO
+        )
     ),
     Cleaning(
         2,
         client = Client(
-            "Jennifer",
+            name = "Jennifer",
             biography = "Olá meu nome é Jennifer",
             photo = "minhafoto1"
         ),
@@ -78,7 +80,9 @@ val fakeCleanings = listOf(
             )
         ),
         price = 300.00,
-        type = TypeCleaningEnum.PADRAO,
+        type = listOf(
+            TypeCleaningEnum.PADRAO
+        ),
         dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(10,12))
     )
 )

@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.schedule
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,11 +31,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
@@ -43,18 +47,44 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
+import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.ModalCleaningDetails
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.quantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
+import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_tertiary
 import java.time.LocalTime
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun ScheduleScreen(
-    nameUser : String = "Felipe",
+    viewModel : ScheduleViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.value
+    val context = LocalContext.current
+
+    LaunchedEffect(state.message) {
+        if(state.message.isNotBlank()){
+            Toast.makeText(
+                context,
+                state.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    ScheduleContent(
+        cleanings = state.cleanings
+    ){
+        viewModel.onStartService(it)
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun ScheduleContent(
     cleanings : List<Cleaning> = fakeCleanings,
-    onAcceptPress : (Cleaning) -> Unit = {},
+    onStartClick: (Cleaning) -> Unit = {},
 ){
     var cleaning by remember {
         mutableStateOf(Cleaning())
@@ -75,31 +105,25 @@ fun ScheduleScreen(
     ) { paddingValues ->
 
         HomeContent(paddingValues) {
-            if (cleanings.isEmpty()) {
-                CleaningNotFound()
-            } else {
-                SchedulesContent(
-                    cleanings = cleanings,
-                    onCleaningDetail = {
-                        cleaning = it
-                        isShowBottomSheet = true
-                    },
-                    onAcceptClick = {onAcceptPress(cleaning)},
-                    onInfoClick = {
-                        cleaning = it
-                        isShowBottomSheet = true
-                    }
-                )
-            }
-
-
+            SchedulesContent(
+                cleanings = cleanings,
+                onCleaningDetail = {
+                    cleaning = it
+                    isShowBottomSheet = true },
+                onStartClick = {onStartClick(cleaning)},
+                onInfoClick = {
+                    cleaning = it
+                    isShowBottomSheet = true
+                }
+            )
         }
         if(isShowBottomSheet){
             ModalCleaningDetails(
                 cleaningDetails = cleaning.toDetailsState(),
                 onDismissRequest = { isShowBottomSheet = false},
-                onAcceptPress = { onAcceptPress(cleaning) },
-                onBackPress = { isShowBottomSheet = false}
+                actions = {
+                    Text(text = "Olá")
+                }
             )
         }
     }
@@ -109,15 +133,20 @@ fun ScheduleScreen(
 fun SchedulesContent(
     cleanings : List<Cleaning>,
     onCleaningDetail: (Cleaning) -> Unit,
-    onAcceptClick : (Cleaning) -> Unit,
+    onStartClick : (Cleaning) -> Unit,
     onInfoClick : (Cleaning) -> Unit
 ) {
+    if(cleanings.isEmpty()){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            CleaningNotFound()
+        }
+    }
     HomeSection(
         title = "Próximos Serviços",
     ) {
         ScheduleList(
             cleanings = cleanings,
-            onStartClick = { onAcceptClick(it) },
+            onStartClick = { onStartClick(it) },
             onInfoClick = { onInfoClick(it) },
             onCleaningDetail = { onCleaningDetail(it)}
         )
@@ -139,10 +168,13 @@ fun ScheduleList(
     ){
         items(cleanings){cleaning ->
             val model = cleaning.toCleaningCardState()
+            val address = cleaning.address
             CleaningCard(
+                quantityRooms = cleaning.details.roomsQuantity,
+                dateTime = cleaning.dateTime,
                 nameClient = model.nameClient,
                 servicePrice = model.servicePrice,
-                local = model.local,
+                local = "${address.street}, ${address.number} - ${address.district}, ${address.state}",
                 actions = {
                     val startedHour = cleaning.dateTime.toLocalTime()
                     val currentHour = LocalTime.now()
@@ -215,16 +247,24 @@ fun ScheduleCardActions(
 
 }
 
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun DetailsButtonPreview() {
+    LimpeanAppTheme {
+        SeeDetailsButton({})
+    }
+}
 @Composable
 fun SeeDetailsButton(
     onInfoClick : () -> Unit
 ) {
     Button(
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp , md_theme_light_tertiary),
+        border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = md_theme_light_tertiary
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -233,7 +273,7 @@ fun SeeDetailsButton(
         Text(
             text = "Ver detalhes",
             style = MaterialTheme.typography.bodySmall,
-            fontFamily = Poppins
+            fontFamily = Poppins,
         )
     }
 }

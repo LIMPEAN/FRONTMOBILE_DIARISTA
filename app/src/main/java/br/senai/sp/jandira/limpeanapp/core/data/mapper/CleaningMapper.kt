@@ -40,7 +40,9 @@ fun ServiceDto.toCleaning(): Cleaning {
             biography = this.biography,
         ),
         dateTime = parseStringToDateTime(dateHour),
-        type = obterTipoDeLimpeza(this.typeClean)?: TypeCleaningEnum.PADRAO,
+        type = listOf(
+            obterTipoDeLimpeza(this.typeClean)?: TypeCleaningEnum.PADRAO
+        ) ,
         status = status,
         address = Address(
             cep = address.cep,

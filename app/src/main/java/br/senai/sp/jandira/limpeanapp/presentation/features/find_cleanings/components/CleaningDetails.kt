@@ -76,8 +76,7 @@ data class CleaningSupportState(
 @Composable
 fun CleaningDetails(
     state: CleaningDetailsState,
-    onAcceptPress: () -> Unit,
-    onBackPress: () -> Unit
+    actions: @Composable () -> Unit
 ) {
     val modifier = Modifier.fillMaxWidth()
 
@@ -95,10 +94,7 @@ fun CleaningDetails(
         Divider(modifier)
         CleaningSupport(state.cleaningSupport)
         Divider(modifier)
-        DoYouLikeService(
-            onAcceptPress = onAcceptPress,
-            onBackPress = onBackPress,
-        )
+        actions()
     }
 
 }
@@ -574,8 +570,7 @@ fun RoomsQuantity(
 @Composable
 fun CleaningDetailsPreview() {
     LimpeanAppTheme {
-        CleaningDetails(state = fakeCleaningDetail, onAcceptPress = { /*TODO*/ }) {
-        }
+        CleaningDetails(state = fakeCleaningDetail,  actions = {})
     }
 }
 

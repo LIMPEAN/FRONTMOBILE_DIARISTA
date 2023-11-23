@@ -11,7 +11,7 @@ data class Cleaning(
     val price : Double = 0.0,
     val client : Client = Client(),
     val dateTime: LocalDateTime = LocalDateTime.now(),
-    val type : TypeCleaningEnum = TypeCleaningEnum.PADRAO,
+    val type : List<TypeCleaningEnum> = emptyList(),
     val status : List<ServiceStatus> = emptyList(),
     val address : Address = Address(),
     val details : CleaningDetails = CleaningDetails()
@@ -19,7 +19,8 @@ data class Cleaning(
 
 data class CleaningDetails(
     val questions : List<Question> = emptyList(),
-    val roomsQuantity : List<RoomQuantity> = emptyList()
+    val roomsQuantity : List<RoomQuantity> = emptyList(),
+    val observations : String? = null
 )
 data class Question(
     val question : String,
@@ -50,13 +51,13 @@ fun Cleaning.toDetailsState() : CleaningDetailsState {
     return CleaningDetailsState(
         primordialInfo = PrimordialInfoState(
             price = this.price,
-            startTime = "Test",
-            date = this.dateTime.toString()
+            startTime = "${dateTime.hour}:${dateTime.minute}",
+            date = "${dateTime.dayOfMonth}/${dateTime.monthValue}/${dateTime.year}"
         ),
         addressCleaning = this.address.toAddressCleaningState(),
         aboutClientInfo = this.client.toAboutClientState(),
         cleaningSupport = CleaningSupportState(
-            typeCleaning = this.type,
+            typeCleaning = this.type.first(),
             questions = this.details.questions,
             rooms = this.details.roomsQuantity
         )

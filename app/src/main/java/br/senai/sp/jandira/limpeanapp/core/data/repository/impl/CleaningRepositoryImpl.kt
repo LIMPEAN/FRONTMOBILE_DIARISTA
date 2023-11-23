@@ -1,9 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
-import android.util.Log
-import br.senai.sp.jandira.limpeanapp.core.data.mapper.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
@@ -17,25 +20,15 @@ import javax.inject.Inject
 
 
 class CleaningRepositoryImpl @Inject constructor(
-    private val api : DiaristApi
+    private val api : DiaristApi,
 ) : CleaningRepository{
-    override fun getOpenServices(): Flow<List<Cleaning>> {
-        return flow {
-            while (true){
-                val servicesDto = api.getOpenServices()
-                val services = servicesDto.data.map {
-                    it.service.toCleaning()
-                }
-                Log.i("SERVICES", services.toString())
-                emit(services)
-                delay(5000)
-            }
-        }
+    override suspend fun getOpenServices(): OpenServicesDto {
+        return api.getOpenServices()
     }
 
-    override suspend fun acceptService(id: Number) {
+    override suspend fun acceptService(id: Number) : UpdateStatusDto {
         try {
-            api.putStatusService(
+            return api.putStatusService(
                 idService = id,
                 idStatus = StatusService.AGENDADO.codigo
             )
@@ -44,16 +37,8 @@ class CleaningRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getScheduledCleanings(): Flow<List<Cleaning>> {
-        return flow {
-            while (true){
-                val servicesDto = api.getOpenServices()
-                Log.i("SERVICES", servicesDto.toString())
-                val services = servicesDto.data.map { it.service.toCleaning() }
-                emit(services)
-                delay(5000)
-            }
-        }
+    override suspend fun getScheduledCleanings(): BaseDto<List<ScheduleClient>> {
+        return api.getServices(idStatus = StatusService.AGENDADO.codigo)
     }
 
     override suspend fun startService(id: Number, dateTime: LocalDateTime): ServiceToken {

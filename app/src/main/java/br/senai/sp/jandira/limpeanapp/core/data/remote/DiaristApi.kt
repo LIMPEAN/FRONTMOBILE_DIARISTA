@@ -1,6 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.data.remote
 
+
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
+
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.InvitesDto
@@ -8,6 +14,11 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
 import retrofit2.http.DELETE
@@ -19,10 +30,11 @@ import retrofit2.http.Query
 interface DiaristApi {
 
     @GET("diarist")
-    suspend fun getDiarist() : GetDiaristDto
+    suspend fun getDiarist() : GetDiaristDTOX
 
     @PUT("diarist")
     suspend fun updateDiarist(diaristDto: DiaristDto)
+
 
 
     //Pega todos os servicos em aberto do cliente
@@ -34,29 +46,38 @@ interface DiaristApi {
     //Atualizar os status do serviço do cliente
     // para recusar, mudar para rejeitado,
     //PARA FINALIZAR : mudar para finalizar
-    @PUT("/diarist/schedule-service")
+    @PUT("diarist/schedule-service")
     suspend fun putStatusService(
         @Query("idService") idService : Number,
         @Query("idStatus") idStatus: Number? = StatusService.AGENDADO.codigo
-    )
+    ) : UpdateStatusDto
 
 
     //Pega todos servicos do diarista, como convite. Ou pode filtrar pelo status: Em andamento, Finalizado ...
-    @GET("/diarist/service")
-    suspend fun getInvites() : InvitesDto
+    @GET("diarist/service")
+    suspend fun getServices(@Query("id") idStatus : Number) : BaseDto<List<ScheduleClient>>
+
 
     //Mesmo que pegar os serviços, mas pegando um pelo id
     @GET("diarist/service")
     suspend fun getInviteById(@Query("id") id : Number)
 
-    //Atualiza o preço do serviço
+
+    @GET("diarist/service/token?idService={id}")
+    suspend fun getToken(@Query("id") id : Number) : BaseResponseToken
+
+  //Atualiza o preço do serviço
+
     @PUT("diarist/service/price")
-    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto
+    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto<Cleaning>
 
 
     //Pega o codigo do servico do cliente (para iniciar o serviço)
     @GET("diarist/service/token")
     suspend fun getTokenFromService(@Query("idService") idService: Number): StatusTokenDto
+
+
+
 
 //    @POST("assessment")
 //    suspend fun
@@ -64,10 +85,5 @@ interface DiaristApi {
 
     @DELETE("diarist")
     suspend fun deleteDiarist()
-
-    //aaaaa
-
-//    @DELETE("diarist")
-//    suspend fun deleteDiarist() : BaseDto
 
 }

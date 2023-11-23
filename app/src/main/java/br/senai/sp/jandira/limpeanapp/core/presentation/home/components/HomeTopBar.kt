@@ -27,13 +27,13 @@ fun HomeTopBar(
                 vertical = 16.dp
             )) {
         Text(
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.bodySmall,
             text = titleSmall,
             color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = Poppins
         )
         Text(
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.bodyLarge,
             text = titleLarge,
             color = MaterialTheme.colorScheme.primaryContainer,
             fontFamily = Poppins

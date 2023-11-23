@@ -28,8 +28,11 @@ fun TitleSection(
     }
 }
 
+
+
 @Preview
 @Preview (uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark mode")
+
 @Composable
 fun TitleSectionPreview() {
     LimpeanAppTheme {
