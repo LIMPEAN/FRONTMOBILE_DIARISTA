@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -111,6 +112,7 @@ fun YourProfile(
 
 
     var isDialogVisible by remember { mutableStateOf(false) }
+    var rating by remember { mutableDoubleStateOf(0.0) }
 
     resultado?.let {
         Scaffold(
@@ -182,8 +184,10 @@ fun YourProfile(
 
                                 Spacer(modifier = Modifier.height(15.dp))
                                 StarView(
-                                    rating = (2.0)
-
+                                    rating = rating,
+                                    onRatingChanged = { newRating ->
+                                        rating = newRating
+                                    }
                                 )
                                 Spacer(modifier = Modifier.height(30.dp))
 
