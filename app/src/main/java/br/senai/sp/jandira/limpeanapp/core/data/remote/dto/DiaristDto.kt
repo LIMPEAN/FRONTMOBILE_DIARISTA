@@ -5,6 +5,15 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Gender
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 
+data class Avaliacao(
+    val id: Int,
+    val name: String,
+    val photo: String,
+    val stars: Int,
+    val dataHour: String
+)
+
+
 data class DiaristDto(
     @SerializedName("id_diarist")
     val id: Int,

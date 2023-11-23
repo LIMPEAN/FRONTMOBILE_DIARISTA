@@ -70,7 +70,6 @@ import com.example.compose.LimpeanAppTheme
 @Composable
 fun ProfileScreen() {
     LimpeanAppTheme {
-
         SettingsScreen()
     }
 }
@@ -196,6 +195,7 @@ fun ProfileCardUI(
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                 )
+
 
                 Button(
                     modifier = Modifier.padding(top = 10.dp),

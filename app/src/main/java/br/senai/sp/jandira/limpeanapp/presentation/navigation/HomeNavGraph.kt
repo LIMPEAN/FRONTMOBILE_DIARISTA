@@ -66,7 +66,8 @@ fun HomeNavGraph(
             Text(text = "Invites Screen")
         }
         composable(HomeRoute.PROFILE){
-            SettingsScreen()
+//            SettingsScreen()
+            YourProfile()
         }
 
     }

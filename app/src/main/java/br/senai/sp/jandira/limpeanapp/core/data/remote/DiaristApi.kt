@@ -81,8 +81,9 @@ interface DiaristApi {
 
 //    @POST("assessment")
 //    suspend fun
-    //aaaaa
+
 
     @DELETE("diarist")
-    suspend fun deleteDiarist() : BaseResponseDto
+    suspend fun deleteDiarist()
+
 }
