@@ -55,7 +55,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
-import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileViewModel
+//import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileViewModel
 import com.example.compose.seed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
