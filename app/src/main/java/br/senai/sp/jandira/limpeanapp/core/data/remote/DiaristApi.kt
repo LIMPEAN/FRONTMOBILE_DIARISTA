@@ -1,8 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.data.remote
 
 
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
+
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
+
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.InvitesDto
@@ -58,7 +62,12 @@ interface DiaristApi {
     @GET("diarist/service")
     suspend fun getInviteById(@Query("id") id : Number)
 
-    //Atualiza o preço do serviço
+
+    @GET("diarist/service/token?idService={id}")
+    suspend fun getToken(@Query("id") id : Number) : BaseResponseToken
+
+  //Atualiza o preço do serviço
+
     @PUT("diarist/service/price")
     suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto<Cleaning>
 

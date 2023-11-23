@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -116,12 +118,14 @@ private fun LoginScreen(
             description = stringResource(R.string.login_diarist_description)
         )
 
+        Spacer(modifier = Modifier.height(15.dp))
+
         Column (
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             InputTextEmail(
-                label = "Email",
+                label = stringResource(id = R.string.email),
                 keyboardType = KeyboardType.Text,
                 state = state.email,
                 onTyping = {
@@ -232,22 +236,28 @@ private fun LoginScreen(
 
 
         }
-        Row() {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = stringResource(R.string.question_have_account),
+
                 color = MaterialTheme.colorScheme.outline,
                 fontFamily = Poppins,
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(modifier = Modifier.width(12.dp))
+
             Text(
                 text = stringResource(R.string.login_go_to_register),
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                fontSize = 12.sp,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .clickable {
                         onRegister()
                     },
-                color = MaterialTheme.colorScheme.outline,
                 fontFamily = Poppins,
                 style = MaterialTheme.typography.bodySmall
             )

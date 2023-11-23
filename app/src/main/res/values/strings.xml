@@ -108,8 +108,6 @@
     <string name="dialog_assessment_description">nos ajude a ranquear a plataforma e avalie o diarista</string>
     <string name="assess">AVALIAR</string>
 
-    // SCREEN FIND YOUR SERVICES
-
     // SCREEN REQUEST DATA
     <string name="request_data">Dados da solicitação</string>
     <string name="which_rooms_should_be_cleaned">Quais cômodos devem ser limpos?</string>
@@ -129,8 +127,14 @@
     <string name="title_activity_upload_firebase">UploadFirebase</string>
 
 
+
+    <string name="email">Email</string>
+
+
+
     <string name="edit_profile_diarist">EDITAR PERFIL</string>
     <string name="delete_account">DELETAR CONTA</string>
     <string name="login_diarist_description">Encontre faxinas, exponha serviços.</string>
+
 
 </resources>
