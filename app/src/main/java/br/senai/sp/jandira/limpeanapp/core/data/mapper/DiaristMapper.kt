@@ -10,7 +10,8 @@ import com.google.gson.Gson
 fun Diarist.toRequestApi() : RegisterRequest {
     val dataFake = "2000-10-12"
     val averagePrice = "0.00" //FLOAT
-    val photoUser = "https://example.png"
+//    val photoUser = "https://example.png"
+    val defaultPhoto = "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."
 
     val modelo =  RegisterRequest(
         typeUser = "diarist",
@@ -20,7 +21,7 @@ fun Diarist.toRequestApi() : RegisterRequest {
         ddd = phones[0].ddd,
         phone = phones[0].number,
         birthDate = dataFake,
-        photoUser = photoUser,
+        photoUser = photo?: "",
         idGender = this.gender.id,
         cpf = this.cpf,
         biography = this.biography?: "Biografia ausente",

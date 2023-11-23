@@ -63,7 +63,7 @@ fun NavGraphBuilder.registerNavGraph(navController : NavHostController) {
                 titleButton = stringResource(R.string.button_register_profile)
             ) {
                 ProfileFormUi(
-                    profilePhoto = { SinglePhotoPicker({}) },
+                    profilePhoto = { SinglePhotoPicker({}, onSaveUrl = {viewModel.saveUrl(it)}) },
                     state = state,
                     onEvent = viewModel::onEvent
                 )

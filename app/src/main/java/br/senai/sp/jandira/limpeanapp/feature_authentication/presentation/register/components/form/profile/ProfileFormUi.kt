@@ -35,7 +35,6 @@ fun ProfileFormUi(
     state: ProfileFormState,
     onEvent: (ProfileFormEvent) -> Unit,
     modifier: Modifier = Modifier
-        .fillMaxHeight()
         .padding(20.dp)
 ) {
     Column(
@@ -99,7 +98,7 @@ fun ProfileFormPreview() {
             modifier = Modifier.fillMaxSize(),
             state = ProfileFormState(),
             profilePhoto = {
-                SinglePhotoPicker(onSaveUri = {})
+                SinglePhotoPicker(onSaveUri = {}, onSaveUrl = {})
             },
             onEvent = {}
         )

@@ -125,7 +125,7 @@ fun SettingsScreen() {
                     modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     Text(text = "Meu Perfil")
-                    ProfileFormUi(profilePhoto = { SinglePhotoPicker(onSaveUri = {}) }, state = ProfileFormState(), onEvent = {})
+                    ProfileFormUi(profilePhoto = { SinglePhotoPicker(onSaveUri = {}, onSaveUrl = {}) }, state = ProfileFormState(), onEvent = {})
                     Text(text = "Endereço")
                     AddressFormUi(state = createAddressFormState(Address()), onEvent = {}, modifier = Modifier)
                 }

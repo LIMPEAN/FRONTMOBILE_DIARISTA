@@ -44,9 +44,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetImageFromGoogleMap
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
@@ -227,6 +229,37 @@ class MapViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 }
+@HiltViewModel
+class ImageMapViewModel @Inject constructor(
+    private val getImageFromGoogleMap: GetImageFromGoogleMap
+) : ViewModel(){
+
+    var state by mutableStateOf("")
+        private set
+
+    var message by mutableStateOf("")
+        private set
+
+    var isLoading by mutableStateOf(false)
+        private set
+
+    fun onLoadingImage(address: Address ){
+        getImageFromGoogleMap(address).onEach {result ->
+            when(result){
+                is Resource.Success -> {
+                    state = result.data!!
+                }
+                is Resource.Error -> {
+                    message = result.message?: "Algum erro aconteceu."
+                }
+                is Resource.Loading -> {
+                    isLoading = true
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
+}
 @Preview
 @Composable
 fun ScheduleList(
@@ -238,7 +271,7 @@ fun ScheduleList(
     mapViewModel : MapViewModel = hiltViewModel()
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
@@ -260,7 +293,9 @@ fun ScheduleList(
                     }
                     if(googleMap.local != null){
                         GoogleMapContainer(
-                            modifier = Modifier.fillMaxWidth().height(200.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
                             local = googleMap.local!!, name = googleMap.name, place = googleMap.place)
                     } else{
                         ImageMap()

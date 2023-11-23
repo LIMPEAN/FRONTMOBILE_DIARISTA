@@ -271,7 +271,7 @@ fun FindCleaningContent(
                             title = "Encontre seus serviços"
                         ){}
                     }
-                    items(startedCleaning){cleaning ->
+                    items(cleanings){cleaning ->
                         val address = cleaning.address
                         onLoadingGoogleMap(cleaning)
                         CleaningCard(

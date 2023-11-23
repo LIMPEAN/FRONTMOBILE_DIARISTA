@@ -141,9 +141,9 @@ class ProfileViewModel @Inject constructor(
 
 
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//
+//@OptIn(ExperimentalMaterial3Api::class)
+////@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@Composable
 //fun YourProfile(
 //    viewModel: ProfileViewModel = hiltViewModel<ProfileViewModel>(),
@@ -602,60 +602,60 @@ class ProfileViewModel @Inject constructor(
 //            }
 //    }
 
-    fun UploadPick(uri: Uri, context: Context) {
-        uri?.let {
-            StorageUtil.uploadToStorage(uri = it, context = context, type = "image")
-        }
-    }
-
-    class StorageUtil {
-        companion object {
-
-            fun uploadToStorage(uri: Uri, context: Context, type: String) {
-                val storage = Firebase.storage
-
-                // Create a storage reference from our app
-                var storageRef = storage.reference
-
-                val unique_image_name = UUID.randomUUID()
-                var spaceRef: StorageReference
-
-                if (type == "image") {
-                    spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
-                } else {
-                    spaceRef = storageRef.child("videos/$unique_image_name.mp4")
-                }
-
-                val byteArray: ByteArray? = context.contentResolver
-                    .openInputStream(uri)
-                    ?.use { it.readBytes() }
-
-                byteArray?.let {
-
-                    var uploadTask = spaceRef.putBytes(byteArray)
-                    uploadTask.addOnFailureListener {
-                        Toast.makeText(
-                            context,
-                            "upload failed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Handle unsuccessful uploads
-                    }.addOnSuccessListener { taskSnapshot ->
-                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                        // ...
-                        Toast.makeText(
-                            context,
-                            "upload successed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-
-            }
-
-        }
-    }
+//    fun UploadPick(uri: Uri, context: Context) {
+//        uri?.let {
+//            StorageUtil.uploadToStorage(uri = it, context = context, type = "image")
+//        }
+//    }
+//
+//    class StorageUtil {
+//        companion object {
+//
+//            fun uploadToStorage(uri: Uri, context: Context, type: String) {
+//                val storage = Firebase.storage
+//
+//                // Create a storage reference from our app
+//                var storageRef = storage.reference
+//
+//                val unique_image_name = UUID.randomUUID()
+//                var spaceRef: StorageReference
+//
+//                if (type == "image") {
+//                    spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
+//                } else {
+//                    spaceRef = storageRef.child("videos/$unique_image_name.mp4")
+//                }
+//
+//                val byteArray: ByteArray? = context.contentResolver
+//                    .openInputStream(uri)
+//                    ?.use { it.readBytes() }
+//
+//                byteArray?.let {
+//
+//                    var uploadTask = spaceRef.putBytes(byteArray)
+//                    uploadTask.addOnFailureListener {
+//                        Toast.makeText(
+//                            context,
+//                            "upload failed",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        // Handle unsuccessful uploads
+//                    }.addOnSuccessListener { taskSnapshot ->
+//                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+//                        // ...
+//                        Toast.makeText(
+//                            context,
+//                            "upload successed",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//
+//
+//            }
+//
+//        }
+//    }
 
 //    @Composable
 //    fun ProfileFormDialog(onDismiss: () -> Unit) {
