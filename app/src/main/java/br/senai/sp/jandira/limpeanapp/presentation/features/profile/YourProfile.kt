@@ -155,14 +155,7 @@ fun YourProfile(
     val api: DiaristApi
 
     var isDialogVisible by remember { mutableStateOf(false) }
-    var isEditing by remember { mutableStateOf(false) }
-    var editedName by remember { mutableStateOf(resultado?.name ?: "") }
-    var editedPhone by remember {
-        mutableStateOf(
-            resultado?.phone?.firstOrNull()?.numberPhone ?: ""
-        )
-    }
-    var editedBiography by remember { mutableStateOf(resultado?.biography ?: "") }
+
 
     val totalStars = resultado?.assessment?.sumBy { it.stars } ?: 0
     val averageStars = if (totalStars != 0 && resultado?.assessment?.isNotEmpty() == true) {
@@ -480,14 +473,14 @@ fun YourProfile(
                                             )
                                         }
 
-                                        // Verifique se o formulário deve ser exibido e, em caso afirmativo, chame a função dentro de um composable
-                                        if (isFormVisible) {
-                                            ProfileFormDialog(
-                                                onDismiss = {
-                                                    // Defina isFormVisible como false quando o formulário for fechado isFormVisible = false
-                                                }
-                                            )
-                                        }
+//                                        // Verifique se o formulário deve ser exibido e, em caso afirmativo, chame a função dentro de um composable
+//                                        if (isFormVisible) {
+//                                            ProfileFormDialog(
+//                                                onDismiss = {
+//                                                    // Defina isFormVisible como false quando o formulário for fechado isFormVisible = false
+//                                                }
+//                                            )
+//                                        }
                                             Spacer(modifier = Modifier.width(8.dp))
 
                                             Button(
@@ -664,24 +657,24 @@ fun YourProfile(
         }
     }
 
-    @Composable
-    fun ProfileFormDialog(onDismiss: () -> Unit) {
-        Dialog(
-            onDismissRequest = {
-                // Chame onDismiss ao fechar o diálogo
-                onDismiss()
-            }
-        ) {
-            // Coloque o conteúdo do formulário aqui
-            ProfileFormUi(
-                profilePhoto = { SinglePhotoPicker(onSaveUri = {}) },
-                state = ProfileFormState(),
-                onEvent = { event ->
-
-                }
-            )
-        }
-    }
+//    @Composable
+//    fun ProfileFormDialog(onDismiss: () -> Unit) {
+//        Dialog(
+//            onDismissRequest = {
+//                // Chame onDismiss ao fechar o diálogo
+//                onDismiss()
+//            }
+//        ) {
+//            // Coloque o conteúdo do formulário aqui
+//            ProfileFormUi(
+//                profilePhoto = { SinglePhotoPicker(onSaveUri = {}) },
+//                state = ProfileFormState(),
+//                onEvent = { event ->
+//
+//                }
+//            )
+//        }
+//    }
 
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
