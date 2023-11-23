@@ -28,9 +28,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -53,6 +56,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.StarView
+//import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
 import com.example.compose.seed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -70,6 +75,7 @@ fun CustomDialog(
     )
 
     val text = rememberSaveable { mutableStateOf("") }
+    var rating by remember { mutableDoubleStateOf(0.0) }
 
 
 
@@ -162,9 +168,12 @@ fun CustomDialog(
 
                         Spacer(modifier = androidx.compose.ui.Modifier.height(7.dp))
 
-//                        StarView(
-//                            rating = 4.5
-//                        )
+                        StarView(
+                            rating = rating,
+                            onRatingChanged = { newRating ->
+                                rating = newRating
+                            }
+                        )
                     }
                 }
 
