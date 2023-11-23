@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.models
 
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AddressCleaningState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AddressCleaningState
+
 
 data class Address(
     val cep: String = "",
@@ -9,6 +10,7 @@ data class Address(
     val city: String = "",
     val state: String = "",
     val number: String = "",
+    val publicPlace : String = "",
     val complement: String? = null
 )
 fun Address.inCleaningCard() : String{

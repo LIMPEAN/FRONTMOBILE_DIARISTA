@@ -17,15 +17,15 @@ fun Diarist.toRequestApi() : RegisterRequest {
         email = this.email,
         password = this.password,
         nameUser = this.name,
-        ddd = this.ddd,
-        phone = this.phone,
+        ddd = phones[0].ddd,
+        phone = phones[0].number,
         birthDate = dataFake,
         photoUser = photoUser,
         idGender = this.gender.id,
         cpf = this.cpf,
         biography = this.biography?: "Biografia ausente",
         averagePrice = averagePrice,
-        address = this.address.toAddressRequest()
+        address = this.address[0].toAddressRequest()
     )
     Log.i("MODELO", modelo.toString())
     val converter = Gson()

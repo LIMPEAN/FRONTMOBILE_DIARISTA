@@ -47,7 +47,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.components.InputTextEmail
-import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.md_theme_light_error
 
 
@@ -115,7 +115,7 @@ private fun LoginScreen(
 
         TitleSection(
             title = stringResource(R.string.login),
-            description = stringResource(R.string.login_description)
+            description = stringResource(R.string.login_diarist_description)
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -187,7 +187,7 @@ private fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.2f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
 
@@ -205,27 +205,27 @@ private fun LoginScreen(
                     fontFamily = Poppins
                 )
             }
-            TextComLinhasLogin(texto = "ou")
-            OutlinedButton(
-                onClick = {
-                    onEvent(LoginEvent.LoginWithGoogle)
-                },
-                modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-            ){
-                Image(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(id = R.drawable.logo_google),
-                    contentDescription = "logo google"
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Entrar com Google",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.outline,
-                    fontFamily = Poppins
-                )
-            }
+//            TextComLinhasLogin(texto = "ou")
+//            OutlinedButton(
+//                onClick = {
+//                    onEvent(LoginEvent.LoginWithGoogle)
+//                },
+//                modifier = Modifier.fillMaxWidth(),
+//                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+//            ){
+//                Image(
+//                    modifier = Modifier.size(32.dp),
+//                    painter = painterResource(id = R.drawable.logo_google),
+//                    contentDescription = "logo google"
+//                )
+//                Spacer(modifier = Modifier.width(8.dp))
+//                Text(
+//                    text = "Entrar com Google",
+//                    style = MaterialTheme.typography.titleSmall,
+//                    color = MaterialTheme.colorScheme.outline,
+//                    fontFamily = Poppins
+//                )
+//            }
             if (state.isLoading){
                 Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.fillMaxWidth()) {
                     CircularProgressIndicator()

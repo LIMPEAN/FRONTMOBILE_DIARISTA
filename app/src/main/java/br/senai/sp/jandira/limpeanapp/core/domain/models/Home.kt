@@ -16,8 +16,21 @@ import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.QuantityRo
 data class Home(
     val rooms : List<RoomQuantity>,
     val name : String,
-    val address : Address
+    val homeAddress : HomeAddress
 )
+data class HomeAddress(
+    val cep: String = "",
+    val street: String = "",
+    val district: String = "",
+    val city: String = "",
+    val state: String = "",
+    val number: String = "",
+    val complement: String? = null,
+    val publicPlace: String = "",
+    val numberHouse : String = ""
+) {
+}
+
 data class RoomQuantity(
     val roomType : RoomType,
     val quantity: Number?

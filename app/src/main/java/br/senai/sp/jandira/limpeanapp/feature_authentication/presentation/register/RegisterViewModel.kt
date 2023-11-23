@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Phone
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.ViaCepApi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.models.RegisterResult
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.AddDiarist
@@ -42,6 +43,10 @@ class RegisterViewModel @Inject constructor(
     var address by mutableStateOf(Address())
         private set
 
+
+    var phone by mutableStateOf(Phone())
+        private set
+
     private val resultChannel = Channel<RegisterResult<Unit>>()
     val registerResult = resultChannel.receiveAsFlow()
 
@@ -50,8 +55,8 @@ class RegisterViewModel @Inject constructor(
             name = diarist.name,
             password = diarist.password,
             cpf = diarist.cpf,
-            ddd = diarist.ddd,
-            phone = diarist.phone,
+            ddd = diarist.phones[0].ddd,
+            phone = diarist.phones[0].number,
             email = diarist.email
         )
     }
@@ -78,7 +83,10 @@ class RegisterViewModel @Inject constructor(
                 diarist = diarist.copy(cpf = event.value)
             }
             is ProfileFormEvent.DDDChanged -> {
-                diarist = diarist.copy(ddd = event.value)
+                phone = phone.copy(ddd = event.value)
+                diarist = diarist.copy(phones = listOf(
+                    phone
+                ))
 
             }
             is ProfileFormEvent.EmailChanged -> {
@@ -88,7 +96,10 @@ class RegisterViewModel @Inject constructor(
                 diarist = diarist.copy(password = event.value)
             }
             is ProfileFormEvent.PhoneChanged -> {
-                diarist = diarist.copy(phone = event.value)
+                phone = phone.copy(number = event.value)
+                diarist = diarist.copy(phones = listOf(
+                    phone
+                ))
             }
         }
     }
@@ -117,15 +128,18 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun save(address : Address){
-        diarist = diarist.copy(address = address)
+        diarist = diarist.copy(address = listOf(
+            address
+        ))
         Log.i("save-address", diarist.toString())
     }
     fun save(profileState: ProfileFormState){
        diarist = diarist.copy(
            name = profileState.name,
            cpf = profileState.cpf,
-           phone = profileState.phone,
-           ddd = profileState.ddd,
+           phones = listOf(
+               phone
+           ),
            email = profileState.email,
            password = profileState.password
        )

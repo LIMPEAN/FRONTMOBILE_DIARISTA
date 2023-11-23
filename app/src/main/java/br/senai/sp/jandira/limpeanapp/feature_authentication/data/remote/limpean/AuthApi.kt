@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpea
 
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.dto.AuthRequest
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
 import br.senai.sp.jandira.limpeanapp.di.AuthInterceptor
 import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep.dto.RegisterRequest
@@ -21,6 +22,6 @@ interface AuthApi {
     @POST("cadastro")
     suspend fun register(
         @Body diarist : RegisterRequest
-    ): Response<BaseDto>
+    ): Response<BaseResponseDto>
 
 }

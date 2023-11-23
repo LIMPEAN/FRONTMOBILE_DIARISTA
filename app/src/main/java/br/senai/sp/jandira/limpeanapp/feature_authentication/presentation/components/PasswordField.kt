@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 
 

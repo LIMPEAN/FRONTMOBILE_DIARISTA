@@ -18,7 +18,7 @@ class DiaristFakeRepository()  : DiaristRepository {
         return flow { emit(diarists) }
     }
 
-    override suspend fun getDiaristById(id: Int): Diarist? {
+    override suspend fun getDiaristById(id: Number): Diarist? {
         return diarists[id]
     }
 

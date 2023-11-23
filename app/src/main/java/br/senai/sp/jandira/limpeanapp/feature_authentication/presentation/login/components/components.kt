@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.limpeanapp.ui.theme.Poppins
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_primary
 

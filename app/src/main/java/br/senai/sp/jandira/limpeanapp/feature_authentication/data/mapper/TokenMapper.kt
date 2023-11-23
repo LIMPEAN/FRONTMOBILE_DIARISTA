@@ -8,7 +8,7 @@ fun TokenResponse.toSession(): Session {
     return Session(
         user = User(
             id = this.id,
-            email = this.email
+            email = this.email,
         ),
         token = this.token,
         expiresAt = 100000

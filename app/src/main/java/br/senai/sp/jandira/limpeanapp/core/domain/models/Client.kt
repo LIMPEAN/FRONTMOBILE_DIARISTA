@@ -1,10 +1,12 @@
 package br.senai.sp.jandira.limpeanapp.core.domain.models
 
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.AboutClientState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.ClientInfoState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.HomeInfoState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AboutClientState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.ClientInfoState
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.HomeInfoState
+
 
 data class Client(
+    val id : Number? = null,
     val name: String = "",
     val photo : String = "",
     val biography: String? = null
