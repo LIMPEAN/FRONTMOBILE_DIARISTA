@@ -63,8 +63,8 @@ interface DiaristApi {
     suspend fun getInviteById(@Query("id") id : Number)
 
 
-    @GET("diarist/service/token?idService={id}")
-    suspend fun getToken(@Query("id") id : Number) : BaseResponseToken
+    @GET("diarist/service/token")
+    suspend fun getToken(@Query("idService") idService : Number) : BaseResponseToken
 
   //Atualiza o preço do serviço
 

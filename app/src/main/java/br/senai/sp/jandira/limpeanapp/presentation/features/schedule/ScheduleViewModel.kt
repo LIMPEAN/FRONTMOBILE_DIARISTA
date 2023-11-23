@@ -11,6 +11,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetScheduledServicesUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.StartServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningListState
@@ -24,6 +25,7 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.compo
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuestions
+import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.components.starting.StartServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
@@ -35,7 +37,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
-    private val getScheduledServices : GetScheduledServicesUseCase
+    private val getScheduledServices : GetScheduledServicesUseCase,
+    private val startServiceUseCase: StartServiceUseCase
 ) : ViewModel(){
 
 
@@ -45,6 +48,9 @@ class ScheduleViewModel @Inject constructor(
     private val _selectedCleaning = mutableStateOf(Cleaning())
     val selectedCleaning = _selectedCleaning
 
+    private val _startServiceState = mutableStateOf(StartServiceState())
+    val startServiceState = _startServiceState
+
     private val _uiEvent =  Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
     init {
@@ -52,7 +58,7 @@ class ScheduleViewModel @Inject constructor(
     }
 
 
-    private fun getScheduled(){
+    fun getScheduled(){
         getScheduledServices().onEach {result ->
             when(result){
                 is Resource.Success -> {
@@ -80,10 +86,30 @@ class ScheduleViewModel @Inject constructor(
             _uiEvent.send(event)
         }
     }
+    fun onEvent(event: ScheduleEvent){
 
-    fun onStartService(cleaning: Cleaning) {
-        sendUiEvent(UiEvent.ShowToast(
-            "Serviço iniciado. $cleaning"
-        ))
     }
+    fun onStartService(cleaning: Cleaning) {
+        startServiceUseCase(cleaning.id!!).onEach { result ->
+            when(result){
+                is Resource.Loading -> {
+                    _startServiceState.value = StartServiceState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _startServiceState.value = StartServiceState(
+                        isTokenGenerate = true,
+                        token = result.data?.token ?: ""
+                    )
+                }
+                is Resource.Error -> {
+                    _startServiceState.value = StartServiceState(
+                        message = result.message?: "Erro ao gerar token."
+                    )
+                }
+
+            }
+        }.launchIn(viewModelScope)
+    }
+
+
 }

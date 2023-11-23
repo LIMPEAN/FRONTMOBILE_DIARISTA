@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
@@ -48,6 +49,8 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
+import br.senai.sp.jandira.limpeanapp.feature_diarist.token.InsertTokenScreen
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.LoadingDialog
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.ModalCleaningDetails
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.quantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
@@ -62,7 +65,12 @@ fun ScheduleScreen(
     viewModel : ScheduleViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val startServiceState = viewModel.startServiceState.value
     val context = LocalContext.current
+
+    var isShowDialog by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(state.message) {
         if(state.message.isNotBlank()){
@@ -73,10 +81,24 @@ fun ScheduleScreen(
             ).show()
         }
     }
+    if(startServiceState.isLoading){
+        LoadingDialog()
+    }
     ScheduleContent(
         cleanings = state.cleanings
     ){
         viewModel.onStartService(it)
+    }
+
+    if(isShowDialog){
+        Dialog(
+            onDismissRequest = {
+                viewModel.getScheduled()
+                isShowDialog = false
+            }
+        ) {
+
+        }
     }
 }
 
@@ -86,6 +108,7 @@ private fun ScheduleContent(
     cleanings : List<Cleaning> = fakeCleanings,
     onStartClick: (Cleaning) -> Unit = {},
 ){
+    val context = LocalContext.current
     var cleaning by remember {
         mutableStateOf(Cleaning())
     }
@@ -110,7 +133,9 @@ private fun ScheduleContent(
                 onCleaningDetail = {
                     cleaning = it
                     isShowBottomSheet = true },
-                onStartClick = {onStartClick(cleaning)},
+                onStartClick = {
+                    onStartClick(it)
+                },
                 onInfoClick = {
                     cleaning = it
                     isShowBottomSheet = true
@@ -121,9 +146,7 @@ private fun ScheduleContent(
             ModalCleaningDetails(
                 cleaningDetails = cleaning.toDetailsState(),
                 onDismissRequest = { isShowBottomSheet = false},
-                actions = {
-                    Text(text = "Olá")
-                }
+                actions = {}
             )
         }
     }

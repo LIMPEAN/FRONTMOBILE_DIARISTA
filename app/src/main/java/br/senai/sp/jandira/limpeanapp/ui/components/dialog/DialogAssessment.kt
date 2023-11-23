@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import br.senai.sp.jandira.limpeanapp.R
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
 import com.example.compose.seed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -163,9 +162,9 @@ fun CustomDialog(
 
                         Spacer(modifier = androidx.compose.ui.Modifier.height(7.dp))
 
-                        StarView(
-                            rating = 4.5
-                        )
+//                        StarView(
+//                            rating = 4.5
+//                        )
                     }
                 }
 

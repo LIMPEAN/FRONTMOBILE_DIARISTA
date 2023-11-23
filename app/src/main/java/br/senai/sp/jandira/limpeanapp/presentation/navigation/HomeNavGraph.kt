@@ -57,11 +57,7 @@ fun HomeNavGraph(
         startDestination = HomeRoute.CLEANING
     ){
         composable(HomeRoute.CLEANING){
-            FindCleaningScreen(
-                onNavigate = {
-                    navController.navigate(it.route)
-                }
-            )
+            FindCleaningScreen()
         }
         composable(HomeRoute.SCHEDULE){
             ScheduleScreen()

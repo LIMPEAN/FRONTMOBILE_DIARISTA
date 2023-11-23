@@ -60,7 +60,6 @@ import com.example.compose.LimpeanAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FindCleaningScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel : FindCleaningViewModel = hiltViewModel()
 ) {
 
@@ -250,6 +249,7 @@ fun FindYourCleanings(
     onInfoClick : (Cleaning) -> Unit
 ) {
     HomeSection(
+        modifier = Modifier.padding(24.dp).fillMaxSize(),
         title = "Encontre seus serviços",
     ) {
         LazyColumn(){

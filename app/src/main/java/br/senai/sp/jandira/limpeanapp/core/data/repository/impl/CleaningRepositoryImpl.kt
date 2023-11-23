@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
@@ -41,10 +42,9 @@ class CleaningRepositoryImpl @Inject constructor(
         return api.getServices(idStatus = StatusService.AGENDADO.codigo)
     }
 
-    override suspend fun startService(id: Number, dateTime: LocalDateTime): ServiceToken {
+    override suspend fun startService(idService: Number): BaseResponseToken {
         try {
-            val result = api.getTokenFromService(idService = id)
-            return ServiceToken(value = result.token)
+            return api.getToken(idService)
         } catch (e : Exception){
             throw e
         }
