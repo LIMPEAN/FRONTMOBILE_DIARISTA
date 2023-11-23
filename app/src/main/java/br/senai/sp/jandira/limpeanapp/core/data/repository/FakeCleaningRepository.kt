@@ -30,7 +30,7 @@ val fakeCleanings = listOf(
         status = listOf(
             ServiceStatus(StatusService.EM_ABERTO, LocalDateTime.now())
         ),
-        address = Address("10001", city = "New York", complement = null, district = "teste" , number = "14", state = "New York", street = "St. Mark’s Place"),
+        address = Address("06703480", city = "New York", complement = null, district = "teste" , number = "14", state = "New York", street = "St. Mark’s Place"),
         details = CleaningDetails(
             questions = listOf(
                 Question(
@@ -62,7 +62,7 @@ val fakeCleanings = listOf(
         status = listOf(
             ServiceStatus(StatusService.AGENDADO, dateTime = LocalDateTime.now())
         ),
-        address = Address("10001", city = "Genebra", complement = null, district = "teste" , number = "10", state = "Suíca", street = "Rua dos Jardins"),
+        address = Address("29145480", city = "Genebra", complement = null, district = "teste" , number = "10", state = "Suíca", street = "Rua dos Jardins"),
         details = CleaningDetails(
             questions = listOf(
                 Question(

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,26 +40,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
+import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
-import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.feature_diarist.token.GenerateTokenContent
-import br.senai.sp.jandira.limpeanapp.feature_diarist.token.InsertTokenScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.LoadingDialog
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.ModalCleaningDetails
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.quantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCard
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.GoogleMapContainer
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
+import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_tertiary
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.time.LocalTime
+import javax.inject.Inject
 
 
 @Composable
@@ -86,11 +96,13 @@ fun ScheduleScreen(
         LoadingDialog()
     }
     ScheduleContent(
-        cleanings = state.cleanings
-    ){
-        viewModel.onStartService(it)
-        isShowDialog = true
-    }
+        cleanings = state.cleanings,
+        onStartClick = {
+            viewModel.onStartService(it)
+            isShowDialog = true
+        }
+    )
+
 
     if(startServiceState.isLoading){
         LoadingDialog()
@@ -117,6 +129,7 @@ fun ScheduleScreen(
 private fun ScheduleContent(
     cleanings : List<Cleaning> = fakeCleanings,
     onStartClick: (Cleaning) -> Unit = {},
+
 ){
     val context = LocalContext.current
     var cleaning by remember {
@@ -167,7 +180,7 @@ fun SchedulesContent(
     cleanings : List<Cleaning>,
     onCleaningDetail: (Cleaning) -> Unit,
     onStartClick : (Cleaning) -> Unit,
-    onInfoClick : (Cleaning) -> Unit
+    onInfoClick : (Cleaning) -> Unit,
 ) {
     if(cleanings.isEmpty()){
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
@@ -181,8 +194,37 @@ fun SchedulesContent(
             cleanings = cleanings,
             onStartClick = { onStartClick(it) },
             onInfoClick = { onInfoClick(it) },
-            onCleaningDetail = { onCleaningDetail(it)}
+            onCleaningDetail = { onCleaningDetail(it)},
         )
+    }
+}
+@HiltViewModel
+class MapViewModel @Inject constructor(
+    private val getPropertiesForMapUseCase : GetPropertiesForGoogleMapUseCase
+) : ViewModel(){
+
+    var state by mutableStateOf(GoogleMapState())
+        private set
+
+    fun onLoadingMap(cleaning : Cleaning){
+        getPropertiesForMapUseCase(cleaning).onEach {result ->
+            state = when(result){
+                is Resource.Success ->{
+                    result.data?: GoogleMapState()
+                }
+
+                is Resource.Error -> {
+                    GoogleMapState()
+
+                }
+
+                is Resource.Loading -> {
+                    GoogleMapState(isLoading = true)
+                }
+
+            }
+
+        }.launchIn(viewModelScope)
     }
 }
 @Preview
@@ -192,7 +234,8 @@ fun ScheduleList(
     cleanings : List<Cleaning> = fakeCleanings,
     onCleaningDetail : (Cleaning) -> Unit = {},
     onStartClick: (Cleaning) -> Unit ={},
-    onInfoClick: (Cleaning) -> Unit ={}
+    onInfoClick: (Cleaning) -> Unit ={},
+    mapViewModel : MapViewModel = hiltViewModel()
 ) {
     LazyColumn(
         modifier = modifier,
@@ -202,7 +245,27 @@ fun ScheduleList(
         items(cleanings){cleaning ->
             val model = cleaning.toCleaningCardState()
             val address = cleaning.address
+            var googleMap by remember {
+                mutableStateOf(mapViewModel.state)
+            }
             CleaningCard(
+                mapContainer = {
+                    mapViewModel.onLoadingMap(cleaning)
+                    if(googleMap.isLoading){
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)){
+                            CircularProgressIndicator()
+                        }
+                    }
+                    if(googleMap.local != null){
+                        GoogleMapContainer(
+                            modifier = Modifier.fillMaxWidth().height(200.dp),
+                            local = googleMap.local!!, name = googleMap.name, place = googleMap.place)
+                    } else{
+                        ImageMap()
+                    }
+                },
                 quantityRooms = cleaning.details.roomsQuantity,
                 dateTime = cleaning.dateTime,
                 nameClient = model.nameClient,

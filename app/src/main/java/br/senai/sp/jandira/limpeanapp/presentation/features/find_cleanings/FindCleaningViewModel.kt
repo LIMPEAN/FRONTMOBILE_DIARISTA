@@ -9,6 +9,8 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetOpenServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.AcceptServiceUseCase
@@ -30,9 +32,13 @@ import javax.inject.Inject
 class FindCleaningViewModel @Inject  constructor(
     private val getOpenServicesUseCase: GetOpenServicesUseCase,
     private val getDiaristByToken : GetDiaristByTokenUseCase,
-    private val acceptServiceUseCase : AcceptServiceUseCase
+    private val acceptServiceUseCase : AcceptServiceUseCase,
+    private val getPropertiesForGoogleMapUseCase: GetPropertiesForGoogleMapUseCase
 ) : ViewModel() {
 
+
+    private val _googleMapState = mutableStateOf(GoogleMapState())
+    val googleMapState : State<GoogleMapState> = _googleMapState
 
     private val _state = mutableStateOf(FindCleaningState())
     val state : State<FindCleaningState> = _state
@@ -98,6 +104,10 @@ class FindCleaningViewModel @Inject  constructor(
             is FindCleaningEvent.OnCleaningInfoClick -> {
                 _selectedCleaning.value = event.cleaning
             }
+
+            is FindCleaningEvent.OnLoadingGoogleMap -> {
+                getPropertiesForGoogleMap(event.cleaning)
+            }
         }
     }
     private fun sendUiEvent(event: UiEvent) {
@@ -146,6 +156,26 @@ class FindCleaningViewModel @Inject  constructor(
                     _getDiaristState.value = GetDiaristState(
                         isLoading = true
                     )
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getPropertiesForGoogleMap(cleaning: Cleaning){
+        getPropertiesForGoogleMapUseCase(cleaning).onEach {result ->
+            when(result){
+                is Resource.Success ->{
+                    _googleMapState.value = result.data?: GoogleMapState()
+                }
+
+                is Resource.Error -> {
+                    _googleMapState.value = GoogleMapState()
+                    _state.value = FindCleaningState(
+                        message = "Erro ao carregar mapa. ${result.message}"
+                    )
+                }
+                is Resource.Loading -> {
+                    _googleMapState.value = GoogleMapState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

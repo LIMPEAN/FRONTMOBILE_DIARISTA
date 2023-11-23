@@ -10,7 +10,7 @@ import androidx.compose.material.icons.filled.House
 import androidx.compose.material.icons.filled.LocalLaundryService
 import androidx.compose.material.icons.filled.Yard
 import androidx.compose.ui.graphics.vector.ImageVector
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.QuantityRoomsCategory
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.QuantityRoomsCategory
 
 
 data class Home(

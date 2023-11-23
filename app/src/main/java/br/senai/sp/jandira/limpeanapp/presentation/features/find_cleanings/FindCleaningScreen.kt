@@ -5,9 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,18 +23,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,23 +39,23 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
-import br.senai.sp.jandira.limpeanapp.core.domain.models.CleaningDetails
-import br.senai.sp.jandira.limpeanapp.core.domain.models.toAddressCleaningState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
-import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.ConfirmDialog
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.DoYouLikeService
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.CleaningNotFound
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCard
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.FindCleaningCardActions
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StartedCleaningActions
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCard
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.FindCleaningCardActions
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.StartedCleaningActions
 import com.example.compose.LimpeanAppTheme
 
 
@@ -76,6 +70,7 @@ fun FindCleaningScreen(
     val diaristState = viewModel.getDiaristState.value
     val context = LocalContext.current
     val selectedCleaning = viewModel.selectedCleaning.value
+    val googleMapState = viewModel.googleMapState.value
 
     LaunchedEffect(state.message) {
         if (state.message.isNotBlank()) {
@@ -95,14 +90,11 @@ fun FindCleaningScreen(
         onAcceptClick = {
             viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
-        onCleaningDetail = {
-            viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
-        },
         isLoadingCleaning = state.isLoadingCleanings,
-        onInfoClick = {
-            viewModel.onEvent(FindCleaningEvent.OnCleaningInfoClick(it))
+        onLoadingGoogleMap = {
+            viewModel.onEvent(FindCleaningEvent.OnLoadingGoogleMap(it))
         },
-        selectedCleaning = selectedCleaning,
+        googleMapState = googleMapState
     )
     if (state.isLoading) {
         LoadingDialog()
@@ -149,17 +141,21 @@ data class Category(
 @Composable
 fun FindCleaningPreview() {
     LimpeanAppTheme {
+        var googleMapState by remember {
+            mutableStateOf(GoogleMapState())
+        }
         FindCleaningContent(
             nameUser = "TEste",
             cleanings = fakeCleanings,
             isLoadingCleaning = false,
             isLoadingDiarist = false,
-            onInfoClick = {},
             onAcceptClick = {},
-            onCleaningDetail = {},
             startedCleaning = listOf(
                 Cleaning()
-            )
+            ),
+            onLoadingGoogleMap = {
+            },
+            googleMapState = googleMapState
         )
     }
 }
@@ -170,12 +166,11 @@ fun FindCleaningContent(
     nameUser: String = "Felipe",
     startedCleaning: List<Cleaning> = emptyList(),
     cleanings: List<Cleaning> = fakeCleanings,
-    onCleaningDetail: (Cleaning) -> Unit,
-    onInfoClick: (Cleaning) -> Unit,
     onAcceptClick: (Cleaning) -> Unit,
     isLoadingCleaning: Boolean,
     isLoadingDiarist: Boolean,
-    selectedCleaning: Cleaning = Cleaning()
+    onLoadingGoogleMap : (Cleaning) -> Unit,
+    googleMapState: GoogleMapState
 ) {
     var selectedCleaning by remember {
         mutableStateOf(Cleaning())
@@ -245,6 +240,9 @@ fun FindCleaningContent(
                     items(startedCleaning){cleaning ->
                         val address = cleaning.address
                         CleaningCard(
+                            mapContainer = {
+                                  ImageMap()
+                            },
                             nameClient = cleaning.client.name,
                             servicePrice = cleaning.price,
                             dateTime = cleaning.dateTime,
@@ -270,12 +268,16 @@ fun FindCleaningContent(
                     stickyHeader {
                         HomeSection(
                             modifier = Modifier.padding(vertical = 18.dp),
-                            title = "Em andamento"
+                            title = "Encontre seus serviços"
                         ){}
                     }
                     items(startedCleaning){cleaning ->
                         val address = cleaning.address
+                        onLoadingGoogleMap(cleaning)
                         CleaningCard(
+                            mapContainer = {
+                                ImageMap()
+                            },
                             nameClient = cleaning.client.name,
                             servicePrice = cleaning.price,
                             dateTime = cleaning.dateTime,
@@ -407,6 +409,7 @@ fun SearchBar() {
 fun FindCleaningList(
     modifier: Modifier = Modifier,
     cleanings: List<Cleaning> = fakeCleanings,
+    googleMapState : GoogleMapState = GoogleMapState(),
     onCleaningDetail: (Cleaning) -> Unit = {},
     onAcceptClick: (Cleaning) -> Unit = {},
     onInfoClick: (Cleaning) -> Unit = {}
@@ -419,6 +422,9 @@ fun FindCleaningList(
         items(cleanings) { cleaning ->
             val model = cleaning.toCleaningCardState()
             CleaningCard(
+                mapContainer = {
+                    ImageMap()
+                },
                 nameClient = model.nameClient,
                 servicePrice = model.servicePrice,
                 local = model.local,

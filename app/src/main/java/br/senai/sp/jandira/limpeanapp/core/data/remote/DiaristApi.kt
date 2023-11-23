@@ -84,6 +84,6 @@ interface DiaristApi {
 
 
     @DELETE("diarist")
-    suspend fun deleteDiarist()
+    suspend fun deleteDiarist() : BaseResponseDto
 
 }

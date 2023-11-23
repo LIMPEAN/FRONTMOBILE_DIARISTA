@@ -10,6 +10,8 @@ import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetScheduledServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.StartServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
@@ -38,9 +40,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
     private val getScheduledServices : GetScheduledServicesUseCase,
-    private val startServiceUseCase: StartServiceUseCase
+    private val startServiceUseCase: StartServiceUseCase,
+    private val getPropertiesForGoogleMapUseCase: GetPropertiesForGoogleMapUseCase
 ) : ViewModel(){
 
+
+
+    private val _googleMapState = mutableStateOf(GoogleMapState())
+    val googleMapState : State<GoogleMapState> = _googleMapState
 
     private val _state = mutableStateOf(CleaningListState())
     val state : State<CleaningListState> = _state
@@ -107,6 +114,25 @@ class ScheduleViewModel @Inject constructor(
                     )
                 }
 
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getPropertiesForMap(cleaning : Cleaning) {
+        getPropertiesForGoogleMapUseCase(cleaning).onEach {result ->
+            when(result){
+                is Resource.Success ->{
+                    _googleMapState.value = result.data?: GoogleMapState()
+                }
+
+                is Resource.Error -> {
+                    _googleMapState.value = GoogleMapState()
+
+                }
+                is Resource.Loading -> {
+                    _googleMapState.value = GoogleMapState(isLoading = true)
+                }
+                else -> {}
             }
         }.launchIn(viewModelScope)
     }

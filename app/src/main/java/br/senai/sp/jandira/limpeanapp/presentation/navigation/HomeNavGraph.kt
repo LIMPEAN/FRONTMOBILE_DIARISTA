@@ -32,7 +32,6 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindC
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.invites.NotificationsScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.profile.SettingsScreen
-import br.senai.sp.jandira.limpeanapp.presentation.features.profile.YourProfile
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.ScheduleScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -66,8 +65,7 @@ fun HomeNavGraph(
             Text(text = "Invites Screen")
         }
         composable(HomeRoute.PROFILE){
-//            SettingsScreen()
-            YourProfile()
+            SettingsScreen()
         }
 
     }

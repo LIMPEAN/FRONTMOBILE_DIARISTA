@@ -3,7 +3,7 @@ package br.senai.sp.jandira.limpeanapp.core.domain.models
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningSupportState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCardState
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCardState
 import java.time.LocalDateTime
 
 data class Cleaning(
