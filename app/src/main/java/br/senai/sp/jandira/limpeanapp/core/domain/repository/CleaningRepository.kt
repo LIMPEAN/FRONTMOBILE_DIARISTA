@@ -27,7 +27,7 @@ interface CleaningRepository {
     suspend fun endService(id: Number)
     suspend fun sendProposal(id: Number,price : Double)
 
-
+    suspend fun getStartedService() : Cleaning
     fun getFinishedServices() : Flow<List<Cleaning>>
     fun getInvites() : Flow<List<Cleaning>>
     suspend fun getCleaningDetail(id: Number) : Cleaning?

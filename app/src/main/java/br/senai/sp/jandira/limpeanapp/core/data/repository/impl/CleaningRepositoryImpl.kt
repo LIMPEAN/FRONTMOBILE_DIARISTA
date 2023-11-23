@@ -6,17 +6,15 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
-import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 
@@ -94,5 +92,10 @@ class CleaningRepositoryImpl @Inject constructor(
 
     override suspend fun getCleaningDetail(id: Number): Cleaning? {
         return Cleaning(1)
+    }
+
+    override suspend fun getStartedService(): Cleaning {
+        val cleanings = api.getServices(StatusService.EM_ANDAMENTO.codigo).data.map { it.client.toCleaning() }
+        return cleanings.minByOrNull { it.dateTime }!!
     }
 }

@@ -260,7 +260,64 @@ sealed class FindCleaningCardEvent {
 }
 
 
+@Composable
+fun StartedCleaningActions(
+    cleaning : Cleaning,
+    onFinished : (Cleaning) -> Unit,
+    onInfoClick: (Cleaning) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error
+            ),
+            modifier = Modifier.fillMaxWidth(0.48f),
+            onClick = {
+                onFinished(cleaning)
+            }) {
+            Text(
+                text = "Finalizar",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.onError
+            )
+        }
+        Spacer(modifier = Modifier.fillMaxWidth(0.1f))
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                onInfoClick(cleaning)
+            }) {
+            Text(
+                text = "Ver detalhes",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.tertiary
+            )
+        }
+    }
+}
 
+@Preview
+@Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun StartedPreview() {
+    LimpeanAppTheme {
+        Card {
+            StartedCleaningActions(cleaning = Cleaning(), onFinished = {}, onInfoClick ={} )
+        }
+    }
+}
 @Composable
 fun FindCleaningCardActions(
     cleaning : Cleaning = Cleaning(),

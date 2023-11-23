@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +28,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,11 +50,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.seed
-
+import org.w3c.dom.Text
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -113,7 +118,9 @@ fun InsertTokenScreen(
 
         content = {
 
-            GenerateTokenContent()
+            GenerateTokenContent(
+                {}
+            )
 
 
         }
@@ -124,22 +131,23 @@ fun InsertTokenScreen(
 }
 
 @Composable
-fun GenerateTokenContent() {
+fun GenerateTokenContent(
+    onBackPress : () -> Unit = {},
+    token : String = "token aqui"
+) {
     val customFontFamily = Poppins
     Card(
-        modifier = Modifier
-            .fillMaxSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onBackground
         ),
-        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+        shape = RoundedCornerShape(32.dp)
     ) {
 
-        Row(
-            modifier = Modifier
-                .padding(25.dp)
-                .fillMaxWidth()
+        Column(
+            modifier = Modifier.padding(25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.request_token),
@@ -147,19 +155,8 @@ fun GenerateTokenContent() {
                 modifier = Modifier.fillMaxWidth(),
                 fontWeight = FontWeight.Normal,
                 fontFamily = customFontFamily,
-                style = MaterialTheme.typography.headlineSmall,
-                textAlign = TextAlign.Center
+                style = MaterialTheme.typography.bodyLarge
             )
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(25.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
             Image(modifier = Modifier.height(230.dp),
                 painter = painterResource(id = R.drawable.authenticate),
                 contentDescription = "imagem "
@@ -169,107 +166,39 @@ fun GenerateTokenContent() {
                 text = stringResource(id = R.string.description_request_token),
                 fontFamily = customFontFamily,
                 fontWeight = FontWeight.Light,
-                color = Color.Gray
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodySmall
             )
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-
-                val text = rememberSaveable { mutableStateOf("") }
-
-                OutlinedTextField(modifier = Modifier.fillMaxWidth(),
-                    value = text.value, onValueChange = {text.value = it},
-                    label = { Text(text = stringResource(id = R.string.authenticate_token))})
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .height(45.dp)
-                .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(containerColor = seed),
-                shape = RoundedCornerShape(size = 8.dp),
-                onClick = { /*TODO*/ }
-            ) {
-                Text(
-                    text = stringResource(id = R.string.view),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(Color(red = 227, green = 227, blue = 227))
-                )
-                Text(
-                    text = stringResource(id = R.string.something_went_wrong),
-                    modifier = Modifier.padding(14.dp),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color(red = 100, green = 102, blue = 102)
-                )
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(Color(red = 227, green = 227, blue = 227))
-                )
-            }
-
-            Row(
+            OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .width(158.dp)
-                        .height(40.dp)
-                        .background(Color.White),
-                    colors = ButtonDefaults.buttonColors(Color.Transparent),
-                    border = BorderStroke(1.dp, colorResource(id = R.color.outlined_button_red)),
-                    shape = RoundedCornerShape(8.dp),
-                ){
+                value = token,
+                onValueChange = {},
+                label = {
                     Text(
-                        text = stringResource(id = R.string.cancel),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = colorResource(id = R.color.outlined_button_red)
+                        text = stringResource(id = R.string.authenticate_token),
+                        fontFamily = Poppins
                     )
                 }
+            )
 
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .width(158.dp)
-                        .height(40.dp)
-                        .background(Color.White),
-                    colors = ButtonDefaults.buttonColors(Color.Transparent),
-                    border = BorderStroke(1.dp, colorResource(id = R.color.outlined_button_yellow)),
-                    shape = RoundedCornerShape(8.dp),
-                ){
-                    Text(
-                        text = stringResource(id = R.string.report),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = colorResource(id = R.color.outlined_button_yellow)
-                    )
-                }
+
+            Button(
+                onClick = { onBackPress()},
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                border = BorderStroke(1.dp, colorResource(id = R.color.outlined_button_red)),
+                shape = RoundedCornerShape(8.dp),
+            ){
+                Text(
+                    text = stringResource(R.string.voltar).uppercase(),
+                    fontWeight = FontWeight.SemiBold,
+                    color = colorResource(id = R.color.outlined_button_red)
+                )
             }
-
         }
-
     }
 }
 
@@ -278,7 +207,28 @@ fun GenerateTokenContent() {
 @Composable
 fun TokenPreview() {
     LimpeanAppTheme {
-        GenerateTokenContent()
+        var isShowDialog by remember {
+            mutableStateOf(true)
+        }
+        var token by remember {
+            mutableStateOf("126dionv3")
+        }
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Button(onClick = { isShowDialog = true}) {
+                Text(text = "Ver token")
+            }
+        }
+        if(isShowDialog){
+            Dialog(onDismissRequest = { isShowDialog = false}) {
+                GenerateTokenContent(
+                    onBackPress = {isShowDialog = false},
+                    token = token
+                )
+            }
+        }
     }
 }
 

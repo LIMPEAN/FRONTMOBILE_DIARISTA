@@ -49,6 +49,7 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
+import br.senai.sp.jandira.limpeanapp.feature_diarist.token.GenerateTokenContent
 import br.senai.sp.jandira.limpeanapp.feature_diarist.token.InsertTokenScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.LoadingDialog
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.ModalCleaningDetails
@@ -88,8 +89,12 @@ fun ScheduleScreen(
         cleanings = state.cleanings
     ){
         viewModel.onStartService(it)
+        isShowDialog = true
     }
 
+    if(startServiceState.isLoading){
+        LoadingDialog()
+    }
     if(isShowDialog){
         Dialog(
             onDismissRequest = {
@@ -97,10 +102,15 @@ fun ScheduleScreen(
                 isShowDialog = false
             }
         ) {
-
+            GenerateTokenContent(
+                onBackPress = {isShowDialog = false},
+                token = startServiceState.token
+            )
         }
     }
 }
+
+
 
 @Preview(showSystemUi = true)
 @Composable

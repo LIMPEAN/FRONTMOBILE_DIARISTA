@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
-
+enum class Order {
+    ASCENDENT,DESCENDENT
+}
 class GetScheduledServicesUseCase @Inject constructor(
     private val repository : CleaningRepository
 ) {
@@ -20,6 +22,7 @@ class GetScheduledServicesUseCase @Inject constructor(
             emit(Resource.Loading())
             val schedules = repository.getScheduledCleanings()
                 .data.map { it.client.toCleaning() }
+
             Log.i("TAG", "invoke: $schedules")
             emit(Resource.Success(schedules))
         } catch (e: HttpException){
