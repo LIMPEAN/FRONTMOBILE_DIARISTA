@@ -9,6 +9,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.via_cep
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -23,5 +24,9 @@ interface AuthApi {
     suspend fun register(
         @Body diarist : RegisterRequest
     ): Response<BaseResponseDto>
+
+    //
+    @GET("verify/jwt")
+    suspend fun authenticate()
 
 }

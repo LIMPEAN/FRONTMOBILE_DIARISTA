@@ -33,4 +33,20 @@ class AuthRepositoryImpl @Inject constructor(
             AuthResult.UnknownError()
         }
     }
+
+    override suspend fun authenticate(): AuthResult<Unit> {
+        return try {
+            sessionCache.getActiveSession() ?: return AuthResult.Unauthorized()
+            api.authenticate()
+            AuthResult.Authorized(data = null)
+        } catch(e: HttpException) {
+            if(e.code() == 401) {
+                AuthResult.Unauthorized()
+            } else {
+                AuthResult.UnknownError()
+            }
+        } catch (e: Exception) {
+            AuthResult.UnknownError()
+        }
+    }
 }

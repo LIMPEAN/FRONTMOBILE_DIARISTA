@@ -24,6 +24,7 @@ class LoginViewModel @Inject constructor(
         private set
 
 
+
     private val resultChannel = Channel<AuthResult<Unit>>()
     val authResult = resultChannel.receiveAsFlow()
     fun onEvent(event: LoginEvent){
