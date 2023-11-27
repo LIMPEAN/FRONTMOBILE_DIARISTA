@@ -12,6 +12,7 @@ data class FindCleaningState(
     val selectedCleaning : Cleaning = Cleaning(),
     val diarist: Diarist = Diarist(),
     val isShowBottomSheet : Boolean = false,
+    val isShowAssentment: Boolean = false
 )
 data class GetDiaristState(
     val diarist : Diarist = Diarist(),

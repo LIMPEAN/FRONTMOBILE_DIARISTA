@@ -4,9 +4,8 @@ import br.senai.sp.jandira.limpeanapp.core.data.mapper.parseStringToDateTime
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Client
+import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceStatus
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class ServiceDto(
     val address: Address,
@@ -41,6 +40,17 @@ fun ServiceDto.toCleaning() : Cleaning {
             observations = observation
         ),
         type = statusService.map { it.toTypeEnum() },
-        address = address.toAddress()
+        address = address.toAddress(),
+        status = statusService.map { it.toServiceStatus() }
+    )
+}
+fun StatusService.toServiceStatus(): br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceStatus {
+    val status =  br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService.values()
+        .find { it.description == this.status }
+        ?: br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService.EM_ANDAMENTO
+
+    return  ServiceStatus(
+        type = status,
+        dateTime = parseStringToDateTime(data_hora)
     )
 }

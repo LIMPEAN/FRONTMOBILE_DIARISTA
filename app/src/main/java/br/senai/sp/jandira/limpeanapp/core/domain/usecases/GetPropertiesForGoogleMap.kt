@@ -29,8 +29,16 @@ class GetPropertiesForGoogleMapUseCase @Inject constructor(
             emit(Resource.Loading())
 
             val address = cleaning.address
+            val cepWithoutSymbol = address.cep.split("-")
+            var finalCep = 0
+            finalCep = if(cepWithoutSymbol.size == 2){
+                val cep  = cepWithoutSymbol[0] + cepWithoutSymbol[1]
+                cep.toInt()
+            } else {
+                address.cep.toInt()
+            }
             val googleMapsResults = googleApi.getMapInfoFromCep(
-                cep = address.cep.toInt(),
+                cep = finalCep,
                 key = KEY
             )
             val location = googleMapsResults.results.first().geometry.location

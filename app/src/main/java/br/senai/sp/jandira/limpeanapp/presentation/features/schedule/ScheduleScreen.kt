@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -63,7 +62,6 @@ import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCard
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.GoogleMapContainer
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningEvent
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_tertiary
 import dagger.hilt.android.lifecycle.HiltViewModel

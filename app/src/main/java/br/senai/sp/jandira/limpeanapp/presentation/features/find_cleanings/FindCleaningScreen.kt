@@ -41,7 +41,6 @@ import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
-import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
@@ -67,9 +66,10 @@ fun FindCleaningScreen(
 
 
     val state = viewModel.state.value
+    val startedServicesState = viewModel.startedServices.value
+    val startedCleanings = startedServicesState.cleanings
     val diaristState = viewModel.getDiaristState.value
     val context = LocalContext.current
-    val selectedCleaning = viewModel.selectedCleaning.value
     val googleMapState = viewModel.googleMapState.value
 
     LaunchedEffect(state.message) {
@@ -87,6 +87,7 @@ fun FindCleaningScreen(
         nameUser = diaristState.diarist.name,
         isLoadingDiarist = diaristState.isLoading,
         cleanings = state.openServices,
+        startedCleaning = startedCleanings,
         onAcceptClick = {
             viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
@@ -94,7 +95,11 @@ fun FindCleaningScreen(
         onLoadingGoogleMap = {
             viewModel.onEvent(FindCleaningEvent.OnLoadingGoogleMap(it))
         },
-        googleMapState = googleMapState
+        googleMapState = googleMapState,
+        onFinishedCleaning = {
+            viewModel.onEvent(FindCleaningEvent.OnClickFinishedService(it))
+        },
+        isShowAssentment = state.isShowAssentment
     )
     if (state.isLoading) {
         LoadingDialog()
@@ -155,7 +160,8 @@ fun FindCleaningPreview() {
             ),
             onLoadingGoogleMap = {
             },
-            googleMapState = googleMapState
+            googleMapState = googleMapState,
+            onFinishedCleaning = {}
         )
     }
 }
@@ -170,7 +176,9 @@ fun FindCleaningContent(
     isLoadingCleaning: Boolean,
     isLoadingDiarist: Boolean,
     onLoadingGoogleMap : (Cleaning) -> Unit,
-    googleMapState: GoogleMapState
+    googleMapState: GoogleMapState,
+    isShowAssentment : Boolean = false,
+    onFinishedCleaning : (Cleaning) -> Unit,
 ) {
     var selectedCleaning by remember {
         mutableStateOf(Cleaning())
@@ -179,9 +187,6 @@ fun FindCleaningContent(
         mutableStateOf(false)
     }
     var isShowDialog by remember {
-        mutableStateOf(false)
-    }
-    var isShowAssentment by remember {
         mutableStateOf(false)
     }
 
@@ -256,9 +261,13 @@ fun FindCleaningContent(
                                 StartedCleaningActions(
                                     cleaning = cleaning,
                                     onFinished = {
+                                        selectedCleaning = cleaning
                                          isShowDialog = true
                                     },
-                                    onInfoClick = {}
+                                    onInfoClick = {
+                                        selectedCleaning = cleaning
+                                        isShowBottomSheet = true
+                                    }
                                 )
                             }
                         )
@@ -273,7 +282,7 @@ fun FindCleaningContent(
                     }
                     items(cleanings){cleaning ->
                         val address = cleaning.address
-                        onLoadingGoogleMap(cleaning)
+//                        onLoadingGoogleMap(cleaning)
                         CleaningCard(
                             mapContainer = {
                                 ImageMap()
@@ -320,21 +329,21 @@ fun FindCleaningContent(
 
                 )
         }
-
-
         if(isShowDialog){
             ConfirmDialog(
                 onDismissRequest = { isShowDialog = false},
                 onConfirmPress = {
                     isShowDialog = false
-                    isShowAssentment  = true
+                    onFinishedCleaning(selectedCleaning)
+
                 },
                 onCancelPress = {isShowDialog = false}
             )
         }
 
+
         if(isShowAssentment){
-            Dialog(onDismissRequest = { isShowAssentment = false }) {
+            Dialog(onDismissRequest = {  }) {
                 Card {
                     Text(text = "Avalie aqui")
                 }
@@ -343,6 +352,7 @@ fun FindCleaningContent(
     }
 
 }
+
 
 @Composable
 fun FindYourCleanings(

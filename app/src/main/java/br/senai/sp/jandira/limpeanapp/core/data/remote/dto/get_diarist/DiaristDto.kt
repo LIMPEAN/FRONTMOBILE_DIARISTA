@@ -27,6 +27,11 @@ data class DiaristDto(
     val statusAccount: List<StatusAccount>
 )
 fun DiaristDto.toDiarist() : Diarist {
+    val assentments = if(assessment.isEmpty()){
+        emptyList<Assentment>()
+    } else {
+        assessment.map { it.toAssentment() }
+    }
     return Diarist(
         name = name,
         cpf = cpf,
@@ -37,7 +42,7 @@ fun DiaristDto.toDiarist() : Diarist {
         dateOfBirth = parseDateOfBirth(birthDate),
         photo = photoProfile,
         gender = getGenderByName(gender),
-        assentments = assessment.map { it.toAssentment() },
+        assentments = assentments,
         id = idDiarist
     )
 }
@@ -67,8 +72,8 @@ fun Phone.toPhone() : br.senai.sp.jandira.limpeanapp.core.domain.models.Phone {
 fun AssentmentDto.toAssentment() : Assentment {
     return Assentment(
         comment = comment,
-        date = LocalDate.parse(date),
-        hour = LocalTime.parse(hour),
+        date = LocalDate.now(),
+        hour = LocalTime.now(),
         personEvaluatedId = personEvaluatedId,
         star = star
     )

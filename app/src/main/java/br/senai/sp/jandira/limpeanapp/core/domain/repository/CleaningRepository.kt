@@ -24,12 +24,12 @@ interface CleaningRepository {
 
     suspend fun startService(id: Number) : BaseResponseToken
 
-    suspend fun endService(id: Number)
+    suspend fun endService(id: Number) : UpdateStatusDto
     suspend fun sendProposal(id: Number,price : Double)
 
-    suspend fun getStartedService() : Cleaning
-    fun getFinishedServices() : Flow<List<Cleaning>>
-    fun getInvites() : Flow<List<Cleaning>>
+    suspend fun getStartedService() : Cleaning?
+    suspend fun getFinishedServices() : List<Cleaning>
+    suspend fun getInvites() : List<Cleaning>
     suspend fun getCleaningDetail(id: Number) : Cleaning?
 
 }

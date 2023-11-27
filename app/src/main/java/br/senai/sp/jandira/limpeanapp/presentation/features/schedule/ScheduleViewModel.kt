@@ -1,15 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.schedule
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
-import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
-import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetScheduledServicesUseCase
@@ -17,16 +12,6 @@ import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.StartService
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningListState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AboutClientState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AddressCleaningState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningSupportState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.ClientInfoState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.HomeInfoState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuantityRooms
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuestions
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.components.starting.StartServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

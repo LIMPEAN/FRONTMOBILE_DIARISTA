@@ -8,4 +8,5 @@ sealed class FindCleaningEvent {
     data class OnCleaningClick(val cleaning: Cleaning): FindCleaningEvent()
 
     data class OnLoadingGoogleMap(val cleaning: Cleaning) : FindCleaningEvent()
+    data class OnClickFinishedService(val cleaning: Cleaning) : FindCleaningEvent()
 }

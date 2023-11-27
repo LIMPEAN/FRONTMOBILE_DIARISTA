@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.profile
 
 import android.content.res.Configuration
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,18 +12,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.DashboardCustomize
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
@@ -31,9 +37,12 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,28 +65,46 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.R
+import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.presentation.SinglePhotoPicker
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.AddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.AddressFormUi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.createAddressFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.formatarParaHora
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import com.example.compose.LimpeanAppTheme
 
 @Composable
-fun ProfileScreen() {
-    LimpeanAppTheme {
-        SettingsScreen()
-    }
+fun SettingsScreen(
+    viewModel : SettingsViewModel = hiltViewModel()
+) {
+    val state = viewModel.state
+
+    SettingsScreen(
+        state = state,
+        onSeeHistory = {
+            viewModel.onEvent(SettingsEvent.OnClickHistory)
+        }
+    )
+
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen() {
+private fun SettingsScreen(
+    state : SettingsState = SettingsState(),
+    onSeeHistory : ()-> Unit,
+) {
+    var showHistory by remember {
+        mutableStateOf(false)
+    }
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -85,6 +112,8 @@ fun SettingsScreen() {
     var showProfile by remember {
         mutableStateOf(false)
     }
+
+
 
     Column(
         Modifier
@@ -100,7 +129,11 @@ fun SettingsScreen() {
         GeneralOptionsUI(
             onTheme = { showDialog = true},
             onLogout = {},
-            onNotImplemented = {}
+            onNotImplemented = {},
+            onFinishedServices = {
+                onSeeHistory()
+                showHistory = true
+            }
         )
         SupportOptionsUI()
     }
@@ -134,14 +167,171 @@ fun SettingsScreen() {
 
         }
     }
+
+    if(showHistory){
+        ModalBottomSheet(onDismissRequest = {showHistory = false}) {
+            HistorySection(
+                finishedServices = state.histories?: emptyList()
+            )
+        }
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+
+@Preview
+@Preview(name =  "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun HistorySectionPreview() {
+    LimpeanAppTheme {
+        HistorySection()
+    }
+}
+@Composable
+fun HistorySection(
+    finishedServices : List<Cleaning> = fakeCleanings
+) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground
+            )
+        ) {
+           if(finishedServices.isEmpty()){
+               Box(
+                   Modifier.fillMaxSize(),
+                   contentAlignment = Alignment.Center
+               ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.cleaning_null),
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Nenhum serviço finalizado ainda!",
+                            fontFamily = Poppins,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+               }
+           }
+           LazyColumn(
+               modifier = Modifier.fillMaxSize(),
+               contentPadding = PaddingValues(8.dp),
+               userScrollEnabled = true,
+           ){
+               item {
+                   Text(
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .padding(24.dp),
+                       text = "Serviços Finalizados",
+                       fontFamily = Poppins,
+                       style = MaterialTheme.typography.titleMedium,
+                       textAlign = TextAlign.Center
+                   )
+               }
+               items(finishedServices){service ->
+                   ListItem(
+                       modifier = Modifier.fillMaxWidth(),
+                       headlineContent = {
+                           Row(
+                               Modifier.fillMaxWidth(),
+                               horizontalArrangement = Arrangement.spacedBy(4.dp),
+                           ) {
+                               Text(
+                                   text = "#${service.id}",
+                                   color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                   style = MaterialTheme.typography.titleMedium,
+                                   fontFamily = Poppins,
+                                   fontWeight = FontWeight.ExtraBold
+                               )
+                               Text(
+                                   text = service.client.name,
+                                   color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                   style = MaterialTheme.typography.titleMedium,
+                                   fontFamily = Poppins,
+                                   fontWeight = FontWeight.SemiBold
+                               )
+                           }
+                           Text(
+                               text = "R$ ${service.price }",
+                               color = MaterialTheme.colorScheme.onPrimaryContainer,
+                               style = MaterialTheme.typography.titleSmall,
+                               fontWeight = FontWeight.ExtraBold
+                           )
+                       },
+                       supportingContent = {
+                           Row(
+                               Modifier.fillMaxWidth(),
+                               horizontalArrangement = Arrangement.spacedBy(12.dp)
+                           ) {
+                               service.details.observations?.let {
+                                   Text(
+                                       modifier = Modifier.fillMaxWidth(),
+                                       text = it,
+                                       color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                       style = MaterialTheme.typography.titleSmall,
+                                   )
+                               }
+                           }
+                       },
+                       trailingContent = {
+                           Log.i("TEST", service.toString())
+                           val lastStatus = service.status.first()
+                           val statusColor = when(lastStatus.type){
+                               StatusService.FINALIZADO -> {
+                                   MaterialTheme.colorScheme.error
+                               }
+                               StatusService.EM_ABERTO -> {
+                                   MaterialTheme.colorScheme.primary
+                               }
+                               StatusService.AGENDADO -> {
+                                   MaterialTheme.colorScheme.secondary
+                               }
+                               StatusService.EM_ANDAMENTO -> {
+                                   MaterialTheme.colorScheme.tertiary
+                               }
+                               StatusService.CANCELADO -> {
+                                   MaterialTheme.colorScheme.surfaceVariant
+                               }
+                           }
+                            Column() {
+                                val date = lastStatus.dateTime
+                                Text(
+                                    text = lastStatus.type.description.uppercase(),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontFamily = Poppins,
+                                    color = statusColor
+                                )
+                                Text(
+                                    text = "${date.dayOfMonth}/${date.monthValue}/${date.year }ás ${formatarParaHora(lastStatus.dateTime)}".uppercase(),
+                                    color = statusColor,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontFamily = Poppins,
+                                )
+                            }
+
+                       }
+                   )
+               }
+           }
+        }
+}
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SettingsScreenPreview() {
     LimpeanAppTheme {
-        SettingsScreen()
+        SettingsScreen(
+            SettingsState()
+        ){
+
+        }
     }
 }
 
@@ -236,7 +426,8 @@ fun ProfileCardUI(
 fun GeneralOptionsUI(
     onTheme : () -> Unit,
     onLogout: () ->Unit,
-    onNotImplemented : () -> Unit
+    onNotImplemented : () -> Unit,
+    onFinishedServices : () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -263,6 +454,12 @@ fun GeneralOptionsUI(
             mainText = "Notificações",
             subText = "Configure suas preferências",
             onClick = { onLogout() }
+        )
+        GeneralSettingItem(
+            icon = Icons.Default.History,
+            mainText = "Histórico de Serviços",
+            subText = "Veja o registro de faxinas finalizadas.",
+            onClick = { onFinishedServices() }
         )
         GeneralSettingItem(
             icon = Icons.Default.DashboardCustomize,

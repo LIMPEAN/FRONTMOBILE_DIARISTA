@@ -37,18 +37,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    var startDestination = NavigationRoute.AUTHENTICATION
-                    LaunchedEffect(viewModel.isLoading){
-                        viewModel.isLogged.collect{isLogged ->
-                            startDestination = if(isLogged){
-                                NavigationRoute.HOME
-                            } else {
-                                NavigationRoute.AUTHENTICATION
-                            }
-                        }
-                    }
                     NavigationHost(
-                        startDestination = startDestination
+                        startDestination = NavigationRoute.AUTHENTICATION
                     )
                 }
             }

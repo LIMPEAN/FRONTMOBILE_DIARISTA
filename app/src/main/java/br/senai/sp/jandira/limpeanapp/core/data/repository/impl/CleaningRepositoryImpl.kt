@@ -12,9 +12,6 @@ import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
@@ -48,8 +45,8 @@ class CleaningRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun endService(id: Number) {
-        try {
+    override suspend fun endService(id: Number): UpdateStatusDto {
+        return try {
             api.putStatusService(
                 idService = id,
                 idStatus = StatusService.FINALIZADO.codigo
@@ -74,28 +71,23 @@ class CleaningRepositoryImpl @Inject constructor(
 
     }
 
-    override fun getFinishedServices(): Flow<List<Cleaning>> {
-        return flow {
-            while (true){
-                emit(fakeCleanings)
-                delay(5000)
-            }
-        }
-    }
-
-    override fun getInvites(): Flow<List<Cleaning>> {
-        return flow {
-            emit(fakeCleanings)
-            delay(5000)
-        }
-    }
 
     override suspend fun getCleaningDetail(id: Number): Cleaning? {
         return Cleaning(1)
     }
 
-    override suspend fun getStartedService(): Cleaning {
+    override suspend fun getStartedService(): Cleaning? {
         val cleanings = api.getServices(StatusService.EM_ANDAMENTO.codigo).data.map { it.client.toCleaning() }
-        return cleanings.minByOrNull { it.dateTime }!!
+        return cleanings.minByOrNull { it.dateTime }
+    }
+
+    override suspend fun getFinishedServices(): List<Cleaning> {
+        return api.getServices(
+            idStatus = StatusService.FINALIZADO.codigo
+        ).data.map { it.client.toCleaning() }
+    }
+
+    override suspend fun getInvites(): List<Cleaning> {
+        return fakeCleanings
     }
 }

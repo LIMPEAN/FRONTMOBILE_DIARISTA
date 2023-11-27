@@ -13,7 +13,7 @@ class GetStartedServiceUseCase @Inject constructor(
     private val repository : CleaningRepository
 ) {
 
-    operator fun invoke() : Flow<Resource<Cleaning>> = flow {
+    operator fun invoke() : Flow<Resource<Cleaning?>> = flow {
         try {
             emit(Resource.Loading())
             val service = repository.getStartedService()

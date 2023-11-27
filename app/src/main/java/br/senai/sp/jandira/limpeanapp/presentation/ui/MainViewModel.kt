@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor (
     val isLogged: StateFlow<Boolean> = _isLogged
 
     init {
-        authenticate()
+        _isLoading.value = false
     }
     fun authenticate(){
         viewModelScope.launch {

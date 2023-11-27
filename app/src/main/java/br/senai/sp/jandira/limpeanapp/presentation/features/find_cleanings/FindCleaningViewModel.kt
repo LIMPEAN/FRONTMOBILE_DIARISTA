@@ -2,23 +2,25 @@ package br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings
 
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
-import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
-import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.FinishedService
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetOpenServicesUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetStartedServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.AcceptServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -33,7 +35,9 @@ class FindCleaningViewModel @Inject  constructor(
     private val getOpenServicesUseCase: GetOpenServicesUseCase,
     private val getDiaristByToken : GetDiaristByTokenUseCase,
     private val acceptServiceUseCase : AcceptServiceUseCase,
-    private val getPropertiesForGoogleMapUseCase: GetPropertiesForGoogleMapUseCase
+    private val getPropertiesForGoogleMapUseCase: GetPropertiesForGoogleMapUseCase,
+    private val getStartedServiceUseCase: GetStartedServiceUseCase,
+    private val finishedServiceUseCase : FinishedService
 ) : ViewModel() {
 
 
@@ -52,11 +56,14 @@ class FindCleaningViewModel @Inject  constructor(
     private val _selectedCleaning = mutableStateOf(Cleaning())
     val selectedCleaning = _selectedCleaning
 
+    private val _startedServices = mutableStateOf(CleaningListState())
+    val startedServices : State<CleaningListState> = _startedServices
+
+    var message by mutableStateOf("")
+        private set
+
     private lateinit var refreshJob : Job
-    init {
-        getDiarist()
-        getServices()
-    }
+
 
     private fun routineGetServices(){
         viewModelScope.launch {
@@ -90,6 +97,7 @@ class FindCleaningViewModel @Inject  constructor(
     init {
         getDiarist()
         getServices()
+        getStartedServices()
     }
 
 
@@ -102,13 +110,21 @@ class FindCleaningViewModel @Inject  constructor(
                 acceptService(event.cleaning)
             }
             is FindCleaningEvent.OnCleaningInfoClick -> {
-                _selectedCleaning.value = event.cleaning
             }
 
             is FindCleaningEvent.OnLoadingGoogleMap -> {
                 getPropertiesForGoogleMap(event.cleaning)
             }
+
+            is FindCleaningEvent.OnClickFinishedService -> {
+                finishedService(event.cleaning)
+            }
         }
+    }
+
+    private fun getAllServices(){
+        getServices()
+        getStartedServices()
     }
     private fun sendUiEvent(event: UiEvent) {
         viewModelScope.launch {
@@ -176,6 +192,55 @@ class FindCleaningViewModel @Inject  constructor(
                 }
                 is Resource.Loading -> {
                     _googleMapState.value = GoogleMapState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getStartedServices(){
+        getStartedServiceUseCase().onEach {result ->
+            when(result){
+                is Resource.Success -> {
+                    _startedServices.value = CleaningListState(
+                        cleanings = result.data?.let {
+                            listOf(it)
+                        } ?: emptyList()
+                    )
+                }
+                is Resource.Error -> {
+                    _state.value = FindCleaningState(
+                        message = result.message?: "Um erro inesperado aconteceu."
+                    )
+                }
+                is Resource.Loading -> {
+                    _state.value = FindCleaningState(
+                        isLoadingCleanings = true,
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun finishedService(cleaning: Cleaning){
+        finishedServiceUseCase(cleaning.id!!).onEach {result ->
+            when(result){
+                is Resource.Success -> {
+                    _state.value = FindCleaningState(
+                        message = "Finalizado com sucesso!",
+                        isShowAssentment = true
+                    )
+                    getAllServices()
+                }
+                is Resource.Error -> {
+                    _state.value = FindCleaningState(
+                        message = result.message?: "Algum erro ocorreu."
+                    )
+                    getAllServices()
+                }
+                is Resource.Loading -> {
+                    _state.value = FindCleaningState(
+                        isLoading = true
+                    )
                 }
             }
         }.launchIn(viewModelScope)
