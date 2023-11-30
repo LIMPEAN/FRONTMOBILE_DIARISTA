@@ -55,6 +55,10 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningC
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.StartedCleaningActions
+import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentDialog
+import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentState
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.compose.LimpeanAppTheme
 
 
@@ -71,6 +75,7 @@ fun FindCleaningScreen(
     val diaristState = viewModel.getDiaristState.value
     val context = LocalContext.current
     val googleMapState = viewModel.googleMapState.value
+    val assentmentState = viewModel.assentmentState.value
 
     LaunchedEffect(state.message) {
         if (state.message.isNotBlank()) {
@@ -99,7 +104,9 @@ fun FindCleaningScreen(
         onFinishedCleaning = {
             viewModel.onEvent(FindCleaningEvent.OnClickFinishedService(it))
         },
-        isShowAssentment = state.isShowAssentment
+        onAssentment = {
+            viewModel.onEvent(FindCleaningEvent.OnAssentment(it))
+        }
     )
     if (state.isLoading) {
         LoadingDialog()
@@ -161,7 +168,8 @@ fun FindCleaningPreview() {
             onLoadingGoogleMap = {
             },
             googleMapState = googleMapState,
-            onFinishedCleaning = {}
+            onFinishedCleaning = {},
+            onAssentment = {}
         )
     }
 }
@@ -177,8 +185,9 @@ fun FindCleaningContent(
     isLoadingDiarist: Boolean,
     onLoadingGoogleMap : (Cleaning) -> Unit,
     googleMapState: GoogleMapState,
-    isShowAssentment : Boolean = false,
     onFinishedCleaning : (Cleaning) -> Unit,
+    assentent : AssentmentState = AssentmentState(),
+    onAssentment : (AssentmentState)-> Unit
 ) {
     var selectedCleaning by remember {
         mutableStateOf(Cleaning())
@@ -187,6 +196,9 @@ fun FindCleaningContent(
         mutableStateOf(false)
     }
     var isShowDialog by remember {
+        mutableStateOf(false)
+    }
+    var isShowAssentment by remember {
         mutableStateOf(false)
     }
 
@@ -343,11 +355,25 @@ fun FindCleaningContent(
 
 
         if(isShowAssentment){
-            Dialog(onDismissRequest = {  }) {
-                Card {
-                    Text(text = "Avalie aqui")
-                }
-            }
+            var painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(assentent.client.photo)
+                    .build()
+            )
+            AssentmentDialog(
+                name = assentent.client.name,
+                profileImage = painter,
+                onAssentment = {
+                      onAssentment(
+                          AssentmentState(
+                              stars = it.stars,
+                              comment = it.comment,
+                              client = it.client,
+                          )
+                      )
+                },
+                onCancel = { isShowAssentment = false}
+            )
         }
     }
 

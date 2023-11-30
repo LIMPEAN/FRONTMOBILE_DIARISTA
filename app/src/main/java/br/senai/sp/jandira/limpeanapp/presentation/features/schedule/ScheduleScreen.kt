@@ -127,7 +127,16 @@ fun ScheduleScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun ScheduleContent(
-    cleanings : List<Cleaning> = fakeCleanings,
+    cleanings : List<Cleaning> = listOf(
+        fakeCleanings[0],
+        fakeCleanings[1],
+        fakeCleanings[0],
+        fakeCleanings[1],
+        fakeCleanings[0],
+        fakeCleanings[1],
+        fakeCleanings[0],
+        fakeCleanings[1],
+    ),
     onStartClick: (Cleaning) -> Unit = {},
 
 ){
@@ -177,6 +186,7 @@ private fun ScheduleContent(
 
 @Composable
 fun SchedulesContent(
+    paddingValues: PaddingValues = PaddingValues(24.dp),
     cleanings : List<Cleaning>,
     onCleaningDetail: (Cleaning) -> Unit,
     onStartClick : (Cleaning) -> Unit,
@@ -188,6 +198,7 @@ fun SchedulesContent(
         }
     }
     HomeSection(
+        modifier = Modifier.padding(paddingValues),
         title = "Próximos Serviços",
     ) {
         ScheduleList(
@@ -266,7 +277,7 @@ fun ScheduleList(
     onCleaningDetail : (Cleaning) -> Unit = {},
     onStartClick: (Cleaning) -> Unit ={},
     onInfoClick: (Cleaning) -> Unit ={},
-    mapViewModel : MapViewModel = hiltViewModel()
+//    mapViewModel : MapViewModel = hiltViewModel()
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -276,28 +287,26 @@ fun ScheduleList(
         items(cleanings){cleaning ->
             val model = cleaning.toCleaningCardState()
             val address = cleaning.address
-            var googleMap by remember {
-                mutableStateOf(mapViewModel.state)
-            }
+//            var googleMap by remember {
+//                mutableStateOf(mapViewModel.state)
+//            }
             CleaningCard(
                 mapContainer = {
-                    mapViewModel.onLoadingMap(cleaning)
-                    if(googleMap.isLoading){
-                        Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp)){
-                            CircularProgressIndicator()
-                        }
-                    }
-                    if(googleMap.local != null){
-                        GoogleMapContainer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                            local = googleMap.local!!, name = googleMap.name, place = googleMap.place)
-                    } else{
-                        ImageMap()
-                    }
+//                    mapViewModel.onLoadingMap(cleaning)
+//                    if(googleMap.isLoading){
+//                        Box(modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(150.dp)){
+//                            CircularProgressIndicator()
+//                        }
+//                    }
+//                    if(googleMap.local != null){
+//                        GoogleMapContainer(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .height(200.dp),
+//                            local = googleMap.local!!, name = googleMap.name, place = googleMap.place)
+//                    }
                 },
                 quantityRooms = cleaning.details.roomsQuantity,
                 dateTime = cleaning.dateTime,

@@ -19,6 +19,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.AcceptServic
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningListState
+import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -58,6 +59,9 @@ class FindCleaningViewModel @Inject  constructor(
 
     private val _startedServices = mutableStateOf(CleaningListState())
     val startedServices : State<CleaningListState> = _startedServices
+
+    private val _assentmentState = mutableStateOf(AssentmentState())
+    val assentmentState : State<AssentmentState> = _assentmentState
 
     var message by mutableStateOf("")
         private set
@@ -118,6 +122,10 @@ class FindCleaningViewModel @Inject  constructor(
 
             is FindCleaningEvent.OnClickFinishedService -> {
                 finishedService(event.cleaning)
+            }
+
+            is FindCleaningEvent.OnAssentment -> {
+                sendAssentment(event.assentment)
             }
         }
     }
@@ -244,5 +252,9 @@ class FindCleaningViewModel @Inject  constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun sendAssentment(assentment : AssentmentState){
+        Log.i("ASSENTMENT TO SEND", assentment.toString())
     }
 }
