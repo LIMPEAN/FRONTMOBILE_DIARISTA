@@ -95,6 +95,7 @@ fun CleaningDetails(
         CleaningSupport(state.cleaningSupport)
         Divider(modifier)
         actions()
+        Spacer(modifier = Modifier.height(80.dp))
     }
 
 }

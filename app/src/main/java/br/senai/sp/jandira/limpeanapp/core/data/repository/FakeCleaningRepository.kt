@@ -83,7 +83,41 @@ val fakeCleanings = listOf(
             TypeCleaningEnum.PADRAO
         ),
         dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(10,12))
-    )
+    ),
+    Cleaning(
+        3,
+        client = Client(
+            name ="Giovani",
+            biography = null,
+            photo = "minhafoto"
+        ),
+        status = listOf(
+            ServiceStatus(StatusService.EM_ANDAMENTO, dateTime = LocalDateTime.now()),
+            ServiceStatus(StatusService.EM_ABERTO, LocalDateTime.now())
+        ),
+        address = Address("06703480", city = "New York", complement = null, district = "teste" , number = "14", state = "New York", street = "St. Mark’s Place"),
+        details = CleaningDetails(
+            questions = listOf(
+                Question(
+                    "Há crianças na casa?",
+                    answer = false,
+                ),
+                Question("Há animais na casa?", answer = true)
+            ),
+            roomsQuantity = listOf(
+                RoomQuantity(roomTypes[0], 2),
+                RoomQuantity(roomTypes[1], 1),
+                RoomQuantity(roomTypes[2], 1),
+                RoomQuantity(roomTypes[3], 1)
+            ),
+            observations = "Serviço para as férias"
+        ),
+        dateTime = LocalDateTime.now(),
+        price = 0.0,
+        type = listOf(
+            TypeCleaningEnum.PADRAO
+        )
+    ),
 )
 
 
