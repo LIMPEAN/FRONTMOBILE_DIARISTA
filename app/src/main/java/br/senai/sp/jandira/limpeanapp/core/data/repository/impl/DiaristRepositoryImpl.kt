@@ -43,8 +43,8 @@ class DiaristRepositoryImpl @Inject  constructor(
     }
 
 
-    override suspend fun deleteDiarist(diarist: Diarist): BaseResponseDto {
-        return diaristApi.deleteDiarist()
-    }
+//    override suspend fun deleteDiarist(diarist: Diarist): BaseResponseDto {
+//        return diaristApi.deleteDiarist()
+//    }
 }
 data class ErrorServerException(override val message : String) : Exception(message)

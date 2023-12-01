@@ -13,5 +13,5 @@ interface DiaristRepository {
 
     suspend fun insertDiarist(diarist: Diarist) : BaseResponseDto
 
-    suspend fun deleteDiarist(diarist: Diarist) : BaseResponseDto
+//    suspend fun deleteDiarist(diarist: Diarist) : BaseResponseDto
 }

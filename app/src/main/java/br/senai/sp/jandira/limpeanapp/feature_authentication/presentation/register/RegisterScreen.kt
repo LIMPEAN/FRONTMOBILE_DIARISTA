@@ -52,7 +52,6 @@ fun RegisterScreen(
     AuthContainer(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp)
             .verticalScroll(
                 scrollState
             )

@@ -19,6 +19,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.Sc
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
 import retrofit2.http.DELETE

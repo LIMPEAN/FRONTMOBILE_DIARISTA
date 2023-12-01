@@ -57,6 +57,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,14 +72,13 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.firebase.StorageUtil
-import br.senai.sp.jandira.limpeanapp.core.presentation.SinglePhotoPicker
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.OutlinedLabel
+import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.PasswordField
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormEvent
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormPreview
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
 import coil.compose.AsyncImage
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.AlertDialog
-import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PhotoSemCamera
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.StarView
 import com.example.compose.md_theme_dark_outlineVariant
 import com.example.compose.seed
@@ -90,7 +90,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import javax.inject.Inject
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi as ProfileFormUi
+
 
 
 @HiltViewModel
@@ -98,7 +98,7 @@ class ProfileViewModel @Inject constructor(
     private val api: DiaristApi
 ) : ViewModel() {
 
-    var resultado by mutableStateOf<DiaristDto?>(null)
+    var resultado by mutableStateOf<br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.DiaristDto?>(null)
         private set
 
     var telefone by mutableStateOf<PhoneDto?>(null)
@@ -143,8 +143,8 @@ class ProfileViewModel @Inject constructor(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun YourProfile(
     viewModel: ProfileViewModel = hiltViewModel<ProfileViewModel>(),
 ) {
@@ -154,10 +154,12 @@ fun YourProfile(
     val resultado = viewModel.resultado
     val api: DiaristApi
 
+
     var isDialogVisible by remember { mutableStateOf(false) }
+    var isFormVisible by remember { mutableStateOf(false) }
 
 
-    val totalStars = resultado?.assessment?.sumBy { it.stars } ?: 0
+    val totalStars = resultado?.assessment?.sumBy { it.star } ?: 0
     val averageStars = if (totalStars != 0 && resultado?.assessment?.isNotEmpty() == true) {
         totalStars.toDouble() / resultado.assessment.size
     } else {
@@ -291,12 +293,18 @@ fun YourProfile(
                                     Spacer(modifier = Modifier.height(10.dp))
                                     if (averageStars != 0.0) {
                                         StarView(
-                                            rating = (averageStars)
+                                            onRatingChanged = {
+                                                Log.i("STARS", "$it")
+                                            },
+                                            rating = averageStars
                                         )
                                     } else {
                                         Text(text = "Novo", fontFamily = customFontFamily)
                                         StarView(
-                                            rating = (5.0)
+                                            onRatingChanged = {
+                                                Log.i("STARS", "$it")
+                                            },
+                                            rating = averageStars
                                         )
                                     }
 
@@ -432,7 +440,7 @@ fun YourProfile(
                                         Text(
                                             text = buildAnnotatedString {
                                                 resultado?.phone?.firstOrNull()?.let { phoneDto ->
-                                                    append("${phoneDto.ddd} ${phoneDto.numberPhone}")
+                                                    append("${phoneDto.ddd} ${phoneDto.number_phone}")
                                                 }
                                             },
                                             modifier = Modifier
@@ -452,7 +460,6 @@ fun YourProfile(
                                             .fillMaxWidth(),
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
-                                        var isFormVisible by remember { mutableStateOf(false) }
                                         Button(
                                             modifier = Modifier
                                                 .weight(1f)
@@ -463,6 +470,8 @@ fun YourProfile(
                                                 //atualizar precisamos endereço completo, todos os dados pessoais
                                                 // Chame a função ProfileFormUi dentro do onClick
                                                 isFormVisible = true
+
+
                                             }
                                         ) {
                                             Text(
@@ -472,6 +481,16 @@ fun YourProfile(
                                                 fontFamily = customFontFamily,
                                             )
                                         }
+
+                                        if (isFormVisible) {
+                                            ProfileFormUi(
+                                                modifier = Modifier.fillMaxSize(),
+                                                profilePhoto = { /*TODO*/ },
+                                                state = ProfileFormState(),
+                                                onEvent = {}
+                                            )
+                                        }
+
 
 //                                        // Verifique se o formulário deve ser exibido e, em caso afirmativo, chame a função dentro de um composable
 //                                        if (isFormVisible) {
@@ -681,5 +700,6 @@ fun YourProfile(
     fun YourProfilePreview() {
         YourProfile()
     }
+
 
 
