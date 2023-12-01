@@ -13,6 +13,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
+import br.senai.sp.jandira.limpeanapp.presentation.features.invites.formatDoubleToString
 import javax.inject.Inject
 
 
@@ -62,7 +63,7 @@ class CleaningRepositoryImpl @Inject constructor(
             return api.updatePrice(
                 updatePriceInfo = UpdatePriceDTO(
                     idService = id,
-                    newValue = price.toString()
+                    newValue = formatDoubleToString(price)
                 )
             )
 

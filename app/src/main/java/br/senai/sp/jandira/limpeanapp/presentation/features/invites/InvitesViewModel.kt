@@ -72,5 +72,6 @@ class InvitesViewModel  @Inject   constructor(
                 }
             }
         }.launchIn(viewModelScope)
+        getInvites()
     }
 }

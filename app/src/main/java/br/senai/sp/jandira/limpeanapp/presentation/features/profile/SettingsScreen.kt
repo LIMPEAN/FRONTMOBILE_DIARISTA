@@ -58,6 +58,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -120,7 +122,7 @@ private fun SettingsScreen(
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
     ) {
-        HeaderText()
+        HeaderText(title = "Configurações")
         ProfileCardUI(
             painterResource(id = R.drawable.man),
             email = "Felipe@gmail.com",
@@ -336,17 +338,21 @@ fun SettingsScreenPreview() {
 }
 
 @Composable
-fun HeaderText() {
+fun HeaderText(
+    modifier : Modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 30.dp, bottom = 10.dp),
+    title : String,
+    style : TextStyle = MaterialTheme.typography.bodySmall
+) {
     Text(
-        text = "Configurações",
+        text = title,
         fontFamily = Poppins,
         color = MaterialTheme.colorScheme.onBackground,
         textAlign = TextAlign.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 30.dp, bottom = 10.dp),
+        modifier = modifier,
         fontWeight = FontWeight.ExtraBold,
-        fontSize = 16.sp
+        style = style
     )
 }
 
