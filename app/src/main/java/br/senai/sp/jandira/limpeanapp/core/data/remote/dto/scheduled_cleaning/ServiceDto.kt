@@ -25,10 +25,10 @@ data class ServiceDto(
 )
 fun ServiceDto.toCleaning() : Cleaning {
 
-    val value = value ?: "0,0"
+    val price = value ?: "0,0"
     return Cleaning(
         id = serviceId,
-        price = value.replace(",", ".").toDouble(),
+        price = price.replace(",", ".").toDouble(),
         client = Client(
             id = clientId,
             name = name,

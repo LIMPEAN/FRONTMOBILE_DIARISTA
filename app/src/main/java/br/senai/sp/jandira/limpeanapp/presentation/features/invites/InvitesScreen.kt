@@ -375,7 +375,7 @@ fun InvitesList(
                     }
                     service.price?.let {
                         Text(
-                            text = "R$ ${service.price }",
+                            text = "R$ ${service.price}",
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.ExtraBold
