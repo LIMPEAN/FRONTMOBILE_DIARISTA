@@ -15,6 +15,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
+import br.senai.sp.jandira.limpeanapp.core.data.remote.GoogleApi
 import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.CleaningRepositoryImpl
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import dagger.Module
@@ -120,5 +121,11 @@ object AppModule {
     @Singleton
     fun provideCleaningRepository(api : DiaristApi) : CleaningRepository {
         return CleaningRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoogleApi(retrofit: Retrofit) : GoogleApi{
+        return retrofit.create()
     }
 }

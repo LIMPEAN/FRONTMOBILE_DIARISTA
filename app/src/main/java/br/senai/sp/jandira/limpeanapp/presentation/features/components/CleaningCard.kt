@@ -1,14 +1,13 @@
-package br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components
+package br.senai.sp.jandira.limpeanapp.presentation.features.components
 
 
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,20 +16,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -38,22 +42,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeAddressCleaning
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.fakeQuantityRooms
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.poopins
+import coil.compose.AsyncImage
 import com.example.compose.LimpeanAppTheme
-import com.example.compose.greenColor
-import com.example.compose.md_theme_light_onPrimaryContainer
-import com.example.compose.md_theme_light_onTertiary
-import com.example.compose.md_theme_light_primary
-import com.example.compose.md_theme_light_secondary
-import com.example.compose.md_theme_light_tertiary
-import java.time.LocalDate
+import com.google.android.gms.maps.model.LatLng
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -67,10 +66,11 @@ data class CleaningCardState(
 )
 
 
-@Preview
+
 @Composable
 fun CleaningCard(
     modifier: Modifier = Modifier,
+    mapContainer : @Composable () -> Unit = { Text(text = "Oi")},
     nameClient: String =  "Felipe",
     servicePrice: Double = 10.0,
     dateTime : LocalDateTime? = LocalDateTime.now(),
@@ -78,7 +78,6 @@ fun CleaningCard(
     quantityRooms: List<RoomQuantity>? = null,
     actions : @Composable () -> Unit ={},
     onCleaningDetail: ()->Unit = {},
-    showRooms : Boolean = true
 ) {
     val customFontFamily = poopins
     val spacerModifier = Modifier.height(8.dp)
@@ -96,14 +95,8 @@ fun CleaningCard(
             modifier = modifier
                 .padding(10.dp)
         ) {
-            Image(
-                modifier = modifier
-                    .heightIn(min = 20.dp, max = 100.dp)
-                    .fillMaxWidth(),
-                painter = painterResource(id = R.drawable.map_example),
-                contentDescription = "Image map",
-                contentScale = ContentScale.Crop
-            )
+
+            mapContainer()
             Spacer(modifier = spacerModifier)
             Row(
                 modifier = modifier.fillMaxWidth(),
@@ -260,7 +253,64 @@ sealed class FindCleaningCardEvent {
 }
 
 
+@Composable
+fun StartedCleaningActions(
+    cleaning : Cleaning,
+    onFinished : (Cleaning) -> Unit,
+    onInfoClick: (Cleaning) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error
+            ),
+            modifier = Modifier.fillMaxWidth(0.48f),
+            onClick = {
+                onFinished(cleaning)
+            }) {
+            Text(
+                text = "Finalizar",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.onError
+            )
+        }
+        Spacer(modifier = Modifier.fillMaxWidth(0.1f))
+        Button(
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp , MaterialTheme.colorScheme.tertiary),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                onInfoClick(cleaning)
+            }) {
+            Text(
+                text = "Ver detalhes",
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = Poppins,
+                color = MaterialTheme.colorScheme.tertiary
+            )
+        }
+    }
+}
 
+@Preview
+@Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun StartedPreview() {
+    LimpeanAppTheme {
+        Card {
+            StartedCleaningActions(cleaning = Cleaning(), onFinished = {}, onInfoClick ={} )
+        }
+    }
+}
 @Composable
 fun FindCleaningCardActions(
     cleaning : Cleaning = Cleaning(),
@@ -351,6 +401,76 @@ private fun QuantityRoomsInfo(
 @Composable
 fun CleaningCardPreview() {
     LimpeanAppTheme {
-        CleaningCard(quantityRooms = fakeQuantityRooms)
+        var googleMapState by remember {
+            mutableStateOf(GoogleMapState(
+                local = LatLng(
+                    -23.595515,
+                    -46.90905300000001
+                )
+            ))
+        }
+        CleaningCard(
+            quantityRooms = fakeQuantityRooms,
+            mapContainer = {
+                if(googleMapState.isLoading){
+                    Box(
+                        modifier = Modifier
+                            .height(150.dp)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        CircularProgressIndicator()
+                    }
+                }
+                googleMapState.local?.let {
+                    GoogleMapContainer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp),
+                        local = it,
+                        name = googleMapState.name,
+                        place = googleMapState.place
+                    )
+                }
+            }
+        )
     }
+}
+
+@Preview
+@Preview(name = "Night Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun CleaningCardImagePreview() {
+    LimpeanAppTheme {
+        var photoAddressUrl by remember {
+            mutableStateOf<String?>(null)
+        }
+
+        CleaningCard(
+            quantityRooms = fakeQuantityRooms,
+            mapContainer = {
+                LazyColumn{
+                    item(photoAddressUrl){
+                        AsyncImage(
+                            model = photoAddressUrl,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        )
+    }
+}
+
+
+@Composable
+fun ImageMap() {
+    Image(
+        modifier = Modifier
+            .heightIn(min = 20.dp, max = 100.dp)
+            .fillMaxWidth(),
+        painter = painterResource(id = R.drawable.map_example),
+        contentDescription = "Image map",
+        contentScale = ContentScale.Crop
+    )
 }

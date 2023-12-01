@@ -55,7 +55,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
-//import br.senai.sp.jandira.limpeanapp.ui.features.profile.ProfileViewModel
+
 import com.example.compose.seed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
@@ -100,10 +100,18 @@ fun InsertTokenScreen(
     val resultado = viewModel.resultado
     val api : DiaristApi
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
 
-        topBar =
-        {
+
+
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Preview
+@Composable
+fun StartServiceContent() {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -138,148 +146,140 @@ fun InsertTokenScreen(
                 })
 
             }
-        }, bottomBar =
-        {
-//           Text(text = "footer")
         },
-
-        content =
-        {
-
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(color = seed),
-                verticalArrangement = Arrangement.Bottom
+        bottomBar = {
+//           Text(text = "footer")
+        }
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(color = seed),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Spacer(modifier = Modifier.height(100.dp))
+            Card(
+                modifier = Modifier.fillMaxSize(),
+                colors = CardDefaults.cardColors(Color.White),
+                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
             ) {
-                Spacer(modifier = Modifier.height(100.dp))
-                Card(
-                    modifier = Modifier.fillMaxSize(),
-                    colors = CardDefaults.cardColors(Color.White),
-                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+
+                Row(
+                    modifier = Modifier
+                        .padding(25.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.request_token),
+                        modifier = Modifier.fillMaxWidth(),
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 26.sp,
+//                            fontFamily = customFontFamily
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(25.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
 
-                    Row(
-                        modifier = Modifier
-                            .padding(25.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.request_token),
+                    Image(
+                        modifier = Modifier.height(230.dp),
+                        painter = painterResource(id = R.drawable.authenticate),
+                        contentDescription = "imagem "
+                    )
+
+                    Text(
+                        text = stringResource(id = R.string.description_request_token),
+//                            fontFamily = customFontFamily,
+                        fontWeight = FontWeight.Light,
+                        color = Color(red = 100, green = 102, blue = 102)
+                    )
+
+                    Row(modifier = Modifier.fillMaxWidth()) {
+
+                        val text = rememberSaveable { mutableStateOf("") }
+
+                        OutlinedTextField(
                             modifier = Modifier.fillMaxWidth(),
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 26.sp,
-//                            fontFamily = customFontFamily
+                            value = text.value,
+                            onValueChange = { text.value = it },
+                            label = {
+                                Text(
+                                    text = stringResource(id = R.string.authenticate_token)
+                                )
+                            },
+                            colors = TextFieldDefaults.colors(
+                                unfocusedIndicatorColor = Color(
+                                    red = 83,
+                                    green = 87,
+                                    blue = 70
+                                ),
+                                focusedIndicatorColor = seed,
+                                disabledContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White,
+                                focusedLabelColor = seed
+                            )
                         )
                     }
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(25.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                        Image(
-                            modifier = Modifier.height(230.dp),
-                            painter = painterResource(id = R.drawable.authenticate),
-                            contentDescription = "imagem "
-                        )
 
+                    Button(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(45.dp)
+                        .align(Alignment.CenterHorizontally),
+                        colors = ButtonDefaults.buttonColors(containerColor = seed),
+                        shape = RoundedCornerShape(size = 8.dp),
+                        onClick = {
+
+                        }) {
                         Text(
-                            text = stringResource(id = R.string.description_request_token),
-//                            fontFamily = customFontFamily,
-                            fontWeight = FontWeight.Light,
-                            color = Color(red = 100, green = 102, blue = 102)
+                            text = "AUTENTICAR",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
                         )
+                    }
 
-                        Row(modifier = Modifier.fillMaxWidth()) {
-
-                            val text = rememberSaveable { mutableStateOf("") }
-
-                            OutlinedTextField(
-                                modifier = Modifier.fillMaxWidth(),
-                                value = text.value,
-                                onValueChange = { text.value = it },
-                                label = {
-                                    Text(
-                                        text = stringResource(id = R.string.authenticate_token)
-                                    )
-                                },
-                                colors = TextFieldDefaults.colors(
-                                    unfocusedIndicatorColor = Color(
-                                        red = 83,
-                                        green = 87,
-                                        blue = 70
-                                    ),
-                                    focusedIndicatorColor = seed,
-                                    disabledContainerColor = Color.White,
-                                    unfocusedContainerColor = Color.White,
-                                    focusedContainerColor = Color.White,
-                                    focusedLabelColor = seed
-                                )
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
 
-                        Button(modifier = Modifier
+
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(45.dp)
-                            .align(Alignment.CenterHorizontally),
-                            colors = ButtonDefaults.buttonColors(containerColor = seed),
-                            shape = RoundedCornerShape(size = 8.dp),
-                            onClick = {
-
-                            }) {
-                            Text(
-                                text = "AUTENTICAR",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-
-
-                        Button(
-                            onClick = { },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(45.dp)
-                                .align(Alignment.CenterHorizontally)
-                                .background(Color.White),
-                            colors = ButtonDefaults.buttonColors(Color.Transparent),
-                            border = BorderStroke(
-                                1.dp, colorResource(id = R.color.outlined_button_red)
-                            ),
-                            shape = RoundedCornerShape(8.dp),
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.cancel),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = colorResource(id = R.color.outlined_button_red)
-                            )
-                        }
-
-
+                            .align(Alignment.CenterHorizontally)
+                            .background(Color.White),
+                        colors = ButtonDefaults.buttonColors(Color.Transparent),
+                        border = BorderStroke(
+                            1.dp, colorResource(id = R.color.outlined_button_red)
+                        ),
+                        shape = RoundedCornerShape(8.dp),
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.cancel),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = colorResource(id = R.color.outlined_button_red)
+                        )
                     }
 
+
                 }
+
             }
-
-
         }
 
-    )
 
-
+    }
 }
-
 
 @Preview(showSystemUi = true)
 @Composable

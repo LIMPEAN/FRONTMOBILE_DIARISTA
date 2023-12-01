@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.core.domain.repository
 
 
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
@@ -21,14 +22,14 @@ interface CleaningRepository {
     suspend fun getScheduledCleanings() : BaseDto<List<ScheduleClient>>
 
 
-    suspend fun startService(id: Number, dateTime : LocalDateTime = LocalDateTime.now()) : ServiceToken
+    suspend fun startService(id: Number) : BaseResponseToken
 
-    suspend fun endService(id: Number)
+    suspend fun endService(id: Number) : UpdateStatusDto
     suspend fun sendProposal(id: Number,price : Double)
 
-
-    fun getFinishedServices() : Flow<List<Cleaning>>
-    fun getInvites() : Flow<List<Cleaning>>
+    suspend fun getStartedService() : Cleaning?
+    suspend fun getFinishedServices() : List<Cleaning>
+    suspend fun getInvites() : List<Cleaning>
     suspend fun getCleaningDetail(id: Number) : Cleaning?
 
 }

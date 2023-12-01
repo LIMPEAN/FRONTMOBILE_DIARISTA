@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +39,6 @@ fun ProfileFormUi(
     state: ProfileFormState,
     onEvent: (ProfileFormEvent) -> Unit,
     modifier: Modifier = Modifier
-        .fillMaxHeight()
         .padding(20.dp)
 ) {
     Column(
@@ -47,7 +50,8 @@ fun ProfileFormUi(
         NormalTextField(
             labelText = "Nome",
             value = state.name,
-            onValueChange = { onEvent(ProfileFormEvent.NameChanged(it)) }
+            onValueChange = { onEvent(ProfileFormEvent.NameChanged(it)) },
+            modifier = Modifier.border(BorderStroke(1.dp, color = Color.Blue))
         )
         NormalTextField(
             labelText = "Cpf (apenas dígito)",
@@ -99,7 +103,7 @@ fun ProfileFormPreview() {
             modifier = Modifier.fillMaxSize(),
             state = ProfileFormState(),
             profilePhoto = {
-                SinglePhotoPicker(onSaveUri = {})
+                SinglePhotoPicker(onSaveUri = {}, onSaveUrl = {})
             },
             onEvent = {}
         )

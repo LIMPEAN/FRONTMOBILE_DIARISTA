@@ -2,20 +2,16 @@ package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.toCleaning
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
-import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceToken
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 
@@ -41,17 +37,16 @@ class CleaningRepositoryImpl @Inject constructor(
         return api.getServices(idStatus = StatusService.AGENDADO.codigo)
     }
 
-    override suspend fun startService(id: Number, dateTime: LocalDateTime): ServiceToken {
+    override suspend fun startService(idService: Number): BaseResponseToken {
         try {
-            val result = api.getTokenFromService(idService = id)
-            return ServiceToken(value = result.token)
+            return api.getToken(idService)
         } catch (e : Exception){
             throw e
         }
     }
 
-    override suspend fun endService(id: Number) {
-        try {
+    override suspend fun endService(id: Number): UpdateStatusDto {
+        return try {
             api.putStatusService(
                 idService = id,
                 idStatus = StatusService.FINALIZADO.codigo
@@ -76,23 +71,23 @@ class CleaningRepositoryImpl @Inject constructor(
 
     }
 
-    override fun getFinishedServices(): Flow<List<Cleaning>> {
-        return flow {
-            while (true){
-                emit(fakeCleanings)
-                delay(5000)
-            }
-        }
-    }
-
-    override fun getInvites(): Flow<List<Cleaning>> {
-        return flow {
-            emit(fakeCleanings)
-            delay(5000)
-        }
-    }
 
     override suspend fun getCleaningDetail(id: Number): Cleaning? {
         return Cleaning(1)
+    }
+
+    override suspend fun getStartedService(): Cleaning? {
+        val cleanings = api.getServices(StatusService.EM_ANDAMENTO.codigo).data.map { it.client.toCleaning() }
+        return cleanings.minByOrNull { it.dateTime }
+    }
+
+    override suspend fun getFinishedServices(): List<Cleaning> {
+        return api.getServices(
+            idStatus = StatusService.FINALIZADO.codigo
+        ).data.map { it.client.toCleaning() }
+    }
+
+    override suspend fun getInvites(): List<Cleaning> {
+        return fakeCleanings
     }
 }

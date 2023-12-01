@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.profile
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -34,10 +35,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +55,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,9 +69,11 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.firebase.StorageUtil
-import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.PasswordField
-import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormEvent
+import br.senai.sp.jandira.limpeanapp.core.presentation.SinglePhotoPicker
+import br.senai.sp.jandira.limpeanapp.core.presentation.uploadPick
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.login.LoginScreen
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.AddressFormState
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.AddressFormUi
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
 import coil.compose.AsyncImage
@@ -238,7 +237,7 @@ fun YourProfile(
                                 DisposableEffect(uri) {
                                     if (uri != null) {
                                         // Call your UploadPick function here when uri is updated
-                                        UploadPick(uri!!, context)
+                                        uploadPick(uri!!, context, onSaveComplete = {})
                                     }
 
                                     // This will be called when the DisposableEffect is removed
@@ -457,7 +456,7 @@ fun YourProfile(
 
                                     Row(
                                         modifier = Modifier
-                                            .fillMaxWidth(),
+                                            .fillMaxSize(),
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
                                         Button(
@@ -482,76 +481,129 @@ fun YourProfile(
                                             )
                                         }
 
-                                        if (isFormVisible) {
-                                            ProfileFormUi(
-                                                modifier = Modifier.fillMaxSize(),
-                                                profilePhoto = { /*TODO*/ },
-                                                state = ProfileFormState(),
-                                                onEvent = {}
-                                            )
-                                        }
+
+
+//                                        if (isFormVisible) {
+//                                            ProfileFormUi(
+//                                                modifier = Modifier
+//                                                    .fillMaxSize()
+//                                                    .fillMaxHeight(),
+//                                                profilePhoto = { /*TODO*/ },
+//                                                state = ProfileFormState(),
+//                                                onEvent = {}
+//                                            )
+////                                                AddressFormUi(state = AddressFormState(), onEvent = {}, modifier = Modifier.fillMaxSize())
+//                                        }
+//                                        if (isFormVisible) {
+//
+//                                                ProfileFormUi(
+//                                                    modifier = Modifier
+//                                                        .fillMaxSize()
+//                                                        .padding(16.dp), // Opcional: ajuste o preenchimento do formulário conforme necessário
+//                                                    profilePhoto = { /*TODO*/ },
+//                                                    state = ProfileFormState(),
+//                                                    onEvent = {}
+//                                                )
+//
+//                                        }
 
 
 //                                        // Verifique se o formulário deve ser exibido e, em caso afirmativo, chame a função dentro de um composable
-//                                        if (isFormVisible) {
-//                                            ProfileFormDialog(
-//                                                onDismiss = {
-//                                                    // Defina isFormVisible como false quando o formulário for fechado isFormVisible = false
-//                                                }
-//                                            )
-//                                        }
-                                            Spacer(modifier = Modifier.width(8.dp))
+                                        if (isFormVisible) {
+                                            ProfileFormDialog(
+                                                onDismiss = {
+                                                    isFormVisible = true// Defina isFormVisible como false quando o formulário for fechado isFormVisible = false
+                                                }
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.width(8.dp))
 
-                                            Button(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .height(45.dp),
-                                                colors = ButtonDefaults.buttonColors(containerColor = seed),
-                                                shape = RoundedCornerShape(size = 8.dp),
-                                                onClick = ({
-                                                    //chamando dialog alert para confirmaçao
-                                                    isDialogVisible = true
+                                        Button(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .height(45.dp),
+                                            colors = ButtonDefaults.buttonColors(containerColor = seed),
+                                            shape = RoundedCornerShape(size = 8.dp),
+                                            onClick = ({
+                                                //chamando dialog alert para confirmaçao
+                                                isDialogVisible = true
 
-                                                })
-                                            ) {
-                                                Text(
-                                                    text = stringResource(id = R.string.delete_account),
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    fontFamily = customFontFamily,
-                                                )
-                                            }
-
-                                            if (isDialogVisible) {
-                                                AlertDialog(
-                                                    onDismissRequest = {
-                                                        isDialogVisible = false
-                                                    },
-                                                    onConfirmation = {
-                                                        viewModel.viewModelScope.launch {
-                                                            try {
-                                                                viewModel.apagarDiarista()
-                                                            } catch (e: Exception) {
-                                                                Log.e(
-                                                                    "Chamada ApagarDiarista",
-                                                                    "Erro: ${e.message}"
-                                                                )
-                                                            }
-                                                        }
-                                                    },
-                                                    dialogTitle = "Deseja excluir sua conta?",
-                                                    dialogText = "Todos os demais cadastros vinculados a esta conta também serão removidos.",
-                                                    icon = Icons.Default.Info
-                                                )
-                                            }
+                                            })
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = R.string.delete_account),
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 14.sp,
+                                                fontFamily = customFontFamily,
+                                            )
                                         }
 
+                                        if (isDialogVisible) {
+                                            AlertDialog(
+                                                onDismissRequest = {
+                                                    isDialogVisible = false
+                                                },
+                                                onConfirmation = {
+                                                    viewModel.viewModelScope.launch {
+                                                        try {
+                                                            viewModel.apagarDiarista()
 
-                                        Spacer(modifier = Modifier.height(30.dp))
+                                                            // Adicione o código de navegação aqui
+                                                            
+                                                            // Certifique-se de substituir "SeuDestinoDeLogin" pelo destino real
+                                                            
+                                                            // da tela de login em seu aplicativo.
+                                                            (context as? Activity)?.finishAffinity()
 
+                                                            // Exemplo: navController.navigate(R.id.seu_destino_de_login)
+
+                                                        } catch (e: Exception) {
+                                                            Log.e(
+                                                                "Chamada ApagarDiarista",
+                                                                "Erro: ${e.message}"
+                                                            )
+                                                        }
+                                                    }
+                                                },
+                                                dialogTitle = "Deseja excluir sua conta?",
+                                                dialogText = "Todos os demais cadastros vinculados a esta conta também serão removidos.",
+                                                icon = Icons.Default.Info
+                                            )
+                                        }
+
+                                    }
+
+
+                                    Spacer(modifier = Modifier.height(30.dp))
+
+                                    Text(
+                                        text = stringResource(id = R.string.others),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        fontSize = 12.sp,
+                                        fontFamily = customFontFamily,
+                                        lineHeight = 20.sp,
+                                        fontWeight = FontWeight(600),
+                                        color = Color.Black,
+                                        textAlign = TextAlign.Left,
+                                        letterSpacing = 0.2.sp
+                                    )
+
+                                    Spacer(modifier = Modifier.height(10.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Start,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.comments_disabled),
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .size(22.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(5.dp))
                                         Text(
-                                            text = stringResource(id = R.string.others),
-                                            modifier = Modifier.fillMaxWidth(),
+                                            text = stringResource(id = R.string.talk_to_support),
                                             fontSize = 12.sp,
                                             fontFamily = customFontFamily,
                                             lineHeight = 20.sp,
@@ -561,145 +613,90 @@ fun YourProfile(
                                             letterSpacing = 0.2.sp
                                         )
 
-                                        Spacer(modifier = Modifier.height(10.dp))
-
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.Start,
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Image(
-                                                painter = painterResource(id = R.drawable.comments_disabled),
-                                                contentDescription = "",
-                                                modifier = Modifier
-                                                    .size(22.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(5.dp))
-                                            Text(
-                                                text = stringResource(id = R.string.talk_to_support),
-                                                fontSize = 12.sp,
-                                                fontFamily = customFontFamily,
-                                                lineHeight = 20.sp,
-                                                fontWeight = FontWeight(600),
-                                                color = Color.Black,
-                                                textAlign = TextAlign.Left,
-                                                letterSpacing = 0.2.sp
-                                            )
-
-                                        }
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.Start,
-                                            verticalAlignment = Alignment.CenterVertically
+                                    }
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Start,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    )
+                                    {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.admin_panel_settings),
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .size(22.dp)
                                         )
-                                        {
-                                            Image(
-                                                painter = painterResource(id = R.drawable.admin_panel_settings),
-                                                contentDescription = "",
-                                                modifier = Modifier
-                                                    .size(22.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(5.dp))
-                                            Text(
-                                                text = stringResource(id = R.string.privacy_policy),
-                                                fontSize = 12.sp,
-                                                fontFamily = customFontFamily,
-                                                lineHeight = 20.sp,
-                                                fontWeight = FontWeight(600),
-                                                color = Color.Black,
-                                                textAlign = TextAlign.Left,
-                                                letterSpacing = 0.2.sp
-                                            )
-                                        }
+                                        Spacer(modifier = Modifier.width(5.dp))
+                                        Text(
+                                            text = stringResource(id = R.string.privacy_policy),
+                                            fontSize = 12.sp,
+                                            fontFamily = customFontFamily,
+                                            lineHeight = 20.sp,
+                                            fontWeight = FontWeight(600),
+                                            color = Color.Black,
+                                            textAlign = TextAlign.Left,
+                                            letterSpacing = 0.2.sp
+                                        )
                                     }
                                 }
                             }
                         }
                     }
                 }
-                )
             }
+        )
     }
+}
 
-    fun UploadPick(uri: Uri, context: Context) {
-        uri?.let {
-            StorageUtil.uploadToStorage(uri = it, context = context, type = "image")
-        }
-    }
+@Composable
+fun UploadPick(uri: Uri, context: Context) {
 
-    class StorageUtil {
-        companion object {
+}
 
-            fun uploadToStorage(uri: Uri, context: Context, type: String) {
-                val storage = Firebase.storage
-
-                // Create a storage reference from our app
-                var storageRef = storage.reference
-
-                val unique_image_name = UUID.randomUUID()
-                var spaceRef: StorageReference
-
-                if (type == "image") {
-                    spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
-                } else {
-                    spaceRef = storageRef.child("videos/$unique_image_name.mp4")
-                }
-
-                val byteArray: ByteArray? = context.contentResolver
-                    .openInputStream(uri)
-                    ?.use { it.readBytes() }
-
-                byteArray?.let {
-
-                    var uploadTask = spaceRef.putBytes(byteArray)
-                    uploadTask.addOnFailureListener {
-                        Toast.makeText(
-                            context,
-                            "upload failed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Handle unsuccessful uploads
-                    }.addOnSuccessListener { taskSnapshot ->
-                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                        // ...
-                        Toast.makeText(
-                            context,
-                            "upload successed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-
-            }
-
-        }
-    }
-
-//    @Composable
-//    fun ProfileFormDialog(onDismiss: () -> Unit) {
-//        Dialog(
-//            onDismissRequest = {
-//                // Chame onDismiss ao fechar o diálogo
-//                onDismiss()
-//            }
-//        ) {
-//            // Coloque o conteúdo do formulário aqui
-//            ProfileFormUi(
-//                profilePhoto = { SinglePhotoPicker(onSaveUri = {}) },
-//                state = ProfileFormState(),
-//                onEvent = { event ->
-//
-//                }
-//            )
-//        }
+//fun UploadPick(uri: Uri, context: Context) {
+//    uri?.let {
+//        StorageUtil.uploadToStorage(uri = it, context = context, type = "image")
 //    }
+//}
 
-    @Preview(showBackground = true, showSystemUi = true)
+
     @Composable
-    fun YourProfilePreview() {
-        YourProfile()
+    fun ProfileFormDialog(onDismiss: () -> Unit) {
+        Dialog(
+            onDismissRequest = {
+                // Chame onDismiss ao fechar o diálogo
+                onDismiss()
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()// Define a largura do diálogo como 80% da largura da tela
+                    .background(Color.White)
+                    .padding(16.dp)
+            ) {
+                // Coloque o conteúdo do formulário aqui
+                ProfileFormUi(
+                    modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .background(Color.Transparent)
+                        .padding(20.dp),
+                    profilePhoto = { },
+                    state = ProfileFormState(),
+                    onEvent = { event ->
+
+                    }
+                )
+
+//                AddressFormUi(state = AddressFormState(), onEvent = {}, modifier = Modifier.fillMaxWidth())
+
+            }
+        }
     }
 
-
-
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun YourProfilePreview() {
+    YourProfile()
+}

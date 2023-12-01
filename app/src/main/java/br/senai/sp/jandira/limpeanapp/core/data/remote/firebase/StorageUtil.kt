@@ -2,10 +2,13 @@ package br.senai.sp.jandira.limpeanapp.core.data.remote.firebase
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 
 class StorageUtil {
@@ -14,7 +17,8 @@ class StorageUtil {
         fun uploadToStorage(
             uri: Uri,
             context: Context,
-            type: String
+            type: String,
+            onSaveComplete: (String) -> Unit
         ) {
             val storage = Firebase.storage
 
@@ -46,19 +50,33 @@ class StorageUtil {
                     ).show()
                     // Handle unsuccessful uploads
                 }.addOnSuccessListener { taskSnapshot ->
-                    // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                    // ...
-                    Toast.makeText(
-                        context,
-                        "Foto carregada com sucesso!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Get the download URL
+                    spaceRef.downloadUrl.addOnSuccessListener { uri ->
+                        val downloadUrl = uri.toString()
+                        // Use the download URL as needed
+                        Toast.makeText(
+                            context,
+                            "Foto salva com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        val urlCodificada = URLEncoder.encode(downloadUrl, StandardCharsets.UTF_8.toString())
+                        onSaveComplete(downloadUrl)
+                        Log.i("URL-STORAGE-UTIL", downloadUrl)
+
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            "Falha ao baixar a imagem.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-
-
-
         }
 
+
+
     }
+
 }

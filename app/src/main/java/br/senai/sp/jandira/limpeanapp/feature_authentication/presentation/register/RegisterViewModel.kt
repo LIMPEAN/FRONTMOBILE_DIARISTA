@@ -32,6 +32,8 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+    var photoUrl by mutableStateOf("")
+        private set
 
     var isLoading by mutableStateOf(false)
         private set
@@ -141,7 +143,8 @@ class RegisterViewModel @Inject constructor(
                phone
            ),
            email = profileState.email,
-           password = profileState.password
+           password = profileState.password,
+           photo = photoUrl
        )
         Log.i("save-diarist", diarist.toString())
     }
@@ -172,6 +175,10 @@ class RegisterViewModel @Inject constructor(
             )
         }
 
+    }
+
+    fun saveUrl(photo: String) {
+        photoUrl = photo
     }
 
 

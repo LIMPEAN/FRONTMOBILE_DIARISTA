@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.limpeanapp.core.data.mapper
 
-import android.app.Service
 import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.OtherHouses
@@ -20,7 +19,6 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomType
 
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceStatus
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
-import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.models.obterTipoDeLimpeza
 import br.senai.sp.jandira.limpeanapp.core.domain.models.roomTypes
@@ -29,7 +27,7 @@ import java.time.format.DateTimeFormatter
 
 
 fun ServiceDto.toCleaning(): Cleaning {
-    val status = statusService.map { it.toServiceStatus() }
+//    val status = statusService.map { it.toServiceStatus() }
 
     return Cleaning(
         id = serviceId,
@@ -43,7 +41,7 @@ fun ServiceDto.toCleaning(): Cleaning {
         type = listOf(
             obterTipoDeLimpeza(this.typeClean)?: TypeCleaningEnum.PADRAO
         ) ,
-        status = status,
+        status =  statusService.map { it.toServiceStatus() } ,
         address = Address(
             cep = address.cep,
             street = address.publicPlace,
@@ -58,6 +56,9 @@ fun ServiceDto.toCleaning(): Cleaning {
             roomsQuantity = room.map { it.toRoomQuantity() }
         )
     )
+}
+fun StatusServiceDto.toStatusService() : StatusService {
+    return StatusService.values().find { it.description == status }?: StatusService.EM_ABERTO
 }
 fun parseStringToDateTime(dateTimeString: String): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

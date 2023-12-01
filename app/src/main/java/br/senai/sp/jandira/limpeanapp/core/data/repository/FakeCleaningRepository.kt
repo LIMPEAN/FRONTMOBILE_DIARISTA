@@ -8,12 +8,8 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Question
 import br.senai.sp.jandira.limpeanapp.core.domain.models.RoomQuantity
 import br.senai.sp.jandira.limpeanapp.core.domain.models.ServiceStatus
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
-import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.TypeCleaningEnum
 import br.senai.sp.jandira.limpeanapp.core.domain.models.roomTypes
-import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -28,9 +24,10 @@ val fakeCleanings = listOf(
             photo = "minhafoto"
         ),
         status = listOf(
+            ServiceStatus(StatusService.EM_ANDAMENTO, dateTime = LocalDateTime.now()),
             ServiceStatus(StatusService.EM_ABERTO, LocalDateTime.now())
         ),
-        address = Address("10001", city = "New York", complement = null, district = "teste" , number = "14", state = "New York", street = "St. Mark’s Place"),
+        address = Address("06703480", city = "New York", complement = null, district = "teste" , number = "14", state = "New York", street = "St. Mark’s Place"),
         details = CleaningDetails(
             questions = listOf(
                 Question(
@@ -44,7 +41,8 @@ val fakeCleanings = listOf(
                 RoomQuantity(roomTypes[1], 1),
                 RoomQuantity(roomTypes[2], 1),
                 RoomQuantity(roomTypes[3], 1)
-            )
+            ),
+            observations = "Serviço para as férias"
         ),
         dateTime = LocalDateTime.now(),
         price = 450.00,
@@ -60,9 +58,10 @@ val fakeCleanings = listOf(
             photo = "minhafoto1"
         ),
         status = listOf(
+            ServiceStatus(StatusService.FINALIZADO, dateTime = LocalDateTime.now()),
             ServiceStatus(StatusService.AGENDADO, dateTime = LocalDateTime.now())
         ),
-        address = Address("10001", city = "Genebra", complement = null, district = "teste" , number = "10", state = "Suíca", street = "Rua dos Jardins"),
+        address = Address("29145480", city = "Genebra", complement = null, district = "teste" , number = "10", state = "Suíca", street = "Rua dos Jardins"),
         details = CleaningDetails(
             questions = listOf(
                 Question(

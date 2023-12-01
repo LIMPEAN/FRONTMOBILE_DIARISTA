@@ -14,6 +14,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.CreateAssentmentDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
@@ -22,6 +23,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import okhttp3.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -64,8 +66,8 @@ interface DiaristApi {
     suspend fun getInviteById(@Query("id") id : Number)
 
 
-    @GET("diarist/service/token?idService={id}")
-    suspend fun getToken(@Query("id") id : Number) : BaseResponseToken
+    @GET("diarist/service/token")
+    suspend fun getToken(@Query("idService") idService : Number) : BaseResponseToken
 
   //Atualiza o preço do serviço
 
@@ -80,11 +82,13 @@ interface DiaristApi {
 
 
 
-//    @POST("assessment")
-//    suspend fun
+    @POST("assessment")
+    suspend fun sendAssentment(
+        @Body assentmentDto: CreateAssentmentDto
+    ) : BaseResponseDto
 
 
     @DELETE("diarist")
-    suspend fun deleteDiarist()
+    suspend fun deleteDiarist() : BaseResponseDto
 
 }

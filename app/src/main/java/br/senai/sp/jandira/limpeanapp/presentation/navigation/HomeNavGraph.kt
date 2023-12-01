@@ -57,11 +57,7 @@ fun HomeNavGraph(
         startDestination = HomeRoute.CLEANING
     ){
         composable(HomeRoute.CLEANING){
-            FindCleaningScreen(
-                onNavigate = {
-                    navController.navigate(it.route)
-                }
-            )
+            FindCleaningScreen()
         }
         composable(HomeRoute.SCHEDULE){
             ScheduleScreen()
@@ -70,7 +66,6 @@ fun HomeNavGraph(
             Text(text = "Invites Screen")
         }
         composable(HomeRoute.PROFILE){
-//            SettingsScreen()
             YourProfile()
         }
 

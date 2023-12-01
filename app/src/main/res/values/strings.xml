@@ -49,7 +49,7 @@
     <string name="schedule_view">Visualize seus agendamentos</string>
     <string name="request_token">Insira o token fornecido</string>
     <string name="description_request_token">Para sua segurança e todos, desenvolvemos essa autenticação para comprovar idoneidade e assim manter você e o profissional seguros</string>
-    <string name="authenticate_token">código de autenticação</string>
+    <string name="authenticate_token">Código de autenticação</string>
     <string name="authenticate">AUTENTICAR</string>
     <string name="type_cleaning">Tipo da faxina</string>
     <string name="children_or_animals">Crianças ou animais?</string>
@@ -135,6 +135,8 @@
     <string name="edit_profile_diarist">EDITAR PERFIL</string>
     <string name="delete_account">DELETAR CONTA</string>
     <string name="login_diarist_description">Encontre faxinas, exponha serviços.</string>
+    <string name="voltar">Voltar</string>
+    <string name="avaliar">Avaliar</string>
 
 
 </resources>

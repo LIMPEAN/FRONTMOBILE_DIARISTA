@@ -18,11 +18,13 @@ object NavigationRoute {
     const val SETTINGS = "settings"
 }
 @Composable
-fun NavigationHost() {
+fun NavigationHost(
+    startDestination : String
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.AUTHENTICATION
+        startDestination = startDestination
     ){
         composable(NavigationRoute.ONBOARDING){
             SplashScreen {

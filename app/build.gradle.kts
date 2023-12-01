@@ -185,8 +185,15 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
 
+ //Google maps APi
+    implementation ("com.google.maps.android:maps-compose:4.3.0")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
-
+    //Firebase Dependencies
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+//
 }
  kapt {
     correctErrorTypes = true

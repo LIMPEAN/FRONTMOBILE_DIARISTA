@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".core.data.remote.firebase.UploadFirebase"
+            android:name=".core.data.remote.firebase.StorageUtil"
             android:exported="false"
             android:label="@string/title_activity_upload_firebase"
             android:theme="@style/Theme.LimpeanApp" />
@@ -35,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCLXaX9MfiGsaZOonUpXtsfC6CN8AaRZcE" />
     </application>
 
 </manifest>

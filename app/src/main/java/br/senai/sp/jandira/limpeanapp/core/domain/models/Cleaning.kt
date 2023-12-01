@@ -3,18 +3,18 @@ package br.senai.sp.jandira.limpeanapp.core.domain.models
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningSupportState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.PrimordialInfoState
-import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.CleaningCardState
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCardState
 import java.time.LocalDateTime
 
 data class Cleaning(
-    val id : Number? = null,
-    val price : Double = 0.0,
-    val client : Client = Client(),
+    val id: Number? = null,
+    val price: Double = 0.0,
+    val client: Client = Client(),
     val dateTime: LocalDateTime = LocalDateTime.now(),
-    val type : List<TypeCleaningEnum> = emptyList(),
-    val status : List<ServiceStatus> = emptyList(),
-    val address : Address = Address(),
-    val details : CleaningDetails = CleaningDetails()
+    val type: List<TypeCleaningEnum> = emptyList(),
+    val status: List<ServiceStatus> = emptyList(),
+    val address: Address = Address(),
+    val details: CleaningDetails = CleaningDetails()
 )
 
 data class CleaningDetails(
