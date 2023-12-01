@@ -30,6 +30,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
+import br.senai.sp.jandira.limpeanapp.presentation.features.invites.InvitesScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.invites.NotificationsScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.profile.SettingsScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.ScheduleScreen
@@ -62,7 +63,7 @@ fun HomeNavGraph(
             ScheduleScreen()
         }
         composable(HomeRoute.INVITES){
-            Text(text = "Invites Screen")
+            InvitesScreen()
         }
         composable(HomeRoute.PROFILE){
             SettingsScreen()

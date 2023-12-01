@@ -71,7 +71,7 @@ interface DiaristApi {
   //Atualiza o preço do serviço
 
     @PUT("diarist/service/price")
-    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseDto<Cleaning>
+    suspend fun updatePrice(updatePriceInfo : UpdatePriceDTO) : BaseResponseDto
 
 
     //Pega o codigo do servico do cliente (para iniciar o serviço)

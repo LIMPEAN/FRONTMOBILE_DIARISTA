@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.core.data.repository.impl
 
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
@@ -56,9 +57,9 @@ class CleaningRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendProposal(id: Number, price: Double) {
-        try {
-            api.updatePrice(
+    override suspend fun sendProposal(id: Number, price: Double) : BaseResponseDto{
+       try {
+            return api.updatePrice(
                 updatePriceInfo = UpdatePriceDTO(
                     idService = id,
                     newValue = price.toString()
@@ -88,6 +89,8 @@ class CleaningRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getInvites(): List<Cleaning> {
-        return fakeCleanings
+        return api.getServices(
+            idStatus = StatusService.EM_ABERTO.codigo
+        ).data.map { it.client.toCleaning() }
     }
 }

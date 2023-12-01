@@ -261,7 +261,7 @@ fun FindCleaningContent(
                                   ImageMap()
                             },
                             nameClient = cleaning.client.name,
-                            servicePrice = cleaning.price,
+                            servicePrice = cleaning.price?: 0.0,
                             dateTime = cleaning.dateTime,
                             local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
                             quantityRooms = cleaning.details.roomsQuantity,
@@ -300,7 +300,7 @@ fun FindCleaningContent(
                                 ImageMap()
                             },
                             nameClient = cleaning.client.name,
-                            servicePrice = cleaning.price,
+                            servicePrice = cleaning.price ?: 0.0,
                             dateTime = cleaning.dateTime,
                             local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
                             quantityRooms = cleaning.details.roomsQuantity,

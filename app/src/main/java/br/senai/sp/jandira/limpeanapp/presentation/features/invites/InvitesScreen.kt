@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.presentation.ui
+package br.senai.sp.jandira.limpeanapp.presentation.features.invites
 
 import android.content.res.Configuration
 import android.util.Log
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -22,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,13 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
-import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.formatarParaHora
@@ -53,15 +53,43 @@ fun InvitesScreenPreview() {
     }
 }
 @Composable
-fun InvitesScreen() {
+fun InvitesScreen(
+    viewModel: InvitesViewModel = hiltViewModel()
+){
+    val state = viewModel.state.value
+
+val context = LocalContext.current
+    LaunchedEffect( state.message){
+        if(state.message.isNotBlank()){
+            Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+        }
+    }
+    InvitesScreen(
+        invites = state.cleanings,
+        onSendPrice = {
+            viewModel.sendPrice(
+                id = it.idCleaning,
+                price = it.price
+            )
+        }
+    )
+
+
+}
+@Composable
+private fun InvitesScreen(
+    invites : List<Cleaning>,
+    onSendPrice: (SendPriceRequest) -> Unit
+){
     var isShowBottomSheet by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     var selectedCleaning by remember {
-        mutableStateOf<Cleaning>(Cleaning())
+        mutableStateOf<Cleaning>(fakeCleanings[0])
     }
     HomeSection(title = "Convites") {
         InvitesList(
+            invites = invites,
             onSeeInvite = {
                 selectedCleaning = it
                 isShowBottomSheet = true
@@ -72,11 +100,14 @@ fun InvitesScreen() {
     if(isShowBottomSheet){
         SeeInvite(
             onCancel = { isShowBottomSheet = false},
-            selectedCleaning = selectedCleaning
+            selectedCleaning = selectedCleaning,
+            onSendPrice = {
+                onSendPrice(it)
+            }
         )
 
     }
-fakeCleanings
+
 }
 fun formatDoubleToString(value: Double): String {
     return String.format("%.0f", value)
@@ -85,14 +116,19 @@ fun formatDoubleToString(value: Double): String {
 @Composable
 fun SeeInvitePreview() {
     LimpeanAppTheme {
-        SeeInvite(onCancel = {}, selectedCleaning = fakeCleanings[0])
+        SeeInvite(onCancel = {}, selectedCleaning = fakeCleanings[0], onSendPrice = {})
     }
 }
+data class SendPriceRequest(
+    val idCleaning: Number,
+    val price : Double
+)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeeInvite(
     onCancel : () -> Unit,
-    selectedCleaning : Cleaning = Cleaning()
+    selectedCleaning : Cleaning = fakeCleanings[0],
+    onSendPrice : (SendPriceRequest) -> Unit
 ) {
     var price by remember {
         mutableDoubleStateOf(0.0)
@@ -111,7 +147,12 @@ fun SeeInvite(
                 Text(text = "R$ ${formatDoubleToString(price)}")
 
                 Button(onClick = {
-
+                    onSendPrice(
+                        SendPriceRequest(
+                            idCleaning = selectedCleaning.id!!,
+                            price = price
+                        )
+                    )
                 }) {
                     Text(text = "Enviar Preço")
                 }
@@ -151,10 +192,11 @@ fun SliderPrice(
 }
 @Composable
 fun InvitesList(
-    onSeeInvite: (Cleaning) -> Unit
+    onSeeInvite: (Cleaning) -> Unit,
+    invites : List<Cleaning> = emptyList()
 ) {
     LazyColumn(){
-        items(fakeCleanings){service ->
+        items(invites){service ->
             ListItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -181,7 +223,7 @@ fun InvitesList(
                             fontWeight = FontWeight.SemiBold
                         )
                     }
-                    if(service.price > 0.0){
+                    service.price?.let {
                         Text(
                             text = "R$ ${service.price }",
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -189,7 +231,6 @@ fun InvitesList(
                             fontWeight = FontWeight.ExtraBold
                         )
                     }
-
                 },
                 supportingContent = {
                     Row(

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 data class Cleaning(
     val id: Number? = null,
-    val price: Double = 0.0,
+    val price: Double? = 0.0,
     val client: Client = Client(),
     val dateTime: LocalDateTime = LocalDateTime.now(),
     val type: List<TypeCleaningEnum> = emptyList(),
@@ -40,7 +40,7 @@ enum class TypeCleaning(val inPortuguese: String) {
 fun Cleaning.toCleaningCardState() : CleaningCardState {
     return CleaningCardState(
         id = this.id?: 0,
-        servicePrice = this.price,
+        servicePrice = this.price ?: 0.0,
         local = this.address.inCleaningCard(),
         nameClient = this.client.name,
         quantityRooms = this.details.roomsQuantity
@@ -50,7 +50,7 @@ fun Cleaning.toCleaningCardState() : CleaningCardState {
 fun Cleaning.toDetailsState() : CleaningDetailsState {
     return CleaningDetailsState(
         primordialInfo = PrimordialInfoState(
-            price = this.price,
+            price = this.price?: 0.0,
             startTime = "${dateTime.hour}:${dateTime.minute}",
             date = "${dateTime.dayOfMonth}/${dateTime.monthValue}/${dateTime.year}"
         ),

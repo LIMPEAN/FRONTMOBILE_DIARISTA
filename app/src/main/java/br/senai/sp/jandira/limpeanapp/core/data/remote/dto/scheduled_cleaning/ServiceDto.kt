@@ -21,12 +21,14 @@ data class ServiceDto(
     @SerializedName("status_service")val statusService: List<StatusService>,
     val tasks: String,
     @SerializedName("type_clean")val typeCleaning: String,
-    val value: String
+    val value: String?
 )
 fun ServiceDto.toCleaning() : Cleaning {
+
+    val price = value ?: "0.0"
     return Cleaning(
         id = serviceId,
-        price = value.toDouble(),
+        price = price.toDouble(),
         client = Client(
             id = clientId,
             name = name,
