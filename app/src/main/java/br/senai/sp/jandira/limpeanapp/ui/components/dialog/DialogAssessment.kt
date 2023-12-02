@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +61,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Client
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.StarView
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
+import coil.compose.AsyncImage
 import com.example.compose.LimpeanAppTheme
 //import br.senai.sp.jandira.limpeanapp.ui.features.cleaning.components.StarView
 import com.example.compose.seed
@@ -86,7 +88,7 @@ fun AssentmentDialogPreview() {
         if (isShowDialog){
             AssentmentDialog(
                 name = "Felipe",
-                profileImage = painterResource(id = R.drawable.man),
+                profileImage = "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F9ed0afd4-8fc3-43e4-9606-28a4a6157252.jpg?alt=media&token=dbc7ee0a-3ea3-4168-b6b2-fa499602d6cd",
                 onAssentment = {
                     Toast.makeText(context, "Avaliar", Toast.LENGTH_LONG).show()
                 },
@@ -103,13 +105,15 @@ data class AssentmentState(
     val comment : String = "",
     val error: String? = null,
     val client : Client = Client(),
-    val diarist : Diarist = Diarist()
+    val diarist : Diarist = Diarist(),
+    val message : String = "",
+    val isLoading : Boolean =  false
 )
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AssentmentDialog(
     name: String,
-    profileImage: Painter,
+    profileImage: String,
     onAssentment: (AssentmentState) -> Unit,
     onCancel: () -> Unit,
     error : String? = null
@@ -183,13 +187,20 @@ fun AssentmentDialog(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
-                Image(
-                    painter = profileImage,
-                    contentDescription = "",
-                    modifier = androidx.compose.ui.Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                AsyncImage(
+                    model = profileImage,
+                    contentDescription = name,
+                    modifier = Modifier .size(100.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
                 )
+//                Image(
+//                    painter = profileImage,
+//                    contentDescription = "",
+//                    modifier = androidx.compose.ui.Modifier
+//                        .size(100.dp)
+//                        .clip(RoundedCornerShape(8.dp))
+//                )
                 Text(
                     text = "Ajude a melhorar a plataforma avaliando como foi sua relação com o cliente durante todo o processo.",
                     color = MaterialTheme.colorScheme.onBackground,

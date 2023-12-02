@@ -35,15 +35,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetStartedServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
@@ -54,11 +58,14 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.compo
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.DoYouLikeService
 import br.senai.sp.jandira.limpeanapp.presentation.features.schedule.CleaningNotFound
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCard
+import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningListState
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.FindCleaningCardActions
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.StartedCleaningActions
+import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentDialog
 import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentState
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.compose.LimpeanAppTheme
@@ -72,12 +79,12 @@ fun FindCleaningScreen(
 
 
     val state = viewModel.state.value
+    val assentmentState = viewModel.assentmentState.value
+    val getDiaristState = viewModel.getDiaristState.value
     val startedServicesState = viewModel.startedServices.value
-    val startedCleanings = startedServicesState.cleanings
-    val diaristState = viewModel.getDiaristState.value
     val context = LocalContext.current
     val googleMapState = viewModel.googleMapState.value
-    val assentmentState = viewModel.assentmentState.value
+    val assentment = viewModel.assentmentState.value
 
     LaunchedEffect(state.message) {
         if (state.message.isNotBlank()) {
@@ -88,27 +95,39 @@ fun FindCleaningScreen(
             ).show()
         }
     }
+    LaunchedEffect(assentmentState) {
+        if (assentmentState.message.isNotBlank()) {
+            Toast.makeText(
+                context,
+                assentmentState.message,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
 
     FindCleaningContent(
-        nameUser = diaristState.diarist.name,
-        isLoadingDiarist = diaristState.isLoading,
-        cleanings = state.openServices,
-        startedCleaning = startedCleanings,
+        getDiaristState = getDiaristState,
+        getStartedServices = CleaningListState(
+            listName = "Em andamento",
+            cleanings = startedServicesState.cleanings,
+            isLoading = startedServicesState.isLoading
+        ),
+        getOpenServices = CleaningListState(
+            listName = "Encontre suas faxinas.",
+            cleanings = state.openServices,
+            isLoading = state.isLoading
+        ),
         onAcceptClick = {
             viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
-        isLoadingCleaning = state.isLoadingCleanings,
-        onLoadingGoogleMap = {
-            viewModel.onEvent(FindCleaningEvent.OnLoadingGoogleMap(it))
-        },
-        googleMapState = googleMapState,
         onFinishedCleaning = {
             viewModel.onEvent(FindCleaningEvent.OnClickFinishedService(it))
         },
         onAssentment = {
             viewModel.onEvent(FindCleaningEvent.OnAssentment(it))
-        }
+        },
+        assentent = assentment
     )
     if (state.isLoading) {
         LoadingDialog()
@@ -159,17 +178,7 @@ fun FindCleaningPreview() {
             mutableStateOf(GoogleMapState())
         }
         FindCleaningContent(
-            nameUser = "TEste",
-            cleanings = fakeCleanings,
-            isLoadingCleaning = false,
-            isLoadingDiarist = false,
             onAcceptClick = {},
-            startedCleaning = listOf(
-                Cleaning()
-            ),
-            onLoadingGoogleMap = {
-            },
-            googleMapState = googleMapState,
             onFinishedCleaning = {},
             onAssentment = {}
         )
@@ -179,14 +188,10 @@ fun FindCleaningPreview() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FindCleaningContent(
-    nameUser: String = "Felipe",
-    startedCleaning: List<Cleaning> = emptyList(),
-    cleanings: List<Cleaning> = fakeCleanings,
+    getDiaristState: GetDiaristState = GetDiaristState(),
+    getStartedServices : CleaningListState = CleaningListState(),
+    getOpenServices : CleaningListState = CleaningListState(),
     onAcceptClick: (Cleaning) -> Unit,
-    isLoadingCleaning: Boolean,
-    isLoadingDiarist: Boolean,
-    onLoadingGoogleMap : (Cleaning) -> Unit,
-    googleMapState: GoogleMapState,
     onFinishedCleaning : (Cleaning) -> Unit,
     assentent : AssentmentState = AssentmentState(),
     onAssentment : (AssentmentState)-> Unit
@@ -205,32 +210,14 @@ fun FindCleaningContent(
     }
 
 
+
     HomeLayout(
         topBar = {
-            if (isLoadingDiarist) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp, vertical = 24.dp)
-                        .fillMaxWidth()
-                ) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            } else {
-                HomeTopBar(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    titleSmall = "Bem vindo (a)",
-                    titleLarge = nameUser
-                )
-            }
-
+            FindCleaningTopBar(getDiaristState = getDiaristState)
         }
-    ) { paddingValues ->
-
+    ){ paddingValues ->
         HomeContent(paddingValues) {
-            if (isLoadingCleaning) {
+            if (getOpenServices.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -239,149 +226,180 @@ fun FindCleaningContent(
                     CircularProgressIndicator()
                 }
             }
-            if (cleanings.isEmpty()) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CleaningNotFound()
-                }
-            }
 
             LazyColumn(
-                contentPadding = PaddingValues(horizontal = 18.dp),
-                modifier = Modifier.fillMaxSize()
+                contentPadding = PaddingValues(18.dp),
+                modifier = Modifier.fillMaxWidth()
             ){
-                if(startedCleaning.isNotEmpty()){
-                    stickyHeader {
-                        HomeSection(
-                            modifier = Modifier.padding(vertical = 18.dp),
-                            title = "Em andamento"
-                        ){}
-                    }
-                    items(startedCleaning){cleaning ->
-                        val address = cleaning.address
-                        CleaningCard(
-                            mapContainer = {
-                                  ImageMap()
-                            },
-                            nameClient = cleaning.client.name,
-                            servicePrice = cleaning.price?: 0.0,
-                            dateTime = cleaning.dateTime,
-                            local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
-                            quantityRooms = cleaning.details.roomsQuantity,
-                            onCleaningDetail = {
-                                selectedCleaning = cleaning
-                                isShowBottomSheet = true
-                            },
-                            actions = {
-                                StartedCleaningActions(
-                                    cleaning = cleaning,
-                                    onFinished = {
-                                        selectedCleaning = cleaning
-                                         isShowDialog = true
-                                    },
-                                    onInfoClick = {
-                                        selectedCleaning = cleaning
-                                        isShowBottomSheet = true
-                                    }
-                                )
-                            }
-                        )
-                    }
+
+                item {
+                    Text(
+                        text = getStartedServices.listName,
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
-                if(cleanings.isNotEmpty()){
-                    stickyHeader {
-                        HomeSection(
-                            modifier = Modifier.padding(vertical = 18.dp),
-                            title = "Encontre seus serviços"
-                        ){}
+                items(getStartedServices.cleanings){startedService ->
+                    if (getStartedServices.cleanings.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            CleaningNotFound()
+                        }
                     }
-                    items(cleanings){cleaning ->
-                        val address = cleaning.address
-//                        onLoadingGoogleMap(cleaning)
-                        CleaningCard(
-                            mapContainer = {
-                                ImageMap()
-                            },
-                            nameClient = cleaning.client.name,
-                            servicePrice = cleaning.price ?: 0.0,
-                            dateTime = cleaning.dateTime,
-                            local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
-                            quantityRooms = cleaning.details.roomsQuantity,
-                            onCleaningDetail = {
-                                selectedCleaning = cleaning
-                                isShowBottomSheet = true
-                            },
-                            actions = {
-                                FindCleaningCardActions(
-                                    cleaning = cleaning,
-                                    onAcceptClick = { onAcceptClick(cleaning) },
-                                    onInfoClick = {
-                                        selectedCleaning = cleaning
-                                        isShowBottomSheet = true
-                                    }
-                                )
-                            }
-                        )
+                    val address = startedService.address
+                    CleaningCard(
+                        mapContainer = { ImageMap() },
+                        nameClient = startedService.client.name,
+                        servicePrice = startedService.price?: 0.0,
+                        dateTime = startedService.dateTime,
+                        local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
+                        quantityRooms = startedService.details.roomsQuantity,
+                        onCleaningDetail = {
+                            selectedCleaning = startedService
+                            isShowBottomSheet = true
+                        },
+                        actions = {
+                            StartedCleaningActions(
+                                cleaning = startedService,
+                                onFinished = {
+                                    selectedCleaning = startedService
+                                    isShowDialog = true
+                                },
+                                onInfoClick = {
+                                    selectedCleaning = startedService
+                                    isShowBottomSheet = true
+                                }
+                            )
+                        }
+                    )
+                }
+                item {
+                    Text(
+                        text = getOpenServices.listName,
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+                items(getOpenServices.cleanings){cleaning ->
+                    if (getOpenServices.cleanings.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            CleaningNotFound()
+                        }
                     }
+                    val address = cleaning.address
+
+                    CleaningCard(
+                        mapContainer = {
+                            ImageMap()
+                        },
+                        nameClient = cleaning.client.name,
+                        servicePrice = cleaning.price ?: 0.0,
+                        dateTime = cleaning.dateTime,
+                        local = "${address.street}, ${address.number} - ${address.city}, ${address.state}",
+                        quantityRooms = cleaning.details.roomsQuantity,
+                        onCleaningDetail = {
+                            selectedCleaning = cleaning
+                            isShowBottomSheet = true
+                        },
+                        actions = {
+                            FindCleaningCardActions(
+                                cleaning = cleaning,
+                                onAcceptClick = { onAcceptClick(cleaning) },
+                                onInfoClick = {
+                                    selectedCleaning = cleaning
+                                    isShowBottomSheet = true
+                                }
+                            )
+                        }
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(80.dp))
 
     }
+    }
 
-        if (isShowBottomSheet) {
-            ModalCleaningDetails(
-                cleaningDetails = selectedCleaning.toDetailsState(),
-                onDismissRequest = { isShowBottomSheet = false },
-                actions = {
-                    DoYouLikeService(
-                        onAcceptPress = {
-                            onAcceptClick(selectedCleaning)
-                            isShowBottomSheet = false
-                        },
-                        onBackPress = { isShowBottomSheet = false }
-                    )
-                },
-
+    if (isShowBottomSheet) {
+        ModalCleaningDetails(
+            cleaningDetails = selectedCleaning.toDetailsState(),
+            onDismissRequest = { isShowBottomSheet = false },
+            actions = {
+                DoYouLikeService(
+                    onAcceptPress = {
+                        onAcceptClick(selectedCleaning)
+                        isShowBottomSheet = false
+                        isShowDialog = true
+                    },
+                    onBackPress = { isShowBottomSheet = false }
                 )
-        }
-        if(isShowDialog){
-            ConfirmDialog(
-                onDismissRequest = { isShowDialog = false},
-                onConfirmPress = {
-                    isShowDialog = false
-                    onFinishedCleaning(selectedCleaning)
+            },
+        )
+    }
+    if(isShowDialog){
+        ConfirmDialog(
+            onDismissRequest = { isShowDialog = false},
+            onConfirmPress = {
+                isShowDialog = false
+                onFinishedCleaning(selectedCleaning)
+                isShowAssentment = true
+            },
+            onCancelPress = {isShowDialog = false}
+        )
+    }
 
-                },
-                onCancelPress = {isShowDialog = false}
-            )
-        }
 
-
-        if(isShowAssentment){
-            var painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(assentent.client.photo)
-                    .build()
-            )
-            AssentmentDialog(
-                name = assentent.client.name,
-                profileImage = painter,
-                onAssentment = {
-                      onAssentment(
-                          AssentmentState(
-                              stars = it.stars,
-                              comment = it.comment,
-                              client = it.client,
-                          )
-                      )
-                },
-                onCancel = { isShowAssentment = false}
-            )
-        }
+    if(isShowAssentment){
+        AssentmentDialog(
+            name = selectedCleaning.client.name,
+            profileImage = selectedCleaning.client.photo,
+            onAssentment = {
+                onAssentment(
+                    AssentmentState(
+                        stars = it.stars,
+                        comment = it.comment,
+                        client = selectedCleaning.client,
+                    )
+                )
+                isShowAssentment = false
+            },
+            onCancel = { isShowAssentment = false},
+        )
+    }
+    if(assentent.isLoading){
+        LoadingDialog()
     }
 
 }
 
+@Composable
+fun FindCleaningTopBar(
+    getDiaristState: GetDiaristState
+) {
+    val diarist = getDiaristState.diarist
+    if (getDiaristState.isLoading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 24.dp)
+                .fillMaxWidth()
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+    } else {
+        HomeTopBar(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            titleSmall = "Bem vindo (a)",
+            titleLarge = diarist.name
+        )
+    }
+}
 
 @Composable
 fun FindYourCleanings(

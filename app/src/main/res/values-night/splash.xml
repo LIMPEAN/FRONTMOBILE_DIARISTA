@@ -4,6 +4,5 @@
         <item name="windowSplashScreenBackground">#BCC2FF</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="postSplashScreenTheme">@style/Theme.App.Starting</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 </resources>

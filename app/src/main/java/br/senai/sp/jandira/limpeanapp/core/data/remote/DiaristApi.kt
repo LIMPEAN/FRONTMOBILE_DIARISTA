@@ -15,6 +15,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.CreateAssentmentDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.ResponseAssentmentDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
@@ -84,7 +85,7 @@ interface DiaristApi {
     @POST("assessment")
     suspend fun sendAssentment(
         @Body assentmentDto: CreateAssentmentDto
-    ) : BaseResponseDto
+    ) : ResponseAssentmentDto
 
 
     @DELETE("diarist")

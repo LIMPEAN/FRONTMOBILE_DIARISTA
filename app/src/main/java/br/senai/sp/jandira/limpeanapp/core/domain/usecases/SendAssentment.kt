@@ -5,6 +5,7 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.CreateAssentmentDto
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.ResponseAssentmentDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.toDiarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Assentment
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.DiaristRepository
@@ -32,7 +33,7 @@ fun getDateFormattedNow() : String {
 class SendAssentment @Inject constructor(
     private val api : DiaristApi,
 ) {
-    operator fun invoke(assentment: Assentment) : Flow<Resource<BaseResponseDto>> = flow {
+    operator fun invoke(assentment: Assentment) : Flow<Resource<ResponseAssentmentDto>> = flow {
         try {
             emit(Resource.Loading())
             val hour = getHourAndMinuteNow()

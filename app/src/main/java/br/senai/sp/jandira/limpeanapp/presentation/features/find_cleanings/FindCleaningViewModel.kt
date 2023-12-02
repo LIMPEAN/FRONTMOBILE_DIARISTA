@@ -7,11 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Assentment
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.FinishedService
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.SendAssentment
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetOpenServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetStartedServiceUseCase
@@ -38,7 +40,8 @@ class FindCleaningViewModel @Inject  constructor(
     private val acceptServiceUseCase : AcceptServiceUseCase,
     private val getPropertiesForGoogleMapUseCase: GetPropertiesForGoogleMapUseCase,
     private val getStartedServiceUseCase: GetStartedServiceUseCase,
-    private val finishedServiceUseCase : FinishedService
+    private val finishedServiceUseCase : FinishedService,
+    private val sendAssentmentUseCase: SendAssentment
 ) : ViewModel() {
 
 
@@ -254,7 +257,31 @@ class FindCleaningViewModel @Inject  constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun sendAssentment(assentment : AssentmentState){
-        Log.i("ASSENTMENT TO SEND", assentment.toString())
+    private fun sendAssentment(assentmentState : AssentmentState){
+        val assentment = Assentment(
+            comment = assentmentState.comment,
+            personEvaluatedId = assentmentState.client.id?.toInt()!!,
+            star = assentmentState.stars.toInt()
+        )
+        sendAssentmentUseCase(assentment).onEach {result->
+            when(result){
+                is Resource.Success -> {
+                    _assentmentState.value = AssentmentState(
+                        message = "Avaliado com Sucesso!",
+                    )
+                }
+                is Resource.Error -> {
+                    _assentmentState.value = AssentmentState(
+                        message = result.data?.message?.message?: "Erro ao avaliar cliente."
+                    )
+                }
+                is Resource.Loading -> {
+                    _assentmentState.value = AssentmentState(
+                        isLoading = true
+                    )
+                }
+            }
+            getAllServices()
+        }.launchIn(viewModelScope)
     }
 }

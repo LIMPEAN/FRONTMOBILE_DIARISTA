@@ -6,8 +6,8 @@ import java.time.LocalTime
 
 data class Assentment(
     val comment: String,
-    val date: LocalDate,
-    val hour: LocalTime,
+    val date: LocalDate = LocalDate.now(),
+    val hour: LocalTime = LocalTime.now(),
     val personEvaluatedId: Int,
     val star: Int
 )
