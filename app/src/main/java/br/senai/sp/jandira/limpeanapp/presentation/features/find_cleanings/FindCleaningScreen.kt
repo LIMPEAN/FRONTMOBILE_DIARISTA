@@ -1,8 +1,10 @@
 package br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings
 
 import android.content.res.Configuration
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
@@ -34,20 +37,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toCleaningCardState
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetImageFromGoogleMap
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetStartedServiceUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
@@ -67,10 +78,16 @@ import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentDialog
 import br.senai.sp.jandira.limpeanapp.ui.components.dialog.AssentmentState
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.ImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.compose.LimpeanAppTheme
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -195,6 +212,40 @@ fun FindCleaningPreview() {
     }
 }
 
+data class GetLatLgnState(
+    val url : String? = null,
+    val isLoading : Boolean = false,
+    val message : String = ""
+)
+@HiltViewModel
+class GetLatLgnForMapViewModel @Inject constructor(
+    private val getImageFromGoogleMap: GetImageFromGoogleMap
+): ViewModel(){
+
+
+
+    var state by mutableStateOf(GetLatLgnState())
+        private set
+    fun getLatLgn(address: Address){
+        getImageFromGoogleMap(address).onEach {result ->
+            when(result){
+                is Resource.Success -> {
+                    val latLgn = result.data
+                    val urlGoogleStreet = "https://maps.googleapis.com/maps/api/streetview?size=500x500&location=${latLgn?.latitude},${latLgn?.longitude}&key=AIzaSyCLXaX9MfiGsaZOonUpXtsfC6CN8AaRZcE"
+                    state = GetLatLgnState(url = urlGoogleStreet)
+                }
+                is Resource.Error -> {
+                    state = GetLatLgnState(result.message)
+                }
+                is Resource.Loading -> {
+                    state = GetLatLgnState(isLoading = true)
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
+
+}
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FindCleaningContent(
@@ -204,7 +255,8 @@ fun FindCleaningContent(
     onAcceptClick: (Cleaning) -> Unit,
     onFinishedCleaning : (Cleaning) -> Unit,
     assentent : AssentmentState = AssentmentState(),
-    onAssentment : (AssentmentState)-> Unit
+    onAssentment : (AssentmentState)-> Unit,
+    getLatLgnForMap : GetLatLgnForMapViewModel = hiltViewModel()
 ) {
     var selectedCleaning by remember {
         mutableStateOf(Cleaning())
@@ -258,9 +310,37 @@ fun FindCleaningContent(
                             CleaningNotFound()
                         }
                     }
+
                     val address = startedService.address
+
                     CleaningCard(
-                        mapContainer = { ImageMap() },
+                        mapContainer = {
+                            getLatLgnForMap.getLatLgn(address)
+                            val urlStreetView = getLatLgnForMap.state
+                            val painter = rememberAsyncImagePainter(
+                                model = urlStreetView.url
+                            )
+                            Log.i("URL", urlStreetView.url.toString())
+                            Box(
+                                Modifier
+                                    .heightIn(min = 20.dp, max = 100.dp)
+                                    .fillMaxWidth()
+                            ) {
+                                Image(
+                                    painter = painter,
+                                    contentDescription = "Image map",
+                                    contentScale = ContentScale.Crop
+                                )
+                                if(painter.state is AsyncImagePainter.State.Loading){
+                                    CircularProgressIndicator()
+                                }
+                            }
+
+
+
+
+
+                        },
                         id = startedService.id,
                         nameClient = startedService.client.name,
                         servicePrice = startedService.price?: 0.0,

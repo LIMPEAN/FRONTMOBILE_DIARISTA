@@ -19,21 +19,26 @@ class GetImageFromGoogleMap @Inject constructor(
     private val googleApi : GoogleApi,
 ) {
 
-    operator fun invoke(address: Address) : Flow<Resource<String>> = flow {
+    operator fun invoke(address: Address) : Flow<Resource<LatLng>> = flow {
         try {
             emit(Resource.Loading())
 
+            val cepWithoutSymbol = address.cep.split("-")
+            var finalCep = 0
+            finalCep = if(cepWithoutSymbol.size == 2){
+                val cep  = cepWithoutSymbol[0] + cepWithoutSymbol[1]
+                cep.toInt()
+            } else {
+                address.cep.toInt()
+            }
             val googleMapsResults = googleApi.getMapInfoFromCep(
-                cep = address.cep.toInt(),
+                cep = finalCep,
                 key = KEY
             )
             val location = googleMapsResults.results.first().geometry.location
-
-            val size = "200x200"
-            val imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${location}&key=${KEY}"
             val local = LatLng(location.lat, location.lng)
 
-            emit(Resource.Success(imageUrl))
+            emit(Resource.Success(local))
 
         }
         catch (e: HttpException){
@@ -45,4 +50,5 @@ class GetImageFromGoogleMap @Inject constructor(
 
 
     }
+
 }

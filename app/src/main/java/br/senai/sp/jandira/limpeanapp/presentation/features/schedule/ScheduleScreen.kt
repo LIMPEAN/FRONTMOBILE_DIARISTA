@@ -238,37 +238,7 @@ class MapViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 }
-@HiltViewModel
-class ImageMapViewModel @Inject constructor(
-    private val getImageFromGoogleMap: GetImageFromGoogleMap
-) : ViewModel(){
 
-    var state by mutableStateOf("")
-        private set
-
-    var message by mutableStateOf("")
-        private set
-
-    var isLoading by mutableStateOf(false)
-        private set
-
-    fun onLoadingImage(address: Address ){
-        getImageFromGoogleMap(address).onEach {result ->
-            when(result){
-                is Resource.Success -> {
-                    state = result.data!!
-                }
-                is Resource.Error -> {
-                    message = result.message?: "Algum erro aconteceu."
-                }
-                is Resource.Loading -> {
-                    isLoading = true
-                }
-            }
-
-        }.launchIn(viewModelScope)
-    }
-}
 @Preview
 @Composable
 fun ScheduleList(

@@ -51,6 +51,8 @@ import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.data.
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.poopins
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.compose.LimpeanAppTheme
 import com.google.android.gms.maps.model.LatLng
 import java.time.LocalDateTime
@@ -464,16 +466,6 @@ fun CleaningCardImagePreview() {
 
         CleaningCard(
             quantityRooms = fakeQuantityRooms,
-            mapContainer = {
-                LazyColumn{
-                    item(photoAddressUrl){
-                        AsyncImage(
-                            model = photoAddressUrl,
-                            contentDescription = null
-                        )
-                    }
-                }
-            }
         )
     }
 }
