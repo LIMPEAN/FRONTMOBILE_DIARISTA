@@ -52,6 +52,7 @@ import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeContent
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeLayout
 import br.senai.sp.jandira.limpeanapp.core.presentation.components.HomeSection
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.components.HomeTopBar
+import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetails
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.ConfirmDialog
@@ -69,6 +70,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.compose.LimpeanAppTheme
+import kotlinx.coroutines.flow.collect
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,46 +80,54 @@ fun FindCleaningScreen(
 ) {
 
 
-    val state = viewModel.state.value
+    val state = viewModel.state
     val assentmentState = viewModel.assentmentState.value
     val getDiaristState = viewModel.getDiaristState.value
     val startedServicesState = viewModel.startedServices.value
     val context = LocalContext.current
-    val googleMapState = viewModel.googleMapState.value
     val assentment = viewModel.assentmentState.value
 
-    LaunchedEffect(state.message) {
-        if (state.message.isNotBlank()) {
-            Toast.makeText(
-                context,
-                state.message,
-                Toast.LENGTH_LONG
-            ).show()
+
+    var isShowDialog by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(viewModel.uiEvent){
+        viewModel.uiEvent.collect{result ->
+            when(result){
+                is UiEvent.ShowToast -> {
+                    Toast.makeText(
+                        context,
+                        result.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    isShowDialog = false
+                }
+                is UiEvent.ShowDialogLoading -> {
+                    isShowDialog = true
+                }
+                else -> {}
+            }
         }
     }
-    LaunchedEffect(assentmentState) {
-        if (assentmentState.message.isNotBlank()) {
-            Toast.makeText(
-                context,
-                assentmentState.message,
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
+
+    val getStartedServices = CleaningListState(
+            listName = "Em andamento",
+            cleanings = startedServicesState.cleanings,
+            isLoading = startedServicesState.isLoading
+    )
+    val getOpenServices = CleaningListState(
+        listName = "Encontre suas faxinas.",
+        cleanings = state.openServices,
+        isLoading = state.isLoading
+    )
+
 
 
     FindCleaningContent(
         getDiaristState = getDiaristState,
-        getStartedServices = CleaningListState(
-            listName = "Em andamento",
-            cleanings = startedServicesState.cleanings,
-            isLoading = startedServicesState.isLoading
-        ),
-        getOpenServices = CleaningListState(
-            listName = "Encontre suas faxinas.",
-            cleanings = state.openServices,
-            isLoading = state.isLoading
-        ),
+        getStartedServices = getStartedServices,
+        getOpenServices = getOpenServices,
         onAcceptClick = {
             viewModel.onEvent(FindCleaningEvent.OnAcceptClick(it))
         },
@@ -129,7 +139,7 @@ fun FindCleaningScreen(
         },
         assentent = assentment
     )
-    if (state.isLoading) {
+    if (isShowDialog) {
         LoadingDialog()
     }
 }
@@ -208,8 +218,9 @@ fun FindCleaningContent(
     var isShowAssentment by remember {
         mutableStateOf(false)
     }
-
-
+    var isAcceptAction by remember {
+        mutableStateOf(false)
+    }
 
     HomeLayout(
         topBar = {
@@ -231,7 +242,6 @@ fun FindCleaningContent(
                 contentPadding = PaddingValues(18.dp),
                 modifier = Modifier.fillMaxWidth()
             ){
-
                 item {
                     Text(
                         text = getStartedServices.listName,
@@ -251,6 +261,7 @@ fun FindCleaningContent(
                     val address = startedService.address
                     CleaningCard(
                         mapContainer = { ImageMap() },
+                        id = startedService.id,
                         nameClient = startedService.client.name,
                         servicePrice = startedService.price?: 0.0,
                         dateTime = startedService.dateTime,
@@ -264,11 +275,11 @@ fun FindCleaningContent(
                             StartedCleaningActions(
                                 cleaning = startedService,
                                 onFinished = {
-                                    selectedCleaning = startedService
+                                    selectedCleaning = it
                                     isShowDialog = true
                                 },
                                 onInfoClick = {
-                                    selectedCleaning = startedService
+                                    selectedCleaning = it
                                     isShowBottomSheet = true
                                 }
                             )
@@ -294,6 +305,7 @@ fun FindCleaningContent(
                     val address = cleaning.address
 
                     CleaningCard(
+                        id = cleaning.id,
                         mapContainer = {
                             ImageMap()
                         },
@@ -309,7 +321,11 @@ fun FindCleaningContent(
                         actions = {
                             FindCleaningCardActions(
                                 cleaning = cleaning,
-                                onAcceptClick = { onAcceptClick(cleaning) },
+                                onAcceptClick = {
+                                    selectedCleaning = cleaning
+                                    isAcceptAction = true
+                                    isShowDialog = true
+                               },
                                 onInfoClick = {
                                     selectedCleaning = cleaning
                                     isShowBottomSheet = true
@@ -331,8 +347,8 @@ fun FindCleaningContent(
             actions = {
                 DoYouLikeService(
                     onAcceptPress = {
-                        onAcceptClick(selectedCleaning)
                         isShowBottomSheet = false
+                        isAcceptAction = true
                         isShowDialog = true
                     },
                     onBackPress = { isShowBottomSheet = false }
@@ -340,13 +356,20 @@ fun FindCleaningContent(
             },
         )
     }
+
     if(isShowDialog){
         ConfirmDialog(
             onDismissRequest = { isShowDialog = false},
             onConfirmPress = {
+                if(isAcceptAction){
+                    onAcceptClick(selectedCleaning)
+                }else{
+                    onFinishedCleaning(selectedCleaning)
+                    isShowAssentment = true
+                }
+                isShowBottomSheet = false
                 isShowDialog = false
-                onFinishedCleaning(selectedCleaning)
-                isShowAssentment = true
+
             },
             onCancelPress = {isShowDialog = false}
         )

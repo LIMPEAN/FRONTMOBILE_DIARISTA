@@ -78,9 +78,9 @@ class CleaningRepositoryImpl @Inject constructor(
         return Cleaning(1)
     }
 
-    override suspend fun getStartedService(): Cleaning? {
+    override suspend fun getStartedService(): List<Cleaning> {
         val cleanings = api.getServices(StatusService.EM_ANDAMENTO.codigo).data.map { it.client.toCleaning() }
-        return cleanings.minByOrNull { it.dateTime }
+        return cleanings.sortedBy { it.dateTime }
     }
 
     override suspend fun getFinishedServices(): List<Cleaning> {

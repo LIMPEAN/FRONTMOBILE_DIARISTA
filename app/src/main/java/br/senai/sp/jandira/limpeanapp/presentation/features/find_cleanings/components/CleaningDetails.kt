@@ -86,6 +86,7 @@ fun CleaningDetails(
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
+            .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
     ) {
         MainServiceInformation(state.primordialInfo)

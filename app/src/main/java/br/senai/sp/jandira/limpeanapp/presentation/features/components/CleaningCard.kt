@@ -78,6 +78,7 @@ fun CleaningCard(
     quantityRooms: List<RoomQuantity>? = null,
     actions : @Composable () -> Unit ={},
     onCleaningDetail: ()->Unit = {},
+    id: Number? = 1,
 ) {
     val customFontFamily = poopins
     val spacerModifier = Modifier.height(8.dp)
@@ -134,9 +135,24 @@ fun CleaningCard(
             quantityRooms?.let {
                 QuantityRoomsInfo(quantityRooms = quantityRooms)
             }
-            dateTime?.let {
-                DateTimeInfo(dateTime = it)
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                dateTime?.let {
+                    DateTimeInfo(dateTime = it)
+                }
+                id?.let {
+                    Text(
+                        text = "#${it}",
+                        fontFamily = customFontFamily,
+                        fontWeight = FontWeight.Light,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
+
             Spacer(spacerModifier)
             actions()
         }
