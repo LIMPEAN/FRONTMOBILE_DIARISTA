@@ -62,6 +62,7 @@ import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.CleaningCard
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.GoogleMapContainer
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.ImageMap
+import br.senai.sp.jandira.limpeanapp.ui.components.ImageGoogleMap
 import com.example.compose.LimpeanAppTheme
 import com.example.compose.md_theme_light_tertiary
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -257,26 +258,10 @@ fun ScheduleList(
         items(cleanings){cleaning ->
             val model = cleaning.toCleaningCardState()
             val address = cleaning.address
-//            var googleMap by remember {
-//                mutableStateOf(mapViewModel.state)
-//            }
+
             CleaningCard(
                 mapContainer = {
-//                    mapViewModel.onLoadingMap(cleaning)
-//                    if(googleMap.isLoading){
-//                        Box(modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(150.dp)){
-//                            CircularProgressIndicator()
-//                        }
-//                    }
-//                    if(googleMap.local != null){
-//                        GoogleMapContainer(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(200.dp),
-//                            local = googleMap.local!!, name = googleMap.name, place = googleMap.place)
-//                    }
+                    ImageGoogleMap(address = address)
                 },
                 quantityRooms = cleaning.details.roomsQuantity,
                 dateTime = cleaning.dateTime,
