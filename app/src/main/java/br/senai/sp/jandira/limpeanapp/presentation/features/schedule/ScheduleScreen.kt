@@ -116,7 +116,10 @@ fun ScheduleScreen(
             }
         ) {
             GenerateTokenContent(
-                onBackPress = {isShowDialog = false},
+                onBackPress = {
+                    viewModel.getScheduled()
+                    isShowDialog = false
+                },
                 token = startServiceState.token
             )
         }

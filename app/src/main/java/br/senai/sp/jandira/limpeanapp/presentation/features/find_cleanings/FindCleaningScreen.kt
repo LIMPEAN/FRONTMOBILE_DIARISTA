@@ -144,7 +144,7 @@ fun FindCleaningScreen(
         },
         assentent = assentment
     )
-    if (isShowDialog) {
+    if(isShowDialog) {
         LoadingDialog()
     }
 }

@@ -270,16 +270,12 @@ fun SeeInvite(
         modifier = Modifier
             .fillMaxSize(),
         onDismissRequest = onCancel,
-        windowInsets = WindowInsets(0, 0, 0, 0)
     ) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .systemBarsPadding()
                 .navigationBarsPadding()
-                .verticalScroll(
-                    rememberScrollState()
-                )
         ) {
             CleaningDetails(state = selectedCleaning.toDetailsState()) {
                 Column(
