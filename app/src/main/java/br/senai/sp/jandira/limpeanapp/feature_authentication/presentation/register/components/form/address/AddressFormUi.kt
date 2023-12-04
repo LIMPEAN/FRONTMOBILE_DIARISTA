@@ -33,6 +33,7 @@ import com.example.compose.LimpeanAppTheme
 fun AddressFormUi(
     state : AddressFormState,
     onEvent : (AddressFormEvent) -> Unit,
+    isEditMode: Boolean = false,
     modifier : Modifier
 ) {
 
@@ -53,7 +54,8 @@ fun AddressFormUi(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
-            shape = RoundedCornerShape(size = 8.dp)
+            shape = RoundedCornerShape(size = 8.dp),
+            readOnly = !isEditMode
         )
 
         if (state.isLoading) {
@@ -64,7 +66,7 @@ fun AddressFormUi(
             label = { OutlinedLabel(text = stringResource(R.string.label_logradouro))},
             value = state.logradouro,
             onValueChange = {},
-            readOnly = true,
+            readOnly = !isEditMode,
             enabled = !state.isLoading,
             shape = RoundedCornerShape(size = 8.dp)
         )
@@ -73,7 +75,7 @@ fun AddressFormUi(
             label = { OutlinedLabel(text = stringResource(R.string.label_bairro))},
             value = state.bairro,
             onValueChange = {},
-            readOnly = true,
+            readOnly = !isEditMode,
             enabled = !state.isLoading,
             shape = RoundedCornerShape(size = 8.dp)
         )
@@ -82,7 +84,7 @@ fun AddressFormUi(
             label = { OutlinedLabel(text = stringResource(R.string.label_estado))},
             value = state.estado ,
             onValueChange = {},
-            readOnly = true,
+            readOnly = !isEditMode,
             enabled = !state.isLoading,
             shape = RoundedCornerShape(size = 8.dp)
         )
@@ -91,7 +93,7 @@ fun AddressFormUi(
             label = { OutlinedLabel(text = stringResource(R.string.label_cidade))},
             value = state.cidade,
             onValueChange = {},
-            readOnly = true,
+            readOnly = !isEditMode,
             enabled = !state.isLoading,
             shape = RoundedCornerShape(size = 8.dp)
         )

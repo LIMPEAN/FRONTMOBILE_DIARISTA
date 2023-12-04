@@ -26,7 +26,9 @@ fun NormalTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     value: String,
     onValueChange : (String) -> Unit,
-    modifier : Modifier = Modifier.fillMaxWidth()
+    modifier : Modifier = Modifier.fillMaxWidth(),
+    inEditMode : Boolean = true,
+
 ){
 
     OutlinedTextField(
@@ -45,7 +47,8 @@ fun NormalTextField(
         }
         ,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        shape = RoundedCornerShape(size = 8.dp)
+        shape = RoundedCornerShape(size = 8.dp),
+        readOnly = inEditMode
     )
 }
 

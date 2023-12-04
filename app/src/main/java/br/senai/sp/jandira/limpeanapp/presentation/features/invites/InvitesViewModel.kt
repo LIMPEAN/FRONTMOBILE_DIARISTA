@@ -57,7 +57,7 @@ class InvitesViewModel  @Inject   constructor(
             when(result){
                 is Resource.Success -> {
                     _state.value = CleaningListState(
-                        message = "DEU CERTO!!"
+                        message = "Preço enviado com sucesso!"
                     )
                 }
                 is Resource.Error -> {

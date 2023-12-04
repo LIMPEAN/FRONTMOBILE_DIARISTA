@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -226,20 +227,22 @@ private fun LoginScreen(
 //                    fontFamily = Poppins
 //                )
 //            }
-            if (state.isLoading){
-                Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.fillMaxWidth()) {
-                    CircularProgressIndicator()
-                }
-            }
+
 
 
 
 
         }
+        if (state.isLoading){
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                CircularProgressIndicator()
+            }
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
+
             Text(
                 text = stringResource(R.string.question_have_account),
 
@@ -275,7 +278,9 @@ private fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LimpeanAppTheme {
-       LoginScreen(state = LoginState(), onEvent = {}){}
+       LoginScreen(state = LoginState(
+           isLoading = true
+       ), onEvent = {}){}
     }
 
 }

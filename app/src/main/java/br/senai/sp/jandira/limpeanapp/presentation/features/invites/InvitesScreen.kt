@@ -138,13 +138,18 @@ private fun InvitesScreen(
                 CircularProgressIndicator()
             }
         }
-        InvitesList(
-            invites = invites,
-            onSeeInvite = {
-                selectedCleaning = it
-                isShowBottomSheet = true
-            }
-        )
+        if(invites.isEmpty()){
+            YouDontHaveInvites()
+        } else {
+            InvitesList(
+                invites = invites,
+                onSeeInvite = {
+                    selectedCleaning = it
+                    isShowBottomSheet = true
+                }
+            )
+        }
+
     }
 
     if(isShowBottomSheet){
