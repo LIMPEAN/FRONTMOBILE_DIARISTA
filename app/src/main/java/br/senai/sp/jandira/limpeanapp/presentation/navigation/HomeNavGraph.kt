@@ -50,7 +50,8 @@ object HomeRoute {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeNavGraph(
-    navController : NavHostController
+    navController : NavHostController,
+    onSeeProfile : () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -66,7 +67,7 @@ fun HomeNavGraph(
             InvitesScreen()
         }
         composable(HomeRoute.PROFILE){
-            SettingsScreen()
+            SettingsScreen(onSeeProfile = onSeeProfile)
         }
 
     }

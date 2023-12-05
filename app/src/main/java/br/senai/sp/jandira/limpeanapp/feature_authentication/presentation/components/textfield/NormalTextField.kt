@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.limpeanapp.core.presentation.components.text
+package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.textfield
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,7 +48,7 @@ fun NormalTextField(
         ,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         shape = RoundedCornerShape(size = 8.dp),
-        readOnly = inEditMode
+        readOnly = !inEditMode
     )
 }
 

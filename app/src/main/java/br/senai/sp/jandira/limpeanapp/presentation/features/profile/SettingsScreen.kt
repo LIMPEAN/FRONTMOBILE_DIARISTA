@@ -68,6 +68,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.repository.fakeCleanings
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Address
@@ -79,20 +81,26 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.regist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormState
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.formatarParaHora
+import br.senai.sp.jandira.limpeanapp.presentation.navigation.NavigationRoute
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
+import coil.compose.rememberAsyncImagePainter
 import com.example.compose.LimpeanAppTheme
 
 @Composable
 fun SettingsScreen(
-    viewModel : SettingsViewModel = hiltViewModel()
+    viewModel : SettingsViewModel = hiltViewModel(),
+    onSeeProfile: () -> Unit,
 ) {
     val state = viewModel.state
+    val profile = viewModel.profile
 
     SettingsScreen(
         state = state,
+        profile = profile,
         onSeeHistory = {
             viewModel.onEvent(SettingsEvent.OnClickHistory)
-        }
+        },
+        onSeeProfile = onSeeProfile
     )
 
 }
@@ -102,7 +110,9 @@ fun SettingsScreen(
 @Composable
 private fun SettingsScreen(
     state : SettingsState = SettingsState(),
+    profile : DiaristProfile = DiaristProfile(),
     onSeeHistory : ()-> Unit,
+    onSeeProfile: () -> Unit
 ) {
     var showHistory by remember {
         mutableStateOf(false)
@@ -116,6 +126,8 @@ private fun SettingsScreen(
     }
 
 
+    val diarist = profile.diarist
+    val painter = rememberAsyncImagePainter(model = diarist.photo)
 
     Column(
         Modifier
@@ -124,9 +136,9 @@ private fun SettingsScreen(
     ) {
         HeaderText(title = "Configurações")
         ProfileCardUI(
-            painterResource(id = R.drawable.man),
-            email = "Felipe@gmail.com",
-            onSeeProfile = {showProfile = true}
+            painter,
+            email = diarist.email,
+            onSeeProfile = onSeeProfile
         )
         GeneralOptionsUI(
             onTheme = { showDialog = true},
@@ -329,11 +341,11 @@ fun HistorySection(
 @Composable
 fun SettingsScreenPreview() {
     LimpeanAppTheme {
-        SettingsScreen(
-            SettingsState()
-        ){
-
-        }
+//        SettingsScreen(
+//            SettingsState()
+//        ){
+//
+//        }
     }
 }
 

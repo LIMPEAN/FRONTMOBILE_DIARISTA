@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.senai.sp.jandira.limpeanapp.presentation.navigation.auth.authGraph
 import br.senai.sp.jandira.limpeanapp.core.presentation.home.HomeScreen
+import br.senai.sp.jandira.limpeanapp.presentation.features.profile.components.ProfileDetails
 import br.senai.sp.jandira.limpeanapp.presentation.ui.SplashScreen
 
 
@@ -15,7 +17,7 @@ object NavigationRoute {
     const val ONBOARDING = "on_boarding"
     const val AUTHENTICATION = "authentication"
     const val HOME = "home"
-    const val SETTINGS = "settings"
+    const val PROFILE = "profile"
 }
 @Composable
 fun NavigationHost(
@@ -24,7 +26,7 @@ fun NavigationHost(
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = NavigationRoute.PROFILE
     ){
         composable(NavigationRoute.ONBOARDING){
             SplashScreen {
@@ -37,7 +39,14 @@ fun NavigationHost(
         }
         authGraph(navController)
         composable(NavigationRoute.HOME){
-            HomeScreen()
+            HomeScreen(
+                onSeeProfile ={
+                    navController.navigate(NavigationRoute.PROFILE)
+                }
+            )
+        }
+        composable(NavigationRoute.PROFILE){
+            ProfileDetails()
         }
 //        composable(
 //            route = HomeRoute.CLEANING + "?cleaningId={cleaningId}",

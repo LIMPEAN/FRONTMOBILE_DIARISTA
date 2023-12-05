@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile
 
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+
 
 data class ProfileFormState(
     val name : String = "",
@@ -11,5 +13,7 @@ data class ProfileFormState(
 ) {
 
 }
+
+
 
 

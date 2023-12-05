@@ -71,6 +71,9 @@ import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.PhoneDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.firebase.StorageUtil
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
+import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.core.presentation.SinglePhotoPicker
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.address.OutlinedLabel
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormEvent
@@ -86,6 +89,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
@@ -95,55 +100,64 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.regist
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val api: DiaristApi
+    private val getDiaristByTokenUseCase: GetDiaristByTokenUseCase
 ) : ViewModel() {
 
-    var resultado by mutableStateOf<DiaristDto?>(null)
+    var state by mutableStateOf(DiaristProfile())
         private set
 
     var telefone by mutableStateOf<PhoneDto?>(null)
         private set
 
 
+    init {
+        carregarDiarista()
+    }
     fun carregarDiarista() {
-        runBlocking {
-//            val diaristDto = api.getDiarist().data
-//
-//
-//            var endereco = diaristDto?.address?.firstOrNull()
-//            var telefone = diaristDto?.phone?.firstOrNull()
-//            resultado = diaristDto
-
-            Log.i("TESTE", resultado.toString())
-        }
+        getDiaristByTokenUseCase().onEach {result ->
+            when (result){
+                is Resource.Success -> {
+                    state = DiaristProfile(
+                        diarist = result.data?: Diarist()
+                    )
+                }
+                is Resource.Error -> {
+                    state = DiaristProfile(
+                        error = result.message?: "Erro ao carregar diarista."
+                    )
+                }
+                is Resource.Loading -> {
+                    state = DiaristProfile(
+                        isLoading = true
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     suspend fun apagarDiarista() {
-        try {
-            api.deleteDiarist()
-            Log.i("ProfileViewModel", "Diarista excluído com sucesso")
-        } catch (e: Exception) {
-            // Trate a exceção de maneira apropriada
-            Log.e("ProfileViewModel", "Erro ao excluir diarista: ${e.message}")
-        }
+//        try {
+//            api.deleteDiarist()
+//            Log.i("ProfileViewModel", "Diarista excluído com sucesso")
+//        } catch (e: Exception) {
+//            // Trate a exceção de maneira apropriada
+//            Log.e("ProfileViewModel", "Erro ao excluir diarista: ${e.message}")
+//        }
     }
 
     suspend fun atualizarDiarista(diaristDto: DiaristDto) {
-        try {
-            // Substitua a linha a seguir pela lógica real de atualização da API
-            api.updateDiarist(diaristDto)
-            Log.i("ProfileViewModel", "Diarista atualizado com sucesso")
-        } catch (e: Exception) {
-            // Trate a exceção de maneira apropriada
-            Log.e("ProfileViewModel", "Erro ao atualizar diarista: ${e.message}")
-        }
+//        try {
+//            // Substitua a linha a seguir pela lógica real de atualização da API
+//            api.updateDiarist(diaristDto)
+//            Log.i("ProfileViewModel", "Diarista atualizado com sucesso")
+//        } catch (e: Exception) {
+//            // Trate a exceção de maneira apropriada
+//            Log.e("ProfileViewModel", "Erro ao atualizar diarista: ${e.message}")
+//        }
     }
-
-
 }
 //
 //@OptIn(ExperimentalMaterial3Api::class)
-////@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@Composable
 //fun YourProfile(
 //    viewModel: ProfileViewModel = hiltViewModel<ProfileViewModel>(),
@@ -607,55 +621,55 @@ class ProfileViewModel @Inject constructor(
 //            StorageUtil.uploadToStorage(uri = it, context = context, type = "image")
 //        }
 //    }
-//
-//    class StorageUtil {
-//        companion object {
-//
-//            fun uploadToStorage(uri: Uri, context: Context, type: String) {
-//                val storage = Firebase.storage
-//
-//                // Create a storage reference from our app
-//                var storageRef = storage.reference
-//
-//                val unique_image_name = UUID.randomUUID()
-//                var spaceRef: StorageReference
-//
-//                if (type == "image") {
-//                    spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
-//                } else {
-//                    spaceRef = storageRef.child("videos/$unique_image_name.mp4")
-//                }
-//
-//                val byteArray: ByteArray? = context.contentResolver
-//                    .openInputStream(uri)
-//                    ?.use { it.readBytes() }
-//
-//                byteArray?.let {
-//
-//                    var uploadTask = spaceRef.putBytes(byteArray)
-//                    uploadTask.addOnFailureListener {
-//                        Toast.makeText(
-//                            context,
-//                            "upload failed",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        // Handle unsuccessful uploads
-//                    }.addOnSuccessListener { taskSnapshot ->
-//                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-//                        // ...
-//                        Toast.makeText(
-//                            context,
-//                            "upload successed",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//
-//
-//            }
-//
-//        }
-//    }
+
+    class StorageUtil {
+        companion object {
+
+            fun uploadToStorage(uri: Uri, context: Context, type: String) {
+                val storage = Firebase.storage
+
+                // Create a storage reference from our app
+                var storageRef = storage.reference
+
+                val unique_image_name = UUID.randomUUID()
+                var spaceRef: StorageReference
+
+                if (type == "image") {
+                    spaceRef = storageRef.child("imagen s/$unique_image_name.jpg")
+                } else {
+                    spaceRef = storageRef.child("videos/$unique_image_name.mp4")
+                }
+
+                val byteArray: ByteArray? = context.contentResolver
+                    .openInputStream(uri)
+                    ?.use { it.readBytes() }
+
+                byteArray?.let {
+
+                    var uploadTask = spaceRef.putBytes(byteArray)
+                    uploadTask.addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            "upload failed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Handle unsuccessful uploads
+                    }.addOnSuccessListener { taskSnapshot ->
+                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                        // ...
+                        Toast.makeText(
+                            context,
+                            "upload successed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+
+            }
+
+        }
+    }
 
 //    @Composable
 //    fun ProfileFormDialog(onDismiss: () -> Unit) {

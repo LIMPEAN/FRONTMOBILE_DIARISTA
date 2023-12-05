@@ -3,7 +3,6 @@ package br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.compo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.PasswordField
-import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.TextFieldVariant
 
 @Composable

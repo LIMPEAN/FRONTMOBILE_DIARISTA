@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.core.presentation.SinglePhotoPicker
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.PasswordField
-import br.senai.sp.jandira.limpeanapp.core.presentation.components.text.NormalTextField
+import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.components.textfield.NormalTextField
 import com.example.compose.LimpeanAppTheme
 
 

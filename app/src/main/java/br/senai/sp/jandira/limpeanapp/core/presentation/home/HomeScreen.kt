@@ -13,7 +13,8 @@ import br.senai.sp.jandira.limpeanapp.presentation.navigation.HomeNavGraph
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    onSeeProfile : () -> Unit,
 ) {
 
     Scaffold(
@@ -21,7 +22,10 @@ fun HomeScreen(
             HomeTopBar(navController = navController)
         },
     ) {
-        HomeNavGraph(navController = navController)
+        HomeNavGraph(
+            navController = navController,
+            onSeeProfile = onSeeProfile
+        )
     }
 
 }

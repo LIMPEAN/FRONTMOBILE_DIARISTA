@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetFinishedServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
 import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.GetUserIdUseCase
@@ -20,7 +22,7 @@ sealed class SettingsEvent {
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val getUserId: GetUserIdUseCase,
+    private val getDiarist: GetDiaristByTokenUseCase,
     private val getHistories: GetFinishedServicesUseCase
 )  : ViewModel(){
 
@@ -28,6 +30,13 @@ class SettingsViewModel @Inject constructor(
     var state by mutableStateOf(SettingsState())
         private set
 
+    var profile by mutableStateOf(DiaristProfile())
+        private set
+
+
+    init {
+        getDiaristFromApi()
+    }
     fun onEvent(event : SettingsEvent) {
         when(event) {
             is SettingsEvent.OnClickHistory -> getHistory()
@@ -54,6 +63,31 @@ class SettingsViewModel @Inject constructor(
                     )
                 }
             }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getDiaristFromApi(){
+        getDiarist().onEach {result ->
+            when (result){
+                is Resource.Success -> {
+                    profile = DiaristProfile(
+                        diarist = result.data?: Diarist()
+                    )
+                }
+                is Resource.Error -> {
+                    profile = DiaristProfile(
+                        error = result.message?: "Erro ao carregar diarista."
+                    )
+                }
+                is Resource.Loading -> {
+                    profile = DiaristProfile(
+                        isLoading = true
+                    )
+                }
+            }
+
+
+
         }.launchIn(viewModelScope)
     }
 

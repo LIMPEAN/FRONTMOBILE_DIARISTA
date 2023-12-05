@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -33,12 +34,17 @@ import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.limpeanapp.R
 import br.senai.sp.jandira.limpeanapp.core.data.remote.firebase.StorageUtil
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.compose.LimpeanAppTheme
 
 @Composable
 fun SinglePhotoPicker(
     onSaveUri: (Uri?) -> Unit,
-    onSaveUrl : (String) -> Unit
+    onSaveUrl : (String) -> Unit,
+    onEdit : Boolean = true,
+    url : String = "",
+    diaristName : String = ""
 ){
     var uri by remember{
         mutableStateOf<Uri?>(null)
@@ -53,6 +59,7 @@ fun SinglePhotoPicker(
     )
 
     val context = LocalContext.current
+
 
 
     Column(
@@ -70,12 +77,16 @@ fun SinglePhotoPicker(
                 ,
                 shape = CircleShape,
             ) {
-                AsyncImage(
-                    model = uri ?: R.drawable.profile,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                Box(Modifier.size(400.dp)) {
+                    AsyncImage(
+                        model = url,
+                        contentDescription = diaristName,
+                        placeholder = painterResource(id = R.drawable.profile),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.clip(CircleShape)
+                    )
+                }
+
 
                 DisposableEffect(uri) {
                     if (uri != null) {
@@ -89,19 +100,19 @@ fun SinglePhotoPicker(
                     onDispose { }
                 }
             }
-            Image(
-                painterResource(id = R.drawable.add_a_photo),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(height = 32.dp, width = 32.dp)
-                    .clickable {
-
-                        singlePhotoPicker.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                        )
-
-                    }
-            )
+            if(onEdit){
+                Image(
+                    painterResource(id = R.drawable.add_a_photo),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(height = 32.dp, width = 32.dp)
+                        .clickable {
+                            singlePhotoPicker.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                        }
+                )
+            }
         }
 
     }
