@@ -3,11 +3,13 @@ package br.senai.sp.jandira.limpeanapp.core.presentation.home.components
 import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.InsertInvitation
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.InsertInvitation
 import androidx.compose.material.icons.outlined.Notifications
@@ -73,12 +75,20 @@ fun HomeTopBar(
             route = HomeRoute.INVITES
         ),
         BottomNavigationItem(
+            title = "Chat",
+            selectedIcon = Icons.Filled.Chat,
+            unselectedIcon = Icons.Outlined.Chat,
+            hasNews = true,
+            route = HomeRoute.CHAT
+        ),
+        BottomNavigationItem(
             title = "Perfil",
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
             hasNews = true,
             route = HomeRoute.PROFILE
         ),
+
     )
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)

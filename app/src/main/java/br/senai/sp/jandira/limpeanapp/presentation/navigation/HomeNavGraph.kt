@@ -2,6 +2,7 @@ package br.senai.sp.jandira.limpeanapp.presentation.navigation
 
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -28,6 +29,7 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.toDetailsState
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
 import br.senai.sp.jandira.limpeanapp.core.presentation.util.UiEvent
+import br.senai.sp.jandira.limpeanapp.presentation.chat.ChatScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.FindCleaningScreen
 import br.senai.sp.jandira.limpeanapp.presentation.features.find_cleanings.components.CleaningDetailsState
 import br.senai.sp.jandira.limpeanapp.presentation.features.invites.InvitesScreen
@@ -46,6 +48,8 @@ object HomeRoute {
     const val SCHEDULE = "schedule"
     const val INVITES = "invites"
     const val PROFILE = "profile"
+    const val CHAT = "chat"
+
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +72,9 @@ fun HomeNavGraph(
         }
         composable(HomeRoute.PROFILE){
             SettingsScreen(onSeeProfile = onSeeProfile)
+        }
+        composable(HomeRoute.CHAT){
+            ChatScreen()
         }
 
     }
