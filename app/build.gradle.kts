@@ -8,6 +8,7 @@ plugins {
     id ("dagger.hilt.android.plugin")
     id ("com.google.devtools.ksp") version "1.6.10-1.0.2"
     id("com.google.gms.google-services")
+
 }
 
 android {
@@ -193,6 +194,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("com.google.firebase:firebase-firestore:24.9.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+
+
 
 }
  kapt {

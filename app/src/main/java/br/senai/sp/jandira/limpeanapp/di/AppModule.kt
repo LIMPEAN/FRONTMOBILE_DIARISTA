@@ -9,15 +9,17 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
-import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.AuthRepositoryImpl
-import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.SessionCacheImpl
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
-import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
 import br.senai.sp.jandira.limpeanapp.core.data.remote.DiaristApi
 import br.senai.sp.jandira.limpeanapp.core.data.remote.GoogleApi
 import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.CleaningRepositoryImpl
+import br.senai.sp.jandira.limpeanapp.core.data.repository.impl.SessionCacheImpl
 import br.senai.sp.jandira.limpeanapp.core.domain.repository.CleaningRepository
+import br.senai.sp.jandira.limpeanapp.core.domain.repository.SessionCache
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.remote.limpean.AuthApi
+import br.senai.sp.jandira.limpeanapp.feature_authentication.data.repository.AuthRepositoryImpl
+import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.repository.AuthRepository
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,10 +74,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRetrofit(client : OkHttpClient) : Retrofit {
+        val gson: Gson = GsonBuilder().serializeNulls().create()
         return Retrofit.Builder()
             .baseUrl("$HOST/v1/limpean/")
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
     }

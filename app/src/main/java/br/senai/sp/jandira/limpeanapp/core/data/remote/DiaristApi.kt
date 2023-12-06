@@ -1,28 +1,20 @@
 package br.senai.sp.jandira.limpeanapp.core.data.remote
 
 
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
-
-
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseDto
-
+import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.BaseResponseToken
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.DiaristDto
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.GetDiaristDto
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.InvitesDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.OpenServicesDto
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.ServiceDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.StatusTokenDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.UpdatePriceDTO
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.CreateAssentmentDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.assentment.ResponseAssentmentDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.get_diarist.GetDiaristDTOX
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduleClient
-import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.ScheduledCleaningDto
 import br.senai.sp.jandira.limpeanapp.core.data.remote.dto.scheduled_cleaning.UpdateStatusDto
-import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.StatusService
-import okhttp3.Response
+import br.senai.sp.jandira.limpeanapp.core.domain.usecases.update_diarist.UpdateDiaristDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -88,7 +80,13 @@ interface DiaristApi {
     ) : ResponseAssentmentDto
 
 
+    @PUT("diarist")
+    suspend fun updateDiarist(
+        @Body updateDiaristDto : UpdateDiaristDto
+    ) : BaseResponseDto
     @DELETE("diarist")
     suspend fun deleteDiarist() : BaseResponseDto
+
+
 
 }

@@ -9,7 +9,6 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetFinishedServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.util.Resource
-import br.senai.sp.jandira.limpeanapp.feature_authentication.domain.usecases.GetUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,7 +18,12 @@ sealed class SettingsEvent {
     object OnClickHistory : SettingsEvent()
 }
 
-
+data class DiaristProfile(
+    val isLoading : Boolean = false,
+    val diarist : Diarist = Diarist(),
+    val isEditMode : Boolean = false,
+    val error : String? = null
+)
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val getDiarist: GetDiaristByTokenUseCase,

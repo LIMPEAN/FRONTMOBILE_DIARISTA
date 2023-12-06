@@ -11,10 +11,8 @@ import br.senai.sp.jandira.limpeanapp.core.domain.models.Cleaning
 import br.senai.sp.jandira.limpeanapp.core.domain.models.Diarist
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.FinishedService
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GetPropertiesForGoogleMapUseCase
-import br.senai.sp.jandira.limpeanapp.core.domain.usecases.GoogleMapState
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.SendAssentment
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_diarist.GetDiaristByTokenUseCase
-import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.FindServicesUseCases
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetOpenServicesUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.get_services.GetStartedServiceUseCase
 import br.senai.sp.jandira.limpeanapp.core.domain.usecases.services.AcceptServiceUseCase

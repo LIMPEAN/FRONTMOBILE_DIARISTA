@@ -82,6 +82,7 @@ import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.regist
 import br.senai.sp.jandira.limpeanapp.feature_authentication.presentation.register.components.form.profile.ProfileFormUi
 import br.senai.sp.jandira.limpeanapp.presentation.features.components.formatarParaHora
 import br.senai.sp.jandira.limpeanapp.presentation.navigation.NavigationRoute
+import br.senai.sp.jandira.limpeanapp.presentation.profile.ProfileDiarist
 import br.senai.sp.jandira.limpeanapp.presentation.ui.theme.Poppins
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.LimpeanAppTheme
