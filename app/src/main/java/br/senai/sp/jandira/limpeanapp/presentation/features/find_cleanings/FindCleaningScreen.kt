@@ -280,21 +280,21 @@ fun FindCleaningContent(
                     CircularProgressIndicator()
                 }
             }
-
+            if(getStartedServices.cleanings.isNotEmpty()){
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = getStartedServices.listName,
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
             LazyColumn(
-                contentPadding = PaddingValues(18.dp),
+                contentPadding = PaddingValues(vertical = 80.dp , horizontal = 18.dp),
                 modifier = Modifier.fillMaxWidth()
             ){
-                item {
-                    Text(
-                        text = getStartedServices.listName,
-                        textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
                 items(getStartedServices.cleanings){startedService ->
                     if (getStartedServices.cleanings.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize()) {
@@ -383,7 +383,6 @@ fun FindCleaningContent(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(80.dp))
 
     }
     }

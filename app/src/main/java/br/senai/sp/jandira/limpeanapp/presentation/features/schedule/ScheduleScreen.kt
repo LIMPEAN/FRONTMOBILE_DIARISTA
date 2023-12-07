@@ -255,7 +255,7 @@ fun ScheduleList(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = PaddingValues(vertical = 80.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
         items(cleanings){cleaning ->
@@ -291,6 +291,8 @@ fun ScheduleList(
             )
         }
     }
+    Spacer(modifier = Modifier.height(100.dp))
+
 }
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Modo noturno")

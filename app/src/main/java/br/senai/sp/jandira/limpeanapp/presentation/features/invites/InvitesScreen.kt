@@ -106,6 +106,7 @@ fun InvitesScreen(
         isLoading = state.isLoading
     )
 
+
 }
 @Composable
 private fun InvitesScreen(
@@ -149,7 +150,6 @@ private fun InvitesScreen(
                 }
             )
         }
-
     }
 
     if(isShowBottomSheet){
