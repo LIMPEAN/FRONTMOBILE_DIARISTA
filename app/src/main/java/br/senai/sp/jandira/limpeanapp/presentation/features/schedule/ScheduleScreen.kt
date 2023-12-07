@@ -264,7 +264,7 @@ fun ScheduleList(
 
             CleaningCard(
                 mapContainer = {
-                    ImageGoogleMap(address = address)
+                    ImageMap()
                 },
                 quantityRooms = cleaning.details.roomsQuantity,
                 dateTime = cleaning.dateTime,

@@ -306,8 +306,7 @@ fun FindCleaningContent(
 
                     CleaningCard(
                         mapContainer = {
-                            ImageGoogleMap(address = address)
-
+                            ImageMap()
                         },
                         id = startedService.id,
                         nameClient = startedService.client.name,
@@ -355,7 +354,7 @@ fun FindCleaningContent(
                     CleaningCard(
                         id = cleaning.id,
                         mapContainer = {
-                            ImageGoogleMap(address = address)
+                            ImageMap()
                         },
                         nameClient = cleaning.client.name,
                         servicePrice = cleaning.price ?: 0.0,
